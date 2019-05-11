@@ -1,0 +1,27 @@
+{
+  "name": "fastify-decorators",
+  "version": "1.0.0",
+  "description": "Fastify decorators collection with bootstraper",
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/L2jLiga/fastify-decorators.git"
+  },
+  "keywords": [
+    "fastify",
+    "typescript",
+    "decorators",
+    "server",
+    "http"
+  ],
+  "author": "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)",
+  "license": "MIT",
+  "engines": {
+    "node": ">8.3.0"
+  },
+  "peerDependencies": {
+    "@types/node": "*",
+    "fastify": "^2.0.0"
+  }
+}

@@ -1,0 +1,10 @@
+# IDE config
+.idea
+
+# Coverage tools
+.nyc_output
+
+# npm and built files
+dist
+node_modules
+npm-*.log

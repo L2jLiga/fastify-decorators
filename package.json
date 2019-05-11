@@ -1,0 +1,41 @@
+{
+  "name": "fastify-decorators",
+  "version": "1.0.0",
+  "description": "Fastify decorators collection with bootstraper",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "node bin/start.js",
+    "build": "npm run clean && npm run build:lib && npm run build:server",
+    "build:server": "tsc",
+    "clean": "npm run clean:server && npm run clean:lib",
+    "clean:server": "rimraf dist/server",
+    "clean:lib": "rimraf dist/fastify-decorators node_modules/fastify-decorators",
+    "build:lib": "tsc -p ./lib/tsconfig.json && cp ./lib/package.json ./dist/fastify-decorators/package.json && cp -r ./dist/fastify-decorators ./node_modules",
+    "test": "tap"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/L2jLiga/fastify-decorators.git"
+  },
+  "keywords": [
+    "fastify",
+    "typescript",
+    "decorators",
+    "server",
+    "http"
+  ],
+  "author": "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/L2jLiga/fastify-decorators/issues"
+  },
+  "homepage": "https://github.com/L2jLiga/fastify-decorators#readme",
+  "devDependencies": {
+    "@types/node": "^12.0.0",
+    "fastify": "^2.3.0",
+    "rimraf": "^2.6.3",
+    "tap": "^13.1.7",
+    "typescript": "^3.4.5"
+  }
+}
