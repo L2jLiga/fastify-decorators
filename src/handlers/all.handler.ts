@@ -7,17 +7,11 @@
  */
 
 import { ALL, RequestHandler } from 'fastify-decorators';
-import { IncomingMessage, ServerResponse } from 'http';
-import fastify = require('fastify');
 
 @ALL({
     url: '/all'
 })
-class AllHandler implements RequestHandler {
-    constructor(public request: fastify.FastifyRequest<IncomingMessage>,
-                public reply: fastify.FastifyReply<ServerResponse>) {
-    }
-
+class AllHandler extends RequestHandler {
     public async handle(): Promise<any> {
         if (this.request.body)
             return {message: this.request.body.message};

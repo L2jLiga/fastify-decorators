@@ -7,18 +7,12 @@
  */
 
 import { GET, RequestHandler } from 'fastify-decorators';
-import { IncomingMessage, ServerResponse } from 'http';
-import fastify = require('fastify');
 
 @GET({
     url: '/get',
     options: {}
 })
-class GetHandler implements RequestHandler {
-    constructor(public request: fastify.FastifyRequest<IncomingMessage>,
-                public reply: fastify.FastifyReply<ServerResponse>) {
-    }
-
+class GetHandler extends RequestHandler {
     public async handle(): Promise<any> {
         return {message: 'GET works!'};
     }

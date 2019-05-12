@@ -23,17 +23,12 @@ instance.listen(3000);
 
 handlers/sample.handler.ts
 ```typescript
-import { FastifyRequest, FastifyReply } from 'fastify';
 import { GET, RequestHandler } from 'fastify-decorators';
-import { IncommingMessage, ServerResponse } from 'http';
 
 @GET({
     url: '/sample'
 })
-class SampleHandler implements RequestHandler {
-    constructor(public request: FastifyRequest<IncommingMessage>,
-                public reply: FastifyReply<ServerResponse>) {}
-    
+class SampleHandler extends RequestHandler {
     async handle() {
         return 'It works!';
     }

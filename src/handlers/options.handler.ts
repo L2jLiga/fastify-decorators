@@ -7,17 +7,11 @@
  */
 
 import { OPTIONS, RequestHandler } from 'fastify-decorators';
-import { IncomingMessage, ServerResponse } from 'http';
-import fastify = require('fastify');
 
 @OPTIONS({
     url: '/options'
 })
-class OptionsHandler implements RequestHandler {
-    constructor(public request: fastify.FastifyRequest<IncomingMessage>,
-                public reply: fastify.FastifyReply<ServerResponse>) {
-    }
-
+class OptionsHandler extends RequestHandler {
     public async handle(): Promise<any> {
         this.reply.header('Allow', 'OPTIONS');
 

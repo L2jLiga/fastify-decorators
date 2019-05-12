@@ -7,17 +7,11 @@
  */
 
 import { HEAD, RequestHandler } from 'fastify-decorators';
-import { IncomingMessage, ServerResponse } from 'http';
-import fastify = require('fastify');
 
 @HEAD({
     url: '/head'
 })
-class HeadHandler implements RequestHandler {
-    constructor(public request: fastify.FastifyRequest<IncomingMessage>,
-                public reply: fastify.FastifyReply<ServerResponse>) {
-    }
-
+class HeadHandler extends RequestHandler {
     public async handle(): Promise<any> {
         this.reply.header('header', 'value');
 

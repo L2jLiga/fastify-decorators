@@ -7,17 +7,11 @@
  */
 
 import { PATCH, RequestHandler } from 'fastify-decorators';
-import { IncomingMessage, ServerResponse } from 'http';
-import fastify = require('fastify');
 
 @PATCH({
     url: '/patch'
 })
-class DeleteHandler implements RequestHandler {
-    constructor(public request: fastify.FastifyRequest<IncomingMessage>,
-                public reply: fastify.FastifyReply<ServerResponse>) {
-    }
-
+class DeleteHandler extends RequestHandler {
     public async handle(): Promise<any> {
         return {message: this.request.body.message};
     }

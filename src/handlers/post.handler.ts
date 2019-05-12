@@ -7,17 +7,11 @@
  */
 
 import { POST, RequestHandler } from 'fastify-decorators';
-import { IncomingMessage, ServerResponse } from 'http';
-import fastify = require('fastify');
 
 @POST({
     url: '/post'
 })
-class PostHandler implements RequestHandler {
-    constructor(public request: fastify.FastifyRequest<IncomingMessage>,
-                public reply: fastify.FastifyReply<ServerResponse>) {
-    }
-
+class PostHandler extends RequestHandler {
     public async handle(): Promise<any> {
         return {message: this.request.body.message};
     }

@@ -10,9 +10,13 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { IncomingMessage, ServerResponse } from 'http';
 import { Server } from 'tls';
 
-export interface RequestHandler<HttpServer = Server, Request = IncomingMessage, Response = ServerResponse> {
-    request: FastifyRequest<Request>
-    reply: FastifyReply<Response>
+export abstract class RequestHandler<HttpServer = Server, Request = IncomingMessage, Response = ServerResponse> {
+    protected constructor(protected request: FastifyRequest<IncomingMessage>,
+                          protected reply: FastifyReply<Response>) {
+    }
 
-    handle(): void | Promise<any>;
+    abstract handle(): void | Promise<any>;
+
+    static readonly register = () => {
+    };
 }

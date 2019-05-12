@@ -7,17 +7,11 @@
  */
 
 import { DELETE, RequestHandler } from 'fastify-decorators';
-import { IncomingMessage, ServerResponse } from 'http';
-import fastify = require('fastify');
 
 @DELETE({
     url: '/delete'
 })
-class DeleteHandler implements RequestHandler {
-    constructor(public request: fastify.FastifyRequest<IncomingMessage>,
-                public reply: fastify.FastifyReply<ServerResponse>) {
-    }
-
+class DeleteHandler extends RequestHandler {
     public async handle(): Promise<any> {
         return {message: 'DELETE works!'};
     }
