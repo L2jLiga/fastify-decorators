@@ -11,7 +11,7 @@
     "clean": "npm run clean:server && npm run clean:lib",
     "clean:server": "rimraf dist/server",
     "clean:lib": "rimraf dist/fastify-decorators node_modules/fastify-decorators",
-    "build:lib": "tsc -p ./lib/tsconfig.json && cp ./lib/package.json ./dist/fastify-decorators/package.json && cp -r ./dist/fastify-decorators ./node_modules",
+    "build:lib": "tsc -p ./lib/tsconfig.json && cp ./lib/package.json ./dist/fastify-decorators/package.json && cp ./lib/README.md ./dist/fastify-decorators/README.md && cp -r ./dist/fastify-decorators ./node_modules",
     "test": "tap"
   },
   "repository": {

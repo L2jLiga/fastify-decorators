@@ -40,8 +40,6 @@ class SampleHandler implements RequestHandler {
 }
 ```
 
-**NOTE**: `prefix` property does not work at the moment :(
-
 ## License
 
 This project licensed under [MIT License]
