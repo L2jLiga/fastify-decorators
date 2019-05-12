@@ -24,4 +24,4 @@ class GetHandler implements RequestHandler {
     }
 }
 
-module.exports = GetHandler;
+export = GetHandler;

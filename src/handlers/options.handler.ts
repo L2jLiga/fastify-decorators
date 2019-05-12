@@ -25,4 +25,4 @@ class OptionsHandler implements RequestHandler {
     }
 }
 
-module.exports = OptionsHandler;
+export = OptionsHandler;

@@ -25,4 +25,4 @@ class HeadHandler implements RequestHandler {
     }
 }
 
-module.exports = HeadHandler;
+export = HeadHandler;

@@ -25,4 +25,4 @@ class AllHandler implements RequestHandler {
     }
 }
 
-module.exports = AllHandler;
+export = AllHandler;

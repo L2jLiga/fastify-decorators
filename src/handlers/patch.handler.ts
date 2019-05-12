@@ -23,4 +23,4 @@ class DeleteHandler implements RequestHandler {
     }
 }
 
-module.exports = DeleteHandler;
+export = DeleteHandler;

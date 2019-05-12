@@ -23,4 +23,4 @@ class PutHandler implements RequestHandler {
     }
 }
 
-module.exports = PutHandler;
+export = PutHandler;

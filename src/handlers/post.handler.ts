@@ -23,4 +23,4 @@ class PostHandler implements RequestHandler {
     }
 }
 
-module.exports = PostHandler;
+export = PostHandler;
