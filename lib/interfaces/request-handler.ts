@@ -6,17 +6,15 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { IncomingMessage, ServerResponse } from 'http';
-import { Server } from 'tls';
 
-export abstract class RequestHandler<HttpServer = Server, Request = IncomingMessage, Response = ServerResponse> {
-    protected constructor(protected request: FastifyRequest<IncomingMessage>,
+export abstract class RequestHandler<Request = IncomingMessage, Response = ServerResponse> {
+    protected constructor(protected request: FastifyRequest<Request>,
                           protected reply: FastifyReply<Response>) {
     }
 
     abstract handle(): void | Promise<any>;
 
-    static readonly register = () => {
-    };
+    static readonly register: (instance: FastifyInstance) => void;
 }

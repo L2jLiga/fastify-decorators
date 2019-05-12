@@ -1,6 +1,6 @@
 # Fastify decorators
 
-This package developed to provide some useful typescript decorators to implement [RequestHandler] pattern with [Fastify].
+This package developed to provide useful typescript decorators to implement RequestHandler pattern with [Fastify].
 
 **NOTE**: Fastify-decorators was developed with fastify `^2.0.0` and may not work with other versions.
 
@@ -35,10 +35,31 @@ class SampleHandler extends RequestHandler {
 }
 ```
 
+## Restrictions
+
+To get it work you should not implement static method/field/accessor named `register` as it used by decorators to auto bootstrap handlers.
+
+**Don't**:
+```typescript
+import { GET, RequestHandler } from 'fastify-decorators';
+
+@GET({
+    url: '/sample'
+})
+class SampleHandler extends RequestHandler {
+    async handle() {
+        return 'It works!';
+    }
+
+    static register() {
+        // something
+    }
+}
+```
+
 ## License
 
 This project licensed under [MIT License]
 
-[RequestHandler]: https://java-design-patterns.com/patterns/chain/
 [Fastify]: https://npmjs.org/package/fastify
 [MIT License]: https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
