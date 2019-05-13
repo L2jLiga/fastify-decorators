@@ -17,6 +17,10 @@
   ],
   "author": "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/L2jLiga/fastify-decorators/issues"
+  },
+  "homepage": "https://github.com/L2jLiga/fastify-decorators#readme",
   "engines": {
     "node": ">8.3.0"
   },
