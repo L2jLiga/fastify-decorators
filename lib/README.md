@@ -8,13 +8,14 @@ This package developed to provide useful typescript decorators to implement Requ
 
 index.ts
 ```typescript
-import {bootstrap} from 'fastify-decorators';
+import { bootstrap } from 'fastify-decorators';
 import fastify = require('fastify');
+import { join } from 'path';
 
 const instance = fastify();
 
 instance.register(bootstrap, {
-    handlersDirectory: path.join(__dirname, `handlers`),
+    handlersDirectory: join(__dirname, `handlers`),
     handlersMask: /\.handler\./
 });
 
