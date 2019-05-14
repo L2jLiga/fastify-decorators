@@ -111,7 +111,7 @@ class SampleHandler extends RequestHandler {
         return SampleHandler.register;
     }
 
-    static register = "It does not work";
+    static register = "It will not work";
 }
 
 export = SampleHandler
