@@ -11,3 +11,5 @@ install:
   - npm install
   - npm run build
 cache: npm
+after_success:
+  - npx tap --coverage-report=text-lcov | npx codecov

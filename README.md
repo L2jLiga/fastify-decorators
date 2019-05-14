@@ -1,4 +1,7 @@
 # Fastify decorators
+[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.com/L2jLiga/fastify-decorators.svg?branch=master)](https://travis-ci.com/L2jLiga/fastify-decorators)
+[![codecov](https://codecov.io/gh/L2jLiga/fastify-decorators/branch/master/graph/badge.svg)](https://codecov.io/gh/L2jLiga/fastify-decorators)
 
 Fastify decorators is the set of decorators to easier development of Fastify application.
 
