@@ -17,6 +17,10 @@ You can find package documentation and source files under [lib] directory. Examp
 
 **NOTE**: give a look also to the [`package.json`] to find out how the scripts are done 😉
 
+## Installation and usage
+
+Installation and basic usage instruction can be found in [library README]
+
 ## How to run example
 
 1. clone this repository or download
@@ -35,4 +39,5 @@ This project licensed under [MIT License]
 [src]: ./src
 [test]: ./test
 [`package.json`]: ./package.json
+[library README]: ./lib/README.md
 [MIT License]: https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE

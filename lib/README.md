@@ -4,6 +4,18 @@ This package developed to provide useful typescript decorators to implement Requ
 
 **NOTE**: Fastify-decorators was developed with fastify `^2.0.0` and may not work with other versions.
 
+## Install
+
+via npm:
+```
+npm install fastify-decorators --save
+```
+
+via yarn:
+```
+yarn add fastify-decorators
+```
+
 ## Basic usage
 
 index.ts
@@ -12,11 +24,13 @@ import { bootstrap } from 'fastify-decorators';
 import fastify = require('fastify');
 import { join } from 'path';
 
+// Create Fastify instance
 const instance = fastify();
 
+// Register handlers auto-bootstrap
 instance.register(bootstrap, {
-    handlersDirectory: join(__dirname, `handlers`),
-    handlersMask: /\.handler\./
+    handlersDirectory: join(__dirname, `handlers`), // Specify handlers directory (recursive scanning not supported)
+    handlersMask: /\.handler\./ // Specify mask to filter files
 });
 
 instance.listen(3000);
@@ -54,6 +68,25 @@ class SampleHandler extends RequestHandler {
 // BTW decorators is just a functions :)
 export = GET({ url: '/sample' })(SampleHandler);
 ```
+
+## API
+
+### register options
+
+| name              | type               | required | description                                  |
+|-------------------|--------------------|----------|----------------------------------------------|
+| handlersDirectory | `string`           | yes      | Specify directory where handlers are located |
+| handlersMask      | `string`, `RegExp` | no       | Specify mask for files filter                |
+| prefix            | `string`           | no       | Specify prefix for routes                    |
+
+**NOTE**: `handlersDirectory` accept path string and do not scan recursively at the moment.
+
+### decorators options
+
+| name    | type            | required | description                                      |
+|---------|-----------------|----------|--------------------------------------------------|
+| url     | `string`        | yes      | Route url which will be passed to Fastify        |
+| options | [`RouteConfig`] | no       | Config for route which will be passed to Fastify |
 
 ## How it works
 
@@ -102,3 +135,4 @@ This project licensed under [MIT License]
 
 [Fastify]: https://npmjs.org/package/fastify
 [MIT License]: https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
+[`RouteConfig`]: https://github.com/fastify/fastify/blob/master/docs/Routes.md
