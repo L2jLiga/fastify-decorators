@@ -7,7 +7,7 @@
  */
 
 import { FastifyInstance } from 'fastify';
-import { readdirSync } from 'fs';
+import { lstatSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { BootstrapConfig } from '../interfaces';
 import { REGISTER } from '../symbols';
@@ -17,12 +17,33 @@ const defaultMask = /\.handler\./;
 export function bootstrap(fastify: FastifyInstance, config: BootstrapConfig, done: () => void) {
     const mask = new RegExp(config.handlersMask || defaultMask);
 
-    // TODO: Read directory recursively
-    readdirSync(config.handlersDirectory)
-        .filter(file => mask.test(file))
-        .map(handlerPath => join(config.handlersDirectory, handlerPath))
+    findAllHandlers(config.handlersDirectory, mask)
         .map(require)
         .forEach(handler => handler[REGISTER](fastify));
 
     done();
+}
+
+function findAllHandlers(path: string, filter: RegExp): string[] {
+    const files = findAllFilesInDirectoryRecursively(path);
+
+    return files.filter(file => filter.test(file));
+}
+
+function findAllFilesInDirectoryRecursively(path: string): string[] {
+    const matches: string[] = [];
+
+    readdirSync(path).forEach(filePath => {
+        const fullFilePath = join(path, filePath);
+
+        if (lstatSync(fullFilePath).isDirectory()) {
+            matches.push(...findAllFilesInDirectoryRecursively(fullFilePath));
+
+            return;
+        }
+
+        matches.push(fullFilePath);
+    });
+
+    return matches;
 }

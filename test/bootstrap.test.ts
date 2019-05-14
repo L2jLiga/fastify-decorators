@@ -12,7 +12,7 @@ import { bootstrap } from '../lib';
 
 const tap = require('tap');
 
-tap.test('Should bootstrap handlers', async (t: any) => {
+tap.test('read handlers directory recursively and bootstrap all', async (t: any) => {
     const instance = fastify();
 
     instance.register(bootstrap, {
@@ -20,9 +20,9 @@ tap.test('Should bootstrap handlers', async (t: any) => {
         prefix: '/sample'
     });
 
-    const res = await instance.inject({
-        url: `/sample/get`
-    });
+    const getRequest = await instance.inject({url: `/sample/get`});
+    const postRequest = await instance.inject({url: `/sample/post`, method: 'POST', payload: {message: 'OK!'}});
 
-    t.match(res.payload, `{"message":"OK!"}`);
+    t.match(getRequest.payload, `{"message":"OK!"}`);
+    t.match(postRequest.payload, `OK!`);
 });

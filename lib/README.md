@@ -94,8 +94,6 @@ instance.register(bootstrap, options)
 | handlersMask      | `string`, `RegExp` | no       | Specify mask for files filter                |
 | prefix            | `string`           | no       | Specify prefix for routes                    |
 
-**NOTE**: `handlersDirectory` accept path string and do not scan recursively at the moment.
-
 ### Decorators
 
 List of available decorators:

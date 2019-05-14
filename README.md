@@ -1,7 +1,11 @@
 # Fastify decorators
-[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
+[![npm version](https://badge.fury.io/js/fastify-decorators.svg?colorB=brightgreen)](https://www.npmjs.com/package/fastify-decorators)
+[![npm](https://img.shields.io/npm/dm/fastify-decorators.svg?colorB=brightgreen)](https://www.npmjs.com/package/fastify-decorators)
+[![node](https://img.shields.io/node/v/fastify-decorators.svg?colorB=brightgreen)](https://www.npmjs.com/package/fastify-decorators)
+
 [![Build Status](https://travis-ci.com/L2jLiga/fastify-decorators.svg?branch=master)](https://travis-ci.com/L2jLiga/fastify-decorators)
 [![codecov](https://codecov.io/gh/L2jLiga/fastify-decorators/branch/master/graph/badge.svg)](https://codecov.io/gh/L2jLiga/fastify-decorators)
+[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
 Fastify-decorators is the set of decorators to easier development of Fastify application.
 

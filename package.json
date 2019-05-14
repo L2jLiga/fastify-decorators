@@ -11,7 +11,7 @@
     "clean:lib": "rimraf dist/fastify-decorators node_modules/fastify-decorators",
     "build:lib": "tsc -p ./lib/tsconfig.json && npm run cp:assets && cp -r ./dist/fastify-decorators ./node_modules",
     "cp:assets": "cp ./lib/package.json ./dist/fastify-decorators && cp ./lib/README.md ./dist/fastify-decorators && cp ./LICENSE ./dist/fastify-decorators",
-    "test": "tap"
+    "test": "tap test/*.test.ts"
   },
   "repository": {
     "type": "git",

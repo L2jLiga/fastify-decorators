@@ -11,7 +11,7 @@ import { IncomingMessage, Server, ServerResponse } from 'http';
 
 export interface BootstrapConfig<HttpServer = Server, HttpRequest = IncomingMessage, HttpResponse = ServerResponse> extends RegisterOptions<HttpServer, HttpRequest, HttpResponse> {
     /**
-     * Directory which contains all handlers
+     * Path to directory which contains all handlers
      */
     handlersDirectory: string;
 
