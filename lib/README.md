@@ -18,7 +18,7 @@ yarn add fastify-decorators
 
 ## Basic usage
 
-index.ts
+*index.ts*:
 ```typescript
 import { bootstrap } from 'fastify-decorators';
 import fastify = require('fastify');
@@ -29,14 +29,15 @@ const instance = fastify();
 
 // Register handlers auto-bootstrap
 instance.register(bootstrap, {
-    handlersDirectory: join(__dirname, `handlers`), // Specify handlers directory (recursive scanning not supported)
-    handlersMask: /\.handler\./ // Specify mask to filter files
+    handlersDirectory: join(__dirname, `handlers`),
+    handlersMask: /\.handler\./
 });
 
 instance.listen(3000);
 ```
 
-handlers/sample.handler.ts
+
+*handlers/sample.handler.ts*:
 ```typescript
 import { GET, RequestHandler } from 'fastify-decorators';
 
@@ -71,20 +72,56 @@ export = GET({ url: '/sample' })(SampleHandler);
 
 ## API
 
-### register options
+### bootstrap
+
+`bootstrap` is Fastify plugin to autoload all decorated modules
+
+*example*:
+```typescript
+import fastify = require('fastify');
+import {bootstrap} from 'fastify-decorators';
+
+const instance = fastify();
+
+instance.register(bootstrap, options)
+```
+
+#### Bootstrap options
 
 | name              | type               | required | description                                  |
-|-------------------|--------------------|----------|----------------------------------------------|
+|-------------------|--------------------|:--------:|----------------------------------------------|
 | handlersDirectory | `string`           | yes      | Specify directory where handlers are located |
 | handlersMask      | `string`, `RegExp` | no       | Specify mask for files filter                |
 | prefix            | `string`           | no       | Specify prefix for routes                    |
 
 **NOTE**: `handlersDirectory` accept path string and do not scan recursively at the moment.
 
-### decorators options
+### Decorators
 
+List of available decorators:
+- `GET`
+- `POST`
+- `PUT`
+- `DELETE`
+- `HEAD`
+- `OPTIONS`
+- `ALL`
+
+*example*:
+```typescript
+import { POST, RequestHandler } from 'fastify-decorators';
+
+@POST(options)
+class SimpleHandler extends RequestHandler {
+    async handle() {return ''}
+}
+
+export = SimpleHandler;
+```
+
+#### Decorators options
 | name    | type            | required | description                                      |
-|---------|-----------------|----------|--------------------------------------------------|
+|---------|-----------------|:--------:|--------------------------------------------------|
 | url     | `string`        | yes      | Route url which will be passed to Fastify        |
 | options | [`RouteConfig`] | no       | Config for route which will be passed to Fastify |
 

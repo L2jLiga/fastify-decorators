@@ -9,6 +9,13 @@
 import { RouteShorthandOptions } from 'fastify';
 
 export interface RouteConfig {
+    /**
+     * Route url which will be passed to Fastify
+     */
     url: string;
+
+    /**
+     * Route options which will be passed to Fastify
+     */
     options?: RouteShorthandOptions
 }

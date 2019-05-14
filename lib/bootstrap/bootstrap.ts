@@ -17,6 +17,7 @@ const defaultMask = /\.handler\./;
 export function bootstrap(fastify: FastifyInstance, config: BootstrapConfig, done: () => void) {
     const mask = new RegExp(config.handlersMask || defaultMask);
 
+    // TODO: Read directory recursively
     readdirSync(config.handlersDirectory)
         .filter(file => mask.test(file))
         .map(handlerPath => join(config.handlersDirectory, handlerPath))
