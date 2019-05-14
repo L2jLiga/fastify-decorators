@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/L2jLiga/fastify-decorators.svg?branch=master)](https://travis-ci.com/L2jLiga/fastify-decorators)
 [![codecov](https://codecov.io/gh/L2jLiga/fastify-decorators/branch/master/graph/badge.svg)](https://codecov.io/gh/L2jLiga/fastify-decorators)
 
-Fastify decorators is the set of decorators to easier development of Fastify application.
+Fastify-decorators is the set of decorators to easier development of Fastify application.
 
 This package based on Fastify `^2.0.0` and may not work with other versions.
 
