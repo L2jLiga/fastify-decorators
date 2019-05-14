@@ -7,7 +7,9 @@ Fastify decorators is the set of decorators to easier development of Fastify app
 
 This package based on Fastify `^2.0.0` and may not work with other versions.
 
-You can find package documentation and source files under [lib] directory. Examples can be found under [src] directory
+## Installation and usage
+
+Installation and basic usage instruction can be found in [library README]
 
 ## Repository structure
 
@@ -16,10 +18,6 @@ You can find package documentation and source files under [lib] directory. Examp
 - [test] directory contains tests for library and example
 
 **NOTE**: give a look also to the [`package.json`] to find out how the scripts are done 😉
-
-## Installation and usage
-
-Installation and basic usage instruction can be found in [library README]
 
 ## How to run example
 
@@ -35,9 +33,9 @@ Example will be available on http://localhost:3000. You can check it by GET requ
 
 This project licensed under [MIT License]
 
+[library README]: ./lib/README.md
 [lib]: ./lib
 [src]: ./src
 [test]: ./test
 [`package.json`]: ./package.json
-[library README]: ./lib/README.md
 [MIT License]: https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
