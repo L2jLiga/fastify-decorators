@@ -78,6 +78,7 @@ export = SimplePutHandler;
 becomes:
 ```typescript
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { REGISTER } from 'fastify-decorators';
 import { IncomingMessage, ServerResponse } from 'http';
 
 class SimplePutHandler {
@@ -88,33 +89,11 @@ class SimplePutHandler {
     async handle() {
         return this.request.body.message;
     }
-    
-    static register = (instance: FastifyInstance) => instance.put(`/sample`, {}, (req, res) => new SimplePutHandler(req, res).handle());
+
+    static [REGISTER] = (instance: FastifyInstance) => instance.put(`/sample`, {}, (req, res) => new SimplePutHandler(req, res).handle());
 }
 
 export = SimplePutHandler;
-```
-
-## Restrictions
-
-To get it work you should not implement static method/field/accessor named `register` as it used by decorators to auto bootstrap handlers.
-
-**Don't**:
-```typescript
-import { GET, RequestHandler } from 'fastify-decorators';
-
-@GET({
-    url: '/sample'
-})
-class SampleHandler extends RequestHandler {
-    async handle() {
-        return SampleHandler.register;
-    }
-
-    static register = "It will not work";
-}
-
-export = SampleHandler
 ```
 
 ## License

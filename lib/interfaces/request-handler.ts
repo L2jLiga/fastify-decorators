@@ -8,6 +8,7 @@
 
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { IncomingMessage, ServerResponse } from 'http';
+import { REGISTER } from '../symbols';
 
 export abstract class RequestHandler<Request = IncomingMessage, Response = ServerResponse> {
     protected constructor(protected request: FastifyRequest<Request>,
@@ -16,5 +17,5 @@ export abstract class RequestHandler<Request = IncomingMessage, Response = Serve
 
     abstract handle(): void | Promise<any>;
 
-    static readonly register: (instance: FastifyInstance) => void;
+    static readonly [REGISTER]: (instance: FastifyInstance) => void;
 }

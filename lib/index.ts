@@ -6,6 +6,8 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
+export { REGISTER } from './symbols';
+
 export { BootstrapConfig } from './interfaces';
 export { RequestHandler } from './interfaces';
 export { RouteConfig } from './interfaces';

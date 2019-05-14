@@ -10,6 +10,7 @@ import { FastifyInstance } from 'fastify';
 import { readdirSync } from 'fs';
 import { join } from 'path';
 import { BootstrapConfig } from '../interfaces';
+import { REGISTER } from '../symbols';
 
 const defaultMask = /\.handler\./;
 
@@ -20,7 +21,7 @@ export function bootstrap(fastify: FastifyInstance, config: BootstrapConfig, don
         .filter(file => mask.test(file))
         .map(handlerPath => join(config.handlersDirectory, handlerPath))
         .map(require)
-        .forEach(handler => handler.register(fastify));
+        .forEach(handler => handler[REGISTER](fastify));
 
     done();
 }

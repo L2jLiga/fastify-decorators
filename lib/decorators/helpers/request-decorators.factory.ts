@@ -8,6 +8,7 @@
 
 import { FastifyInstance } from 'fastify';
 import { RequestHandler, RouteConfig } from '../../interfaces';
+import { REGISTER } from '../../symbols';
 import { HttpMethods } from './http-methods';
 
 export function requestDecoratorsFactory(method: HttpMethods) {
@@ -15,7 +16,7 @@ export function requestDecoratorsFactory(method: HttpMethods) {
         return (Handler: any) => {
             const options = config.options || {};
 
-            Handler.register = (instance: FastifyInstance) => instance[method](config.url, options, (req, res) => (<RequestHandler>new Handler(req, res)).handle());
+            Handler[REGISTER] = (instance: FastifyInstance) => instance[method](config.url, options, (req, res) => (<RequestHandler>new Handler(req, res)).handle());
 
             return Handler;
         };

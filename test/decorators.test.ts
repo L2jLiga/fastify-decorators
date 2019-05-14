@@ -7,6 +7,7 @@
  */
 
 import { ALL, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT } from '../lib/decorators';
+import { REGISTER } from '../lib/symbols';
 
 const tap = require('tap');
 
@@ -15,7 +16,7 @@ tap.test('ALL decorator should patch sample class', async (t: any) => {
 
     ALL({url: '/'})(A);
 
-    t.match(typeof (A as any).register, 'function')
+    t.match(typeof (A as any)[REGISTER], 'function')
 });
 
 tap.test('DELETE decorator should patch sample class', async (t: any) => {
@@ -23,7 +24,7 @@ tap.test('DELETE decorator should patch sample class', async (t: any) => {
 
     DELETE({url: '/'})(A);
 
-    t.match(typeof (A as any).register, 'function')
+    t.match(typeof (A as any)[REGISTER], 'function')
 });
 
 tap.test('GET decorator should patch sample class', async (t: any) => {
@@ -31,7 +32,7 @@ tap.test('GET decorator should patch sample class', async (t: any) => {
 
     GET({url: '/'})(A);
 
-    t.match(typeof (A as any).register, 'function')
+    t.match(typeof (A as any)[REGISTER], 'function')
 });
 
 tap.test('HEAD decorator should patch sample class', async (t: any) => {
@@ -39,7 +40,7 @@ tap.test('HEAD decorator should patch sample class', async (t: any) => {
 
     HEAD({url: '/'})(A);
 
-    t.match(typeof (A as any).register, 'function')
+    t.match(typeof (A as any)[REGISTER], 'function')
 });
 
 tap.test('OPTIONS decorator should patch sample class', async (t: any) => {
@@ -47,7 +48,7 @@ tap.test('OPTIONS decorator should patch sample class', async (t: any) => {
 
     OPTIONS({url: '/'})(A);
 
-    t.match(typeof (A as any).register, 'function')
+    t.match(typeof (A as any)[REGISTER], 'function')
 });
 
 tap.test('PATCH decorator should patch sample class', async (t: any) => {
@@ -55,7 +56,7 @@ tap.test('PATCH decorator should patch sample class', async (t: any) => {
 
     PATCH({url: '/'})(A);
 
-    t.match(typeof (A as any).register, 'function')
+    t.match(typeof (A as any)[REGISTER], 'function')
 });
 
 tap.test('POST decorator should patch sample class', async (t: any) => {
@@ -63,7 +64,7 @@ tap.test('POST decorator should patch sample class', async (t: any) => {
 
     POST({url: '/'})(A);
 
-    t.match(typeof (A as any).register, 'function')
+    t.match(typeof (A as any)[REGISTER], 'function')
 });
 
 tap.test('PUT decorator should patch sample class', async (t: any) => {
@@ -71,5 +72,5 @@ tap.test('PUT decorator should patch sample class', async (t: any) => {
 
     PUT({url: '/'})(A);
 
-    t.match(typeof (A as any).register, 'function')
+    t.match(typeof (A as any)[REGISTER], 'function')
 });

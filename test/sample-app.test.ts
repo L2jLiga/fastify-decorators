@@ -8,6 +8,7 @@
 
 import { GET } from '../lib/decorators';
 import { RequestHandler } from '../lib/interfaces';
+import { REGISTER } from '../lib/symbols';
 import fastify = require('fastify');
 
 const tap = require('tap');
@@ -25,7 +26,7 @@ class SampleAppTest extends RequestHandler {
 tap.test('Should work', async (t: any) => {
     const instance = fastify();
 
-    SampleAppTest.register(instance);
+    SampleAppTest[REGISTER](instance);
 
     const res = await instance.inject({
         method: 'GET',
