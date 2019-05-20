@@ -23,6 +23,10 @@ Installation and basic usage instruction can be found in [library README]
 
 **NOTE**: give a look also to the [`package.json`] to find out how the scripts are done 😉
 
+## Documentation
+
+- [Getting Started]
+
 ## How to run example
 
 1. clone this repository or download
@@ -42,4 +46,5 @@ This project licensed under [MIT License]
 [src]: ./src
 [test]: ./test
 [`package.json`]: ./package.json
+[Getting Started]: ./docs/Getting-Started.md
 [MIT License]: https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
