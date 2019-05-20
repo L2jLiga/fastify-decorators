@@ -13,11 +13,7 @@
     "experimentalDecorators": true,
 
     "baseUrl": ".",
-    "rootDir": "src",
-    "paths": {
-      "fastify-decorators": ["./dist/fastify-decorators"],
-      "fastify-decorators/*": ["./dist/fastify-decorators/*"]
-    }
+    "rootDir": "src"
   },
   "exclude": [
     "lib/**/*.ts",

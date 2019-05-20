@@ -7,12 +7,16 @@
  */
 
 export { REGISTER } from './symbols';
+export { CONTROLLER } from './symbols';
 
+export { ControllerConfig } from './interfaces';
 export { BootstrapConfig } from './interfaces';
 export { RequestHandler } from './interfaces';
 export { RouteConfig } from './interfaces';
 
 export { bootstrap } from './bootstrap/bootstrap';
+
+export { Controller } from './decorators';
 
 export { ALL } from './decorators';
 export { DELETE } from './decorators';

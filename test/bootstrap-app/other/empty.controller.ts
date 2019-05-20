@@ -6,13 +6,11 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-export { Controller } from './controller';
+import { Controller } from '../../../lib/decorators';
 
-export { ALL } from './all';
-export { DELETE } from './delete';
-export { GET } from './get';
-export { HEAD } from './head';
-export { OPTIONS } from './options';
-export { PATCH } from './patch';
-export { POST } from './post';
-export { PUT } from './put';
+@Controller({
+    route: '/empty'
+})
+class EmptyController {}
+
+export = EmptyController;

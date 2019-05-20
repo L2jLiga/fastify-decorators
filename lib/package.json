@@ -13,7 +13,8 @@
     "typescript",
     "decorators",
     "server",
-    "http"
+    "http",
+    "https"
   ],
   "author": "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)",
   "license": "MIT",

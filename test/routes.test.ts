@@ -94,3 +94,11 @@ tap.test('Options handler', async (t: any) => {
 
     t.match(res.headers, {allow: 'OPTIONS'});
 });
+
+tap.test('Controller should work', async (t: any) => {
+    const res = await instance.inject({
+        url: '/demo/test'
+    });
+
+    t.match(res.payload, `{"message":"Controller works!"}`);
+});

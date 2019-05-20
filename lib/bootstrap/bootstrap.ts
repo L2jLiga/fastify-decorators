@@ -10,21 +10,29 @@ import { FastifyInstance } from 'fastify';
 import { lstatSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { BootstrapConfig } from '../interfaces';
-import { REGISTER } from '../symbols';
+import { CONTROLLER, REGISTER } from '../symbols';
 
-const defaultMask = /\.handler\./;
+const defaultHandlersMask = /\.handler\./;
+const defaultControllersMask = /\.controller\./;
 
 export function bootstrap(fastify: FastifyInstance, config: BootstrapConfig, done: () => void) {
-    const mask = new RegExp(config.handlersMask || defaultMask);
+    const handlersMask = new RegExp(config.handlersMask || defaultHandlersMask);
+    const controllersMask = new RegExp(config.controllersMask || defaultControllersMask);
 
-    findAllHandlers(config.handlersDirectory, mask)
-        .map(require)
-        .forEach(handler => handler[REGISTER](fastify));
+    if (config.handlersDirectory)
+        findAllByMask(config.handlersDirectory, handlersMask)
+            .map(require)
+            .forEach(handler => handler[REGISTER](fastify));
+
+    if (config.controllersDirectory)
+        findAllByMask(config.controllersDirectory, controllersMask)
+            .map(require)
+            .forEach(controller => controller[CONTROLLER].register(fastify));
 
     done();
 }
 
-function findAllHandlers(path: string, filter: RegExp): string[] {
+function findAllByMask(path: string, filter: RegExp): string[] {
     const files = findAllFilesInDirectoryRecursively(path);
 
     return files.filter(file => filter.test(file));

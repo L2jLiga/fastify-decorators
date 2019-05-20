@@ -13,10 +13,20 @@ export interface BootstrapConfig<HttpServer = Server, HttpRequest = IncomingMess
     /**
      * Path to directory which contains all handlers
      */
-    handlersDirectory: string;
+    handlersDirectory?: string;
 
     /**
      * Mask used to filter files and keep only handlers
      */
     handlersMask?: string | RegExp;
+
+    /**
+     * Path to directory which contains all controllers
+     */
+    controllersDirectory?: string;
+
+    /**
+     * Mask used to filter files and keep only controllers
+     */
+    controllersMask?: string | RegExp;
 }

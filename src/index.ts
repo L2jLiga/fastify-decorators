@@ -13,7 +13,8 @@ const instance = fastify();
 
 instance.register(bootstrap, {
     handlersDirectory: __dirname + '/handlers',
-    handlersMask: /\.handler\./
+    handlersMask: /\.handler\./,
+    controllersDirectory: __dirname + '/controllers',
 });
 
 export { instance };

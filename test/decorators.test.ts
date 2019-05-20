@@ -6,8 +6,9 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { ALL, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT } from '../lib/decorators';
-import { REGISTER } from '../lib/symbols';
+import { ALL, Controller, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT } from '../lib/decorators';
+import { getDefaultControllerOptions } from '../lib/decorators/helpers/default-controller-options';
+import { CONTROLLER, REGISTER } from '../lib/symbols';
 
 const tap = require('tap');
 
@@ -73,4 +74,42 @@ tap.test('PUT decorator should patch sample class', async (t: any) => {
     PUT({url: '/'})(A);
 
     t.match(typeof (A as any)[REGISTER], 'function')
+});
+
+tap.test('Controller decorator should patch sample class', async (t: any) => {
+    class A {
+        static [CONTROLLER] = getDefaultControllerOptions();
+    }
+
+    Controller({route: '/'})(A);
+
+    t.match(typeof (A as any)[CONTROLLER].register, `function`);
+});
+
+tap.test(`GET decorator should patch sample class method`, async (t: any) => {
+    class A {
+        async handler() {}
+    }
+
+    GET({url: '/'})(new A, 'handler');
+
+    t.match((A as any)[CONTROLLER].handlers[0], {
+        url: '/',
+        method: 'get',
+        options: {},
+        handlerMethod: 'handler'
+    })
+});
+
+tap.test(`GET decorator should not replace controller options`, async (t: any) => {
+    class A {
+        async handler() {}
+        static [CONTROLLER] = {
+            handlers: [{}, {}]
+        }
+    }
+
+    GET({url: '/'})(new A, 'handler');
+
+    t.match((A as any)[CONTROLLER].handlers.length, 3);
 });

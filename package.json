@@ -11,7 +11,7 @@
     "clean:lib": "rimraf dist/fastify-decorators node_modules/fastify-decorators",
     "build:lib": "tsc -p ./lib/tsconfig.json && npm run cp:assets && cp -r ./dist/fastify-decorators ./node_modules",
     "cp:assets": "cp ./lib/package.json ./dist/fastify-decorators && cp ./lib/README.md ./dist/fastify-decorators && cp ./LICENSE ./dist/fastify-decorators",
-    "test": "tap test/*.test.ts"
+    "test": "tap test/*.test.ts --no-esm"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
     "@types/node": "^12.0.1",
     "fastify": "^2.3.0",
     "rimraf": "^2.6.3",
+    "source-map-support": "^0.5.12",
     "tap": "^13.1.8",
     "typescript": "^3.4.5"
   }

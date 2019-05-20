@@ -7,18 +7,35 @@
  */
 
 import { FastifyInstance } from 'fastify';
-import { RequestHandler, RouteConfig } from '../../interfaces';
-import { REGISTER } from '../../symbols';
+import { ControllerConstructor, RequestHandler, RouteConfig } from '../../interfaces';
+import { CONTROLLER, REGISTER } from '../../symbols';
+import { getDefaultControllerOptions } from './default-controller-options';
 import { HttpMethods } from './http-methods';
 
 export function requestDecoratorsFactory(method: HttpMethods) {
     return (config: RouteConfig) => {
-        return (Handler: any) => {
+        return (target: any, propKey?: string) => {
+            if (propKey) return controllerMethodDecoratorsFactory(method, config, target, propKey);
             const options = config.options || {};
 
-            Handler[REGISTER] = (instance: FastifyInstance) => instance[method](config.url, options, (req, res) => (<RequestHandler>new Handler(req, res)).handle());
+            target[REGISTER] = (instance: FastifyInstance) => instance[method](config.url, options, (req, res) => (<RequestHandler>new target(req, res)).handle());
 
-            return Handler;
+            return target;
         };
     };
+}
+
+export function controllerMethodDecoratorsFactory(method: HttpMethods, config: RouteConfig, target: any, propKey: string) {
+    if (!(<ControllerConstructor>target.constructor)[CONTROLLER]) {
+        (<ControllerConstructor>target.constructor)[CONTROLLER] = getDefaultControllerOptions();
+    }
+
+    const controllerOpts = (<ControllerConstructor>target.constructor)[CONTROLLER];
+
+    controllerOpts.handlers.push({
+        url: config.url,
+        method,
+        options: config.options || {},
+        handlerMethod: propKey
+    });
 }
