@@ -15,6 +15,11 @@ This package based on Fastify `^2.0.0` and may not work with other versions.
 
 Installation and basic usage instruction can be found in [library README]
 
+## Documentation
+
+- [Getting Started]
+- [Request Handler]
+
 ## Repository structure
 
 - [lib] directory contains library sources
@@ -22,11 +27,6 @@ Installation and basic usage instruction can be found in [library README]
 - [test] directory contains tests for library and example
 
 **NOTE**: give a look also to the [`package.json`] to find out how the scripts are done 😉
-
-## Documentation
-
-- [Getting Started]
-- [Request Handler]
 
 ## How to run example
 

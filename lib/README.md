@@ -167,6 +167,11 @@ Also fastify-decorators provides decorator for Controllers implementation:
 | url     | `string`        | yes      | Route url which will be passed to Fastify        |
 | options | [`RouteConfig`] | no       | Config for route which will be passed to Fastify |
 
+## Documentation
+
+- [Getting Started]
+- [Request Handler]
+
 ## License
 
 This project licensed under [MIT License]
@@ -176,3 +181,6 @@ This project licensed under [MIT License]
 [`RouteConfig`]: https://github.com/fastify/fastify/blob/master/docs/Routes.md
 [Fastify Hook]: https://github.com/fastify/fastify/blob/master/docs/Hooks.md
 [Fastify Route]: https://github.com/fastify/fastify/blob/master/docs/Routes.md
+
+[Getting Started]: ../docs/Getting-Started.md
+[Request Handler]: ../docs/Request-Handlers.md
