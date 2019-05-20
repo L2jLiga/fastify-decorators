@@ -47,7 +47,7 @@ const instance = require('fastify')();
 instance.register(bootstrap, {
     // Specify directory with our handler
     handlersDirectory: join(__dirname, `handlers`),
-    
+
     // Specify mask to match only our handler
     handlersMask: /\.handler\./
 });
@@ -107,10 +107,10 @@ const instance = require('fastify')();
 
 // Register handlers auto-bootstrap
 instance.register(bootstrap, {
-    // Specify directory with our handler
+    // Specify directory with our controllers
     controllersDirectory: join(__dirname, `controllers`),
-    
-    // Specify mask to match only our handler
+
+    // Specify mask to match only our controllers
     controllersMask: /\.controller\./
 });
 
