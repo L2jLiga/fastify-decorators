@@ -9,13 +9,16 @@
 import { Plugin, RouteShorthandOptions } from 'fastify';
 import { IncomingMessage, Server, ServerResponse } from 'http';
 import { HttpMethods } from '../decorators/helpers/http-methods';
+import { ControllerType } from '../registry';
 import { CONTROLLER } from '../symbols';
 
 export interface ControllerConfig {
     route: string;
+    type?: ControllerType;
 }
 
 export interface ControllerConstructor<HttpServer = Server, Request = IncomingMessage, Response = ServerResponse> {
+    new(): any;
     [CONTROLLER]: ControllerHandlersAndHooks<HttpServer, Request, Response>;
 }
 
@@ -25,7 +28,7 @@ export interface ControllerHandlersAndHooks<HttpServer, Request, Response> {
     register?: Plugin<HttpServer, Request, Response, {}>;
 }
 
-interface Handler<Request, Response> {
+export interface Handler<Request, Response> {
     url: string;
     method: HttpMethods;
     options: RouteShorthandOptions;

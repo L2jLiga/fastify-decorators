@@ -13,12 +13,16 @@ import { Controller, GET, Hook } from '../../lib/decorators';
 @Controller({
     route: '/ctrl'
 })
-class TestController {
+class SingletonController {
+    private callsCount = 0;
+
     @GET({
         url: '/index'
     })
     async index() {
-        return 'Test controller: index';
+        this.callsCount++;
+
+        return 'Singleton controller: index handler, calls count: ' + this.callsCount;
     }
 
     @Hook('onSend')
@@ -27,4 +31,4 @@ class TestController {
     }
 }
 
-export = TestController;
+export = SingletonController;

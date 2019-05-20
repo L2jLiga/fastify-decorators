@@ -17,6 +17,7 @@ export { RouteConfig } from './interfaces';
 export { bootstrap } from './bootstrap/bootstrap';
 
 export { Controller } from './decorators';
+export { ControllerType } from './registry';
 
 export { ALL } from './decorators';
 export { DELETE } from './decorators';

@@ -41,7 +41,7 @@ tap.test(`load controllers and don't load handlers`, async (t: any) => {
     const testController = await instance.inject({url: '/ctrl/index'});
 
     t.match(getHandler.statusCode, 404);
-    t.match(testController.payload, 'Test controller: index');
+    t.match(testController.payload, 'Singleton controller: index handler, calls count: 1');
     t.match(testController.headers, {
         'x-powered-by': 'nodejs'
     });
@@ -61,8 +61,38 @@ tap.test(`load both`, async (t: any) => {
     const testController = await instance.inject({url: '/ctrl/index'});
 
     t.match(getHandler.payload, `{"message":"OK!"}`);
-    t.match(testController.payload, 'Test controller: index');
+    t.match(testController.payload, 'Singleton controller: index handler, calls count: 1');
     t.match(testController.headers, {
         'x-powered-by': 'nodejs'
     });
+});
+
+tap.test(`singleton controller should keep state`, async (t: any) => {
+    let singletonCtrlRequest;
+    const instance = fastify();
+
+    instance.register(bootstrap, {
+        controllersDirectory: join(__dirname, 'bootstrap-app')
+    });
+
+    singletonCtrlRequest = await instance.inject({url: '/ctrl/index'});
+    t.match(singletonCtrlRequest.payload, 'Singleton controller: index handler, calls count: 1');
+
+    singletonCtrlRequest = await instance.inject({url: '/ctrl/index'});
+    t.match(singletonCtrlRequest.payload, 'Singleton controller: index handler, calls count: 2');
+});
+
+tap.test(`request controller should not keep state`, async (t: any) => {
+    let singletonCtrlRequest;
+    const instance = fastify();
+
+    instance.register(bootstrap, {
+        controllersDirectory: join(__dirname, 'bootstrap-app')
+    });
+
+    singletonCtrlRequest = await instance.inject({url: '/request/index'});
+    t.match(singletonCtrlRequest.payload, 'Request controller: index handler, calls count: 1');
+
+    singletonCtrlRequest = await instance.inject({url: '/request/index'});
+    t.match(singletonCtrlRequest.payload, 'Request controller: index handler, calls count: 1');
 });

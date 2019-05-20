@@ -7,26 +7,19 @@
  */
 
 import { ControllerConfig, ControllerConstructor } from '../interfaces';
+import { ControllerType } from '../registry';
 import { CONTROLLER } from '../symbols';
 import { injectDefaultControllerOptions } from './helpers/inject-controller-options';
+import { ControllerTypeStrategies } from './strategies/controller-type';
 
 export function Controller(config: ControllerConfig) {
     return <T extends any>(controller: T) => {
+        const type: ControllerType = config.type || ControllerType.SINGLETON;
+
         injectDefaultControllerOptions(controller);
 
         (<ControllerConstructor><any>controller)[CONTROLLER].register = (instance) => {
-            instance.register(async (instance) => {
-                const controllerInstance = new controller;
-                const configuration = (<ControllerConstructor><any>controller)[CONTROLLER];
-
-                configuration.handlers.forEach(handler => {
-                    instance[handler.method](handler.url, handler.options, (request, reply) => controllerInstance[handler.handlerMethod](request, reply));
-                });
-
-                configuration.hooks.forEach(hook => {
-                    instance.addHook(hook.name, controllerInstance[hook.handlerName].bind(controllerInstance));
-                });
-            }, {prefix: config.route});
+            instance.register(async instance => ControllerTypeStrategies[type](instance, <any>controller), {prefix: config.route});
         };
 
         return controller;

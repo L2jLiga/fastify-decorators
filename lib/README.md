@@ -165,9 +165,10 @@ Also fastify-decorators provides decorator for Controllers implementation:
 - Same decorators as for handlers use on methods to define [Fastify Route]
 
 #### Controller decorator options:
-| name  | type   | required | description           |
-|-------|--------|:--------:|-----------------------|
-| route | string | yes      | Controller base route |
+| name  | type                  | required | description                                      |
+|-------|-----------------------|:--------:|--------------------------------------------------|
+| route | string                | yes      | Controller base route                            |
+| type  | `ControllerType` enum | no       | Define controller behaviour. Default `SINGLETON` |
 
 #### Hook decorator options:
 | name  | type   | required | description           |
