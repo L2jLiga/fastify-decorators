@@ -97,20 +97,6 @@ export = SampleController;
 
 **NOTE**: Using decorators require `experimentalDecorators` to be enabled in `tsconfig.json`
 
-otherwise decorators won't work but you still can use it without them:
-```typescript
-import { GET, RequestHandler } from 'fastify-decorators';
-
-class SampleHandler extends RequestHandler {
-    async handle() {
-        return 'It works!';
-    }
-}
-
-// BTW decorators is just a functions :)
-export = GET({ url: '/sample' })(SampleHandler);
-```
-
 ## API
 
 ### bootstrap
