@@ -7,7 +7,7 @@
  */
 
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { Controller, GET } from 'fastify-decorators';
+import { Controller, GET, Hook } from 'fastify-decorators';
 import { IncomingMessage, ServerResponse } from 'http';
 
 @Controller({
@@ -30,6 +30,11 @@ class SimpleController {
     })
     async test(request: FastifyRequest<IncomingMessage>, reply: FastifyReply<ServerResponse>) {
         return {message: this.message};
+    }
+
+    @Hook('onSend')
+    async hidePoweredBy(request: FastifyRequest<IncomingMessage>, reply: FastifyReply<ServerResponse>) {
+        reply.header('X-Powered-By', 'nodejs');
     }
 
     private message: string = 'Controller works!';

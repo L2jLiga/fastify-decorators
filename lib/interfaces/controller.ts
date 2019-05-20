@@ -21,6 +21,7 @@ export interface ControllerConstructor<HttpServer = Server, Request = IncomingMe
 
 export interface ControllerHandlersAndHooks<HttpServer, Request, Response> {
     handlers: Handler<Request, Response>[];
+    hooks: Hook[];
     register?: Plugin<HttpServer, Request, Response, {}>;
 }
 
@@ -29,4 +30,9 @@ interface Handler<Request, Response> {
     method: HttpMethods;
     options: RouteShorthandOptions;
     handlerMethod: string;
+}
+
+export interface Hook {
+    name: any;
+    handlerName: string;
 }

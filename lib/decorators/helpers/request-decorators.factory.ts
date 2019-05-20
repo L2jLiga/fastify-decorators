@@ -9,8 +9,8 @@
 import { FastifyInstance } from 'fastify';
 import { ControllerConstructor, RequestHandler, RouteConfig } from '../../interfaces';
 import { CONTROLLER, REGISTER } from '../../symbols';
-import { getDefaultControllerOptions } from './default-controller-options';
 import { HttpMethods } from './http-methods';
+import { injectDefaultControllerOptions } from './inject-controller-options';
 
 export function requestDecoratorsFactory(method: HttpMethods) {
     return (config: RouteConfig) => {
@@ -26,9 +26,7 @@ export function requestDecoratorsFactory(method: HttpMethods) {
 }
 
 export function controllerMethodDecoratorsFactory(method: HttpMethods, config: RouteConfig, target: any, propKey: string) {
-    if (!(<ControllerConstructor>target.constructor)[CONTROLLER]) {
-        (<ControllerConstructor>target.constructor)[CONTROLLER] = getDefaultControllerOptions();
-    }
+    injectDefaultControllerOptions(target.constructor);
 
     const controllerOpts = (<ControllerConstructor>target.constructor)[CONTROLLER];
 

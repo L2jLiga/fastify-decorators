@@ -16,3 +16,5 @@ export { OPTIONS } from './options';
 export { PATCH } from './patch';
 export { POST } from './post';
 export { PUT } from './put';
+
+export { Hook } from './hook';

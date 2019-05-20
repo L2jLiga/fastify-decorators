@@ -6,7 +6,9 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { Controller, GET } from '../../lib/decorators';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { IncomingMessage, ServerResponse } from 'http';
+import { Controller, GET, Hook } from '../../lib/decorators';
 
 @Controller({
     route: '/ctrl'
@@ -17,6 +19,11 @@ class TestController {
     })
     async index() {
         return 'Test controller: index';
+    }
+
+    @Hook('onSend')
+    async hidePoweredBy(request: FastifyRequest<IncomingMessage>, reply: FastifyReply<ServerResponse>) {
+        reply.header('X-Powered-By', 'nodejs');
     }
 }
 

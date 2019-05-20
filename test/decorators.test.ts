@@ -6,8 +6,8 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { ALL, Controller, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT } from '../lib/decorators';
-import { getDefaultControllerOptions } from '../lib/decorators/helpers/default-controller-options';
+import { ALL, Controller, DELETE, GET, HEAD, Hook, OPTIONS, PATCH, POST, PUT } from '../lib/decorators';
+import { injectDefaultControllerOptions } from '../lib/decorators/helpers/inject-controller-options';
 import { CONTROLLER, REGISTER } from '../lib/symbols';
 
 const tap = require('tap');
@@ -77,9 +77,9 @@ tap.test('PUT decorator should patch sample class', async (t: any) => {
 });
 
 tap.test('Controller decorator should patch sample class', async (t: any) => {
-    class A {
-        static [CONTROLLER] = getDefaultControllerOptions();
-    }
+    class A {}
+
+    injectDefaultControllerOptions(A);
 
     Controller({route: '/'})(A);
 
@@ -112,4 +112,17 @@ tap.test(`GET decorator should not replace controller options`, async (t: any) =
     GET({url: '/'})(new A, 'handler');
 
     t.match((A as any)[CONTROLLER].handlers.length, 3);
+});
+
+tap.test('Hook decorator should patch sample class method', async (t: any) => {
+    class A {
+        async hook() {}
+    }
+
+    Hook('onSend')(new A, 'hook');
+
+    t.match((A as any)[CONTROLLER].hooks[0], {
+        name: 'onSend',
+        handlerName: 'hook'
+    });
 });

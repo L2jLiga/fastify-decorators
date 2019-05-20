@@ -42,6 +42,9 @@ tap.test(`load controllers and don't load handlers`, async (t: any) => {
 
     t.match(getHandler.statusCode, 404);
     t.match(testController.payload, 'Test controller: index');
+    t.match(testController.headers, {
+        'x-powered-by': 'nodejs'
+    });
 });
 
 tap.test(`load both`, async (t: any) => {
@@ -59,4 +62,7 @@ tap.test(`load both`, async (t: any) => {
 
     t.match(getHandler.payload, `{"message":"OK!"}`);
     t.match(testController.payload, 'Test controller: index');
+    t.match(testController.headers, {
+        'x-powered-by': 'nodejs'
+    });
 });

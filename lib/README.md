@@ -161,12 +161,18 @@ export = SimpleHandler;
 Also fastify-decorators provides decorator for Controllers implementation:
 
 - `Controller` decorator uses on class
-- Same decorators as for handlers use on methods
+- `hook` decorator to uses on methods to define [Fastify Hook]
+- Same decorators as for handlers use on methods to define [Fastify Route]
 
 #### Controller decorator options:
 | name  | type   | required | description           |
 |-------|--------|:--------:|-----------------------|
 | route | string | yes      | Controller base route |
+
+#### Hook decorator options:
+| name  | type   | required | description           |
+|-------|--------|:--------:|-----------------------|
+| name  | string | yes      | Hook name             |
 
 #### Handler decorators options (for controllers and handlers both)
 | name    | type            | required | description                                      |
@@ -222,3 +228,5 @@ This project licensed under [MIT License]
 [Fastify]: https://npmjs.org/package/fastify
 [MIT License]: https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
 [`RouteConfig`]: https://github.com/fastify/fastify/blob/master/docs/Routes.md
+[Fastify Hook]: https://github.com/fastify/fastify/blob/master/docs/Hooks.md
+[Fastify Route]: https://github.com/fastify/fastify/blob/master/docs/Routes.md

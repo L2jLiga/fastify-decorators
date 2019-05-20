@@ -8,20 +8,23 @@
 
 import { ControllerConfig, ControllerConstructor } from '../interfaces';
 import { CONTROLLER } from '../symbols';
-import { getDefaultControllerOptions } from './helpers/default-controller-options';
+import { injectDefaultControllerOptions } from './helpers/inject-controller-options';
 
 export function Controller(config: ControllerConfig) {
     return <T extends any>(controller: T) => {
-        if (!(<ControllerConstructor><any>controller)[CONTROLLER]) {
-            (<ControllerConstructor><any>controller)[CONTROLLER] = getDefaultControllerOptions();
-        }
+        injectDefaultControllerOptions(controller);
 
         (<ControllerConstructor><any>controller)[CONTROLLER].register = (instance) => {
             instance.register(async (instance) => {
+                const controllerInstance = new controller;
                 const configuration = (<ControllerConstructor><any>controller)[CONTROLLER];
 
                 configuration.handlers.forEach(handler => {
-                    instance[handler.method](handler.url, handler.options, (request, reply) => new controller()[handler.handlerMethod](request, reply));
+                    instance[handler.method](handler.url, handler.options, (request, reply) => controllerInstance[handler.handlerMethod](request, reply));
+                });
+
+                configuration.hooks.forEach(hook => {
+                    instance.addHook(hook.name, controllerInstance[hook.handlerName].bind(controllerInstance));
                 });
             }, {prefix: config.route});
         };

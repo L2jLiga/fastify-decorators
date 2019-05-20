@@ -26,3 +26,5 @@ export { OPTIONS } from './decorators';
 export { PATCH } from './decorators';
 export { POST } from './decorators';
 export { PUT } from './decorators';
+
+export { Hook } from './decorators';
