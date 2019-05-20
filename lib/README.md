@@ -18,6 +18,8 @@ yarn add fastify-decorators
 
 ## Basic usage
 
+### Request Handler
+
 *index.ts*:
 ```typescript
 import { bootstrap } from 'fastify-decorators';
@@ -52,6 +54,45 @@ class SampleHandler extends RequestHandler {
 
 // We should export class to make it accessible to bootstraper
 export = SampleHandler;
+```
+
+### Controller
+
+*index.ts*:
+```typescript
+import { bootstrap } from 'fastify-decorators';
+import fastify = require('fastify');
+import { join } from 'path';
+
+// Create Fastify instance
+const instance = fastify();
+
+// Register handlers auto-bootstrap
+instance.register(bootstrap, {
+    controllersDirectory: join(__dirname, `controllers`),
+    controllersMask: /\.controller\./
+});
+
+instance.listen(3000);
+```
+
+
+*handlers/sample.controller.ts*:
+```typescript
+import { Controller, GET } from 'fastify-decorators';
+
+@Controller({
+    route: '/sample'
+})
+class SampleController {
+    @GET({url: '/'})
+    async handle() {
+        return 'It works!';
+    }
+}
+
+// We should export class to make it accessible to bootstraper
+export = SampleController;
 ```
 
 **NOTE**: Using decorators require `experimentalDecorators` to be enabled in `tsconfig.json`
@@ -96,7 +137,7 @@ instance.register(bootstrap, options)
 
 ### Decorators
 
-List of available decorators:
+List of available decorators for handlers:
 - `GET`
 - `POST`
 - `PUT`
@@ -117,7 +158,17 @@ class SimpleHandler extends RequestHandler {
 export = SimpleHandler;
 ```
 
-#### Decorators options
+Also fastify-decorators provides decorator for Controllers implementation:
+
+- `Controller` decorator uses on class
+- Same decorators as for handlers use on methods
+
+#### Controller decorator options:
+| name  | type   | required | description           |
+|-------|--------|:--------:|-----------------------|
+| route | string | yes      | Controller base route |
+
+#### Handler decorators options (for controllers and handlers both)
 | name    | type            | required | description                                      |
 |---------|-----------------|:--------:|--------------------------------------------------|
 | url     | `string`        | yes      | Route url which will be passed to Fastify        |
