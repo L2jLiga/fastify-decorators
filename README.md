@@ -26,6 +26,7 @@ Installation and basic usage instruction can be found in [library README]
 ## Documentation
 
 - [Getting Started]
+- [Request Handler]
 
 ## How to run example
 
@@ -47,4 +48,5 @@ This project licensed under [MIT License]
 [test]: ./test
 [`package.json`]: ./package.json
 [Getting Started]: ./docs/Getting-Started.md
+[Request Handler]: ./docs/Request-Handlers.md
 [MIT License]: https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE

@@ -167,47 +167,6 @@ Also fastify-decorators provides decorator for Controllers implementation:
 | url     | `string`        | yes      | Route url which will be passed to Fastify        |
 | options | [`RouteConfig`] | no       | Config for route which will be passed to Fastify |
 
-## How it works
-
-Under the hood decorators create static method `register` in your class and then bootstraper use it to register it.
-
-It means that this code:
-```typescript
-import { PUT, RequestHandler } from 'fastify-decorators';
-
-@PUT({
-    url: '/sample'
-})
-class SimplePutHandler extends RequestHandler {
-    async handle() {
-        return this.request.body.message;
-    }
-}
-
-export = SimplePutHandler;
-```
-
-becomes:
-```typescript
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
-import { REGISTER } from 'fastify-decorators';
-import { IncomingMessage, ServerResponse } from 'http';
-
-class SimplePutHandler {
-    constructor(protected request: FastifyRequest<IncomingMessage>,
-                protected reply: FastifyReply<ServerResponse>) {
-    }
-
-    async handle() {
-        return this.request.body.message;
-    }
-
-    static [REGISTER] = (instance: FastifyInstance) => instance.put(`/sample`, {}, (req, res) => new SimplePutHandler(req, res).handle());
-}
-
-export = SimplePutHandler;
-```
-
 ## License
 
 This project licensed under [MIT License]
