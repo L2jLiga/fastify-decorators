@@ -171,6 +171,7 @@ Also fastify-decorators provides decorator for Controllers implementation:
 
 - [Getting Started]
 - [Request Handler]
+- [Controllers]
 
 ## License
 
@@ -184,3 +185,4 @@ This project licensed under [MIT License]
 
 [Getting Started]: https://github.com/L2jLiga/fastify-decorators/blob/master/docs/Getting-Started.md
 [Request Handler]: https://github.com/L2jLiga/fastify-decorators/blob/master/docs/Request-Handlers.md
+[Controllers]: https://github.com/L2jLiga/fastify-decorators/blob/master/docs/Controllers.md

@@ -19,6 +19,7 @@ Installation and basic usage instruction can be found in [library README]
 
 - [Getting Started]
 - [Request Handler]
+- [Controllers]
 
 ## Repository structure
 
@@ -49,4 +50,5 @@ This project licensed under [MIT License]
 [`package.json`]: ./package.json
 [Getting Started]: ./docs/Getting-Started.md
 [Request Handler]: ./docs/Request-Handlers.md
+[Controllers]: ./docs/Controllers.md
 [MIT License]: https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
