@@ -182,5 +182,5 @@ This project licensed under [MIT License]
 [Fastify Hook]: https://github.com/fastify/fastify/blob/master/docs/Hooks.md
 [Fastify Route]: https://github.com/fastify/fastify/blob/master/docs/Routes.md
 
-[Getting Started]: ../docs/Getting-Started.md
-[Request Handler]: ../docs/Request-Handlers.md
+[Getting Started]: https://github.com/L2jLiga/fastify-decorators/blob/master/docs/Getting-Started.md
+[Request Handler]: https://github.com/L2jLiga/fastify-decorators/blob/master/docs/Request-Handlers.md
