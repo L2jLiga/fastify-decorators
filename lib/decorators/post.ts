@@ -9,6 +9,9 @@
 import { RouteConfig } from '../interfaces';
 import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 
+/**
+ * Creates handler which listen POST requests
+ */
 export function POST(config: RouteConfig) {
     return requestDecoratorsFactory('post')(config);
 }

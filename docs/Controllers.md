@@ -43,6 +43,14 @@ class SimpleController {
 export = SimpleController;
 ```
 
+### Controller types
+
+There are few available strategies:
+- *SINGLETON* - creates one instance of controller which will handle all requests
+- *REQUEST* - will create new instance for each request/hook
+
+Default type is *SINGLETON*
+
 ### Handlers
 
 To mark controller method as handler you have to use one of the following decorators:

@@ -9,6 +9,9 @@
 import { RouteConfig } from '../interfaces';
 import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 
+/**
+ * Creates handler which listen OPTIONS requests
+ */
 export function OPTIONS(config: RouteConfig) {
     return requestDecoratorsFactory('options')(config);
 }

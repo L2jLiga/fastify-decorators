@@ -8,6 +8,9 @@
 
 import { RouteShorthandOptions } from 'fastify';
 
+/**
+ * Common config for all route handlers
+ */
 export interface RouteConfig {
     /**
      * Route url which will be passed to Fastify

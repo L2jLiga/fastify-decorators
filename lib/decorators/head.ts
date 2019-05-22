@@ -9,6 +9,9 @@
 import { RouteConfig } from '../interfaces';
 import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 
+/**
+ * Creates handler which listen HEAD requests
+ */
 export function HEAD(config: RouteConfig) {
     return requestDecoratorsFactory('head')(config);
 }

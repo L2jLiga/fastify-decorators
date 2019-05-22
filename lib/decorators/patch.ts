@@ -9,6 +9,9 @@
 import { RouteConfig } from '../interfaces';
 import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 
+/**
+ * Creates handler which listen PATCH requests
+ */
 export function PATCH(config: RouteConfig) {
     return requestDecoratorsFactory('patch')(config);
 }

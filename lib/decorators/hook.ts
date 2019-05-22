@@ -10,6 +10,9 @@ import { ControllerConstructor } from '../interfaces';
 import { CONTROLLER } from '../symbols';
 import { injectDefaultControllerOptions } from './helpers/inject-controller-options';
 
+/**
+ * Creates handler which listen various hooks
+ */
 export function Hook(name: string) {
     return (target: any, handlerName: string) => {
         injectDefaultControllerOptions(target.constructor)

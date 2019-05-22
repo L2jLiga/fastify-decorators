@@ -9,6 +9,9 @@
 import { RouteConfig } from '../interfaces';
 import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 
+/**
+ * Creates handler which listen all request methods
+ */
 export function ALL(config: RouteConfig) {
     return requestDecoratorsFactory('all')(config);
 }

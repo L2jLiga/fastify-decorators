@@ -6,12 +6,19 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { RouteConfig } from '../interfaces';
-import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
+import { ControllerType } from '../registry';
 
 /**
- * Creates handler which listen PUT requests
+ * Config for controllers
  */
-export function PUT(config: RouteConfig) {
-    return requestDecoratorsFactory('put')(config);
+export interface ControllerConfig {
+    /**
+     * Controller base route
+     */
+    route: string;
+
+    /**
+     * Controller type
+     */
+    type?: ControllerType;
 }

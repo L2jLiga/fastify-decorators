@@ -7,7 +7,7 @@
  */
 
 export { BootstrapConfig } from './bootstrap-config';
-export { ControllerConfig } from './controller';
+export { ControllerConfig } from './controller-config';
 export { ControllerConstructor } from './controller';
 export { ControllerHandlersAndHooks } from './controller';
 export { RequestHandler } from './request-handler';

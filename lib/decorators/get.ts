@@ -9,6 +9,9 @@
 import { RouteConfig } from '../interfaces';
 import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 
+/**
+ * Creates handler which listen GET requests
+ */
 export function GET(config: RouteConfig) {
     return requestDecoratorsFactory('get')(config);
 }

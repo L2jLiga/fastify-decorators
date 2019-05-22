@@ -12,6 +12,9 @@ import { CONTROLLER } from '../symbols';
 import { injectDefaultControllerOptions } from './helpers/inject-controller-options';
 import { ControllerTypeStrategies } from './strategies/controller-type';
 
+/**
+ * Creates register method on controller to allow bootstrap it
+ */
 export function Controller(config: ControllerConfig) {
     return <T extends any>(controller: T) => {
         const type: ControllerType = config.type || ControllerType.SINGLETON;

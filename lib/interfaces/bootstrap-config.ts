@@ -9,6 +9,9 @@
 import { RegisterOptions } from 'fastify';
 import { IncomingMessage, Server, ServerResponse } from 'http';
 
+/**
+ * Config for application bootstrap
+ */
 export interface BootstrapConfig<HttpServer = Server, HttpRequest = IncomingMessage, HttpResponse = ServerResponse> extends RegisterOptions<HttpServer, HttpRequest, HttpResponse> {
     /**
      * Path to directory which contains all handlers

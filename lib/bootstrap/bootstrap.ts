@@ -15,6 +15,9 @@ import { CONTROLLER, REGISTER } from '../symbols';
 const defaultHandlersMask = /\.handler\./;
 const defaultControllersMask = /\.controller\./;
 
+/**
+ * Method which recursively scan handlers/controllers directory and bootstrap them
+ */
 export function bootstrap(fastify: FastifyInstance, config: BootstrapConfig, done: () => void) {
     const handlersMask = new RegExp(config.handlersMask || defaultHandlersMask);
     const controllersMask = new RegExp(config.controllersMask || defaultControllersMask);

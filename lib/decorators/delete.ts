@@ -9,6 +9,9 @@
 import { RouteConfig } from '../interfaces';
 import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 
+/**
+ * Creates handler which listen DELETE requests
+ */
 export function DELETE(config: RouteConfig) {
     return requestDecoratorsFactory('delete')(config);
 }
