@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
+export { AbstractController } from './abstract-controller';
 export { BootstrapConfig } from './bootstrap-config';
 export { ControllerConfig } from './controller-config';
 export { ControllerConstructor } from './controller';

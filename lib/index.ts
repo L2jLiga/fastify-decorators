@@ -9,15 +9,17 @@
 export { REGISTER } from './symbols';
 export { CONTROLLER } from './symbols';
 
-export { ControllerConfig } from './interfaces';
-export { BootstrapConfig } from './interfaces';
-export { RequestHandler } from './interfaces';
-export { RouteConfig } from './interfaces';
-
 export { bootstrap } from './bootstrap/bootstrap';
+export { BootstrapConfig } from './interfaces';
+
+export { RequestHandler } from './interfaces';
 
 export { Controller } from './decorators';
 export { ControllerType } from './registry';
+export { ControllerConfig } from './interfaces';
+export { AbstractController } from './interfaces';
+
+export { Hook } from './decorators';
 
 export { ALL } from './decorators';
 export { DELETE } from './decorators';
@@ -27,5 +29,4 @@ export { OPTIONS } from './decorators';
 export { PATCH } from './decorators';
 export { POST } from './decorators';
 export { PUT } from './decorators';
-
-export { Hook } from './decorators';
+export { RouteConfig } from './interfaces';

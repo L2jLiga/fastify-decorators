@@ -1,5 +1,13 @@
+/**
+ * @license
+ * Copyright Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga). All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
+ */
+
 import { FastifyInstance } from 'fastify';
-import { ControllerConstructor } from '../../interfaces';
+import { AbstractController, ControllerConstructor } from '../../interfaces';
 import { ControllerType } from '../../registry';
 import { CONTROLLER } from '../../symbols';
 
@@ -15,9 +23,10 @@ import { CONTROLLER } from '../../symbols';
  * By default controllers use SINGLETON strategy
  */
 export const ControllerTypeStrategies = {
-    [ControllerType.SINGLETON](instance: FastifyInstance, controllerConstructor: ControllerConstructor) {
-        const controllerInstance = new controllerConstructor;
-        const configuration = controllerConstructor[CONTROLLER];
+    [ControllerType.SINGLETON](instance: FastifyInstance, constructor: ControllerConstructor) {
+        const controllerInstance = createInstance(instance, constructor);
+
+        const configuration = constructor[CONTROLLER];
 
         configuration.handlers.forEach(handler => {
             instance[handler.method](handler.url, handler.options, (request, reply) => controllerInstance[handler.handlerMethod](request, reply));
@@ -28,17 +37,31 @@ export const ControllerTypeStrategies = {
         });
     },
 
-    [ControllerType.REQUEST](instance: FastifyInstance, controllerConstructor: ControllerConstructor) {
-        const configuration = controllerConstructor[CONTROLLER];
+    [ControllerType.REQUEST](instance: FastifyInstance, constructor: ControllerConstructor) {
+        const configuration = constructor[CONTROLLER];
 
         configuration.handlers.forEach(handler => {
-            instance[handler.method](handler.url, handler.options, (request, reply) => (new controllerConstructor)[handler.handlerMethod](request, reply));
+            const {url, method, handlerMethod, options} = handler;
+
+            instance[method](url, options, (request, reply) => createInstance(instance, constructor)[handlerMethod](request, reply));
         });
 
         configuration.hooks.forEach(hook => {
-            const controllerInstance = new controllerConstructor;
-
-            instance.addHook(hook.name, controllerInstance[hook.handlerName].bind(controllerInstance));
+            instance.addHook(hook.name, (...args) => createInstance(instance, constructor)[hook.handlerName](...args));
         });
     }
 };
+
+/**
+ * Creates controller instance
+ */
+function createInstance(instance: FastifyInstance, controllerConstructor: ControllerConstructor) {
+    const controllerInstance = new controllerConstructor;
+
+
+    if (controllerInstance instanceof AbstractController) {
+        controllerInstance.instance = instance;
+    }
+
+    return controllerInstance;
+}

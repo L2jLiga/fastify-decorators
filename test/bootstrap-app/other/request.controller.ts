@@ -9,19 +9,21 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { IncomingMessage, ServerResponse } from 'http';
 import { Controller, GET, Hook } from '../../../lib/decorators';
+import { AbstractController } from '../../../lib/interfaces';
 import { ControllerType } from '../../../lib/registry';
 
 @Controller({
     route: '/request',
     type: ControllerType.REQUEST
 })
-class RequestController {
+class RequestController extends AbstractController {
     private callsCount = 0;
 
     @GET({url: '/index'})
     async indexHandler() {
-        this.callsCount++;
+        this.instance.log.info('Handled request to /request/index');
 
+        this.callsCount++;
         return 'Request controller: index handler, calls count: ' + this.callsCount;
     }
 
