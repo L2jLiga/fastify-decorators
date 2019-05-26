@@ -78,6 +78,26 @@ class SimpleController {
 export = SimpleController;
 ```
 
+### Access to Fastify instance
+
+If you want to be able to use Fastify instance for some reasons it's possible if your controller will extend `AbstractController`
+
+```typescript
+import { GET, AbstractController, Controller } from 'fastify-decorators';
+
+@Controller({route: '/'})
+class SimpleController extends AbstractController {
+    @GET({url: '/'})
+    async main() {
+        this.instance.log.info('GET request handled on SimpleController');
+
+        return {message: 'OK!'};
+    }
+}
+
+export = SimpleController;
+```
+
 Decorators accept `RouteConfig` with follow fields:
 
 | name    | type            | required | description                                      |
@@ -105,3 +125,4 @@ export = SimpleController;
 ```
 
 [Fastify Hooks]: https://github.com/fastify/fastify/blob/master/docs/Hooks.md
+[`RouteConfig`]: https://github.com/fastify/fastify/blob/master/docs/Routes.md
