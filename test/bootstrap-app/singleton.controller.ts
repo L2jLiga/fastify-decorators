@@ -13,7 +13,7 @@ import { Controller, GET, Hook } from '../../lib/decorators';
 @Controller({
     route: '/ctrl'
 })
-class SingletonController {
+export default class SingletonController {
     private callsCount = 0;
 
     @GET({
@@ -30,5 +30,3 @@ class SingletonController {
         reply.header('X-Powered-By', 'nodejs');
     }
 }
-
-export = SingletonController;

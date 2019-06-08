@@ -13,7 +13,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 @Controller({
     route: '/demo'
 })
-class SimpleController {
+export default class SimpleController {
     @GET({
         url: '/test',
         options: {
@@ -39,5 +39,3 @@ class SimpleController {
 
     private message: string = 'Controller works!';
 }
-
-export = SimpleController;

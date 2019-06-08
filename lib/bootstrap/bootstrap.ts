@@ -24,12 +24,12 @@ export function bootstrap(fastify: FastifyInstance, config: BootstrapConfig, don
 
     if (config.handlersDirectory)
         findAllByMask(config.handlersDirectory, handlersMask)
-            .map(require)
+            .map(loadModule)
             .forEach(handler => handler[REGISTER](fastify));
 
     if (config.controllersDirectory)
         findAllByMask(config.controllersDirectory, controllersMask)
-            .map(require)
+            .map(loadModule)
             .forEach(controller => controller[CONTROLLER].register(fastify));
 
     done();
@@ -57,4 +57,10 @@ function findAllFilesInDirectoryRecursively(path: string): string[] {
     });
 
     return matches;
+}
+
+function loadModule(module: string) {
+    return require(module).__esModule
+        ? require(module).default
+        : require(module);
 }
