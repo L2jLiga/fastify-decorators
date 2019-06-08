@@ -6,9 +6,6 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-export { REGISTER } from './symbols';
-export { CONTROLLER } from './symbols';
-
 export { bootstrap } from './bootstrap/bootstrap';
 export { BootstrapConfig } from './interfaces';
 
