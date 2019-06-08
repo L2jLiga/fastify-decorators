@@ -63,14 +63,11 @@ import { GET, RequestHandler } from 'fastify-decorators';
 @GET({
     url: '/hello'
 })
-class FirstHandler extends RequestHandler {
+export default class FirstHandler extends RequestHandler {
     async handle() {
         return 'Hello world!';
     }
 }
-
-// Make handler accessible by bootstrap by exporting
-export = FirstHandler;
 ```
 
 Also we need to enable `experimentalDecorators` feature in our TypeScript config
@@ -123,7 +120,7 @@ instance.listen(3000);
 import { Controller, GET } from 'fastify-decorators';
 
 @Controller({route: '/'})
-class FirstController {
+export default class FirstController {
     @GET({url: '/hello'})
     async helloHandler() {
         return 'Hello world!';
@@ -134,9 +131,6 @@ class FirstController {
         return 'Bye-bye!';
     }
 }
-
-// Make handler accessible by bootstrap by exporting
-export = FirstController;
 ```
 
 Also we need to enable `experimentalDecorators` feature in our TypeScript config

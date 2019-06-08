@@ -78,8 +78,19 @@ class MyRequestHandler extends RequestHandler {
 
 ### Exporting handlers
 
-To make it finally work we have to export our patched class
+Any handler should export itself to be available for bootstrap. There are three ways to export them:
 
+*default export*:
+```typescript
+import { ALL, RequestHandler } from 'fastify-decorators';
+
+@ALL({url: '/'})
+export default class MyRequestHandler extends RequestHandler {
+    async handler() {} // concrete implementation of abstract method in RequestHandler
+}
+```
+
+*export*:
 ```typescript
 import { ALL, RequestHandler } from 'fastify-decorators';
 
@@ -89,6 +100,18 @@ class MyRequestHandler extends RequestHandler {
 }
 
 export = MyRequestHandler;
+```
+
+*module.exports*:
+```typescript
+import { ALL, RequestHandler } from 'fastify-decorators';
+
+@ALL({url: '/'})
+class MyRequestHandler extends RequestHandler {
+    async handler() {} // concrete implementation of abstract method in RequestHandler
+}
+
+module.exports = MyRequestHandler;
 ```
 
 ## How it works
@@ -102,13 +125,11 @@ import { PUT, RequestHandler } from 'fastify-decorators';
 @PUT({
     url: '/sample'
 })
-class SimplePutHandler extends RequestHandler {
+export default class SimplePutHandler extends RequestHandler {
     async handle() {
         return this.request.body.message;
     }
 }
-
-export = SimplePutHandler;
 ```
 
 becomes:
@@ -117,7 +138,7 @@ import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { REGISTER } from 'fastify-decorators';
 import { IncomingMessage, ServerResponse } from 'http';
 
-class SimplePutHandler {
+export default class SimplePutHandler {
     constructor(protected request: FastifyRequest<IncomingMessage>,
                 protected reply: FastifyReply<ServerResponse>) {
     }
@@ -128,8 +149,6 @@ class SimplePutHandler {
 
     static [REGISTER] = (instance: FastifyInstance) => instance.put(`/sample`, {}, (req, res) => new SimplePutHandler(req, res).handle());
 }
-
-export = SimplePutHandler;
 ```
 
 [`RouteConfig`]: https://github.com/fastify/fastify/blob/master/docs/Routes.md

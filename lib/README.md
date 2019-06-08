@@ -46,14 +46,11 @@ import { GET, RequestHandler } from 'fastify-decorators';
 @GET({
     url: '/sample'
 })
-class SampleHandler extends RequestHandler {
+export default class SampleHandler extends RequestHandler {
     async handle() {
         return 'It works!';
     }
 }
-
-// We should export class to make it accessible to bootstraper
-export = SampleHandler;
 ```
 
 ### Controller
@@ -84,15 +81,12 @@ import { Controller, GET } from 'fastify-decorators';
 @Controller({
     route: '/sample'
 })
-class SampleController {
+export default class SampleController {
     @GET({url: '/'})
     async handle() {
         return 'It works!';
     }
 }
-
-// We should export class to make it accessible to bootstraper
-export = SampleController;
 ```
 
 **NOTE**: Using decorators require `experimentalDecorators` to be enabled in `tsconfig.json`
@@ -137,11 +131,9 @@ List of available decorators for handlers:
 import { POST, RequestHandler } from 'fastify-decorators';
 
 @POST(options)
-class SimpleHandler extends RequestHandler {
+export default class SimpleHandler extends RequestHandler {
     async handle() {return ''}
 }
-
-export = SimpleHandler;
 ```
 
 Also fastify-decorators provides decorator for Controllers implementation:

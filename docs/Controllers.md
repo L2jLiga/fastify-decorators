@@ -37,10 +37,8 @@ Every controller should be decorated with `@Controller` decorator and exported:
 import { Controller } from 'fastify-decorators';
 
 @Controller({route: '/'})
-class SimpleController {
+export default class SimpleController {
 }
-
-export = SimpleController;
 ```
 
 ### Controller types
@@ -68,14 +66,12 @@ To mark controller method as handler you have to use one of the following decora
 import { Controller, GET } from 'fastify-decorators';
 
 @Controller({route: '/'})
-class SimpleController {
+export default class SimpleController {
     @GET({url: '/'})
     async getHandler(request, reply) {
         return 'Hello world!'
     }
 }
-
-export = SimpleController;
 ```
 
 ### Access to Fastify instance
@@ -86,7 +82,7 @@ If you want to be able to use Fastify instance for some reasons it's possible if
 import { GET, AbstractController, Controller } from 'fastify-decorators';
 
 @Controller({route: '/'})
-class SimpleController extends AbstractController {
+export default class SimpleController extends AbstractController {
     @GET({url: '/'})
     async main() {
         this.instance.log.info('GET request handled on SimpleController');
@@ -94,8 +90,6 @@ class SimpleController extends AbstractController {
         return {message: 'OK!'};
     }
 }
-
-export = SimpleController;
 ```
 
 Decorators accept `RouteConfig` with follow fields:
@@ -114,14 +108,12 @@ There are also decorator which allows to use [Fastify Hooks]:
 import { Controller, Hook } from 'fastify-decorators';
 
 @Controller({route: '/'})
-class SimpleController {
+export default class SimpleController {
     @Hook('onSend')
     async (request, reply) {
         reply.removeHeader('X-Powered-By');
     }
 }
-
-export = SimpleController;
 ```
 
 [Fastify Hooks]: https://github.com/fastify/fastify/blob/master/docs/Hooks.md
