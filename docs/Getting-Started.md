@@ -164,7 +164,7 @@ After all our files done we have to build server before we can run it:
     ```
     with yarn:
     ```
-    yarn builf
+    yarn build
     ```
 
 1. Start server
