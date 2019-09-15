@@ -17,10 +17,10 @@ const instance = require('fastify')();
 // Define bootstrap options
 const bootstrapOptions = {
     // This option defines which directory should be scanned for handlers
-    handlersDirectory: join(__dirname, `handlers`),
+    directory: join(__dirname, `handlers`),
 
     // This option defines which pattern should file match
-    handlersMask: /\.handler\./
+    mask: /\.handler\./
 };
 
 // Register our bootstrap with options

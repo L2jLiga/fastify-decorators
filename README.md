@@ -20,6 +20,7 @@ Installation and basic usage instruction can be found in [library README]
 - [Getting Started]
 - [Request Handler]
 - [Controllers]
+- [Migration 1.x to 2.x]
 
 ## Repository structure
 
@@ -52,3 +53,4 @@ This project licensed under [MIT License]
 [Request Handler]: ./docs/Request-Handlers.md
 [Controllers]: ./docs/Controllers.md
 [MIT License]: https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
+[Migration 1.x to 2.x]: docs/Migration-to-v2.md
