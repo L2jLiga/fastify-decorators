@@ -20,11 +20,11 @@
   "author": "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^12.0.1",
-    "fastify": "^2.3.0",
-    "rimraf": "^2.6.3",
-    "source-map-support": "^0.5.12",
-    "tap": "^13.1.8",
-    "typescript": "^3.4.5"
+    "@types/node": "^12.7.5",
+    "fastify": "^2.8.0",
+    "rimraf": "^2.7.1",
+    "source-map-support": "^0.5.13",
+    "tap": "^14.6.2",
+    "typescript": "^3.6.3"
   }
 }
