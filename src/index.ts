@@ -12,9 +12,13 @@ import { bootstrap } from 'fastify-decorators';
 const instance = fastify();
 
 instance.register(bootstrap, {
-    handlersDirectory: __dirname + '/handlers',
-    handlersMask: /\.handler\./,
-    controllersDirectory: __dirname + '/controllers',
+    directory: __dirname + '/controllers',
+    mask: /\.controller\./
+});
+
+instance.register(bootstrap, {
+    directory: __dirname + '/handlers',
+    mask: /\.handler\./
 });
 
 export { instance };

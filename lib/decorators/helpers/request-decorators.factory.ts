@@ -8,7 +8,7 @@
 
 import { FastifyInstance } from 'fastify';
 import { ControllerConstructor, RequestHandler, RouteConfig } from '../../interfaces';
-import { CONTROLLER, REGISTER } from '../../symbols';
+import { CONTROLLER, REGISTER, TYPE } from '../../symbols';
 import { HttpMethods } from './http-methods';
 import { injectDefaultControllerOptions } from './inject-controller-options';
 
@@ -18,6 +18,7 @@ export function requestDecoratorsFactory(method: HttpMethods) {
             if (propKey) return controllerMethodDecoratorsFactory(method, config, target, propKey);
             const options = config.options || {};
 
+            target[TYPE] = REGISTER;
             target[REGISTER] = (instance: FastifyInstance) => instance[method](config.url, options, (req, res) => (<RequestHandler>new target(req, res)).handle());
 
             return target;

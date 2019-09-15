@@ -8,7 +8,7 @@
 
 import { ControllerConfig, ControllerConstructor } from '../interfaces';
 import { ControllerType } from '../registry';
-import { CONTROLLER } from '../symbols';
+import { CONTROLLER, TYPE } from '../symbols';
 import { injectDefaultControllerOptions } from './helpers/inject-controller-options';
 import { ControllerTypeStrategies } from './strategies/controller-type';
 
@@ -21,8 +21,9 @@ export function Controller(config: ControllerConfig) {
 
         injectDefaultControllerOptions(controller);
 
+        controller[TYPE] = CONTROLLER;
         (<ControllerConstructor><any>controller)[CONTROLLER].register = (instance) => {
-            instance.register(async instance => ControllerTypeStrategies[type](instance, <any>controller), {prefix: config.route});
+            instance.register(async instance => ControllerTypeStrategies[type](instance, <any>controller), { prefix: config.route });
         };
 
         return controller;

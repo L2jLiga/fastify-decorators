@@ -12,6 +12,50 @@ import { bootstrap } from '../lib';
 
 const tap = require('tap');
 
+tap.test('should load all recursively', async (t: any) => {
+    const instance = fastify();
+
+    instance.register(bootstrap, {
+        directory: join(__dirname, 'bootstrap-app'),
+        prefix: '/sample'
+    });
+
+    const getHandler = await instance.inject({url: `/sample/get`});
+    const postHandler = await instance.inject({url: `/sample/post`, method: 'POST', payload: {message: 'OK!'}});
+    const testController = await instance.inject({url: '/sample/ctrl/index'});
+    const singletonCtrlRequest = await instance.inject({url: '/sample/request/index'});
+
+    t.match(singletonCtrlRequest.payload, 'Request controller: index handler, calls count: 1');
+    t.match(getHandler.payload, `{"message":"OK!"}`);
+    t.match(postHandler.payload, `OK!`);
+    t.match(testController.payload, 'Singleton controller: index handler, calls count: 1');
+    t.match(testController.headers, {
+        'x-powered-by': 'nodejs'
+    });
+});
+
+tap.test('should load only matched by mask recursively', async (t: any) => {
+    const instance = fastify();
+
+    instance.register(bootstrap, {
+        directory: join(__dirname, 'bootstrap-app'),
+        mask: /\.controller\./,
+        prefix: '/sample'
+    });
+
+    const getHandler = await instance.inject({url: `/sample/get`});
+    const postHandler = await instance.inject({url: `/sample/post`, method: 'POST', payload: {message: 'OK!'}});
+    const testController = await instance.inject({url: '/sample/ctrl/index'});
+    const singletonCtrlRequest = await instance.inject({url: '/sample/request/index'});
+
+    t.match(getHandler.statusCode, 404);
+    t.match(postHandler.statusCode, 404);
+    t.match(singletonCtrlRequest.payload, 'Request controller: index handler, calls count: 1');
+    t.match(testController.payload, 'Singleton controller: index handler, calls count: 1');
+});
+
+// TODO: remove test below as far as separated handlers and controllers loaders are deprecated
+
 tap.test('load handlers recursively', async (t: any) => {
     const instance = fastify();
 

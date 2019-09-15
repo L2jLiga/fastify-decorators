@@ -8,3 +8,4 @@
 
 export const REGISTER = Symbol('Handler register method');
 export const CONTROLLER = Symbol('Controller routes register method');
+export const TYPE = Symbol('Controller or Handler register method');

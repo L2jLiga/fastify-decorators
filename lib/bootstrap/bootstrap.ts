@@ -9,16 +9,39 @@
 import { FastifyInstance } from 'fastify';
 import { lstatSync, readdirSync } from 'fs';
 import { join } from 'path';
+import { deprecate } from 'util';
 import { BootstrapConfig } from '../interfaces';
-import { CONTROLLER, REGISTER } from '../symbols';
+import { CONTROLLER, REGISTER, TYPE } from '../symbols';
 
-const defaultHandlersMask = /\.handler\./;
-const defaultControllersMask = /\.controller\./;
+const defaultMask = /\.(handler|controller)\./;
 
 /**
  * Method which recursively scan handlers/controllers directory and bootstrap them
  */
 export function bootstrap(fastify: FastifyInstance, config: BootstrapConfig, done: () => void) {
+    if (config.directory) {
+        findAllByMask(config.directory, config.mask ? new RegExp(config.mask) : defaultMask)
+            .map(loadModule)
+            .forEach(target => {
+                target[TYPE] === REGISTER
+                    ? target[REGISTER](fastify)
+                    : target[CONTROLLER].register(fastify);
+            });
+
+        return done();
+    }
+
+    const message = 'controllersMask, controllersDirectory, handlersMask and handlersDirectory are deprecated, use mask and directory instead';
+    deprecate(deprecatedInitializer, message)(config, fastify, done);
+}
+
+/**
+ * @deprecated
+ */
+function deprecatedInitializer(config: BootstrapConfig, fastify: FastifyInstance, done: () => void) {
+    const defaultHandlersMask = /\.handler\./;
+    const defaultControllersMask = /\.controller\./;
+
     const handlersMask = new RegExp(config.handlersMask || defaultHandlersMask);
     const controllersMask = new RegExp(config.controllersMask || defaultControllersMask);
 
