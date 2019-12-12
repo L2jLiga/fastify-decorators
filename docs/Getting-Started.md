@@ -115,7 +115,7 @@ instance.register(bootstrap, {
 instance.listen(3000);
 ```
 
-*handlers/first.controller.ts*:
+*controllers/first.controller.ts*:
 ```typescript
 import { Controller, GET } from 'fastify-decorators';
 
