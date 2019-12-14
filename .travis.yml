@@ -6,10 +6,11 @@ node_js:
   - "10"
   - "12"
 before_install:
-  - npm install -g npm@latest
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH="$HOME/.yarn/bin:$PATH"
 install:
-  - npm install
-  - npm run build
-cache: npm
+  - yarn install --frozen-lockfile
+  - yarn build
+cache: yarn
 after_success:
-  - npx tap --coverage-report=text-lcov | npx codecov -l
+  - yarn tap test/*.test.ts --no-esm --coverage-report=text-lcov | yarn codecov -l

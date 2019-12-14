@@ -4,14 +4,15 @@
   "private": true,
   "scripts": {
     "start": "node bin/start.js",
-    "build": "npm run clean && npm run build:lib && npm run build:server",
+    "build": "yarn clean && yarn build:lib && yarn build:server",
     "build:server": "tsc",
-    "clean": "npm run clean:server && npm run clean:lib",
+    "clean": "yarn clean:server && yarn clean:lib",
     "clean:server": "rimraf dist/server",
     "clean:lib": "rimraf dist/fastify-decorators node_modules/fastify-decorators",
-    "build:lib": "tsc -p ./lib/tsconfig.json && npm run cp:assets && cp -r ./dist/fastify-decorators ./node_modules",
+    "build:lib": "tsc -p ./lib/tsconfig.json && yarn cp",
+    "cp": "yarn cp:assets && cp -r ./dist/fastify-decorators ./node_modules",
     "cp:assets": "cp ./lib/package.json ./dist/fastify-decorators && cp ./lib/README.md ./dist/fastify-decorators && cp ./LICENSE ./dist/fastify-decorators",
-    "test": "tap test/*.test.ts --no-esm"
+    "test": "yarn cp && tap test/*.test.ts --no-esm"
   },
   "repository": {
     "type": "git",
@@ -20,11 +21,16 @@
   "author": "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^12.7.5",
-    "fastify": "^2.8.0",
-    "rimraf": "^2.7.1",
-    "source-map-support": "^0.5.13",
-    "tap": "^14.6.2",
-    "typescript": "^3.6.3"
+    "@types/node": "^12.12.17",
+    "codecov": "^3.6.1",
+    "fastify": "^2.11.0",
+    "rimraf": "^3.0.0",
+    "source-map-support": "^0.5.16",
+    "tap": "^14.10.2",
+    "typescript": "^3.7.3"
+  },
+  "engines": {
+    "node": ">= 8.3.0",
+    "yarn": "^1.0.0"
   }
 }
