@@ -27,6 +27,7 @@
   "engines": {
     "node": ">8.3.0"
   },
+  "type": "commonjs",
   "peerDependencies": {
     "@types/node": "*",
     "fastify": "^2.0.0"
