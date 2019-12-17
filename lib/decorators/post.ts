@@ -12,6 +12,6 @@ import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 /**
  * Creates handler which listen POST requests
  */
-export function POST(config: RouteConfig) {
+export function POST(config: string | RouteConfig) {
     return requestDecoratorsFactory('post')(config);
 }

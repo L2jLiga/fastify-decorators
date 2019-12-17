@@ -8,7 +8,7 @@
 
 import fastify = require('fastify');
 import { join } from 'path';
-import { bootstrap } from '../lib';
+import { bootstrap } from 'fastify-decorators';
 
 const tap = require('tap');
 

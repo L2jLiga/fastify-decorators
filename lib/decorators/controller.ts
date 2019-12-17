@@ -15,15 +15,16 @@ import { ControllerTypeStrategies } from './strategies/controller-type';
 /**
  * Creates register method on controller to allow bootstrap it
  */
-export function Controller(config: ControllerConfig) {
+export function Controller(config: string | ControllerConfig) {
     return <T extends any>(controller: T) => {
+        if (typeof config === 'string') config = { route: config };
         const type: ControllerType = config.type || ControllerType.SINGLETON;
 
         injectDefaultControllerOptions(controller);
 
         controller[TYPE] = CONTROLLER;
         (<ControllerConstructor><any>controller)[CONTROLLER].register = (instance) => {
-            instance.register(async instance => ControllerTypeStrategies[type](instance, <any>controller), { prefix: config.route });
+            instance.register(async instance => ControllerTypeStrategies[type](instance, <any>controller), { prefix: (<ControllerConfig>config).route });
         };
 
         return controller;

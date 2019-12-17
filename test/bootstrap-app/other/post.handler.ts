@@ -6,15 +6,26 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { POST } from '../../../lib/decorators';
-import { RequestHandler } from '../../../lib/interfaces';
+import { POST, RequestHandler } from 'fastify-decorators';
 
 @POST({
-    url: '/post'
+    url: '/post',
+    options: {
+        schema: {
+            response: {
+                200: {
+                    type: 'object',
+                    properties: {
+                        message: { type: 'string' }
+                    }
+                }
+            }
+        }
+    }
 })
 class PostHandler extends RequestHandler {
     async handle() {
-        return this.request.body.message;
+        return this.request.body;
     }
 }
 

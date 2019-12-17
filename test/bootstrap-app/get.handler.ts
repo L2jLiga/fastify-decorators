@@ -6,15 +6,12 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { GET } from '../../lib/decorators';
-import { RequestHandler } from '../../lib/interfaces';
+import { GET, RequestHandler } from 'fastify-decorators';
 
-@GET({
-    url: '/get'
-})
+@GET('/get')
 class GetHandler extends RequestHandler {
     async handle() {
-        return {message: 'OK!'};
+        return { message: 'OK!' };
     }
 }
 

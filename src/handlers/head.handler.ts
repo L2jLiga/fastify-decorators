@@ -8,9 +8,7 @@
 
 import { HEAD, RequestHandler } from 'fastify-decorators';
 
-@HEAD({
-    url: '/head'
-})
+@HEAD('/head')
 class HeadHandler extends RequestHandler {
     public async handle(): Promise<any> {
         this.reply.header('header', 'value');

@@ -12,6 +12,6 @@ import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 /**
  * Creates handler which listen all request methods
  */
-export function ALL(config: RouteConfig) {
+export function ALL(config: string | RouteConfig) {
     return requestDecoratorsFactory('all')(config);
 }

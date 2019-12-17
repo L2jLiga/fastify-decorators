@@ -8,9 +8,7 @@
 
 import { PUT, RequestHandler } from 'fastify-decorators';
 
-@PUT({
-    url: '/put'
-})
+@PUT('/put')
 class PutHandler extends RequestHandler {
     public async handle(): Promise<any> {
         return {message: this.request.body.message};

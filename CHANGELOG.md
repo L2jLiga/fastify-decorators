@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## next
 ## Added
 - `directory` and `mask` bootstrap options
+- Overloads to controller and requests handlers, now they can accept string instead of configuration object
 
 ## Changed
 - **BREAKING CHANGE**: symbols not exported anymore
+- **BREAKING CHANGE**: minimal supported version of node is 10
 - Deprecated `controllersDirectory`, `controllersMask`, `handlersDirectory` and `handlersMask` bootstrap options
 
 ## [1.3.0]

@@ -20,6 +20,26 @@ tap.test('Post handler', async (t: any) => {
     t.match(res.payload, `{"message":"POST works!"}`);
 });
 
+tap.test('Post handler should filter extra fields from payload message according to schema', async (t: any) => {
+    const res = await instance.inject({
+        method: 'POST',
+        url: '/post',
+        payload: { message: 'POST works!', text: 'blah-blah-blah' }
+    });
+
+    t.match(res.payload, `{"message":"POST works!"}`);
+});
+
+tap.test('Post handler should coerce message type to string in reply', async (t: any) => {
+    const res = await instance.inject({
+        method: 'POST',
+        url: '/post',
+        payload: { message: 1234 }
+    });
+
+    t.match(res.payload, `{"message":"1234"}`);
+});
+
 tap.test('Get handler', async (t: any) => {
     const res = await instance.inject({
         method: 'GET',

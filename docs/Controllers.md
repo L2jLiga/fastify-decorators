@@ -36,18 +36,10 @@ Every controller should be decorated with `@Controller` decorator and exported:
 ```typescript
 import { Controller } from 'fastify-decorators';
 
-@Controller({route: '/'})
+@Controller('/')
 export default class SimpleController {
 }
 ```
-
-### Controller types
-
-There are few available strategies:
-- *SINGLETON* - creates one instance of controller which will handle all requests
-- *REQUEST* - will create new instance for each request/hook
-
-Default type is *SINGLETON*
 
 ### Handlers
 
@@ -65,29 +57,87 @@ To mark controller method as handler you have to use one of the following decora
 ```typescript
 import { Controller, GET } from 'fastify-decorators';
 
-@Controller({route: '/'})
+@Controller('/')
 export default class SimpleController {
-    @GET({url: '/'})
+    @GET('/')
     async getHandler(request, reply) {
         return 'Hello world!'
     }
 }
 ```
 
+### Controller behaviour
+
+Controller may have to different behaviours:
+- `Singleton` (default) - creates single controller instance for all requests
+- `Request` - creates new controller instance for each request
+
+If you would like to use behaviour different to `Singleton` then you need specify it in decorator like in example below:
+
+```typescript
+import { Controller, ControllerType, GET } from 'fastify-decorators';
+
+@Controller({
+   route: '/',
+   type: ControllerType.REQUEST,
+})
+export default class SimpleController {
+    @GET('/')
+    async getHandler(request, reply) {
+        return 'Hello world!'
+    }
+}
+```
+
+### Requests handlers configuration
+
+Not only controller but also handlers within may have complex configuration, to use it you can provide [`RouteConfig`] object instead of string in method decorator.
+For example if we want to specify response type for our endpoint above we can use configuration object with schema specified:
+
+ ```typescript
+import { Controller, ControllerType, GET } from 'fastify-decorators';
+ 
+@Controller({
+  route: '/',
+  type: ControllerType.REQUEST,
+})
+export default class SimpleController {
+    @GET({
+        url: '/',
+        schema: {
+            response: {
+                200: { type: 'string' },
+            },
+        },
+    })
+    async getHandler(request, reply) {
+        return 'Hello world!'
+    }
+}
+ ```
+
 ### Access to Fastify instance
 
 If you want to be able to use Fastify instance for some reasons it's possible if your controller will extend `AbstractController`
 
 ```typescript
-import { GET, AbstractController, Controller } from 'fastify-decorators';
+import { GET, ControllerType, AbstractController, Controller } from 'fastify-decorators';
 
-@Controller({route: '/'})
+@Controller({
+  route: '/',
+  type: ControllerType.REQUEST,
+})
 export default class SimpleController extends AbstractController {
-    @GET({url: '/'})
-    async main() {
-        this.instance.log.info('GET request handled on SimpleController');
-
-        return {message: 'OK!'};
+    @GET({
+        url: '/',
+        schema: {
+            response: {
+                200: { type: 'string' },
+            },
+        },
+    })
+    async getHandler(request, reply) {
+        return 'Hello world!'
     }
 }
 ```
@@ -107,7 +157,7 @@ There are also decorator which allows to use [Fastify Hooks]:
 ```typescript
 import { Controller, Hook } from 'fastify-decorators';
 
-@Controller({route: '/'})
+@Controller('/')
 export default class SimpleController {
     @Hook('onSend')
     async (request, reply) {

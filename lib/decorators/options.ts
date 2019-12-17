@@ -12,6 +12,6 @@ import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 /**
  * Creates handler which listen OPTIONS requests
  */
-export function OPTIONS(config: RouteConfig) {
+export function OPTIONS(config: string | RouteConfig) {
     return requestDecoratorsFactory('options')(config);
 }

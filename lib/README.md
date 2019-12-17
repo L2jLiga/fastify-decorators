@@ -16,6 +16,13 @@ via yarn:
 yarn add fastify-decorators
 ```
 
+## Documentation
+
+- [Getting Started]
+- [Request Handler]
+- [Controllers]
+- [Migration to V2]
+
 ## Basic usage
 
 ### Request Handler
@@ -43,9 +50,7 @@ instance.listen(3000);
 ```typescript
 import { GET, RequestHandler } from 'fastify-decorators';
 
-@GET({
-    url: '/sample'
-})
+@GET('/sample')
 export default class SampleHandler extends RequestHandler {
     async handle() {
         return 'It works!';
@@ -78,11 +83,9 @@ instance.listen(3000);
 ```typescript
 import { Controller, GET } from 'fastify-decorators';
 
-@Controller({
-    route: '/sample'
-})
+@Controller('/sample')
 export default class SampleController {
-    @GET({url: '/'})
+    @GET('/')
     async handle() {
         return 'It works!';
     }
@@ -143,6 +146,9 @@ Also fastify-decorators provides decorator for Controllers implementation:
 - Same decorators as for handlers use on methods to define [Fastify Route]
 
 #### Controller decorator options:
+Controller accepts `string` as route parameter.
+It also possible to passthroughs configuration object in case if complex configuration needed:
+
 | name  | type                  | required | description                                      |
 |-------|-----------------------|:--------:|--------------------------------------------------|
 | route | string                | yes      | Controller base route                            |
@@ -154,16 +160,13 @@ Also fastify-decorators provides decorator for Controllers implementation:
 | name  | string | yes      | Hook name             |
 
 #### Handler decorators options (for controllers and handlers both)
+Handler decorators accept `srting` as URL parameter.
+It also possible to passthroughs configuration object in case if complex configuration needed:
+
 | name    | type            | required | description                                      |
 |---------|-----------------|:--------:|--------------------------------------------------|
 | url     | `string`        | yes      | Route url which will be passed to Fastify        |
 | options | [`RouteConfig`] | no       | Config for route which will be passed to Fastify |
-
-## Documentation
-
-- [Getting Started]
-- [Request Handler]
-- [Controllers]
 
 ## License
 
@@ -178,3 +181,4 @@ This project licensed under [MIT License]
 [Getting Started]: https://github.com/L2jLiga/fastify-decorators/blob/master/docs/Getting-Started.md
 [Request Handler]: https://github.com/L2jLiga/fastify-decorators/blob/master/docs/Request-Handlers.md
 [Controllers]: https://github.com/L2jLiga/fastify-decorators/blob/master/docs/Controllers.md
+[Migration to V2]: https://github.com/L2jLiga/fastify-decorators/blob/master/docs/Migration-to-v2.md

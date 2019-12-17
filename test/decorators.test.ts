@@ -6,9 +6,9 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { ALL, Controller, DELETE, GET, HEAD, Hook, OPTIONS, PATCH, POST, PUT } from '../lib/decorators';
-import { injectDefaultControllerOptions } from '../lib/decorators/helpers/inject-controller-options';
-import { CONTROLLER, REGISTER } from '../lib/symbols';
+import { ALL, Controller, DELETE, GET, HEAD, Hook, OPTIONS, PATCH, POST, PUT } from 'fastify-decorators';
+import { injectDefaultControllerOptions } from 'fastify-decorators/decorators/helpers/inject-controller-options';
+import { CONTROLLER, REGISTER } from 'fastify-decorators/symbols';
 
 const tap = require('tap');
 

@@ -8,17 +8,13 @@
 
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { IncomingMessage, ServerResponse } from 'http';
-import { Controller, GET, Hook } from '../../lib/decorators';
+import { Controller, GET, Hook } from 'fastify-decorators';
 
-@Controller({
-    route: '/ctrl'
-})
+@Controller('/ctrl')
 export default class SingletonController {
     private callsCount = 0;
 
-    @GET({
-        url: '/index'
-    })
+    @GET('/index')
     async index() {
         this.callsCount++;
 

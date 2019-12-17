@@ -10,9 +10,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { Controller, GET, Hook } from 'fastify-decorators';
 import { IncomingMessage, ServerResponse } from 'http';
 
-@Controller({
-    route: '/demo'
-})
+@Controller('/demo')
 export default class SimpleController {
     @GET({
         url: '/test',

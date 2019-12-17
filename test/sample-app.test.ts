@@ -6,9 +6,8 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { GET } from '../lib/decorators';
-import { RequestHandler } from '../lib/interfaces';
-import { REGISTER } from '../lib/symbols';
+import { GET, RequestHandler } from 'fastify-decorators';
+import { REGISTER } from 'fastify-decorators/symbols';
 import fastify = require('fastify');
 
 const tap = require('tap');

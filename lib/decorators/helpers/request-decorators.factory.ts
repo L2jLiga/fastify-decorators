@@ -13,13 +13,15 @@ import { HttpMethods } from './http-methods';
 import { injectDefaultControllerOptions } from './inject-controller-options';
 
 export function requestDecoratorsFactory(method: HttpMethods) {
-    return (config: RouteConfig) => {
+    return (config: string | RouteConfig) => {
         return (target: any, propKey?: string) => {
+            if (typeof config === 'string') config = { url: config };
+
             if (propKey) return controllerMethodDecoratorsFactory(method, config, target, propKey);
             const options = config.options || {};
 
             target[TYPE] = REGISTER;
-            target[REGISTER] = (instance: FastifyInstance) => instance[method](config.url, options, (req, res) => (<RequestHandler>new target(req, res)).handle());
+            target[REGISTER] = (instance: FastifyInstance) => instance[method]((<RouteConfig>config).url, options, (req, res) => (<RequestHandler>new target(req, res)).handle());
 
             return target;
         };

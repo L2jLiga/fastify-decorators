@@ -7,10 +7,8 @@
  */
 
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { AbstractController, Controller, ControllerType, GET, Hook } from 'fastify-decorators';
 import { IncomingMessage, ServerResponse } from 'http';
-import { Controller, GET, Hook } from '../../../lib/decorators';
-import { AbstractController } from '../../../lib/interfaces';
-import { ControllerType } from '../../../lib/registry';
 
 @Controller({
     route: '/request',
@@ -19,7 +17,7 @@ import { ControllerType } from '../../../lib/registry';
 class RequestController extends AbstractController {
     private callsCount = 0;
 
-    @GET({url: '/index'})
+    @GET('/index')
     async indexHandler() {
         this.instance.log.info('Handled request to /request/index');
 
