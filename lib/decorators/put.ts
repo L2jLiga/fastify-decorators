@@ -12,6 +12,9 @@ import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 /**
  * Creates handler which listen PUT requests
  */
-export function PUT(config: string | RouteConfig) {
+export function PUT(): (target: any, propKey?: string) => void;
+export function PUT(url: string): (target: any, propKey?: string) => void;
+export function PUT(config: RouteConfig): (target: any, propKey?: string) => void;
+export function PUT(config?: string | RouteConfig) {
     return requestDecoratorsFactory('put')(config);
 }

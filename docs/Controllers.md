@@ -66,7 +66,7 @@ export default class SimpleController {
 }
 ```
 
-### Controller behaviour
+### Controller configuration
 
 Controller may have to different behaviours:
 - `Singleton` (default) - creates single controller instance for all requests

@@ -15,8 +15,12 @@ import { ControllerTypeStrategies } from './strategies/controller-type';
 /**
  * Creates register method on controller to allow bootstrap it
  */
-export function Controller(config: string | ControllerConfig) {
+export function Controller(): <T extends any>(controller: T) => void;
+export function Controller(route: string): <T extends any>(controller: T) => void;
+export function Controller(config: ControllerConfig): <T extends any>(controller: T) => void;
+export function Controller(config?: string | ControllerConfig) {
     return <T extends any>(controller: T): void => {
+        if (!config) config = { route: '/' };
         if (typeof config === 'string') config = { route: config };
         const type: ControllerType = config.type || ControllerType.SINGLETON;
 

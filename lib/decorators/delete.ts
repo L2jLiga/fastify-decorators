@@ -12,6 +12,9 @@ import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 /**
  * Creates handler which listen DELETE requests
  */
-export function DELETE(config: string | RouteConfig) {
+export function DELETE(): (target: any, propKey?: string) => void;
+export function DELETE(url: string): (target: any, propKey?: string) => void;
+export function DELETE(config: RouteConfig): (target: any, propKey?: string) => void;
+export function DELETE(config?: string | RouteConfig) {
     return requestDecoratorsFactory('delete')(config);
 }

@@ -12,6 +12,9 @@ import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 /**
  * Creates handler which listen PATCH requests
  */
-export function PATCH(config: string | RouteConfig) {
+export function PATCH(): (target: any, propKey?: string) => void;
+export function PATCH(url: string): (target: any, propKey?: string) => void;
+export function PATCH(config: RouteConfig): (target: any, propKey?: string) => void;
+export function PATCH(config?: string | RouteConfig) {
     return requestDecoratorsFactory('patch')(config);
 }
