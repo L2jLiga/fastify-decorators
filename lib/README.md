@@ -178,7 +178,7 @@ This project licensed under [MIT License]
 [Fastify Hook]: https://github.com/fastify/fastify/blob/master/docs/Hooks.md
 [Fastify Route]: https://github.com/fastify/fastify/blob/master/docs/Routes.md
 
-[Getting Started]: https://github.com/L2jLiga/fastify-decorators/blob/master/docs/Getting-Started.md
-[Request Handler]: https://github.com/L2jLiga/fastify-decorators/blob/master/docs/Request-Handlers.md
-[Controllers]: https://github.com/L2jLiga/fastify-decorators/blob/master/docs/Controllers.md
-[Migration to V2]: https://github.com/L2jLiga/fastify-decorators/blob/master/docs/Migration-to-v2.md
+[Getting Started]: ./docs/Getting-Started.md
+[Request Handler]: ./docs/Request-Handlers.md
+[Controllers]: ./docs/Controllers.md
+[Migration to V2]: ./docs/Migration-to-v2.md
