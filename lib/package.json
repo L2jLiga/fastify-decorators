@@ -8,6 +8,9 @@
     "type": "git",
     "url": "git+https://github.com/L2jLiga/fastify-decorators.git"
   },
+  "directories": {
+    "doc": "./docs"
+  },
   "keywords": [
     "fastify",
     "typescript",

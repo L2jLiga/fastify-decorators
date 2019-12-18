@@ -14,6 +14,13 @@
     "cp:assets": "cp ./lib/package.json ./dist/fastify-decorators && cp ./lib/README.md ./dist/fastify-decorators && cp ./LICENSE ./dist/fastify-decorators && cp -r ./lib/docs ./dist/fastify-decorators",
     "test": "yarn cp && tap test/*.test.ts --no-esm"
   },
+  "directories": {
+    "bin": "./bin",
+    "doc": "./lib/docs",
+    "example": "./src",
+    "lib": "./lib",
+    "test": "./test"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/L2jLiga/fastify-decorators.git"
