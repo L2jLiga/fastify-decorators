@@ -8,9 +8,15 @@
 
 import { ControllerConfig, ControllerConstructor } from '../interfaces';
 import { ControllerType } from '../registry';
-import { CONTROLLER, TYPE } from '../symbols';
+import { CREATOR } from '../symbols';
 import { injectDefaultControllerOptions } from './helpers/inject-controller-options';
 import { ControllerTypeStrategies } from './strategies/controller-type';
+
+function makeConfig(config?: string | ControllerConfig): ControllerConfig {
+    if (typeof config === 'string') config = { route: config };
+
+    return { type: ControllerType.SINGLETON, route: '/', ...config };
+}
 
 /**
  * Creates register method on controller to allow bootstrap it
@@ -20,15 +26,10 @@ export function Controller(route: string): <T extends any>(controller: T) => voi
 export function Controller(config: ControllerConfig): <T extends any>(controller: T) => void;
 export function Controller(config?: string | ControllerConfig) {
     return <T extends any>(controller: T): void => {
-        if (!config) config = { route: '/' };
-        if (typeof config === 'string') config = { route: config };
-        const type: ControllerType = config.type || ControllerType.SINGLETON;
+        const { route, type } = makeConfig(config);
 
         injectDefaultControllerOptions(controller);
 
-        controller[TYPE] = CONTROLLER;
-        (<ControllerConstructor><any>controller)[CONTROLLER].register = (instance) => {
-            instance.register(async instance => ControllerTypeStrategies[type](instance, <any>controller), { prefix: (<ControllerConfig>config).route });
-        };
+        (<ControllerConstructor><any>controller)[CREATOR].register = instance => instance.register(async instance => ControllerTypeStrategies[type!](instance, <any>controller), { prefix: route });
     };
 }

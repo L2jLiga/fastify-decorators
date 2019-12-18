@@ -7,7 +7,7 @@
  */
 
 import { GET, RequestHandler } from 'fastify-decorators';
-import { REGISTER } from 'fastify-decorators/symbols';
+import { CREATOR } from 'fastify-decorators/symbols';
 import fastify = require('fastify');
 
 const tap = require('tap');
@@ -25,7 +25,7 @@ class SampleAppTest extends RequestHandler {
 tap.test('Should work', async (t: any) => {
     const instance = fastify();
 
-    SampleAppTest[REGISTER](instance);
+    SampleAppTest[CREATOR].register(instance);
 
     const res = await instance.inject({
         method: 'GET',

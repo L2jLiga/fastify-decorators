@@ -11,7 +11,7 @@ import { lstatSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { deprecate } from 'util';
 import { BootstrapConfig } from '../interfaces';
-import { CONTROLLER, REGISTER, TYPE } from '../symbols';
+import { CREATOR } from '../symbols';
 
 const defaultMask = /\.(handler|controller)\./;
 
@@ -22,11 +22,7 @@ export function bootstrap(fastify: FastifyInstance, config: BootstrapConfig, don
     if (config.directory) {
         findAllByMask(config.directory, config.mask ? new RegExp(config.mask) : defaultMask)
             .map(loadModule)
-            .forEach(target => {
-                target[TYPE] === REGISTER
-                    ? target[REGISTER](fastify)
-                    : target[CONTROLLER].register(fastify);
-            });
+            .forEach(target => target[CREATOR].register(fastify));
 
         return done();
     }
@@ -48,12 +44,12 @@ function deprecatedInitializer(config: BootstrapConfig, fastify: FastifyInstance
     if (config.handlersDirectory)
         findAllByMask(config.handlersDirectory, handlersMask)
             .map(loadModule)
-            .forEach(handler => handler[REGISTER](fastify));
+            .forEach(handler => handler[CREATOR].register(fastify));
 
     if (config.controllersDirectory)
         findAllByMask(config.controllersDirectory, controllersMask)
             .map(loadModule)
-            .forEach(controller => controller[CONTROLLER].register(fastify));
+            .forEach(controller => controller[CREATOR].register(fastify));
 
     done();
 }

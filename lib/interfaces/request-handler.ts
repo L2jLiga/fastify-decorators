@@ -8,7 +8,7 @@
 
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { IncomingMessage, ServerResponse } from 'http';
-import { REGISTER } from '../symbols';
+import { CREATOR } from '../symbols';
 
 /**
  * Abstract class which should extend all decorated request handlers
@@ -26,5 +26,5 @@ export abstract class RequestHandler<Request = IncomingMessage, Response = Serve
     /**
      * Static method to register handler by autoloader (bootstrap)
      */
-    static readonly [REGISTER]: (instance: FastifyInstance) => void;
+    static readonly [CREATOR]: { register: (instance: FastifyInstance) => void };
 }

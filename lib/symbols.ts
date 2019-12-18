@@ -6,6 +6,4 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-export const REGISTER = Symbol('Handler register method');
-export const CONTROLLER = Symbol('Controller routes register method');
-export const TYPE = Symbol('Controller or Handler register method');
+export const CREATOR = Symbol('Symbol which contains register method of handler or controller');

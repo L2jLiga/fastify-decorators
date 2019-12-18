@@ -8,11 +8,11 @@
 
 import { IncomingMessage, Server, ServerResponse } from 'http';
 import { ControllerConstructor, ControllerHandlersAndHooks } from '../../interfaces';
-import { CONTROLLER } from '../../symbols';
+import { CREATOR } from '../../symbols';
 
 export function injectDefaultControllerOptions(controller: any) {
-    if (!(<ControllerConstructor>controller)[CONTROLLER]) {
-        (<ControllerConstructor>controller)[CONTROLLER] = getDefaultControllerOptions();
+    if (!(<ControllerConstructor>controller)[CREATOR]) {
+        (<ControllerConstructor>controller)[CREATOR] = getDefaultControllerOptions();
     }
 }
 

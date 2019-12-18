@@ -8,7 +8,7 @@
 
 import { ALL, Controller, DELETE, GET, HEAD, Hook, OPTIONS, PATCH, POST, PUT } from 'fastify-decorators';
 import { injectDefaultControllerOptions } from 'fastify-decorators/decorators/helpers/inject-controller-options';
-import { CONTROLLER, REGISTER } from 'fastify-decorators/symbols';
+import { CREATOR } from 'fastify-decorators/symbols';
 
 const tap = require('tap');
 
@@ -17,7 +17,7 @@ tap.test('ALL decorator should patch sample class', async (t: any) => {
 
     ALL({url: '/'})(A);
 
-    t.match(typeof (A as any)[REGISTER], 'function')
+    t.match(typeof (A as any)[CREATOR].register, 'function')
 });
 
 tap.test('DELETE decorator should patch sample class', async (t: any) => {
@@ -25,7 +25,7 @@ tap.test('DELETE decorator should patch sample class', async (t: any) => {
 
     DELETE({url: '/'})(A);
 
-    t.match(typeof (A as any)[REGISTER], 'function')
+    t.match(typeof (A as any)[CREATOR].register, 'function')
 });
 
 tap.test('GET decorator should patch sample class', async (t: any) => {
@@ -33,7 +33,7 @@ tap.test('GET decorator should patch sample class', async (t: any) => {
 
     GET({url: '/'})(A);
 
-    t.match(typeof (A as any)[REGISTER], 'function')
+    t.match(typeof (A as any)[CREATOR].register, 'function')
 });
 
 tap.test('HEAD decorator should patch sample class', async (t: any) => {
@@ -41,7 +41,7 @@ tap.test('HEAD decorator should patch sample class', async (t: any) => {
 
     HEAD({url: '/'})(A);
 
-    t.match(typeof (A as any)[REGISTER], 'function')
+    t.match(typeof (A as any)[CREATOR].register, 'function')
 });
 
 tap.test('OPTIONS decorator should patch sample class', async (t: any) => {
@@ -49,7 +49,7 @@ tap.test('OPTIONS decorator should patch sample class', async (t: any) => {
 
     OPTIONS({url: '/'})(A);
 
-    t.match(typeof (A as any)[REGISTER], 'function')
+    t.match(typeof (A as any)[CREATOR].register, 'function')
 });
 
 tap.test('PATCH decorator should patch sample class', async (t: any) => {
@@ -57,7 +57,7 @@ tap.test('PATCH decorator should patch sample class', async (t: any) => {
 
     PATCH({url: '/'})(A);
 
-    t.match(typeof (A as any)[REGISTER], 'function')
+    t.match(typeof (A as any)[CREATOR].register, 'function')
 });
 
 tap.test('POST decorator should patch sample class', async (t: any) => {
@@ -65,7 +65,7 @@ tap.test('POST decorator should patch sample class', async (t: any) => {
 
     POST({url: '/'})(A);
 
-    t.match(typeof (A as any)[REGISTER], 'function')
+    t.match(typeof (A as any)[CREATOR].register, 'function')
 });
 
 tap.test('PUT decorator should patch sample class', async (t: any) => {
@@ -73,7 +73,7 @@ tap.test('PUT decorator should patch sample class', async (t: any) => {
 
     PUT({url: '/'})(A);
 
-    t.match(typeof (A as any)[REGISTER], 'function')
+    t.match(typeof (A as any)[CREATOR].register, 'function')
 });
 
 tap.test('Controller decorator should patch sample class', async (t: any) => {
@@ -83,7 +83,7 @@ tap.test('Controller decorator should patch sample class', async (t: any) => {
 
     Controller({route: '/'})(A);
 
-    t.match(typeof (A as any)[CONTROLLER].register, `function`);
+    t.match(typeof (A as any)[CREATOR].register, `function`);
 });
 
 tap.test(`GET decorator should patch sample class method`, async (t: any) => {
@@ -93,7 +93,7 @@ tap.test(`GET decorator should patch sample class method`, async (t: any) => {
 
     GET({url: '/'})(new A, 'handler');
 
-    t.match((A as any)[CONTROLLER].handlers[0], {
+    t.match((A as any)[CREATOR].handlers[0], {
         url: '/',
         method: 'get',
         options: {},
@@ -104,14 +104,14 @@ tap.test(`GET decorator should patch sample class method`, async (t: any) => {
 tap.test(`GET decorator should not replace controller options`, async (t: any) => {
     class A {
         async handler() {}
-        static [CONTROLLER] = {
+        static [CREATOR] = {
             handlers: [{}, {}]
         }
     }
 
     GET({url: '/'})(new A, 'handler');
 
-    t.match((A as any)[CONTROLLER].handlers.length, 3);
+    t.match((A as any)[CREATOR].handlers.length, 3);
 });
 
 tap.test('Hook decorator should patch sample class method', async (t: any) => {
@@ -121,7 +121,7 @@ tap.test('Hook decorator should patch sample class method', async (t: any) => {
 
     Hook('onSend')(new A, 'hook');
 
-    t.match((A as any)[CONTROLLER].hooks[0], {
+    t.match((A as any)[CREATOR].hooks[0], {
         name: 'onSend',
         handlerName: 'hook'
     });

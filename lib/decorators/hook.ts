@@ -7,7 +7,7 @@
  */
 
 import { ControllerConstructor } from '../interfaces';
-import { CONTROLLER } from '../symbols';
+import { CREATOR } from '../symbols';
 import { injectDefaultControllerOptions } from './helpers/inject-controller-options';
 
 /**
@@ -17,7 +17,7 @@ export function Hook(name: string) {
     return (target: any, handlerName: string) => {
         injectDefaultControllerOptions(target.constructor);
 
-        const controllerOpts = (<ControllerConstructor>target.constructor)[CONTROLLER];
+        const controllerOpts = (<ControllerConstructor>target.constructor)[CREATOR];
 
         controllerOpts.hooks.push({
             name,

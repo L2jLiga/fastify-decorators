@@ -9,7 +9,7 @@
 import { FastifyInstance } from 'fastify';
 import { AbstractController, ControllerConstructor } from '../../interfaces';
 import { ControllerType } from '../../registry';
-import { CONTROLLER } from '../../symbols';
+import { CREATOR } from '../../symbols';
 
 /**
  * Various strategies which can be applied to controller
@@ -26,7 +26,7 @@ export const ControllerTypeStrategies = {
     [ControllerType.SINGLETON](instance: FastifyInstance, constructor: ControllerConstructor) {
         const controllerInstance = createInstance(instance, constructor);
 
-        const configuration = constructor[CONTROLLER];
+        const configuration = constructor[CREATOR];
 
         configuration.handlers.forEach(handler => {
             instance[handler.method](handler.url, handler.options, (request, reply) => controllerInstance[handler.handlerMethod](request, reply));
@@ -38,10 +38,10 @@ export const ControllerTypeStrategies = {
     },
 
     [ControllerType.REQUEST](instance: FastifyInstance, constructor: ControllerConstructor) {
-        const configuration = constructor[CONTROLLER];
+        const configuration = constructor[CREATOR];
 
         configuration.handlers.forEach(handler => {
-            const {url, method, handlerMethod, options} = handler;
+            const { url, method, handlerMethod, options } = handler;
 
             instance[method](url, options, (request, reply) => createInstance(instance, constructor)[handlerMethod](request, reply));
         });
@@ -57,7 +57,6 @@ export const ControllerTypeStrategies = {
  */
 function createInstance(instance: FastifyInstance, controllerConstructor: ControllerConstructor) {
     const controllerInstance = new controllerConstructor;
-
 
     if (controllerInstance instanceof AbstractController) {
         controllerInstance.instance = instance;
