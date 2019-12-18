@@ -15,7 +15,7 @@ import { injectDefaultControllerOptions } from './helpers/inject-controller-opti
  */
 export function Hook(name: string) {
     return (target: any, handlerName: string) => {
-        injectDefaultControllerOptions(target.constructor)
+        injectDefaultControllerOptions(target.constructor);
 
         const controllerOpts = (<ControllerConstructor>target.constructor)[CONTROLLER];
 

@@ -22,8 +22,6 @@ export function requestDecoratorsFactory(method: HttpMethods) {
 
             target[TYPE] = REGISTER;
             target[REGISTER] = (instance: FastifyInstance) => instance[method]((<RouteConfig>config).url, options, (req, res) => (<RequestHandler>new target(req, res)).handle());
-
-            return target;
         };
     };
 }
