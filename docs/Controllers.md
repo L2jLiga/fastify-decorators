@@ -104,9 +104,11 @@ import { Controller, ControllerType, GET } from 'fastify-decorators';
 export default class SimpleController {
     @GET({
         url: '/',
-        schema: {
-            response: {
-                200: { type: 'string' },
+        options: {
+            schema: {
+                response: {
+                    200: { type: 'string' },
+                },
             },
         },
     })
@@ -130,9 +132,11 @@ import { GET, ControllerType, AbstractController, Controller } from 'fastify-dec
 export default class SimpleController extends AbstractController {
     @GET({
         url: '/',
-        schema: {
-            response: {
-                200: { type: 'string' },
+        options: {
+            schema: {
+                response: {
+                    200: { type: 'string' },
+                },
             },
         },
     })
