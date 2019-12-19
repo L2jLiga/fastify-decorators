@@ -11,7 +11,7 @@
     "clean:lib": "rimraf dist/fastify-decorators node_modules/fastify-decorators",
     "build:lib": "tsc -p ./lib/tsconfig.json && yarn cp",
     "cp": "yarn cp:assets && yarn cp:package",
-    "cp:assets": "cp ./lib/package.json ./dist/fastify-decorators && cp ./lib/README.md ./dist/fastify-decorators && cp ./LICENSE ./dist/fastify-decorators && cp -r ./lib/docs ./dist/fastify-decorators",
+    "cp:assets": "cp -r ./lib/package.json ./lib/README.md ./LICENSE ./lib/docs ./dist/fastify-decorators",
     "cp:package": "cp -r ./dist/fastify-decorators ./node_modules",
     "test": "yarn cp:package && tap test/*.test.ts --no-esm"
   },
