@@ -12,7 +12,7 @@ import { createWithInjectedDependencies } from './helpers/inject-dependencies';
 /**
  * Decorator for making classes injectable
  */
-export function Service(): (target: any) => void {
+export function Service(): ClassDecorator {
     return (target: any) => {
         let instance: any;
 

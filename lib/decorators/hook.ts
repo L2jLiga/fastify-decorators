@@ -13,8 +13,8 @@ import { injectDefaultControllerOptions } from './helpers/inject-controller-opti
 /**
  * Creates handler which listen various hooks
  */
-export function Hook(name: string) {
-    return (target: any, handlerName: string) => {
+export function Hook(name: string): MethodDecorator {
+    return (target: any, handlerName: string | symbol) => {
         injectDefaultControllerOptions(target.constructor);
 
         const controllerOpts = (<ControllerConstructor>target.constructor)[CREATOR];

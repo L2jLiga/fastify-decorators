@@ -12,9 +12,9 @@ import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 /**
  * Creates handler which listen GET requests
  */
-export function GET(): (target: any, propKey?: string) => void;
-export function GET(url: string): (target: any, propKey?: string) => void;
-export function GET(config: RouteConfig): (target: any, propKey?: string) => void;
+export function GET(): (target: any, propKey?: string | symbol) => void;
+export function GET(url: string): (target: any, propKey?: string | symbol) => void;
+export function GET(config: RouteConfig): (target: any, propKey?: string | symbol) => void;
 export function GET(config?: string | RouteConfig) {
     return requestDecoratorsFactory('get')(config);
 }

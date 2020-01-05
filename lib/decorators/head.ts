@@ -12,9 +12,9 @@ import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 /**
  * Creates handler which listen HEAD requests
  */
-export function HEAD(): (target: any, propKey?: string) => void;
-export function HEAD(url: string): (target: any, propKey?: string) => void;
-export function HEAD(config: RouteConfig): (target: any, propKey?: string) => void;
+export function HEAD(): (target: any, propKey?: string | symbol) => void;
+export function HEAD(url: string): (target: any, propKey?: string | symbol) => void;
+export function HEAD(config: RouteConfig): (target: any, propKey?: string | symbol) => void;
 export function HEAD(config?: string | RouteConfig) {
     return requestDecoratorsFactory('head')(config);
 }

@@ -14,7 +14,7 @@ import { injectDefaultControllerOptions } from './inject-controller-options';
 
 export function requestDecoratorsFactory(method: HttpMethods) {
     return (config?: string | RouteConfig) => {
-        return (target: any, propKey?: string) => {
+        return (target: any, propKey?: string | symbol) => {
             if (!config) config = { url: '/' };
             if (typeof config === 'string') config = { url: config };
 
@@ -28,7 +28,7 @@ export function requestDecoratorsFactory(method: HttpMethods) {
     };
 }
 
-export function controllerMethodDecoratorsFactory(method: HttpMethods, config: RouteConfig, target: any, propKey: string) {
+export function controllerMethodDecoratorsFactory(method: HttpMethods, config: RouteConfig, target: any, propKey: string | symbol) {
     injectDefaultControllerOptions(target.constructor);
 
     const controllerOpts = (<ControllerConstructor>target.constructor)[CREATOR];

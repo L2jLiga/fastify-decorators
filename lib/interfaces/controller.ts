@@ -28,10 +28,10 @@ export interface Handler<Request, Response> {
     url: string;
     method: HttpMethods;
     options: RouteShorthandOptions;
-    handlerMethod: string;
+    handlerMethod: string | symbol;
 }
 
 export interface Hook {
     name: any;
-    handlerName: string;
+    handlerName: string | symbol;
 }

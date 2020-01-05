@@ -21,9 +21,9 @@ function makeConfig(config?: string | ControllerConfig): ControllerConfig {
 /**
  * Creates register method on controller to allow bootstrap it
  */
-export function Controller(): <T extends any>(controller: T) => void;
-export function Controller(route: string): <T extends any>(controller: T) => void;
-export function Controller(config: ControllerConfig): <T extends any>(controller: T) => void;
+export function Controller(): ClassDecorator;
+export function Controller(route: string): ClassDecorator;
+export function Controller(config: ControllerConfig): ClassDecorator;
 export function Controller(config?: string | ControllerConfig) {
     return <T extends any>(controller: T): void => {
         const { route, type } = makeConfig(config);

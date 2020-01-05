@@ -119,7 +119,7 @@ tap.test('Hook decorator should patch sample class method', async (t: any) => {
         async hook() {}
     }
 
-    Hook('onSend')(new A, 'hook');
+    Hook('onSend')(new A, 'hook', {});
 
     t.match((A as any)[CREATOR].hooks[0], {
         name: 'onSend',
