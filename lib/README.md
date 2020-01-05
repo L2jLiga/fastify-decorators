@@ -21,6 +21,7 @@ yarn add fastify-decorators
 - [Getting Started]
 - [Request Handler]
 - [Controllers]
+- [Dependency Injection]
 - [Migration to V2]
 
 ## Basic usage
@@ -181,4 +182,5 @@ This project licensed under [MIT License]
 [Getting Started]: ./docs/Getting-Started.md
 [Request Handler]: ./docs/Request-Handlers.md
 [Controllers]: ./docs/Controllers.md
+[Dependency Injection]: ./docs/Dependency-Injection.md
 [Migration to V2]: ./docs/Migration-to-v2.md

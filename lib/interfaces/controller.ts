@@ -13,6 +13,7 @@ import { CREATOR } from '../symbols';
 
 export interface ControllerConstructor<HttpServer = Server, Request = IncomingMessage, Response = ServerResponse> {
     new(): any;
+    new(...args: any[]): any;
 
     [CREATOR]: ControllerHandlersAndHooks<HttpServer, Request, Response>;
 }

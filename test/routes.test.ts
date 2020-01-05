@@ -120,5 +120,5 @@ tap.test('Controller should work', async (t: any) => {
         url: '/demo/test'
     });
 
-    t.match(res.payload, `{"message":"Controller works!"}`);
+    t.match(res.payload, `{"message":"Service works!"}`);
 });

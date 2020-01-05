@@ -10,6 +10,7 @@ import { FastifyInstance } from 'fastify';
 import { AbstractController, ControllerConstructor } from '../../interfaces';
 import { ControllerType } from '../../registry';
 import { CREATOR } from '../../symbols';
+import { createWithInjectedDependencies } from '../helpers/inject-dependencies';
 
 /**
  * Various strategies which can be applied to controller
@@ -56,7 +57,7 @@ export const ControllerTypeStrategies = {
  * Creates controller instance
  */
 function createInstance(instance: FastifyInstance, controllerConstructor: ControllerConstructor) {
-    const controllerInstance = new controllerConstructor;
+    const controllerInstance = createWithInjectedDependencies(controllerConstructor);
 
     if (controllerInstance instanceof AbstractController) {
         controllerInstance.instance = instance;

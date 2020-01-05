@@ -36,7 +36,8 @@
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.16",
     "tap": "^14.10.5",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.3",
+    "reflect-metadata": "^0.1.13"
   },
   "engines": {
     "node": ">= 10.0.0",

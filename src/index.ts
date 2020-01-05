@@ -6,8 +6,9 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import fastify = require('fastify');
 import { bootstrap } from 'fastify-decorators';
+import 'reflect-metadata';
+import fastify = require('fastify');
 
 const instance = fastify();
 

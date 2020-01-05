@@ -16,6 +16,7 @@ export { ControllerType } from './registry';
 export { ControllerConfig } from './interfaces';
 export { AbstractController } from './interfaces';
 
+export { Service } from './decorators';
 export { Hook } from './decorators';
 
 export { ALL } from './decorators';

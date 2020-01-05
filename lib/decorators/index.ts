@@ -17,4 +17,5 @@ export { PATCH } from './patch';
 export { POST } from './post';
 export { PUT } from './put';
 
+export { Service } from './service';
 export { Hook } from './hook';

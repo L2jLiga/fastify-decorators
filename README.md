@@ -20,6 +20,7 @@ Installation and basic usage instruction can be found in [library README]
 - [Getting Started]
 - [Request Handler]
 - [Controllers]
+- [Dependency Injection]
 - [Migration to v2]
 
 ## Repository structure
@@ -52,5 +53,6 @@ This project licensed under [MIT License]
 [Getting Started]: ./lib/docs/Getting-Started.md
 [Request Handler]: ./lib/docs/Request-Handlers.md
 [Controllers]: ./lib/docs/Controllers.md
+[Dependency Injection]: ./lib/docs/Dependency-Injection.md
 [Migration to v2]: ./lib/docs/Migration-to-v2.md
 [MIT License]: https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE

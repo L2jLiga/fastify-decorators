@@ -11,6 +11,7 @@
 
     /* Experimental Options */
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
 
     "baseUrl": ".",
     "rootDir": "src",
