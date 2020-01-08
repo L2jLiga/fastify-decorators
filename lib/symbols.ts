@@ -7,3 +7,5 @@
  */
 
 export const CREATOR = Symbol('Symbol which contains register method of handler or controller');
+
+export const FastifyInstanceToken = Symbol('Token to inject FastifyInstance');

@@ -6,6 +6,10 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
+export { Service } from './service';
+export { Inject } from './inject';
+export { Hook } from './hook';
+
 export { Controller } from './controller';
 
 export { ALL } from './all';
@@ -16,6 +20,3 @@ export { OPTIONS } from './options';
 export { PATCH } from './patch';
 export { POST } from './post';
 export { PUT } from './put';
-
-export { Service } from './service';
-export { Hook } from './hook';

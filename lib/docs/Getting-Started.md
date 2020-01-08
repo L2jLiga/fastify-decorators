@@ -9,7 +9,7 @@ This documents aims to be gentle introduction to the fastify-decorators and its 
 
 - Typescript
 - Fastify
-- typings for node.js
+- typings for node.js (`@types/node` package installed)
 
 ### Install
 
@@ -21,6 +21,22 @@ Install with yarn
 ```
 yarn add fastify-decorators
 ```
+
+### Additional TypeScript configuration
+
+Fastify-decorators requires `experimentalDecorators` feature to be enabled. For this you need to update your TypeScript config:
+
+*tsconfig.json*:
+```json
+{
+  "compilerOptions": {
+    "experimentalDecorators": true
+  }  
+}
+```
+
+*Note*: if you struggles which `target` to choose we would like to propose `"target": "es2018"`.
+This choice was made because `fastify-decorators` supports `node >= 10` and according to info from [Node.js ES2018 Support] this version and upper supports all `ES2018` features.
 
 ### Your first server
 #### Request handler way
@@ -67,17 +83,6 @@ export default class FirstHandler extends RequestHandler {
     async handle() {
         return 'Hello world!';
     }
-}
-```
-
-Also we need to enable `experimentalDecorators` feature in our TypeScript config
-
-*tsconfig.json*:
-```json
-{
-  "compilerOptions": {
-    "experimentalDecorators": true
-  }  
 }
 ```
 
@@ -173,3 +178,5 @@ After all our files done we have to build server before we can run it:
     ```
 
 Awesome, that was easy.
+
+[Node.js ES2018 Support]: https://node.green/#ES2018

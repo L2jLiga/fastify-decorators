@@ -6,13 +6,8 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { Service } from 'fastify-decorators';
+import { injectables } from '../registry/injectables';
 
-@Service()
-export class MessageService {
-    private _message = 'Service works!';
-
-    public getMessage() {
-        return this._message;
-    }
+export function getInstanceByToken<Type>(token: string | symbol | Type): Type {
+    return injectables.get(token);
 }

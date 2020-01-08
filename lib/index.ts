@@ -8,7 +8,6 @@
 
 export { bootstrap } from './bootstrap/bootstrap';
 export { BootstrapConfig } from './interfaces';
-
 export { RequestHandler } from './interfaces';
 
 export { Controller } from './decorators';
@@ -17,7 +16,11 @@ export { ControllerConfig } from './interfaces';
 export { AbstractController } from './interfaces';
 
 export { Service } from './decorators';
+export { Inject } from './decorators';
 export { Hook } from './decorators';
+
+export { getInstanceByToken } from './functions';
+export { FastifyInstanceToken } from './symbols';
 
 export { ALL } from './decorators';
 export { DELETE } from './decorators';

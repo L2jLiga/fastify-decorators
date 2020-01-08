@@ -8,9 +8,12 @@
 
 import { bootstrap } from 'fastify-decorators';
 import 'reflect-metadata';
+import { authorization } from './decorators/authorized';
 import fastify = require('fastify');
 
 const instance = fastify();
+
+instance.decorate('authorization', authorization);
 
 instance.register(bootstrap, {
     directory: __dirname + '/controllers',

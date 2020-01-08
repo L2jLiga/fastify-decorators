@@ -7,7 +7,7 @@
  */
 
 import { FastifyInstance } from 'fastify';
-import { AbstractController, ControllerConstructor } from '../../interfaces';
+import { ControllerConstructor } from '../../interfaces';
 import { ControllerType } from '../../registry';
 import { CREATOR } from '../../symbols';
 import { createWithInjectedDependencies } from '../helpers/inject-dependencies';
@@ -25,7 +25,7 @@ import { createWithInjectedDependencies } from '../helpers/inject-dependencies';
  */
 export const ControllerTypeStrategies = {
     [ControllerType.SINGLETON](instance: FastifyInstance, constructor: ControllerConstructor) {
-        const controllerInstance = createInstance(instance, constructor);
+        const controllerInstance = createWithInjectedDependencies(constructor);
 
         const configuration = constructor[CREATOR];
 
@@ -44,24 +44,11 @@ export const ControllerTypeStrategies = {
         configuration.handlers.forEach(handler => {
             const { url, method, handlerMethod, options } = handler;
 
-            instance[method](url, options, (request, reply) => createInstance(instance, constructor)[handlerMethod](request, reply));
+            instance[method](url, options, (request, reply) => createWithInjectedDependencies(constructor)[handlerMethod](request, reply));
         });
 
         configuration.hooks.forEach(hook => {
-            instance.addHook(hook.name, (...args) => createInstance(instance, constructor)[hook.handlerName](...args));
+            instance.addHook(hook.name, (...args) => createWithInjectedDependencies(constructor)[hook.handlerName](...args));
         });
     }
 };
-
-/**
- * Creates controller instance
- */
-function createInstance(instance: FastifyInstance, controllerConstructor: ControllerConstructor) {
-    const controllerInstance = createWithInjectedDependencies(controllerConstructor);
-
-    if (controllerInstance instanceof AbstractController) {
-        controllerInstance.instance = instance;
-    }
-
-    return controllerInstance;
-}

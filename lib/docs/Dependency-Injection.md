@@ -45,6 +45,8 @@ export class MyService {
 
 ## Injecting into Controllers
 
+Dependency may be injected via constructor like in example below:
+
 *sample.controller.ts*:
 ```typescript
 import { Controller, GET } from 'fastify-decorators';
@@ -60,5 +62,72 @@ export class SampleController {
   }
 }
 ```
+
+Another option to inject dependencies is `@Inject` decorator:
+
+*sample.controller.ts*:
+```typescript
+import { Controller, GET, Inject } from 'fastify-decorators';
+import { MyService } from './my-service';
+
+@Controller()
+export class SampleController {
+  @Inject(MyService)
+  private service!: MyService;
+
+  @GET()
+  async index() {
+    return this.service.doSmth();
+  }
+}
+```
+
+And third one available option is to use `getInstanceByToken` function:
+
+*sample.controller.ts*:
+```typescript
+import { Controller, GET, getInstanceByToken } from 'fastify-decorators';
+import { MyService } from './my-service';
+
+@Controller()
+export class SampleController {
+  private service = getInstanceByToken<MyService>(MyService);
+
+  @GET()
+  async index() {
+    return this.service.doSmth();
+  }
+}
+```
+
+### Inject, getInstanceByToken and available tokens
+
+When you use `@Inject` or `getInstanceByToken` you need to specify token, so what is token?
+Token is kind of identifier of instance to inject.
+
+By default when you use `@Service` decorator it uses class object as token and it can be changed by specifying token explicitly:
+
+*my-service.ts*:
+```typescript
+import { Service } from 'fastify-decorators';
+
+@Service('MyServiceToken')
+class MyService {}
+```
+
+this way `MyService` injection token will be `MyServiceToken` string and this token can be used in both methods:
+
+```typescript
+import { getInstanceByToken } from 'fastify-decorators';
+import { MyService } from './my-service.ts';
+
+const service = getInstanceByToken<MyService>('MyServiceToken');
+```
+
+### Built-in tokens
+
+| Token                  | Provides          | Description                             |
+|------------------------|-------------------|-----------------------------------------|
+| `FastifyInstanceToken` | `FastifyInstance` | Token used to provide `FastifyInstance` |
 
 [`reflect-metadata`]: https://npmjs.org/package/reflect-metadata

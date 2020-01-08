@@ -1,0 +1,35 @@
+/**
+ * @license
+ * Copyright Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga). All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
+ */
+
+import { injectables } from '../registry/injectables';
+import { CREATOR } from '../symbols';
+
+/**
+ * Property decorator to inject dependencies
+ * @param name of service to inject
+ *
+ * @example
+ * class Service {
+ *     @Inject('instance')
+ *     private instance: FastifyInstance;
+ * }
+ */
+export function Inject(name: string | Object | symbol): PropertyDecorator {
+    return (target, propertyKey) => {
+        Object.defineProperty(target, propertyKey, {
+            get(): any {
+                const injectable = injectables.get(name);
+                const isService = injectable[CREATOR]?.register.length === 0;
+
+                return isService ? injectable[CREATOR].register() : injectable;
+            },
+            enumerable: true,
+            configurable: true
+        });
+    };
+}

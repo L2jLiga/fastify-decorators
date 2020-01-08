@@ -11,7 +11,8 @@ import { lstatSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { deprecate } from 'util';
 import { BootstrapConfig } from '../interfaces';
-import { CREATOR } from '../symbols';
+import { injectables } from '../registry/injectables';
+import { CREATOR, FastifyInstanceToken } from '../symbols';
 
 const defaultMask = /\.(handler|controller)\./;
 
@@ -19,6 +20,8 @@ const defaultMask = /\.(handler|controller)\./;
  * Method which recursively scan handlers/controllers directory and bootstrap them
  */
 export function bootstrap(fastify: FastifyInstance, config: BootstrapConfig, done: () => void) {
+    injectables.set(FastifyInstanceToken, fastify);
+
     if (config.directory) {
         findAllByMask(config.directory, config.mask ? new RegExp(config.mask) : defaultMask)
             .map(loadModule)

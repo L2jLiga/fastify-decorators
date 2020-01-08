@@ -8,11 +8,16 @@
 
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { Controller, GET, Hook } from 'fastify-decorators';
+import { Inject } from 'fastify-decorators/decorators/inject';
 import { IncomingMessage, ServerResponse } from 'http';
+import { ServerService } from '../services/server-service';
 import { MessageService } from '../services/message-service';
 
 @Controller('/demo')
 export default class SimpleController {
+    @Inject('serverService')
+    private serverService!: ServerService;
+
     constructor(private service: MessageService) {
     }
 
@@ -30,12 +35,17 @@ export default class SimpleController {
             }
         }
     })
-    async test(request: FastifyRequest<IncomingMessage>, reply: FastifyReply<ServerResponse>) {
+    async test(request: FastifyRequest<IncomingMessage>, reply: FastifyReply<ServerResponse>): Promise<{ message: string }> {
         return {message: this.service.getMessage()};
     }
 
+    @GET()
+    async routes(): Promise<string> {
+        return this.serverService.printRoutes()
+    }
+
     @Hook('onSend')
-    async hidePoweredBy(request: FastifyRequest<IncomingMessage>, reply: FastifyReply<ServerResponse>) {
+    async hidePoweredBy(request: FastifyRequest<IncomingMessage>, reply: FastifyReply<ServerResponse>): Promise<void> {
         reply.header('X-Powered-By', 'nodejs');
     }
 }

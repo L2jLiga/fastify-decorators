@@ -34,4 +34,61 @@ instance.register(bootstrap, {
 });
 ```
 
+## Getting fastify instance
+
+In v2 `AbstractController` was deprecated in favor of dependency injection (`@Inject` decorator) and `getInstanceByToken` function.
+If you use to extends from `AbstractController` to get fastify instance then you need to adapt your code to use DI:
+
+*before*:
+```typescript
+import { AbstractController, Controller, GET } from 'fastify-decorators';
+
+@Controller({ route: '' })
+export default class MyController extends AbstractController {
+    @GET({ url: '' })
+    public async getRoutes() {
+        return this.instance.printRoutes();
+    }
+}
+```
+
+*after*:
+```typescript
+import { FastifyInstance } from 'fastify';
+import { Controller, FastifyInstanceToken, GET, Inject } from 'fastify-decorators';
+
+@Controller({ route: '' })
+export default class MyController {
+    @Inject(FastifyInstanceToken)
+    private instance!: FastifyInstance;
+
+    @GET({ url: '' })
+    public async getRoutes() {
+        return this.instance.printRoutes();
+    }
+}
+```
+
+*Note*: if you tried before to use instance in decorators (for example for prevalidation) and faced with errors with `getInstanceByToken` it's possible now:
+
+```typescript
+import { FastifyInstance } from 'fastify';
+import { Controller, FastifyInstanceToken, GET, getInstanceByToken } from 'fastify-decorators';
+
+@Controller({ route: '' })
+export default class MyController {
+    private static instance = getInstanceByToken<FastifyInstance>(FastifyInstanceToken);
+
+    @GET({
+        url: '',
+        options: {
+            preValidation: MyController.instance.preValidationDecorator
+        }
+    })
+    public async validatedRoute() {
+        /* Some stuff */
+    }
+}
+```
+
 ## TBA

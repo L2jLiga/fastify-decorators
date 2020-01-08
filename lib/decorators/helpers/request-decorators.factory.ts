@@ -13,8 +13,8 @@ import { HttpMethods } from './http-methods';
 import { injectDefaultControllerOptions } from './inject-controller-options';
 
 export function requestDecoratorsFactory(method: HttpMethods) {
-    return (config?: string | RouteConfig) => {
-        return (target: any, propKey?: string | symbol) => {
+    return function (config?: string | RouteConfig) {
+        return function (target: any, propKey?: string | symbol) {
             if (!config) config = { url: '/' };
             if (typeof config === 'string') config = { url: config };
 

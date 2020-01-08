@@ -118,18 +118,34 @@ export default class SimpleController {
 }
  ```
 
-### Access to Fastify instance
+Decorators accept `RouteConfig` with follow fields:
 
-If you want to be able to use Fastify instance for some reasons it's possible if your controller will extend `AbstractController`
+| name    | type            | required | description                                      |
+|---------|-----------------|:--------:|--------------------------------------------------|
+| url     | `string`        | yes      | Route url which will be passed to Fastify        |
+| options | [`RouteConfig`] | no       | Config for route which will be passed to Fastify |
+
+**NOTE**: This decorators can't be mixed and you can use only one decorator per method.
+
+### Dependency injection and access to Fastify instance
+
+Main article [Dependency injection]
+
+Since v2 `fastify-decorators` supports DI mechanism.
+DI able to provide `FastifyInstance` for your controllers. It is possible via `@Inject` decorator:
 
 ```typescript
-import { GET, ControllerType, AbstractController, Controller } from 'fastify-decorators';
+import { FastifyInstance } from 'fastify';
+import { GET, ControllerType, Controller, Inject, FastifyInstanceToken } from 'fastify-decorators';
 
 @Controller({
   route: '/',
   type: ControllerType.REQUEST,
 })
-export default class SimpleController extends AbstractController {
+export default class SimpleController {
+    @Inject(FastifyInstanceToken)
+    private instance!: FastifyInstance;
+
     @GET({
         url: '/',
         options: {
@@ -143,17 +159,40 @@ export default class SimpleController extends AbstractController {
     async getHandler(request, reply) {
         return 'Hello world!'
     }
+
+    @GET('/routes')
+    async routes() {
+        return this.instance.printRoutes();
+    }
 }
 ```
 
-Decorators accept `RouteConfig` with follow fields:
+#### Accessing FastifyInstance in decorators
 
-| name    | type            | required | description                                      |
-|---------|-----------------|:--------:|--------------------------------------------------|
-| url     | `string`        | yes      | Route url which will be passed to Fastify        |
-| options | [`RouteConfig`] | no       | Config for route which will be passed to Fastify |
+If you need `FastifyInstance` in decorators (for example to determine specific hooks for route) `fastify-decorators` provides `getInstanceByToken` function.
+This function accepts injectable token which is `FastifyInstanceToken` for the instance.
 
-**NOTE**: This decorators can't be mixed and you can use only one decorator per method.
+*Note*: Be aware that instance property should be static otherwise decorators can not get access to it. 
+
+```typescript
+import { FastifyInstance } from 'fastify';
+import { Controller, FastifyInstanceToken, GET, getInstanceByToken } from 'fastify-decorators';
+
+@Controller({ route: '' })
+export default class MyController {
+    private static instance = getInstanceByToken<FastifyInstance>(FastifyInstanceToken);
+
+    @GET({
+        url: '',
+        options: {
+            preValidation: MyController.instance.preValidationDecorator
+        }
+    })
+    public async validatedRoute() {
+        /* Some stuff */
+    }
+}
+```
 
 ### Hooks
 
@@ -172,3 +211,4 @@ export default class SimpleController {
 
 [Fastify Hooks]: https://github.com/fastify/fastify/blob/master/docs/Hooks.md
 [`RouteConfig`]: https://github.com/fastify/fastify/blob/master/docs/Routes.md
+[Dependency Injection]: ./Dependency-Injection.md

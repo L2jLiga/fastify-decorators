@@ -6,13 +6,4 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { Service } from 'fastify-decorators';
-
-@Service()
-export class MessageService {
-    private _message = 'Service works!';
-
-    public getMessage() {
-        return this._message;
-    }
-}
+export const injectables = new Map<string | symbol | Object, any>();
