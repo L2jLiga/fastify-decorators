@@ -2,8 +2,8 @@
 
 ## Bootstrap controllers
 Let's imagine that:
-- We already have the directory named `handlers` which contains all our handlers
-- Each handler contains `.handler.` in it's name.
+- We already have the directory named `controllers` which contains all our handlers
+- Each handler contains `.controller.` in it's name.
 
 To make it works without manual loading we can use `bootstrap` method:
 ```typescript
@@ -15,11 +15,11 @@ const instance = require('fastify')();
 
 // Define bootstrap options
 const bootstrapOptions = {
-    // This option defines which directory should be scanned for handlers
-    controllersDirectory: join(__dirname, `controllers`),
+    // This option defines path to directory with files to load
+    directory: join(__dirname, `controllers`),
 
     // This option defines which pattern should file match
-    controllersMask: /\.controller\./
+    mask: /\.controller\./
 };
 
 // Register our bootstrap with options
