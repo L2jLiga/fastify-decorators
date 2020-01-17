@@ -1,6 +1,6 @@
 {
   "name": "fastify-decorators",
-  "version": "2.0.0-0",
+  "version": "2.0.0-1",
   "description": "Fastify decorators collection with bootstraper",
   "main": "index.js",
   "typings": "index.d.ts",
