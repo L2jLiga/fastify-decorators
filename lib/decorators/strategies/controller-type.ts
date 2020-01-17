@@ -30,7 +30,9 @@ export const ControllerTypeStrategies = {
         const configuration = constructor[CREATOR];
 
         configuration.handlers.forEach(handler => {
-            instance[handler.method](handler.url, handler.options, (request, reply) => controllerInstance[handler.handlerMethod](request, reply));
+            instance[handler.method](handler.url, handler.options, function (...args) {
+                return controllerInstance[handler.handlerMethod](...args);
+            });
         });
 
         configuration.hooks.forEach(hook => {
@@ -44,7 +46,9 @@ export const ControllerTypeStrategies = {
         configuration.handlers.forEach(handler => {
             const { url, method, handlerMethod, options } = handler;
 
-            instance[method](url, options, (request, reply) => createWithInjectedDependencies(constructor)[handlerMethod](request, reply));
+            instance[method](url, options, function (...args) {
+                return createWithInjectedDependencies(constructor)[handlerMethod](...args);
+            });
         });
 
         configuration.hooks.forEach(hook => {

@@ -22,7 +22,9 @@ export function requestDecoratorsFactory(method: HttpMethods) {
             const options = config.options || {};
 
             target[CREATOR] = {
-                register: (instance: FastifyInstance) => instance[method]((<RouteConfig>config).url, options, (req, res) => (<RequestHandler>new target(req, res)).handle())
+                register: (instance: FastifyInstance) => instance[method]((<RouteConfig>config).url, options, function (...args) {
+                    return (<RequestHandler>new target(...args)).handle();
+                })
             };
         };
     };
