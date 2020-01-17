@@ -9,16 +9,14 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { ServerResponse } from 'http';
 
-export function authorization(request: FastifyRequest, reply: FastifyReply<ServerResponse>, done: Function) {
-    if (request.headers.cookie) {
-        const token = request.headers.cookie.split(';')
-            .map((it: string) => it.trim())
-            .map((it: string) => it.split('='))
-            .find(([name]: [string, string]) => name === 'token')
-            ?.[1];
+export async function authorization(request: FastifyRequest, reply: FastifyReply<ServerResponse>, done: Function) {
+    const token = request.headers.cookie?.split(';')
+        .map((it: string) => it.trim())
+        .map((it: string) => it.split('='))
+        .find(([name]: [string, string]) => name === 'token')
+        ?.[1];
 
-        if (!token) reply.status(401).send({ message: 'Not authorized!' });
-    }
+    if (!token) reply.status(401).send({ message: 'Not authorized!' });
 
     done();
 }

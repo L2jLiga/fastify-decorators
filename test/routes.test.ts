@@ -14,7 +14,7 @@ tap.test('Post handler', async (t: any) => {
     const res = await instance.inject({
         method: 'POST',
         url: '/post',
-        payload: {message: 'POST works!'}
+        payload: { message: 'POST works!' }
     });
 
     t.match(res.payload, `{"message":"POST works!"}`);
@@ -53,7 +53,7 @@ tap.test('Put handler', async (t: any) => {
     const res = await instance.inject({
         method: 'PUT',
         url: '/put',
-        payload: {message: 'PUT works!'}
+        payload: { message: 'PUT works!' }
     });
 
     t.match(res.payload, `{"message":"PUT works!"}`);
@@ -63,7 +63,7 @@ tap.test('Patch handler', async (t: any) => {
     const res = await instance.inject({
         method: 'PATCH',
         url: '/patch',
-        payload: {message: 'PATCH works!'}
+        payload: { message: 'PATCH works!' }
     });
 
     t.match(res.payload, `{"message":"PATCH works!"}`);
@@ -91,7 +91,7 @@ tap.test('POST request to AllHandler', async (t: any) => {
     const res = await instance.inject({
         method: 'POST',
         url: '/all',
-        payload: {message: 'test'}
+        payload: { message: 'test' }
     });
 
     t.match(res.payload, `{"message":"test"}`);
@@ -103,7 +103,7 @@ tap.test('Head handler', async (t: any) => {
         url: '/head'
     });
 
-    t.match(res.headers, {header: 'value'});
+    t.match(res.headers, { header: 'value' });
 });
 
 tap.test('Options handler', async (t: any) => {
@@ -112,7 +112,7 @@ tap.test('Options handler', async (t: any) => {
         url: '/options'
     });
 
-    t.match(res.headers, {allow: 'OPTIONS'});
+    t.match(res.headers, { allow: 'OPTIONS' });
 });
 
 tap.test('Controller should work', async (t: any) => {
@@ -121,4 +121,32 @@ tap.test('Controller should work', async (t: any) => {
     });
 
     t.match(res.payload, `{"message":"Service works!"}`);
+});
+
+tap.test('Auth controller should return 401 when no cookie set', async (t: any) => {
+    const res = await instance.inject('/authorized');
+
+    t.match(res.statusCode, 401);
+});
+
+tap.test('Auth controller should reply when cookie is set', async (t: any) => {
+    const res = await instance.inject({
+        url: '/authorized',
+        headers: {
+            Cookie: 'token=blah'
+        }
+    });
+
+    t.match(res.statusCode, 200);
+});
+
+tap.test('should set cookie', async (t: any) => {
+    const res = await instance.inject({
+        url: '/authorized',
+        method: 'POST',
+        payload: { login: 'test', password: 'test' }
+    });
+
+    t.match(res.statusCode, 200);
+    t.match(res.headers['set-cookie'], 'token=dGVzdHRlc3Q=; path=/; HttpOnly');
 });
