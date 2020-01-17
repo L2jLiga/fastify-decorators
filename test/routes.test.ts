@@ -150,3 +150,13 @@ tap.test('should set cookie', async (t: any) => {
     t.match(res.statusCode, 200);
     t.match(res.headers['set-cookie'], 'token=dGVzdHRlc3Q=; path=/; HttpOnly');
 });
+
+tap.test('should reply with text', async (t: any) => {
+    const res = await instance.inject({
+        url: '/demo'
+    });
+
+    t.match(res.statusCode, 200);
+    t.match(res.headers['content-type'], 'text/plain');
+    t.match(res.payload, instance.printRoutes());
+});
