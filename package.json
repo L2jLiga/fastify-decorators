@@ -31,16 +31,20 @@
   "type": "commonjs",
   "devDependencies": {
     "@types/node": "^12.12.24",
+    "@types/ws": "^7.2.0",
     "codecov": "^3.6.1",
     "fastify": "^2.11.0",
+    "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.16",
     "tap": "^14.10.5",
-    "typescript": "^3.7.4",
-    "reflect-metadata": "^0.1.13"
+    "typescript": "^3.7.4"
   },
   "engines": {
     "node": ">= 10.0.0",
     "yarn": "^1.0.0"
+  },
+  "dependencies": {
+    "fastify-websocket": "^1.1.0"
   }
 }

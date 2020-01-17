@@ -10,8 +10,11 @@ import { bootstrap } from 'fastify-decorators';
 import 'reflect-metadata';
 import { authorization } from './decorators/authorized';
 import fastify = require('fastify');
+import websocketPlugin from 'fastify-websocket';
 
 const instance = fastify();
+
+instance.register(websocketPlugin);
 
 instance.decorate('authorization', authorization);
 
