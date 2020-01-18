@@ -12,5 +12,8 @@
     "declaration": true,
     "inlineSourceMap": true,
     "inlineSources": true
-  }
+  },
+  "files": [
+    "index.ts"
+  ]
 }

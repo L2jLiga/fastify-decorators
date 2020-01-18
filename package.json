@@ -13,7 +13,7 @@
     "cp": "yarn cp:assets && yarn cp:package",
     "cp:assets": "cp -r ./lib/package.json ./lib/README.md ./LICENSE ./lib/docs ./dist/fastify-decorators && node patch-readme.js",
     "cp:package": "cp -r ./dist/fastify-decorators ./node_modules",
-    "test": "yarn cp:package && tap test/*.test.ts --no-esm"
+    "test": "yarn cp:package && tap"
   },
   "directories": {
     "bin": "./bin",
