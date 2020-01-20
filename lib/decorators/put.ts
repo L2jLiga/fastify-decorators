@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
+import { RouteShorthandOptions } from 'fastify';
 import { RouteConfig } from '../interfaces';
 import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 
@@ -14,6 +15,7 @@ import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
  */
 export function PUT(): (target: any, propKey?: string | symbol) => void;
 export function PUT(url: string): (target: any, propKey?: string | symbol) => void;
+export function PUT(url: string, options: RouteShorthandOptions): (target: any, propKey?: string | symbol) => void;
 export function PUT(config: RouteConfig): (target: any, propKey?: string | symbol) => void;
 export function PUT(config?: string | RouteConfig) {
     return requestDecoratorsFactory('put')(config);

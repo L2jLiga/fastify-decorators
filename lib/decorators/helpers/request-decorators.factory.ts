@@ -6,23 +6,27 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { FastifyInstance } from 'fastify';
+import { FastifyInstance, RouteShorthandOptions } from 'fastify';
 import { ControllerConstructor, RequestHandler, RouteConfig } from '../../interfaces';
 import { CREATOR } from '../../symbols';
 import { HttpMethods } from './http-methods';
 import { injectDefaultControllerOptions } from './inject-controller-options';
 
-export function requestDecoratorsFactory(method: HttpMethods) {
-    return function (config?: string | RouteConfig) {
-        return function (target: any, propKey?: string | symbol) {
-            if (!config) config = { url: '/' };
-            if (typeof config === 'string') config = { url: config };
+function parseConfig(config: string | RouteConfig = '/', options: RouteShorthandOptions = {}): RouteConfig {
+    if (typeof config === 'string') return { url: config, options };
 
+    return { options, ...config };
+}
+
+export function requestDecoratorsFactory(method: HttpMethods) {
+    return function (routeOrConfig?: string | RouteConfig, options?: RouteShorthandOptions) {
+        const config = parseConfig(routeOrConfig, options);
+
+        return function (target: any, propKey?: string | symbol) {
             if (propKey) return controllerMethodDecoratorsFactory(method, config, target, propKey);
-            const options = config.options || {};
 
             target[CREATOR] = {
-                register: (instance: FastifyInstance) => instance[method]((<RouteConfig>config).url, options, function (...args) {
+                register: (instance: FastifyInstance) => instance[method](config.url, config.options!, function (...args) {
                     return (<RequestHandler>new target(...args)).handle();
                 })
             };
