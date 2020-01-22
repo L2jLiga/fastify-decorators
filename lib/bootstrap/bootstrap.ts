@@ -7,76 +7,69 @@
  */
 
 import { FastifyInstance } from 'fastify';
-import { lstatSync, readdirSync } from 'fs';
+import * as fs from 'fs';
 import { join } from 'path';
-import { deprecate } from 'util';
+import { deprecate, promisify } from 'util';
 import { BootstrapConfig } from '../interfaces';
 import { injectables } from '../registry/injectables';
 import { CREATOR, FastifyInstanceToken } from '../symbols';
 
+const readdir = promisify(fs.readdir);
+
 const defaultMask = /\.(handler|controller)\./;
+const message = 'controllersMask, controllersDirectory, handlersMask and handlersDirectory are deprecated, use mask and directory instead';
 
 /**
  * Method which recursively scan handlers/controllers directory and bootstrap them
  */
-export function bootstrap(fastify: FastifyInstance, config: BootstrapConfig, done: () => void) {
+export async function bootstrap(fastify: FastifyInstance, config: BootstrapConfig) {
     injectables.set(FastifyInstanceToken, fastify);
 
-    if (config.directory) {
-        findAllByMask(config.directory, config.mask ? new RegExp(config.mask) : defaultMask)
-            .map(loadModule)
-            .forEach(target => target[CREATOR].register(fastify));
+    const modules = config.directory
+        ? await findAllByMask(config.directory, config.mask ? new RegExp(config.mask) : defaultMask)
+        : await deprecate(deprecatedInitializer, message)(config);
 
-        return done();
-    }
-
-    const message = 'controllersMask, controllersDirectory, handlersMask and handlersDirectory are deprecated, use mask and directory instead';
-    deprecate(deprecatedInitializer, message)(config, fastify, done);
+    modules.map(loadModule).forEach(target => target[CREATOR].register(fastify));
 }
 
 /**
  * @deprecated
  */
-function deprecatedInitializer(config: BootstrapConfig, fastify: FastifyInstance, done: () => void) {
+async function deprecatedInitializer(config: BootstrapConfig): Promise<string[]> {
     const defaultHandlersMask = /\.handler\./;
     const defaultControllersMask = /\.controller\./;
 
     const handlersMask = new RegExp(config.handlersMask || defaultHandlersMask);
     const controllersMask = new RegExp(config.controllersMask || defaultControllersMask);
 
-    if (config.handlersDirectory)
-        findAllByMask(config.handlersDirectory, handlersMask)
-            .map(loadModule)
-            .forEach(handler => handler[CREATOR].register(fastify));
+    const modules = [];
 
-    if (config.controllersDirectory)
-        findAllByMask(config.controllersDirectory, controllersMask)
-            .map(loadModule)
-            .forEach(controller => controller[CREATOR].register(fastify));
+    if (config.handlersDirectory) modules.push(...await findAllByMask(config.handlersDirectory, handlersMask));
+    if (config.controllersDirectory) modules.push(...await findAllByMask(config.controllersDirectory, controllersMask));
 
-    done();
+    return modules;
 }
 
-function findAllByMask(path: string, filter: RegExp): string[] {
-    const files = findAllFilesInDirectoryRecursively(path);
+async function findAllByMask(path: string, filter: RegExp): Promise<string[]> {
+    const files = await findAll(path);
 
     return files.filter(file => filter.test(file));
 }
 
-function findAllFilesInDirectoryRecursively(path: string): string[] {
+async function findAll(path: string) {
     const matches: string[] = [];
 
-    readdirSync(path).forEach(filePath => {
-        const fullFilePath = join(path, filePath);
+    for (const filePath of await readdir(path, { withFileTypes: true })) {
+        const fullFilePath = join(path, filePath.name);
 
-        if (lstatSync(fullFilePath).isDirectory()) {
-            matches.push(...findAllFilesInDirectoryRecursively(fullFilePath));
+        if (filePath.isDirectory()) {
+            matches.push(...await findAll(fullFilePath));
 
-            return;
+            continue;
         }
 
         matches.push(fullFilePath);
-    });
+    }
 
     return matches;
 }
