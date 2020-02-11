@@ -50,9 +50,5 @@ export const ControllerTypeStrategies = {
                 return createWithInjectedDependencies(constructor)[handlerMethod](...args);
             });
         });
-
-        configuration.hooks.forEach(hook => {
-            instance.addHook(hook.name, (...args) => createWithInjectedDependencies(constructor)[hook.handlerName](...args));
-        });
     }
 };
