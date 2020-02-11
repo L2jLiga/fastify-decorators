@@ -30,13 +30,13 @@
   "license": "MIT",
   "type": "commonjs",
   "devDependencies": {
-    "@types/node": "^12.12.25",
-    "@types/ws": "^7.2.0",
-    "codecov": "^3.6.1",
-    "fastify": "^2.11.0",
+    "@types/node": "^12.12.26",
+    "@types/ws": "^7.2.1",
+    "codecov": "^3.6.5",
+    "fastify": "^2.12.0",
     "fastify-websocket": "^1.1.0",
     "reflect-metadata": "^0.1.13",
-    "rimraf": "^3.0.0",
+    "rimraf": "^3.0.2",
     "source-map-support": "^0.5.16",
     "tap": "^14.10.6",
     "typescript": "^3.7.5"
