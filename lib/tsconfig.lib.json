@@ -15,5 +15,8 @@
   },
   "files": [
     "index.ts"
+  ],
+  "exclude": [
+    "*.spec.ts"
   ]
 }

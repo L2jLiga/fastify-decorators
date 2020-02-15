@@ -9,11 +9,11 @@
     "clean": "yarn clean:server && yarn clean:lib",
     "clean:server": "rimraf dist/server",
     "clean:lib": "rimraf dist/fastify-decorators node_modules/fastify-decorators",
-    "build:lib": "tsc -p ./lib/tsconfig.json && yarn cp",
+    "build:lib": "tsc -p lib/tsconfig.lib.json && yarn cp",
     "cp": "yarn cp:assets && yarn cp:package",
     "cp:assets": "cp -r ./lib/package.json ./lib/README.md ./CHANGELOG.md ./LICENSE ./lib/docs ./dist/fastify-decorators && node patch-readme.js",
     "cp:package": "cp -r ./dist/fastify-decorators ./node_modules",
-    "test": "yarn cp:package && tap"
+    "test": "jest --config lib/jest.config.js --coverage"
   },
   "directories": {
     "bin": "./bin",
@@ -30,15 +30,18 @@
   "license": "MIT",
   "type": "commonjs",
   "devDependencies": {
+    "@types/jest": "^25.1.2",
     "@types/node": "^12.12.26",
     "@types/ws": "^7.2.1",
     "codecov": "^3.6.5",
     "fastify": "^2.12.0",
     "fastify-websocket": "^1.1.0",
+    "jest": "^25.1.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "source-map-support": "^0.5.16",
     "tap": "^14.10.6",
+    "ts-jest": "^25.2.0",
     "typescript": "^3.7.5"
   },
   "engines": {
