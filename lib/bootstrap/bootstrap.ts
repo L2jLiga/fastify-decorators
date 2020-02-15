@@ -13,6 +13,7 @@ import { deprecate, promisify } from 'util';
 import { BootstrapConfig } from '../interfaces';
 import { injectables } from '../registry/injectables';
 import { CREATOR, FastifyInstanceToken } from '../symbols';
+import { wrapInjectable } from '../utils/wrap-injectable';
 
 const readdir = promisify(fs.readdir);
 
@@ -23,7 +24,7 @@ const message = 'controllersMask, controllersDirectory, handlersMask and handler
  * Method which recursively scan handlers/controllers directory and bootstrap them
  */
 export async function bootstrap(fastify: FastifyInstance, config: BootstrapConfig) {
-    injectables.set(FastifyInstanceToken, fastify);
+    injectables.set(FastifyInstanceToken, wrapInjectable(fastify));
 
     const modules = config.directory
         ? await findAllByMask(config.directory, config.mask ? new RegExp(config.mask) : defaultMask)

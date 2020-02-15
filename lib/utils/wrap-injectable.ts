@@ -6,8 +6,14 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { injectables } from '../registry/injectables';
+import { CREATOR } from '../symbols';
 
-export function getInstanceByToken<Type>(token: string | symbol | Type): Type {
-    return injectables.get(token);
+export function wrapInjectable(it: Object) {
+    return {
+        [CREATOR]: {
+            register() {
+                return it;
+            }
+        }
+    }
 }

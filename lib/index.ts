@@ -19,7 +19,7 @@ export { Service } from './decorators';
 export { Inject } from './decorators';
 export { Hook } from './decorators';
 
-export { getInstanceByToken } from './functions';
+export { getInstanceByToken } from './utils';
 export { FastifyInstanceToken } from './symbols';
 
 export { ALL } from './decorators';
