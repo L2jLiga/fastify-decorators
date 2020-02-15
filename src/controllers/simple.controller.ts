@@ -7,11 +7,10 @@
  */
 
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { Controller, GET, Hook } from 'fastify-decorators';
-import { Inject } from 'fastify-decorators/decorators/inject';
+import { Controller, GET, Hook, Inject } from 'fastify-decorators';
 import { IncomingMessage, ServerResponse } from 'http';
-import { ServerService } from '../services/server-service';
 import { MessageService } from '../services/message-service';
+import { ServerService } from '../services/server-service';
 
 @Controller('/demo')
 export default class SimpleController {
