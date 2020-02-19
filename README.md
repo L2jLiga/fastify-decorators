@@ -15,6 +15,10 @@ This package based on Fastify `^2.0.0` and may not work with other versions.
 
 Installation and basic usage instruction can be found in [library README]
 
+## IDE support
+
+- [JetBrains IDE plugin]
+
 ## Documentation
 
 - [Getting Started]
@@ -46,6 +50,7 @@ Example will be available on http://localhost:3000. You can check it by GET requ
 This project licensed under [MIT License]
 
 [library README]: ./lib/README.md
+[JetBrains IDE plugin]: https://plugins.jetbrains.com/plugin/13801-fastify-decorators
 [lib]: ./lib
 [src]: ./src
 [test]: ./test

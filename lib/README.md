@@ -16,6 +16,10 @@ via yarn:
 yarn add fastify-decorators
 ```
 
+## IDE support
+
+- [JetBrains IDE plugin]
+
 ## Documentation
 
 - [Getting Started]
@@ -174,6 +178,7 @@ It also possible to passthroughs configuration object in case if complex configu
 This project licensed under [MIT License]
 
 [Fastify]: https://npmjs.org/package/fastify
+[JetBrains IDE plugin]: https://plugins.jetbrains.com/plugin/13801-fastify-decorators
 [MIT License]: https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
 [`RouteConfig`]: https://github.com/fastify/fastify/blob/master/docs/Routes.md
 [Fastify Hook]: https://github.com/fastify/fastify/blob/master/docs/Hooks.md
