@@ -14,36 +14,12 @@ import { IncomingMessage, Server, ServerResponse } from 'http';
  */
 export interface BootstrapConfig<HttpServer = Server, HttpRequest = IncomingMessage, HttpResponse = ServerResponse> extends RegisterOptions<HttpServer, HttpRequest, HttpResponse> {
     /**
-     * Path to directory which contains all handlers
-     * @deprecated use `directory` instead
+     * Path to directory which contains files to load
      */
-    handlersDirectory?: string;
-
-    /**
-     * Mask used to filter files and keep only handlers
-     * @deprecated use `mask` instead
-     */
-    handlersMask?: string | RegExp;
-
-    /**
-     * Path to directory which contains all controllers
-     * @deprecated use `directory` instead
-     */
-    controllersDirectory?: string;
-
-    /**
-     * Mask used to filter files and keep only controllers
-     * @deprecated Use `mask` instead
-     */
-    controllersMask?: string | RegExp;
+    directory: string;
 
     /**
      * Mask used to filter files to load
      */
     mask?: string | RegExp;
-
-    /**
-     * Path to directory which contains files to load
-     */
-    directory?: string;
 }

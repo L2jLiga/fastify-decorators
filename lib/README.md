@@ -30,28 +30,24 @@ yarn add fastify-decorators
 
 ## Basic usage
 
-### Request Handler
+### Controller
 
-*index.ts*:
+*src/sample.controller.ts*:
 ```typescript
-import { bootstrap } from 'fastify-decorators';
-import fastify = require('fastify');
-import { join } from 'path';
+import { Controller, GET } from 'fastify-decorators';
 
-// Create Fastify instance
-const instance = fastify();
-
-// Register handlers auto-bootstrap
-instance.register(bootstrap, {
-    handlersDirectory: join(__dirname, `handlers`),
-    handlersMask: /\.handler\./
-});
-
-instance.listen(3000);
+@Controller('/sample')
+export default class SampleController {
+    @GET('/')
+    async handle() {
+        return 'It works!';
+    }
+}
 ```
 
+### Request Handler
 
-*handlers/sample.handler.ts*:
+*src/sample.handler.ts*:
 ```typescript
 import { GET, RequestHandler } from 'fastify-decorators';
 
@@ -63,7 +59,7 @@ export default class SampleHandler extends RequestHandler {
 }
 ```
 
-### Controller
+### Bootstrapping
 
 *index.ts*:
 ```typescript
@@ -76,25 +72,11 @@ const instance = fastify();
 
 // Register handlers auto-bootstrap
 instance.register(bootstrap, {
-    controllersDirectory: join(__dirname, `controllers`),
-    controllersMask: /\.controller\./
+    directory: join(__dirname, `src`),
+    mask: /\.(controller|handler)\./
 });
 
 instance.listen(3000);
-```
-
-
-*handlers/sample.controller.ts*:
-```typescript
-import { Controller, GET } from 'fastify-decorators';
-
-@Controller('/sample')
-export default class SampleController {
-    @GET('/')
-    async handle() {
-        return 'It works!';
-    }
-}
 ```
 
 **NOTE**: Using decorators require `experimentalDecorators` to be enabled in `tsconfig.json`
@@ -117,11 +99,11 @@ instance.register(bootstrap, options)
 
 #### Bootstrap options
 
-| name              | type               | required | description                                  |
-|-------------------|--------------------|:--------:|----------------------------------------------|
-| handlersDirectory | `string`           | yes      | Specify directory where handlers are located |
-| handlersMask      | `string`, `RegExp` | no       | Specify mask for files filter                |
-| prefix            | `string`           | no       | Specify prefix for routes                    |
+| name              | type               | required | description                                              |
+|-------------------|--------------------|:--------:|----------------------------------------------------------|
+| directory         | `string`           | yes      | Specify directory where controllers/handlers are located |
+| mask              | `string`, `RegExp` | no       | Specify mask for files filter                            |
+| prefix            | `string`           | no       | Specify prefix for routes                                |
 
 ### Decorators
 
