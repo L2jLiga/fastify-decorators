@@ -13,7 +13,7 @@
     "cp": "yarn cp:assets && yarn cp:package",
     "cp:assets": "cp -r ./lib/package.json ./lib/README.md ./CHANGELOG.md ./LICENSE ./lib/docs ./dist/fastify-decorators && node patch-readme.cjs",
     "cp:package": "cp -r ./dist/fastify-decorators ./node_modules",
-    "test": "jest --config lib/jest.config.js --coverage"
+    "test": "jest --config lib/jest.config.js"
   },
   "directories": {
     "bin": "./bin",

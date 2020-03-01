@@ -1,5 +1,7 @@
 os:
   - linux
+  - windows
+  - osx
 language: node_js
 node_js:
   - "10"
@@ -13,4 +15,5 @@ install:
   - yarn build
 cache: yarn
 after_success:
-  - yarn tap test/*.test.ts --coverage-report=text-lcov | yarn codecov -l --disable=gcov
+  - yarn codecov --disable=gcov -F unittests
+  - yarn tap test/*.test.ts --coverage-report=text-lcov | yarn codecov -l --disable=gcov -F integration
