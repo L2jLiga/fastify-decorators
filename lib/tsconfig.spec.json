@@ -1,6 +1,10 @@
 {
   "extends": "./tsconfig.lib",
+  "compilerOptions": {
+    "experimentalDecorators": true
+  },
   "include": [
-    "*.spec.ts"
+    "*.spec.ts",
+    "*.mock.ts"
   ]
 }

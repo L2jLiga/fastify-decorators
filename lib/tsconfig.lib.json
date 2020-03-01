@@ -17,6 +17,7 @@
     "index.ts"
   ],
   "exclude": [
-    "*.spec.ts"
+    "*.spec.ts",
+    "*.mock.ts"
   ]
 }
