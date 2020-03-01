@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Added
 - Link to JetBrains IDE plugin (WebStorm, IDEA, ...)
 
+### Changed
+- Bump minimal node.js version to 10.14
+
 ## Removed
 - Deprecated bootstrap options
 
