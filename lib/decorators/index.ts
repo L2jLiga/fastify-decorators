@@ -12,11 +12,4 @@ export { Hook } from './hook';
 
 export { Controller } from './controller';
 
-export { ALL } from './all';
-export { DELETE } from './delete';
-export { GET } from './get';
-export { HEAD } from './head';
-export { OPTIONS } from './options';
-export { PATCH } from './patch';
-export { POST } from './post';
-export { PUT } from './put';
+export { ALL, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT } from './request-handlers';
