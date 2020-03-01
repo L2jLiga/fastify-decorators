@@ -31,6 +31,7 @@ export async function bootstrap(fastify: FastifyInstance, config: BootstrapConfi
 }
 
 async function* findModules(path: string, filter: RegExp): AsyncIterable<string> {
+    // TODO: can be replaced with for await (const filePath of fs.opendir) in Node.js >= 12.12
     for (const filePath of await readdir(path, { withFileTypes: true })) {
         const fullFilePath = join(path, filePath.name);
 
