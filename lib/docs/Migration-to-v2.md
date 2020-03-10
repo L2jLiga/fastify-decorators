@@ -4,7 +4,7 @@ This guide describes how to migrate from `fastify-decorators` v1 to v2.
 
 ## Bootstrap application
 
-In v2 bootstrap config was changed, we deprecate handlers and controllers separated directory/mask properties. You still can use your config as is until fastify-decorators v3.
+Controllers and handlers loaders were unified into single loader. It means that bootstrap config need  to be updated following way:
 
 *before*:
 ```typescript
@@ -37,7 +37,7 @@ instance.register(bootstrap, {
 ## Getting fastify instance
 
 In v2 `AbstractController` was deprecated in favor of dependency injection (`@Inject` decorator) and `getInstanceByToken` function.
-If you use to extends from `AbstractController` to get fastify instance then you need to adapt your code to use DI:
+It means that Controllers which uses Fastify instance have to be adapted.
 
 *before*:
 ```typescript
@@ -69,7 +69,7 @@ export default class MyController {
 }
 ```
 
-*Note*: if you tried before to use instance in decorators (for example for prevalidation) and faced with errors with `getInstanceByToken` it's possible now:
+*Note*: it makes possible to use fastify instance inside method decorators by using `getInstanceByToken` method:
 
 ```typescript
 import { FastifyInstance } from 'fastify';
