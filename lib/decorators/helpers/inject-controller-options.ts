@@ -10,7 +10,7 @@ import { IncomingMessage, Server, ServerResponse } from 'http';
 import { ControllerConstructor, ControllerHandlersAndHooks } from '../../interfaces';
 import { CREATOR } from '../../symbols';
 
-export function injectDefaultControllerOptions(controller: any) {
+export function injectDefaultControllerOptions(controller: any): void {
     if (!(<ControllerConstructor>controller)[CREATOR]) {
         (<ControllerConstructor>controller)[CREATOR] = getDefaultControllerOptions();
     }

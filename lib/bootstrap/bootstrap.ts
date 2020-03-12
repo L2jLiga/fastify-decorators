@@ -10,7 +10,7 @@ import { FastifyInstance } from 'fastify';
 import * as fs from 'fs';
 import { join } from 'path';
 import { promisify } from 'util';
-import { BootstrapConfig } from '../interfaces';
+import { BootstrapConfig, InjectableClass } from '../interfaces';
 import { injectables } from '../registry/injectables';
 import { CREATOR, FastifyInstanceToken } from '../symbols';
 import { wrapInjectable } from '../utils/wrap-injectable';
@@ -43,7 +43,7 @@ async function* findModules(path: string, filter: RegExp): AsyncIterable<string>
     }
 }
 
-function loadModule(module: string) {
+function loadModule(module: string): InjectableClass {
     return require(module).__esModule
         ? require(module).default
         : require(module);

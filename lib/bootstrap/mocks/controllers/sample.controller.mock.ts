@@ -1,5 +1,5 @@
-import { Controller } from '../../decorators/controller';
-import { GET } from '../../decorators/request-handlers';
+import { Controller } from '../../../decorators/controller';
+import { GET } from '../../../decorators/request-handlers';
 
 @Controller()
 export default class SampleControllerMock {

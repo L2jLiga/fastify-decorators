@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { Plugin, RouteShorthandOptions } from 'fastify';
+import { FastifyInstance, Plugin, RouteShorthandOptions } from 'fastify';
 import { IncomingMessage, Server, ServerResponse } from 'http';
 import { HttpMethods } from '../decorators/helpers/http-methods';
 import { CREATOR } from '../symbols';
@@ -21,7 +21,7 @@ export interface ControllerConstructor<HttpServer = Server, Request = IncomingMe
 export interface ControllerHandlersAndHooks<HttpServer, Request, Response> {
     handlers: Handler<Request, Response>[];
     hooks: Hook[];
-    register?: Plugin<HttpServer, Request, Response, {}>;
+    register?: (instance: FastifyInstance<HttpServer, Request, Response>) => void;
 }
 
 export interface Handler<Request, Response> {
