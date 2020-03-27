@@ -25,8 +25,15 @@ const defaultMask = /\.(handler|controller)\./;
 export async function bootstrap(fastify: FastifyInstance, config: BootstrapConfig) {
     injectables.set(FastifyInstanceToken, wrapInjectable(fastify));
 
-    for await (const module of findModules(config.directory, config.mask ? new RegExp(config.mask) : defaultMask)) {
-        loadModule(module)[CREATOR].register(fastify);
+    const filter = config.mask ? new RegExp(config.mask) : defaultMask;
+    for await (const module of findModules(config.directory, filter)) {
+        const loaded = loadModule(module);
+
+        if (CREATOR in loaded) {
+            loaded[CREATOR]!.register(fastify);
+        } else if (!config.skipBroken) {
+            throw new TypeError(`Loaded file is incorrect module and can not be bootstrapped: ${module}`);
+        }
     }
 }
 

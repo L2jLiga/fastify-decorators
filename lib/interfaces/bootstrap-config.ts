@@ -20,6 +20,14 @@ export interface BootstrapConfig<HttpServer = Server, HttpRequest = IncomingMess
 
     /**
      * Mask used to filter files to load
+     * @default /\.(handler|controller)\./
      */
     mask?: string | RegExp;
+
+    /**
+     * By default application will fails to bootstrap if one or more of loaded files does not contain valid controller or handler
+     * This option allows to change this behavior
+     * @default false
+     */
+    skipBroken?: boolean;
 }
