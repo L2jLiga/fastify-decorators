@@ -30,18 +30,18 @@
   "license": "MIT",
   "type": "commonjs",
   "devDependencies": {
-    "@types/jest": "^25.1.4",
+    "@types/jest": "^25.2.1",
     "@types/node": "~10.14.22",
     "@types/ws": "^7.2.3",
     "codecov": "^3.6.5",
-    "fastify": "^2.12.1",
-    "fastify-websocket": "^1.1.1",
-    "jest": "^25.1.0",
+    "fastify": "^2.13.0",
+    "fastify-websocket": "^1.1.2",
+    "jest": "^25.2.7",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "source-map-support": "^0.5.16",
     "tap": "^14.10.7",
-    "ts-jest": "^25.2.1",
+    "ts-jest": "^25.3.1",
     "typescript": "^3.7.5"
   },
   "engines": {
