@@ -19,7 +19,8 @@ export function Service(injectableToken?: string | symbol): ClassDecorator {
     return (target: any) => {
         let instance: any;
 
-        injectables.set(injectableToken ?? target, target);
+        injectables.set(target, target);
+        if (injectableToken) injectables.set(injectableToken, target);
         target[CREATOR] = {
             register() {
                 if (instance) return instance;
