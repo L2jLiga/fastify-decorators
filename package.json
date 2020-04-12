@@ -9,7 +9,7 @@
     "clean": "yarn clean:server && yarn clean:lib",
     "clean:server": "rimraf dist/server",
     "clean:lib": "rimraf dist/fastify-decorators node_modules/fastify-decorators",
-    "build:lib": "tsc -p lib/tsconfig.lib.json && yarn cp",
+    "build:lib": "tsc -p lib/tsconfig.json && yarn cp",
     "cp": "yarn cp:assets && yarn cp:package",
     "cp:assets": "cp -r ./lib/package.json ./lib/README.md ./CHANGELOG.md ./LICENSE ./lib/docs ./dist/fastify-decorators && node patch-readme.cjs",
     "cp:package": "cp -r ./dist/fastify-decorators ./node_modules",

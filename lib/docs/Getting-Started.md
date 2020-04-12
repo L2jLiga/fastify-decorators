@@ -174,7 +174,7 @@ After all our files done we have to build server before we can run it:
 
 1. Start server
     ```
-    node index.js
+    node index.ts
     ```
 
 Awesome, that was easy.

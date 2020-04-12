@@ -22,10 +22,11 @@ export function Service(injectableToken?: string | symbol): ClassDecorator {
         injectables.set(target, target);
         if (injectableToken) injectables.set(injectableToken, target);
         target[CREATOR] = {
-            register() {
+            register(injectablesMap = injectables, cacheResult = true) {
+                if (!cacheResult) return createWithInjectedDependencies(target, injectablesMap, cacheResult);
                 if (instance) return instance;
 
-                instance = createWithInjectedDependencies(target);
+                instance = createWithInjectedDependencies(target, injectablesMap, cacheResult);
 
                 return instance;
             }

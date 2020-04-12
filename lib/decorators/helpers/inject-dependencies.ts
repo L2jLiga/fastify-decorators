@@ -9,11 +9,15 @@ declare namespace Reflect {
     function getMetadata(metadataKey: string, target: Object): any;
 }
 
-export function createWithInjectedDependencies<C>(constructor: Constructor<C>): C {
+export function createWithInjectedDependencies<C>(constructor: Constructor<C>, injectables: Map<any, any>, cacheResult: boolean): C {
     if (typeof Reflect.getMetadata !== 'function') return new constructor();
 
     const args: any[] = Reflect.getMetadata('design:paramtypes', constructor)
-        ?.map((value: any) => value[CREATOR].register()) ?? [];
+        ?.map((value: any) => injectables.get(value))
+        ?.map((value: any) => {
+            if (value) return value[CREATOR].register(injectables, cacheResult);
+            throw new TypeError('Invalid arguments provided. Expected class annotated with @Service.');
+        }) ?? [];
 
     return new constructor(...args);
 }

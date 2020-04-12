@@ -14,7 +14,8 @@
     "inlineSources": true
   },
   "files": [
-    "index.ts"
+    "index.ts",
+    "testing/index.ts"
   ],
   "exclude": [
     "*.spec.ts",

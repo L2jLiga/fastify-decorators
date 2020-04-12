@@ -1,7 +1,7 @@
 module.exports = () => ({
     files: [
         'lib/jest.config.js',
-        'lib/tsconfig.lib.json',
+        'lib/tsconfig.json',
         'lib/tsconfig.spec.json',
         'lib/**/*.ts',
         '!lib/**/*.spec.ts'
