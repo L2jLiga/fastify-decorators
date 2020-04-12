@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { FastifyInstance, Plugin, RouteShorthandOptions } from 'fastify';
+import { FastifyInstance, RouteShorthandOptions } from 'fastify';
 import { IncomingMessage, Server, ServerResponse } from 'http';
 import { HttpMethods } from '../decorators/helpers/http-methods';
 import { CREATOR } from '../symbols';
