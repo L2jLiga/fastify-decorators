@@ -12,5 +12,5 @@ import { CREATOR } from '../symbols';
 export function getInstanceByToken<Type>(token: string | symbol | Type): Type {
     return injectables.get(token)
         ?.[CREATOR]
-        .register()
+        .register(injectables);
 }

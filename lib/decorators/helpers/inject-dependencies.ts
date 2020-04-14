@@ -1,9 +1,6 @@
 import { CREATOR } from '../../symbols';
 
-interface Constructor<T> {
-    new(): T;
-    new(...args: any[]): T;
-}
+export type Constructor<T> = { new(): T } | { new(...args: any): T }
 
 declare namespace Reflect {
     function getMetadata(metadataKey: string, target: Object): any;

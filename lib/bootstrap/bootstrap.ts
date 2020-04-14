@@ -43,7 +43,7 @@ async function* findModules(path: string, filter: RegExp): AsyncIterable<string>
         const fullFilePath = join(path, filePath.name);
 
         if (filePath.isDirectory()) {
-            yield * findModules(fullFilePath, filter);
+            yield* findModules(fullFilePath, filter);
         } else if (filter.test((filePath.name))) {
             yield fullFilePath;
         }

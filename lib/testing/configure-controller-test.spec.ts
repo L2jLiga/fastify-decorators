@@ -1,9 +1,10 @@
 import { GET } from '../decorators';
 import { Controller } from '../decorators/controller';
 import { Service } from '../decorators/service';
-import { configureControllerTest, ServiceMock } from './configure-controller-test';
+import { configureControllerTest } from './configure-controller-test';
+import { ServiceMock } from './service-mock';
 
-describe('Testing utilities: bootstrap test controller', () => {
+describe('Testing: configure controller test', () => {
     it('should bootstrap controller', async () => {
         const instance = await configureControllerTest({ controller: WithoutDependencies });
 

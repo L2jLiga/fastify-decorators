@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { getInstanceByToken } from '../utils';
+import { CREATOR, INJECTABLES } from '../symbols';
 
 /**
  * Property decorator to inject dependencies
@@ -22,10 +22,12 @@ export function Inject(name: string | Object | symbol): PropertyDecorator {
     return (target, propertyKey) => {
         Object.defineProperty(target, propertyKey, {
             get(): any {
-                return getInstanceByToken(name);
+                return this[INJECTABLES].get(name)
+                    ?.[CREATOR]
+                    ?.register(this[INJECTABLES]);
             },
             enumerable: true,
-            configurable: true
+            configurable: true,
         });
     };
 }

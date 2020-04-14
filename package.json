@@ -1,5 +1,5 @@
 {
-  "name": "fastify-decorators",
+  "name": "fastify-decorators-parent",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -13,7 +13,8 @@
     "cp": "yarn cp:assets && yarn cp:package",
     "cp:assets": "cp -r ./lib/package.json ./lib/README.md ./CHANGELOG.md ./LICENSE ./lib/docs ./dist/fastify-decorators && node patch-readme.cjs",
     "cp:package": "cp -r ./dist/fastify-decorators ./node_modules",
-    "test": "jest --config lib/jest.config.js"
+    "test": "jest --config lib/jest.config.js",
+    "test:application": "jest test/**/*.spec.ts"
   },
   "directories": {
     "bin": "./bin",
@@ -32,7 +33,7 @@
   "devDependencies": {
     "@types/jest": "^25.2.1",
     "@types/node": "~10.14.22",
-    "@types/ws": "^7.2.3",
+    "@types/ws": "^7.2.4",
     "codecov": "^3.6.5",
     "fastify": "^2.13.1",
     "fastify-websocket": "^1.1.2",
@@ -40,7 +41,6 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "source-map-support": "^0.5.16",
-    "tap": "^14.10.7",
     "ts-jest": "^25.3.1",
     "typescript": "^3.7.5"
   },

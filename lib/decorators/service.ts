@@ -7,7 +7,7 @@
  */
 
 import { injectables } from '../registry/injectables';
-import { CREATOR } from '../symbols';
+import { CREATOR, INJECTABLES } from '../symbols';
 import { createWithInjectedDependencies } from './helpers/inject-dependencies';
 
 /**
@@ -23,13 +23,15 @@ export function Service(injectableToken?: string | symbol): ClassDecorator {
         if (injectableToken) injectables.set(injectableToken, target);
         target[CREATOR] = {
             register(injectablesMap = injectables, cacheResult = true) {
+                target[INJECTABLES] = injectablesMap;
+                target.prototype[INJECTABLES] = injectablesMap;
                 if (!cacheResult) return createWithInjectedDependencies(target, injectablesMap, cacheResult);
                 if (instance) return instance;
 
                 instance = createWithInjectedDependencies(target, injectablesMap, cacheResult);
 
                 return instance;
-            }
-        }
-    }
+            },
+        };
+    };
 }

@@ -6,13 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { GET, RequestHandler } from 'fastify-decorators';
-
-@GET('/get')
-class GetHandler extends RequestHandler {
-    async handle() {
-        return { message: 'OK!' };
-    }
+export interface ServiceMock {
+    provide: any;
+    useValue: any;
 }
-
-export = GetHandler;

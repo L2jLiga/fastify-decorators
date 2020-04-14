@@ -9,7 +9,7 @@
 import { ControllerConfig, ControllerConstructor } from '../interfaces';
 import { ControllerType } from '../registry';
 import { injectables } from '../registry/injectables';
-import { CREATOR } from '../symbols';
+import { CREATOR, INJECTABLES } from '../symbols';
 import { injectDefaultControllerOptions } from './helpers/inject-controller-options';
 import { ControllerTypeStrategies } from './strategies/controller-type';
 
@@ -31,7 +31,10 @@ export function Controller(config?: string | ControllerConfig) {
 
         injectDefaultControllerOptions(controller);
 
-        (<ControllerConstructor><any>controller)[CREATOR].register = (instance, injectablesMap = injectables, cacheResult = true) =>
-            instance.register(async instance => ControllerTypeStrategies[type!](instance, <any>controller, injectablesMap, cacheResult), { prefix: route });
+        (<ControllerConstructor><any>controller)[CREATOR].register = (instance, injectablesMap = injectables, cacheResult = true) => {
+            controller[INJECTABLES] = injectablesMap;
+            controller.prototype[INJECTABLES] = injectablesMap;
+            return instance.register(async instance => ControllerTypeStrategies[type!](instance, <any>controller, injectablesMap, cacheResult), { prefix: route });
+        };
     };
 }
