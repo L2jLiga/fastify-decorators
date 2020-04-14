@@ -105,7 +105,7 @@ export class SampleController {
 When you use `@Inject` or `getInstanceByToken` you need to specify token, so what is token?
 Token is kind of identifier of instance to inject.
 
-By default when you use `@Service` decorator it uses class object as token and it can be changed by specifying token explicitly:
+By default, when you use `@Service` decorator it uses class object as token, and it can be changed by specifying token explicitly:
 
 *my-service.ts*:
 ```typescript

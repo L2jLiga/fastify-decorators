@@ -34,7 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0-1]
 ## Fixed
 - Use spread operator when call handlers (#9)
-- Incorrect links in README.md when publish on NPM
+- Incorrect links in the README.md when publish on NPM
 
 ## [2.0.0-0]
 ## Added

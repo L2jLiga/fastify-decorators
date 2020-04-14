@@ -1,6 +1,4 @@
-import { GET } from '../decorators';
-import { Controller } from '../decorators/controller';
-import { Service } from '../decorators/service';
+import { Controller, GET, Service } from '../decorators';
 import { configureControllerTest } from './configure-controller-test';
 import { ServiceMock } from './service-mock';
 

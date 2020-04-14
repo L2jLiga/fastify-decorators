@@ -4,7 +4,7 @@
 
 Let's imagine that:
 - We already have the directory named `handlers` which contains all our handlers
-- Each handler contains `.handler.` in it's name.
+- Each handler contains `.handler.` in its name.
 
 To make it works without manual loading we can use `bootstrap` method:
 ```typescript
@@ -56,7 +56,7 @@ All available decorators:
 - `OPTIONS`
 - `HEAD`
 
-This decorators can't be mixed and you can use only one decorator per class.
+These decorators can't be mixed, and you can use only one decorator per class.
 
 Decorators accept `RouteConfig` with follow fields:
 
@@ -66,7 +66,7 @@ Decorators accept `RouteConfig` with follow fields:
 | options | [`RouteConfig`] | no       | Config for route which will be passed to Fastify |
 
 
-Finally after applying decorator with options your handler will look like:
+Finally, after applying decorator with options your handler will look like:
 ```typescript
 import { ALL, RequestHandler } from 'fastify-decorators';
 
@@ -116,7 +116,9 @@ module.exports = MyRequestHandler;
 
 ## How it works
 
-Under the hood decorators create static method `register` in your class and then bootstraper use it to register it.
+We use symbols which are not public APIs.
+These symbols are added to your handlers/controllers and services.
+When `bootstrap` method called it is searching for all files by a mask and load configuration from these symbols value.
 
 It means that this code:
 ```typescript
@@ -135,7 +137,7 @@ export default class SimplePutHandler extends RequestHandler {
 becomes:
 ```typescript
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
-import { REGISTER } from 'fastify-decorators';
+import { CREATOR } from 'fastify-decorators/symbols';
 import { IncomingMessage, ServerResponse } from 'http';
 
 export default class SimplePutHandler {
@@ -147,7 +149,11 @@ export default class SimplePutHandler {
         return this.request.body.message;
     }
 
-    static [REGISTER] = (instance: FastifyInstance) => instance.put(`/sample`, {}, (req, res) => new SimplePutHandler(req, res).handle());
+    static [CREATOR] = {
+        register(instance: FastifyInstance) {
+            instance.put(`/sample`, (req, res) => new SimplePutHandler(req, res).handle())
+        }
+    };
 }
 ```
 

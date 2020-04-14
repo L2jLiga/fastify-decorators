@@ -35,7 +35,7 @@ Fastify-decorators requires `experimentalDecorators` feature to be enabled. For 
 }
 ```
 
-*Note*: if you struggles which `target` to choose we would like to propose `"target": "es2018"`.
+*Note*: if you struggle which `target` to choose we would like to propose `"target": "es2018"`.
 This choice was made because `fastify-decorators` supports `node >= 10` and according to info from [Node.js ES2018 Support] this version and upper supports all `ES2018` features.
 
 ### Your first server
@@ -138,7 +138,7 @@ export default class FirstController {
 }
 ```
 
-Also we need to enable `experimentalDecorators` feature in our TypeScript config
+Also, we need to enable `experimentalDecorators` feature in our TypeScript config
 
 *tsconfig.json*:
 ```json

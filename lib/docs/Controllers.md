@@ -3,7 +3,7 @@
 ## Bootstrap controllers
 Let's imagine that:
 - We already have the directory named `controllers` which contains all our handlers
-- Each handler contains `.controller.` in it's name.
+- Each handler contains `.controller.` in its name.
 
 To make it works without manual loading we can use `bootstrap` method:
 ```typescript
@@ -92,7 +92,7 @@ export default class SimpleController {
 ### Requests handlers configuration
 
 Not only controller but also handlers within may have complex configuration, to use it you can provide [`RouteConfig`] object instead of string in method decorator.
-For example if we want to specify response type for our endpoint above we can use configuration object with schema specified:
+For example if we want to specify response type for our endpoint above we can use configuration object with a schema specified:
 
  ```typescript
 import { Controller, ControllerType, GET } from 'fastify-decorators';
@@ -125,7 +125,7 @@ Decorators accept `RouteConfig` with follow fields:
 | url     | `string`        | yes      | Route url which will be passed to Fastify        |
 | options | [`RouteConfig`] | no       | Config for route which will be passed to Fastify |
 
-**NOTE**: This decorators can't be mixed and you can use only one decorator per method.
+**NOTE**: These decorators can't be mixed, and you can use only one decorator per method.
 
 ### Dependency injection and access to Fastify instance
 
@@ -172,7 +172,7 @@ export default class SimpleController {
 If you need `FastifyInstance` in decorators (for example to determine specific hooks for route) `fastify-decorators` provides `getInstanceByToken` function.
 This function accepts injectable token which is `FastifyInstanceToken` for the instance.
 
-*Note*: Be aware that instance property should be static otherwise decorators can not get access to it. 
+*Note*: Be aware instance property should be static otherwise decorators can not get access to it. 
 
 ```typescript
 import { FastifyInstance } from 'fastify';
@@ -196,7 +196,7 @@ export default class MyController {
 
 ### Hooks
 
-There are also decorator which allows to use [Fastify Hooks]:
+There are also decorator which allows using [Fastify Hooks]:
 ```typescript
 import { Controller, Hook } from 'fastify-decorators';
 
