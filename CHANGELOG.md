@@ -5,44 +5,50 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-## Added
+
+## [2.0.0-6]
+### Added
 - User friendly error when trying to bootstrap invalid module
 - Option to skip broken modules to prevent crash when trying to bootstrap invalid module
+- APIs and documentation for testing
+
+### Fixed
+- Several typos in documentation and comments
 
 ## [2.0.0-5]
-## Added
+### Added
 - Link to JetBrains IDE plugin (WebStorm, IDEA, ...)
 
 ### Changed
 - Bump minimal node.js version to 10.14
 
-## Removed
+### Removed
 - Deprecated bootstrap options
 
 ## [2.0.0-4]
-## Fixed
+### Fixed
 - `getInstanceByToken` returns wrapped instance
 
 ## [2.0.0-3]
-## Changed
+### Changed
 - Removed hooks initialization in `REQUESTS` controller type
 
 ## [2.0.0-2]
-## Added
+### Added
 - New overload for method decorators, now you can pass url and options as separated arguments
 
 ## [2.0.0-1]
-## Fixed
+### Fixed
 - Use spread operator when call handlers (#9)
 - Incorrect links in the README.md when publish on NPM
 
 ## [2.0.0-0]
-## Added
+### Added
 - `directory` and `mask` bootstrap options
 - Overloads to controller and requests handlers, now they can accept string instead of configuration object
 - Dependency injection
 
-## Changed
+### Changed
 - **BREAKING CHANGE**: symbols not exported anymore
 - **BREAKING CHANGE**: minimal supported version of node is 10
 - Deprecated `controllersDirectory`, `controllersMask`, `handlersDirectory` and `handlersMask` bootstrap options
@@ -72,7 +78,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 1.0.0
 - Initial release
 
-[Unreleased]: https://github.com/L2jLiga/fastify-decorators/compare/v2.0.0-5...HEAD
+[Unreleased]: https://github.com/L2jLiga/fastify-decorators/compare/v2.0.0-6...HEAD
+[2.0.0-6]: https://github.com/L2jLiga/fastify-decorators/compare/v2.0.0-5...v2.0.0-6
 [2.0.0-5]: https://github.com/L2jLiga/fastify-decorators/compare/v2.0.0-4...v2.0.0-5
 [2.0.0-4]: https://github.com/L2jLiga/fastify-decorators/compare/v2.0.0-3...v2.0.0-4
 [2.0.0-3]: https://github.com/L2jLiga/fastify-decorators/compare/v2.0.0-2...v2.0.0-3
