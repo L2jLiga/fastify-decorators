@@ -36,12 +36,12 @@
     "@types/ws": "^7.2.4",
     "fastify": "^2.13.1",
     "fastify-websocket": "^1.1.2",
-    "jest": "^25.3.0",
-    "jest-environment-node": "^25.3.0",
+    "jest": "^25.4.0",
+    "jest-environment-node": "^25.4.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "source-map-support": "^0.5.16",
-    "ts-jest": "^25.3.1",
+    "source-map-support": "^0.5.17",
+    "ts-jest": "^25.4.0",
     "typescript": "^3.7.5"
   },
   "engines": {
