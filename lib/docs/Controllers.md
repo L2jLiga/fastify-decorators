@@ -1,4 +1,4 @@
-<h1 align="center">Fastify decorators</h1>
+<h1 style="text-align: center">Fastify decorators</h1>
 
 ## Bootstrap controllers
 Let's imagine that:

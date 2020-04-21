@@ -1,4 +1,4 @@
-<h1 align="center">Fastify decorators</h1>
+<h1 style="text-align: center">Fastify decorators</h1>
 
 ## Getting started
 Hello! Thank you for checking out fastify-decorators!
