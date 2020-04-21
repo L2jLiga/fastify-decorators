@@ -1,0 +1,31 @@
+*               text=auto
+
+#
+# The above will handle all files NOT found below
+# https://help.github.com/articles/dealing-with-line-endings/
+# https://github.com/Danimoth/gitattributes
+
+# Source code
+*.cjs             text linguist-language=TypeScript
+*.js              text linguist-language=TypeScript
+*.json            text
+*.ts              text
+
+# Documentation
+*.md              text
+
+# Configs
+.editorconfig     text
+.env              text
+.gitattributes    text
+.gitconfig        text
+*.lock            text -diff
+package-lock.json text -diff
+*.yaml            text
+*.yml             text
+
+# RC files (like .babelrc or .eslintrc)
+*.*rc             text
+
+# Ignore files (like .npmignore or .gitignore)
+*.*ignore         text
