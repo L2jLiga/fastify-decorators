@@ -9,7 +9,7 @@ Let's imagine that:
 To make it works without manual loading we can use `bootstrap` method:
 ```typescript
 import { bootstrap } from 'fastify-decorators';
-import { join } from 'path';
+import { resolve } from 'path';
 
 // Require the framework and instantiate it
 const instance = require('fastify')();
@@ -17,7 +17,7 @@ const instance = require('fastify')();
 // Define bootstrap options
 const bootstrapOptions = {
     // This option defines which directory should be scanned for handlers
-    directory: join(__dirname, `handlers`),
+    directory: resolve(__dirname, `handlers`),
 
     // This option defines which pattern should file match
     mask: /\.handler\./

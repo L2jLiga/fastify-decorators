@@ -54,7 +54,7 @@ Let's write your first server with request handler:
 *index.ts*:
 ```typescript
 import { bootstrap } from 'fastify-decorators';
-import { join } from 'path';
+import { resolve } from 'path';
 
 // Require the framework and instantiate it
 const instance = require('fastify')();
@@ -62,7 +62,7 @@ const instance = require('fastify')();
 // Register handlers auto-bootstrap
 instance.register(bootstrap, {
     // Specify directory with our handler
-    directory: join(__dirname, `handlers`),
+    directory: resolve(__dirname, `handlers`),
 
     // Specify mask to match only our handler
     mask: /\.handler\./
@@ -102,7 +102,7 @@ fastify-decorators also provides way to build controllers with multiple handlers
 *index.ts*:
 ```typescript
 import { bootstrap } from 'fastify-decorators';
-import { join } from 'path';
+import { resolve } from 'path';
 
 // Require the framework and instantiate it
 const instance = require('fastify')();
@@ -110,7 +110,7 @@ const instance = require('fastify')();
 // Register handlers auto-bootstrap
 instance.register(bootstrap, {
     // Specify directory with our controllers
-    directory: join(__dirname, `controllers`),
+    directory: resolve(__dirname, `controllers`),
 
     // Specify mask to match only our controllers
     mask: /\.controller\./

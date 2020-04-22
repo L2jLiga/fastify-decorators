@@ -66,14 +66,14 @@ export default class SampleHandler extends RequestHandler {
 ```typescript
 import { bootstrap } from 'fastify-decorators';
 import fastify = require('fastify');
-import { join } from 'path';
+import { resolve } from 'path';
 
 // Create Fastify instance
 const instance = fastify();
 
 // Register handlers auto-bootstrap
 instance.register(bootstrap, {
-    directory: join(__dirname, `src`),
+    directory: resolve(__dirname, `src`),
     mask: /\.(controller|handler)\./
 });
 

@@ -8,6 +8,7 @@
 
 import { bootstrap } from 'fastify-decorators';
 import 'reflect-metadata';
+import { resolve } from 'path';
 import { authorization } from './decorators/authorized';
 import fastify = require('fastify');
 import websocketPlugin from 'fastify-websocket';
@@ -19,13 +20,13 @@ instance.register(websocketPlugin);
 instance.decorate('authorization', authorization);
 
 instance.register(bootstrap, {
-    directory: __dirname + '/controllers',
-    mask: /\.controller\./
+    directory: resolve(__dirname, 'controllers'),
+    mask: /\.controller\./,
 });
 
 instance.register(bootstrap, {
-    directory: __dirname + '/handlers',
-    mask: /\.handler\./
+    directory: resolve(__dirname, 'handlers'),
+    mask: /\.handler\./,
 });
 
 export { instance };

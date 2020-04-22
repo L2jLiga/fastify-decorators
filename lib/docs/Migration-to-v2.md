@@ -10,13 +10,14 @@ Controllers and handlers loaders were unified into single loader. It means that 
 ```typescript
 import fastify = require('fastify');
 import { bootstrap } from 'fastify-decorators';
+import { resolve } from 'path';
 
 const instance = fastify();
  
 instance.register(bootstrap, {
-    handlersDirectory: join(__dirname__, 'src'),
+    handlersDirectory: resolve(__dirname, 'src'),
     handlersMask: /\.handler\./,
-    controllersDirectory: join(__dirname__, 'src'),
+    controllersDirectory: resolve(__dirname, 'src'),
     controllersMask: /\.controller\./,
 });
 ```
@@ -25,11 +26,12 @@ instance.register(bootstrap, {
 ```typescript
 import fastify = require('fastify');
 import { bootstrap } from 'fastify-decorators';
+import { resolve } from 'path';
 
 const instance = fastify();
  
 instance.register(bootstrap, {
-    directory: join(__dirname__, 'src'),
+    directory: resolve(__dirname, 'src'),
     mask: /\.(controller|handler)\./,
 });
 ```

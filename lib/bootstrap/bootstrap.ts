@@ -11,6 +11,7 @@ import * as fs from 'fs';
 import { join } from 'path';
 import { promisify } from 'util';
 import { BootstrapConfig, InjectableClass } from '../interfaces';
+import { AutoLoadConfig, ControllersListConfig } from '../interfaces/bootstrap-config';
 import { injectables } from '../registry/injectables';
 import { CREATOR, FastifyInstanceToken } from '../symbols';
 import { wrapInjectable } from '../utils/wrap-injectable';
@@ -25,15 +26,28 @@ const defaultMask = /\.(handler|controller)\./;
 export async function bootstrap(fastify: FastifyInstance, config: BootstrapConfig) {
     injectables.set(FastifyInstanceToken, wrapInjectable(fastify));
 
+    if ('directory' in config) await autoLoadModules(config as AutoLoadConfig, fastify);
+    if ('controllers' in config) loadControllers(config as ControllersListConfig, fastify);
+}
+
+function loadControllers(config: ControllersListConfig, fastify: FastifyInstance) {
+    for (const controller of config.controllers) {
+        loadController(controller, fastify, config);
+    }
+}
+
+async function autoLoadModules(config: AutoLoadConfig, fastify: FastifyInstance) {
     const filter = config.mask ? new RegExp(config.mask) : defaultMask;
     for await (const module of findModules(config.directory, filter)) {
-        const loaded = loadModule(module);
+        loadController(loadModule(module), fastify, config);
+    }
+}
 
-        if (CREATOR in loaded) {
-            loaded[CREATOR]!.register(fastify);
-        } else if (!config.skipBroken) {
-            throw new TypeError(`Loaded file is incorrect module and can not be bootstrapped: ${module}`);
-        }
+function loadController(controller: InjectableClass, fastify: FastifyInstance, config: BootstrapConfig) {
+    if (controller && CREATOR in controller) {
+        controller[CREATOR]!.register(fastify);
+    } else if (!config.skipBroken) {
+        throw new TypeError(`Loaded file is incorrect module and can not be bootstrapped: ${module}`);
     }
 }
 

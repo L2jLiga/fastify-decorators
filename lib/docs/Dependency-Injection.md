@@ -16,11 +16,12 @@ Before we start use DI within app [`reflect-metadata`] library required to be in
 ```typescript
 import 'reflect-metadata';
 import { bootstrap } from 'fastify-decorators';
+import { resolve } from 'path';
 
 const instance = require('fastify')();
 
 instance.register(bootstrap, {
-    directory: __dirname,
+    directory: resolve(__dirname),
     mask: /\.controller\./
 });
 

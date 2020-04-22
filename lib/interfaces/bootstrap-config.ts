@@ -12,7 +12,7 @@ import { IncomingMessage, Server, ServerResponse } from 'http';
 /**
  * Config for application bootstrap
  */
-export interface BootstrapConfig<HttpServer = Server, HttpRequest = IncomingMessage, HttpResponse = ServerResponse> extends RegisterOptions<HttpServer, HttpRequest, HttpResponse> {
+export interface AutoLoadConfig<HttpServer = Server, HttpRequest = IncomingMessage, HttpResponse = ServerResponse> extends RegisterOptions<HttpServer, HttpRequest, HttpResponse> {
     /**
      * Path to directory which contains files to load
      */
@@ -31,3 +31,12 @@ export interface BootstrapConfig<HttpServer = Server, HttpRequest = IncomingMess
      */
     skipBroken?: boolean;
 }
+
+export interface ControllersListConfig<HttpServer = Server, HttpRequest = IncomingMessage, HttpResponse = ServerResponse> extends RegisterOptions<HttpServer, HttpRequest, HttpResponse> {
+    /**
+     * List of Controller classes to bootstrap
+     */
+    controllers: any[];
+}
+
+export type BootstrapConfig = AutoLoadConfig | ControllersListConfig;

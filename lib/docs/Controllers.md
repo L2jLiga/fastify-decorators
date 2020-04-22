@@ -1,14 +1,45 @@
 <h1 style="text-align: center">Fastify decorators</h1>
 
 ## Bootstrap controllers
+
+### by using controllers list
+
+It's possible to bootstrap controllers without necessarily knowing where they are and just treat them as "modules".
+For that reason `bootstrap` method has `controller` options parameter that accepts array of controllers to bootstrap.
+
+*Usage*:
+```typescript
+import { bootstrap } from 'fastify-decorators';
+import AuthController from './src/auth/auth.controller';
+import UserController from './src/user/user.controller';
+import { PaymentController } from './src/payment/PaymentController';
+
+// Require the framework and instantiate it
+const instance = require('fastify')();
+
+// Define bootstrap options
+const bootstrapOptions = {
+  controllers: [
+    AuthController,
+    UserController,
+    PaymentController,
+  ],
+};
+
+// Register our bootstrap with options
+instance.register(bootstrap, bootstrapOptions);
+```
+
+### by using autoloader
+
 Let's imagine that:
-- We already have the directory named `controllers` which contains all our handlers
+- We already have the directory named `controllers` which contains all our controllers
 - Each handler contains `.controller.` in its name.
 
 To make it works without manual loading we can use `bootstrap` method:
 ```typescript
 import { bootstrap } from 'fastify-decorators';
-import { join } from 'path';
+import { resolve } from 'path';
 
 // Require the framework and instantiate it
 const instance = require('fastify')();
@@ -16,7 +47,7 @@ const instance = require('fastify')();
 // Define bootstrap options
 const bootstrapOptions = {
     // This option defines path to directory with files to load
-    directory: join(__dirname, `controllers`),
+    directory: resolve(__dirname, `controllers`),
 
     // This option defines which pattern should file match
     mask: /\.controller\./
