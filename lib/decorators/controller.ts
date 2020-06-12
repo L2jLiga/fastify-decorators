@@ -26,7 +26,7 @@ export function Controller(): ClassDecorator;
 export function Controller(route: string): ClassDecorator;
 export function Controller(config: ControllerConfig): ClassDecorator;
 export function Controller(config?: string | ControllerConfig) {
-    return <T extends any>(controller: T): void => {
+    return <T extends Function & { [INJECTABLES]: Map<string | symbol | Object, any> }>(controller: T): void => {
         const { route, type } = makeConfig(config);
 
         injectDefaultControllerOptions(controller);

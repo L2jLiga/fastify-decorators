@@ -38,7 +38,7 @@ instance.register(bootstrap, {
 
 ## Getting fastify instance
 
-In v2 `AbstractController` was deprecated in favor of dependency injection (`@Inject` decorator) and `getInstanceByToken` function.
+In v2 `AbstractController` was removed in favor of dependency injection (`@Inject` decorator) and `getInstanceByToken` function.
 It means that Controllers which uses Fastify instance have to be adapted.
 
 *before*:

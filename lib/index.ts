@@ -13,7 +13,6 @@ export { RequestHandler } from './interfaces';
 export { Controller } from './decorators';
 export { ControllerType } from './registry';
 export { ControllerConfig } from './interfaces';
-export { AbstractController } from './interfaces';
 
 export { Service } from './decorators';
 export { Inject } from './decorators';
