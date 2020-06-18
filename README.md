@@ -24,7 +24,7 @@ Installation and basic usage instruction can be found in [library README]
 - [Controllers]
 - [Dependency Injection]
 - [Testing]
-- [Migration to v2]
+- [Migration guide (V3)]
 
 ## Repository structure
 
@@ -59,5 +59,5 @@ This project licensed under [MIT License]
 [Controllers]: ./lib/docs/Controllers.md
 [Dependency Injection]: ./lib/docs/Dependency-Injection.md
 [Testing]: ./lib/docs/Testing.md
-[Migration to v2]: ./lib/docs/Migration-to-v2.md
+[Migration guide (V3)]: ./lib/docs/Migration-to-v3.md
 [MIT License]: https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE

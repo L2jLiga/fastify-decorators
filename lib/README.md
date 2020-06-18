@@ -27,7 +27,7 @@ yarn add fastify-decorators
 - [Controllers]
 - [Dependency Injection]
 - [Testing]
-- [Migration to V2]
+- [Migration guide (V3)]
 
 ## Basic usage
 
@@ -172,4 +172,4 @@ This project licensed under [MIT License]
 [Controllers]: ./docs/Controllers.md
 [Dependency Injection]: ./docs/Dependency-Injection.md
 [Testing]: ./docs/Testing.md
-[Migration to V2]: ./docs/Migration-to-v2.md
+[Migration guide (V3)]: ./lib/docs/Migration-to-v3.md
