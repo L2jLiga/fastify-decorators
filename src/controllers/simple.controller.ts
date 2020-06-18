@@ -8,7 +8,6 @@
 
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { Controller, GET, Hook, Inject } from 'fastify-decorators';
-import { IncomingMessage, ServerResponse } from 'http';
 import { MessageService } from '../services/message-service';
 import { ServerService } from '../services/server-service';
 
@@ -27,15 +26,15 @@ export default class SimpleController {
                 response: {
                     200: {
                         properties: {
-                            message: {type: 'string'}
-                        }
-                    }
-                }
+                            message: { type: 'string' },
+                        },
+                    },
+                },
             }
         }
     })
-    async test(request: FastifyRequest<IncomingMessage>, reply: FastifyReply<ServerResponse>): Promise<{ message: string }> {
-        return {message: this.service.getMessage()};
+    async test(request: FastifyRequest, reply: FastifyReply): Promise<{ message: string }> {
+        return { message: this.service.getMessage() };
     }
 
     @GET()
@@ -44,7 +43,7 @@ export default class SimpleController {
     }
 
     @Hook('onSend')
-    async hidePoweredBy(request: FastifyRequest<IncomingMessage>, reply: FastifyReply<ServerResponse>): Promise<void> {
+    async hidePoweredBy(request: FastifyRequest, reply: FastifyReply): Promise<void> {
         reply.header('X-Powered-By', 'nodejs');
     }
 }

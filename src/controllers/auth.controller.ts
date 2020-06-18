@@ -8,7 +8,6 @@
 
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { Controller, FastifyInstanceToken, GET, getInstanceByToken, POST } from 'fastify-decorators';
-import { ServerResponse } from 'http';
 
 @Controller('/authorized')
 export default class AuthController {
@@ -32,13 +31,13 @@ export default class AuthController {
                     type: 'object',
                     properties: {
                         login: { type: 'string' },
-                        password: { type: 'string' }
-                    }
-                }
+                        password: { type: 'string' },
+                    },
+                },
             }
         }
     })
-    login(request: FastifyRequest, reply: FastifyReply<ServerResponse>) {
+    login(request: FastifyRequest<any, any, { Body: { login: string; password: string } }>, reply: FastifyReply) {
         const { login, password } = request.body;
 
         reply.header('Set-Cookie', `token=${Buffer.from(login + password).toString('base64')}; path=/; HttpOnly`);

@@ -7,15 +7,22 @@
  */
 
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
-import { IncomingMessage, ServerResponse } from 'http';
+import { RequestGenericInterface } from 'fastify/types/request';
+import { ContextConfigDefault, RawReplyDefaultExpression, RawRequestDefaultExpression, RawServerBase, RawServerDefault } from 'fastify/types/utils';
 import { CREATOR } from '../symbols';
 
 /**
  * Abstract class which should extend all decorated request handlers
  */
-export abstract class RequestHandler<Request = IncomingMessage, Response = ServerResponse> {
-    protected constructor(protected request: FastifyRequest<Request>,
-                          protected reply: FastifyReply<Response>) {
+export abstract class RequestHandler<RawServer extends RawServerBase = RawServerDefault,
+    RawRequest extends RawRequestDefaultExpression<RawServer> = RawRequestDefaultExpression<RawServer>,
+    RawReply extends RawReplyDefaultExpression<RawServer> = RawReplyDefaultExpression<RawServer>,
+    RequestGeneric extends RequestGenericInterface = RequestGenericInterface,
+    ContextConfig = ContextConfigDefault,
+    > {
+
+    protected constructor(protected request: FastifyRequest<RawServer, RawRequest, RequestGeneric>,
+                          protected reply: FastifyReply<RawServer, RawRequest, RawReply, RequestGeneric, ContextConfig>) {
     }
 
     /**

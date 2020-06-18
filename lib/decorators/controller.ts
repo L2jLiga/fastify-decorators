@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
+import { FastifyInstance } from 'fastify';
 import { ControllerConfig, ControllerConstructor } from '../interfaces';
 import { ControllerType } from '../registry';
 import { injectables } from '../registry/injectables';
@@ -31,7 +32,7 @@ export function Controller(config?: string | ControllerConfig) {
 
         injectDefaultControllerOptions(controller);
 
-        (<ControllerConstructor><any>controller)[CREATOR].register = (instance, injectablesMap = injectables, cacheResult = true) => {
+        (<ControllerConstructor><any>controller)[CREATOR].register = (instance: FastifyInstance, injectablesMap = injectables, cacheResult = true) => {
             controller[INJECTABLES] = injectablesMap;
             controller.prototype[INJECTABLES] = injectablesMap;
             return instance.register(async instance => ControllerTypeStrategies[type!](instance, <any>controller, injectablesMap, cacheResult), { prefix: route });

@@ -1,4 +1,4 @@
-import fastify = require('fastify');
+import { fastify } from 'fastify';
 import { resolve } from 'path';
 import { bootstrap } from './bootstrap';
 import SampleControllerMock from './mocks/controllers/sample.controller.mock';

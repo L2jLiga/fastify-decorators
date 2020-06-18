@@ -7,24 +7,36 @@
  */
 
 import { FastifyInstance, RouteShorthandOptions } from 'fastify';
-import { IncomingMessage, Server, ServerResponse } from 'http';
+import { FastifyLoggerInstance } from 'fastify/types/logger';
+import { RawReplyDefaultExpression, RawRequestDefaultExpression, RawServerBase, RawServerDefault } from 'fastify/types/utils';
 import { HttpMethods } from '../decorators/helpers/http-methods';
 import { CREATOR } from '../symbols';
 
-export interface ControllerConstructor<HttpServer = Server, Request = IncomingMessage, Response = ServerResponse> {
+export interface ControllerConstructor<RawServer extends RawServerBase = RawServerDefault,
+    RawRequest extends RawRequestDefaultExpression<RawServer> = RawRequestDefaultExpression<RawServer>,
+    RawReply extends RawReplyDefaultExpression<RawServer> = RawReplyDefaultExpression<RawServer>,
+    Logger = FastifyLoggerInstance> {
+
     new(): any;
+
     new(...args: any[]): any;
 
-    [CREATOR]: ControllerHandlersAndHooks<HttpServer, Request, Response>;
+    [CREATOR]: ControllerHandlersAndHooks<RawServer, RawRequest, RawReply>;
 }
 
-export interface ControllerHandlersAndHooks<HttpServer, Request, Response> {
-    handlers: Handler<Request, Response>[];
+export interface ControllerHandlersAndHooks<RawServer extends RawServerBase,
+    RawRequest extends RawRequestDefaultExpression<RawServer>,
+    RawReply extends RawReplyDefaultExpression<RawServer>> {
+
+    handlers: Handler<RawServer, RawRequest, RawReply>[];
     hooks: Hook[];
-    register?: (instance: FastifyInstance<HttpServer, Request, Response>) => void;
+    register?: (instance: FastifyInstance<RawServer, RawRequest, RawReply>) => void;
 }
 
-export interface Handler<Request, Response> {
+export interface Handler<RawServer extends RawServerBase,
+    RawRequest extends RawRequestDefaultExpression<RawServer>,
+    RawReply extends RawReplyDefaultExpression<RawServer>> {
+
     url: string;
     method: HttpMethods;
     options: RouteShorthandOptions;

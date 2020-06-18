@@ -7,12 +7,11 @@
  */
 
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { ServerResponse } from 'http';
 
-export async function authorization(request: FastifyRequest, reply: FastifyReply<ServerResponse>, done: Function) {
+export async function authorization(request: FastifyRequest, reply: FastifyReply, done: Function) {
     const token = request.headers.cookie?.split(';')
-        .map((it: string) => it.trim())
-        .map((it: string) => it.split('='))
+        .map<string>((it: string) => it.trim())
+        .map<[string, string]>((it: string) => it.split('=') as [string, string])
         .find(([name]: [string, string]) => name === 'token')
         ?.[1];
 

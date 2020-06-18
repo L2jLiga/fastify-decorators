@@ -24,7 +24,7 @@ import { createWithInjectedDependencies } from '../helpers/inject-dependencies';
  * By default controllers use SINGLETON strategy
  */
 export const ControllerTypeStrategies = {
-    [ControllerType.SINGLETON](instance: FastifyInstance, constructor: ControllerConstructor, injectablesMap: Map<any, any>, cacheResult: boolean) {
+    [ControllerType.SINGLETON](instance: FastifyInstance<any, any, any, any>, constructor: ControllerConstructor, injectablesMap: Map<any, any>, cacheResult: boolean) {
         const controllerInstance = createWithInjectedDependencies(constructor, injectablesMap, cacheResult);
 
         const configuration = constructor[CREATOR];
@@ -40,7 +40,7 @@ export const ControllerTypeStrategies = {
         });
     },
 
-    [ControllerType.REQUEST](instance: FastifyInstance, constructor: ControllerConstructor, injectablesMap: Map<any, any>, cacheResult: boolean) {
+    [ControllerType.REQUEST](instance: FastifyInstance<any, any, any, any>, constructor: ControllerConstructor, injectablesMap: Map<any, any>, cacheResult: boolean) {
         const configuration = constructor[CREATOR];
 
         configuration.handlers.forEach(handler => {
@@ -50,5 +50,5 @@ export const ControllerTypeStrategies = {
                 return createWithInjectedDependencies(constructor, injectablesMap, cacheResult)[handlerMethod](...args);
             });
         });
-    }
+    },
 } as const;

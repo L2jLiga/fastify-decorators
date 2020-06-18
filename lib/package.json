@@ -1,6 +1,6 @@
 {
   "name": "fastify-decorators",
-  "version": "2.0.0",
+  "version": "3.0.0-0",
   "description": "Build your Fastify server with controllers, services and hooks",
   "main": "index.js",
   "typings": "index.d.ts",
@@ -28,11 +28,11 @@
   },
   "homepage": "https://github.com/L2jLiga/fastify-decorators#readme",
   "engines": {
-    "node": ">= 10.0.0"
+    "node": ">= 10.16.0"
   },
   "type": "commonjs",
   "peerDependencies": {
     "@types/node": "*",
-    "fastify": "^2.0.0"
+    "fastify": "^3.0.0-rc.1 || ^3.0.0"
   }
 }

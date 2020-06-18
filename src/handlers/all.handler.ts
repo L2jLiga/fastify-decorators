@@ -9,13 +9,13 @@
 import { ALL, RequestHandler } from 'fastify-decorators';
 
 @ALL({
-    url: '/all'
+    url: '/all',
 })
-class AllHandler extends RequestHandler {
+class AllHandler extends RequestHandler<any, any, any, { Body: { message: string } }> {
     public async handle(): Promise<any> {
         if (this.request.body)
-            return {message: this.request.body.message};
-        else return {message: 'All fine! :)'};
+            return { message: this.request.body.message };
+        else return { message: 'All fine! :)' };
     }
 }
 

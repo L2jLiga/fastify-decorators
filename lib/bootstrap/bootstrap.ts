@@ -23,7 +23,7 @@ const defaultMask = /\.(handler|controller)\./;
 /**
  * Method which recursively scan handlers/controllers directory and bootstrap them
  */
-export async function bootstrap(fastify: FastifyInstance, config: BootstrapConfig) {
+export async function bootstrap(fastify: FastifyInstance<any, any, any, any>, config: BootstrapConfig) {
     injectables.set(FastifyInstanceToken, wrapInjectable(fastify));
 
     if ('directory' in config) await autoLoadModules(config as AutoLoadConfig, fastify);

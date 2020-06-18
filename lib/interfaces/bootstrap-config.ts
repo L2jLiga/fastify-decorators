@@ -6,13 +6,12 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { RegisterOptions } from 'fastify';
-import { IncomingMessage, Server, ServerResponse } from 'http';
+import { FastifyPluginOptions } from 'fastify';
 
 /**
  * Config for application bootstrap
  */
-export interface AutoLoadConfig<HttpServer = Server, HttpRequest = IncomingMessage, HttpResponse = ServerResponse> extends RegisterOptions<HttpServer, HttpRequest, HttpResponse> {
+export interface AutoLoadConfig extends FastifyPluginOptions {
     /**
      * Path to directory which contains files to load
      */
@@ -32,11 +31,18 @@ export interface AutoLoadConfig<HttpServer = Server, HttpRequest = IncomingMessa
     skipBroken?: boolean;
 }
 
-export interface ControllersListConfig<HttpServer = Server, HttpRequest = IncomingMessage, HttpResponse = ServerResponse> extends RegisterOptions<HttpServer, HttpRequest, HttpResponse> {
+export interface ControllersListConfig extends FastifyPluginOptions {
     /**
      * List of Controller classes to bootstrap
      */
     controllers: any[];
+
+    /**
+     * By default application will fails to bootstrap if one or more of loaded files does not contain valid controller or handler
+     * This option allows to change this behavior
+     * @default false
+     */
+    skipBroken?: boolean;
 }
 
 export type BootstrapConfig = AutoLoadConfig | ControllersListConfig;

@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import fastify = require('fastify');
+import { fastify, FastifyInstance } from 'fastify';
 import { injectables } from '../registry/injectables';
 import { CREATOR } from '../symbols';
 import { MocksManager } from './mocks-manager';
@@ -17,11 +17,12 @@ export interface ControllerTestConfig {
     mocks?: ServiceMock[];
 }
 
-export async function configureControllerTest(config: ControllerTestConfig) {
+export async function configureControllerTest(config: ControllerTestConfig): Promise<FastifyInstance<any, any, any, any>> {
     const instance = fastify();
     const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
 
-    config.controller[CREATOR].register(instance, injectablesWithMocks, false);
+    await config.controller[CREATOR].register(instance, injectablesWithMocks, false);
+    await instance.ready();
 
     return instance;
 }
