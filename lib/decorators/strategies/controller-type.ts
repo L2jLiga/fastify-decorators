@@ -7,7 +7,7 @@
  */
 
 import { FastifyInstance } from 'fastify';
-import { ControllerConstructor } from '../../interfaces';
+import { ControllerConstructor, ControllerHandlersAndHooks, ErrorHandler, Handler, Hook } from '../../interfaces';
 import { ControllerType } from '../../registry';
 import { CREATOR } from '../../symbols';
 import { createWithInjectedDependencies } from '../helpers/inject-dependencies';
@@ -26,18 +26,11 @@ import { createWithInjectedDependencies } from '../helpers/inject-dependencies';
 export const ControllerTypeStrategies = {
     [ControllerType.SINGLETON](instance: FastifyInstance<any, any, any, any>, constructor: ControllerConstructor, injectablesMap: Map<any, any>, cacheResult: boolean) {
         const controllerInstance = createWithInjectedDependencies(constructor, injectablesMap, cacheResult);
+        const configuration: ControllerHandlersAndHooks<any, any, any> = constructor[CREATOR];
 
-        const configuration = constructor[CREATOR];
-
-        configuration.handlers.forEach(handler => {
-            instance[handler.method](handler.url, handler.options, function (...args) {
-                return controllerInstance[handler.handlerMethod](...args);
-            });
-        });
-
-        configuration.hooks.forEach(hook => {
-            instance.addHook(hook.name, controllerInstance[hook.handlerName].bind(controllerInstance));
-        });
+        registerHandlers(configuration.handlers, instance, controllerInstance);
+        registerErrorHandlers(configuration.errorHandlers, instance, controllerInstance);
+        registerHooks(configuration.hooks, instance, controllerInstance);
     },
 
     [ControllerType.REQUEST](instance: FastifyInstance<any, any, any, any>, constructor: ControllerConstructor, injectablesMap: Map<any, any>, cacheResult: boolean) {
@@ -52,3 +45,36 @@ export const ControllerTypeStrategies = {
         });
     },
 } as const;
+
+function registerHandlers(handlers: Handler[], instance: FastifyInstance, controllerInstance: any): void {
+    handlers.forEach(handler => {
+        instance[handler.method](handler.url, handler.options, function (...args) {
+            return controllerInstance[handler.handlerMethod](...args);
+        });
+    });
+}
+
+function registerHooks(hooks: Hook[], instance: FastifyInstance, controllerInstance: any): void {
+    hooks.forEach(hook => {
+        instance.addHook(hook.name, controllerInstance[hook.handlerName].bind(controllerInstance));
+    });
+}
+
+function registerErrorHandlers(errorHandlers: ErrorHandler[], instance: FastifyInstance, controllerInstance: any) {
+    instance.setErrorHandler(async (error, request, reply) => {
+        let err: Error | null = error;
+        for (const handler of errorHandlers) {
+            if (handler.accepts(error)) {
+                try {
+                    await controllerInstance[handler.handlerName](err, request, reply);
+                    err = null;
+                    return;
+                } catch (e) {
+                    err = e;
+                }
+            }
+        }
+
+        throw err;
+    });
+}

@@ -13,7 +13,6 @@ describe('Decorators: @Hook', () => {
             }
         }
 
-        expect(Controller[CREATOR].hooks.length).toBe(1);
         expect(Controller[CREATOR].hooks[0]).toEqual({
             name: 'onSend',
             handlerName: 'onSendHook'

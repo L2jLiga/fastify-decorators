@@ -10,6 +10,12 @@ const expectedRoutes = `└── /
     │   │   └── / (GET)
     │   │       └── test (GET)
     │   └── lete (DELETE)
+    ├── throwable/
+    │   ├── type-error (GET)
+    │   ├── syntax-error (GET)
+    │   ├── error (GET)
+    │   │   └── -with-code (GET)
+    │   └── custom-error (GET)
     ├── websocket/
     │   └── :id (GET)
     ├── get (GET)

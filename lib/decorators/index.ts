@@ -9,6 +9,7 @@
 export { Service } from './service';
 export { Inject } from './inject';
 export { Hook } from './hook';
+export { ErrorHandler } from './error-handler';
 
 export { Controller } from './controller';
 

@@ -19,6 +19,7 @@ export function injectDefaultControllerOptions(controller: any): void {
 function getDefaultControllerOptions(): ControllerHandlersAndHooks<Server, IncomingMessage, ServerResponse> {
     return {
         handlers: [],
-        hooks: []
+        errorHandlers: [],
+        hooks: [],
     };
 }

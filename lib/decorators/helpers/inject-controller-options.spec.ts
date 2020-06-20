@@ -10,7 +10,8 @@ describe('Helper: inject controller options', () => {
 
         expect((<any>Controller)[CREATOR]).toEqual({
             handlers: [],
-            hooks: []
+            errorHandlers: [],
+            hooks: [],
         });
     });
 

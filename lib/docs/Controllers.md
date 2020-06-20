@@ -240,6 +240,41 @@ export default class SimpleController {
 }
 ```
 
+### Error handling
+
+`fastify-decorators` also provides abilities to handle error with `@ErrorHandler` decorator.
+
+`@ErrorHandler` may accept error code or type to handle or be empty which means will handle all errors. Let's take a look on example:
+
+```typescript
+import fs from 'fs';
+import path from 'path';
+import { Controller, GET, ErrorHandler } from 'fastify-decorators';
+
+class TokenNotFoundError extends Error {
+}
+
+@Controller('/')
+export default class SimpleController {
+    @GET('/')
+    async get(request, reply) {
+      // may throw FS_READ_ERROR
+      const content = fs.readFileSync(path.join(__dirname, request.query.fileName));
+
+      if (!content.includes('token')) {
+        throw new TokenNotFoundError('Token not found in file requested')
+      }
+
+      return { message: 'ok' }
+    }
+
+    @ErrorHandler(TokenNotFoundError)
+    handleTokenNotFound(error: TokenNotFoundError, request, reply) {
+      reply.status(403).send({ message: 'You have no access' });
+    }
+}
+```
+
 [Fastify Hooks]: https://github.com/fastify/fastify/blob/master/docs/Hooks.md
 [`RouteConfig`]: https://github.com/fastify/fastify/blob/master/docs/Routes.md
 [Dependency Injection]: ./Dependency-Injection.md
