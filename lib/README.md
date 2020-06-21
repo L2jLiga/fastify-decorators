@@ -172,4 +172,4 @@ This project licensed under [MIT License]
 [Controllers]: ./docs/Controllers.md
 [Dependency Injection]: ./docs/Dependency-Injection.md
 [Testing]: ./docs/Testing.md
-[Migration guide (V3)]: ./lib/docs/Migration-to-v3.md
+[Migration guide (V3)]: ./docs/Migration-to-v3.md
