@@ -21,7 +21,8 @@ export async function configureControllerTest(config: ControllerTestConfig) {
     const instance = fastify();
     const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
 
-    config.controller[CREATOR].register(instance, injectablesWithMocks, false);
+    await config.controller[CREATOR].register(instance, injectablesWithMocks, false);
+    await instance.ready();
 
     return instance;
 }
