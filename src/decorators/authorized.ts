@@ -8,7 +8,7 @@
 
 import { FastifyReply, FastifyRequest } from 'fastify';
 
-export async function authorization(request: FastifyRequest, reply: FastifyReply, done: Function) {
+export async function authorization(request: FastifyRequest, reply: FastifyReply, done: (err?: Error) => void): Promise<void> {
     const token = request.headers.cookie?.split(';')
         .map<string>((it: string) => it.trim())
         .map<[string, string]>((it: string) => it.split('=') as [string, string])

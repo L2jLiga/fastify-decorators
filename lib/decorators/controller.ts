@@ -8,13 +8,14 @@
 
 import { FastifyInstance } from 'fastify';
 import { ControllerConfig, ControllerConstructor } from '../interfaces';
+import { InjectableClass } from '../interfaces/injectable-class';
 import { ControllerType } from '../registry';
 import { injectables } from '../registry/injectables';
 import { CREATOR, INJECTABLES } from '../symbols';
 import { injectDefaultControllerOptions } from './helpers/inject-controller-options';
 import { ControllerTypeStrategies } from './strategies/controller-type';
 
-function makeConfig(config?: string | ControllerConfig): ControllerConfig {
+function makeConfig(config?: string | ControllerConfig): ControllerConfig & { type: ControllerType } {
     if (typeof config === 'string') config = { route: config };
 
     return { type: ControllerType.SINGLETON, route: '/', ...config };
@@ -26,16 +27,15 @@ function makeConfig(config?: string | ControllerConfig): ControllerConfig {
 export function Controller(): ClassDecorator;
 export function Controller(route: string): ClassDecorator;
 export function Controller(config: ControllerConfig): ClassDecorator;
-export function Controller(config?: string | ControllerConfig) {
-    return <T extends Function & { [INJECTABLES]: Map<string | symbol | Object, any> }>(controller: T): void => {
+export function Controller(config?: string | ControllerConfig): unknown {
+    return (controller: InjectableClass): void => {
         const { route, type } = makeConfig(config);
 
         injectDefaultControllerOptions(controller);
 
-        (<ControllerConstructor><any>controller)[CREATOR].register = (instance: FastifyInstance, injectablesMap = injectables, cacheResult = true) => {
+        (<ControllerConstructor><unknown>controller)[CREATOR].register = (instance: FastifyInstance, injectablesMap = injectables, cacheResult = true) => {
             controller[INJECTABLES] = injectablesMap;
-            controller.prototype[INJECTABLES] = injectablesMap;
-            return instance.register(async instance => ControllerTypeStrategies[type!](instance, <any>controller, injectablesMap, cacheResult), { prefix: route });
+            return instance.register(async instance => ControllerTypeStrategies[type](instance, controller, injectablesMap, cacheResult), { prefix: route });
         };
     };
 }

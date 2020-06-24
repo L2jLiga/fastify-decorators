@@ -15,10 +15,8 @@
   },
   "files": [
     "index.ts",
-    "testing/index.ts"
-  ],
-  "exclude": [
-    "*.spec.ts",
-    "*.mock.ts"
+    "testing/index.ts",
+    "**/*.spec.ts",
+    "**/*.mock.ts"
   ]
 }

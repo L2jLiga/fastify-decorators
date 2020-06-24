@@ -21,7 +21,8 @@ describe('Testing: configure service test', () => {
 
     it(`should be able to configure service and mock it's dependencies provided via constructor`, () => {
         const srv: ServiceMock = {
-            provide: ServiceWithoutDependencies, useValue: {
+            provide: ServiceWithoutDependencies,
+            useValue: {
                 main() {
                     return false;
                 },

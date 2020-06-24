@@ -12,7 +12,7 @@ import { Service } from 'fastify-decorators';
 export class MessageService {
     private _message = 'Service works!';
 
-    public getMessage() {
+    public getMessage(): string {
         return this._message;
     }
 }

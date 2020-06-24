@@ -7,6 +7,7 @@
  */
 
 import { Constructor } from '../decorators/helpers/inject-dependencies';
+import { Injectables } from '../interfaces/injectable-class';
 import { injectables } from '../registry/injectables';
 import { CREATOR } from '../symbols';
 import { MocksManager } from './mocks-manager';
@@ -18,8 +19,15 @@ export interface ServiceTestConfig<Service> {
 }
 
 export function configureServiceTest<Service>(config: ServiceTestConfig<Service>): Service {
-    const service: any = config.service;
+    const service: Constructor<Service> = config.service;
     const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
 
+    isInjectable(service);
     return service[CREATOR].register(injectablesWithMocks, false);
+}
+
+function isInjectable<Service>(service: Constructor<Service>): asserts service is Constructor<Service> & { [CREATOR]: { register(injectables: Injectables, useOriginal: boolean): Service } } {
+    if (!(CREATOR in service)) {
+        throw new Error('Provided service does not annotated with @Service!');
+    }
 }

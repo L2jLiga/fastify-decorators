@@ -9,8 +9,8 @@
 import { PATCH, RequestHandler } from 'fastify-decorators';
 
 @PATCH('/patch')
-class DeleteHandler extends RequestHandler<any, any, any, { Body: { message: string } }> {
-    public async handle(): Promise<any> {
+class DeleteHandler extends RequestHandler<never, never, never, { Body: { message: string } }> {
+    public async handle(): Promise<{ message: string }> {
         return { message: this.request.body.message };
     }
 }

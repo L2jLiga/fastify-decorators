@@ -10,7 +10,7 @@ import { HEAD, RequestHandler } from 'fastify-decorators';
 
 @HEAD('/head')
 class HeadHandler extends RequestHandler {
-    public async handle(): Promise<any> {
+    public async handle(): Promise<string> {
         this.reply.header('header', 'value');
 
         return '';

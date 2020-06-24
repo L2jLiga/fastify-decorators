@@ -33,7 +33,7 @@ export default class SimpleController {
             }
         }
     })
-    async test(request: FastifyRequest, reply: FastifyReply): Promise<{ message: string }> {
+    async test(): Promise<{ message: string }> {
         return { message: this.service.getMessage() };
     }
 

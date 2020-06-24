@@ -10,7 +10,7 @@ import { OPTIONS, RequestHandler } from 'fastify-decorators';
 
 @OPTIONS('/options')
 class OptionsHandler extends RequestHandler {
-    public async handle(): Promise<any> {
+    public async handle(): Promise<string> {
         this.reply.header('Allow', 'OPTIONS');
 
         return '';

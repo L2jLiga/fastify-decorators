@@ -24,7 +24,7 @@ import { POST, RequestHandler } from 'fastify-decorators';
     }
 })
 class PostHandler extends RequestHandler {
-    public async handle(): Promise<any> {
+    public async handle(): Promise<unknown> {
         return this.request.body;
     }
 }

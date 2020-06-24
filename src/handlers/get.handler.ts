@@ -10,11 +10,11 @@ import { GET, RequestHandler } from 'fastify-decorators';
 
 @GET({
     url: '/get',
-    options: {}
+    options: {},
 })
 class GetHandler extends RequestHandler {
-    public async handle(): Promise<any> {
-        return {message: 'GET works!'};
+    public async handle(): Promise<{ message: string }> {
+        return { message: 'GET works!' };
     }
 }
 

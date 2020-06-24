@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
+import { InjectableClass } from '../interfaces/injectable-class';
 import { CREATOR, INJECTABLES } from '../symbols';
 
 /**
@@ -18,13 +19,13 @@ import { CREATOR, INJECTABLES } from '../symbols';
  *     private instance: FastifyInstance;
  * }
  */
-export function Inject(name: string | Object | symbol): PropertyDecorator {
+export function Inject(name: string | symbol | unknown): PropertyDecorator {
     return (target, propertyKey) => {
         Object.defineProperty(target, propertyKey, {
-            get(): any {
+            get(this: InjectableClass): unknown {
                 return this[INJECTABLES].get(name)
                     ?.[CREATOR]
-                    ?.register(this[INJECTABLES]);
+                    .register(this[INJECTABLES]);
             },
             enumerable: true,
             configurable: true,

@@ -11,8 +11,8 @@ import { ALL, RequestHandler } from 'fastify-decorators';
 @ALL({
     url: '/all',
 })
-class AllHandler extends RequestHandler<any, any, any, { Body: { message: string } }> {
-    public async handle(): Promise<any> {
+class AllHandler extends RequestHandler<never, never, never, { Body: { message: string } }> {
+    public async handle(): Promise<{ message: string }> {
         if (this.request.body)
             return { message: this.request.body.message };
         else return { message: 'All fine! :)' };

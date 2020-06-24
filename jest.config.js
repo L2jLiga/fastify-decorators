@@ -23,5 +23,5 @@ module.exports = {
         '<rootDir>/dist',
         '<rootDir>/node_modules/fastify-decorators',
     ],
-    testRegex: 'test/.*\.spec\.ts$',
+    testRegex: 'test/.*.spec.ts$',
 };

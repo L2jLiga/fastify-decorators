@@ -10,8 +10,8 @@ import { DELETE, RequestHandler } from 'fastify-decorators';
 
 @DELETE('/delete')
 class DeleteHandler extends RequestHandler {
-    public async handle(): Promise<any> {
-        return {message: 'DELETE works!'};
+    public async handle(): Promise<{ message: string }> {
+        return { message: 'DELETE works!' };
     }
 }
 

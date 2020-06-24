@@ -7,7 +7,6 @@ on:
     branches: [v*]
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -15,17 +14,24 @@ jobs:
         node-version: [10.16, 10.x, 12.x, 14.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout branch
+        uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install --frozen-lock-file
-      - run: yarn build
-      - run: yarn test
+      - name: Install dependencies
+        run: yarn install --frozen-lock-file
+      - name: Build project
+        run: yarn build
+      - name: Lint project
+        run: yarn lint
+      - name: Run tests on library
+        run: yarn test
         env:
           CI: true
-      - run: yarn test:application
+      - name: Run tests on application
+        run: yarn test:application
         env:
           CI: true
       - name: Upload coverage to Codecov

@@ -10,7 +10,7 @@ import { FastifyInstance } from 'fastify';
 import * as fs from 'fs';
 import { join } from 'path';
 import { promisify } from 'util';
-import { BootstrapConfig, InjectableClass } from '../interfaces';
+import { BootstrapConfig, InjectableController } from '../interfaces';
 import { AutoLoadConfig, ControllersListConfig } from '../interfaces/bootstrap-config';
 import { injectables } from '../registry/injectables';
 import { CREATOR, FastifyInstanceToken } from '../symbols';
@@ -23,7 +23,7 @@ const defaultMask = /\.(handler|controller)\./;
 /**
  * Method which recursively scan handlers/controllers directory and bootstrap them
  */
-export async function bootstrap(fastify: FastifyInstance<any, any, any, any>, config: BootstrapConfig) {
+export async function bootstrap(fastify: FastifyInstance<any, any, any, any>, config: BootstrapConfig): Promise<void> {
     injectables.set(FastifyInstanceToken, wrapInjectable(fastify));
 
     if ('directory' in config) await autoLoadModules(config as AutoLoadConfig, fastify);
@@ -43,9 +43,9 @@ async function autoLoadModules(config: AutoLoadConfig, fastify: FastifyInstance)
     }
 }
 
-function loadController(controller: InjectableClass, fastify: FastifyInstance, config: BootstrapConfig) {
+function loadController(controller: InjectableController, fastify: FastifyInstance, config: BootstrapConfig) {
     if (controller && CREATOR in controller) {
-        controller[CREATOR]!.register(fastify);
+        controller[CREATOR].register(fastify);
     } else if (!config.skipBroken) {
         throw new TypeError(`Loaded file is incorrect module and can not be bootstrapped: ${module}`);
     }
@@ -64,7 +64,8 @@ async function* findModules(path: string, filter: RegExp): AsyncIterable<string>
     }
 }
 
-function loadModule(module: string): InjectableClass {
+function loadModule(module: string): InjectableController {
+    /* eslint-disable @typescript-eslint/no-var-requires */
     return require(module).__esModule
         ? require(module).default
         : require(module);

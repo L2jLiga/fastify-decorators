@@ -1,9 +1,28 @@
+/**
+ * @license
+ * Copyright Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga). All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
+ */
+
 import { FastifyInstance } from 'fastify';
 import { CREATOR, INJECTABLES } from '../symbols';
 
-export interface InjectableClass {
-    [CREATOR]?: {
-        register: (instance: FastifyInstance) => void
+export type Injectables = Map<string | symbol | unknown, InjectableService>;
+
+export interface InjectableService extends InjectableClass {
+    [CREATOR]: {
+        register<Type>(injectables?: Injectables, cacheResult?: boolean): Type
     }
-    [INJECTABLES]: Map<any, any>;
+}
+
+export interface InjectableController extends InjectableClass {
+    [CREATOR]: {
+        register(instance?: FastifyInstance, injectables?: Injectables, cacheResult?: boolean): void
+    }
+}
+
+export interface InjectableClass {
+    [INJECTABLES]: Injectables;
 }

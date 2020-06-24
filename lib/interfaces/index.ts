@@ -11,4 +11,4 @@ export { ControllerConfig } from './controller-config';
 export { ControllerConstructor, ControllerHandlersAndHooks, ErrorHandler, Handler, Hook } from './controller';
 export { RequestHandler } from './request-handler';
 export { RouteConfig } from './route-config';
-export { InjectableClass } from './injectable-class';
+export { InjectableController } from './injectable-class';

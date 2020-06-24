@@ -2,7 +2,7 @@
 
 This package developed to provide useful typescript decorators to implement RequestHandler pattern with [Fastify].
 
-**NOTE**: Fastify-decorators was developed with fastify `^2.0.0` and may not work with other versions.
+**NOTE**: Fastify-decorators was developed with fastify `^3.0.0` and may not work with other versions.
 
 ## Install
 

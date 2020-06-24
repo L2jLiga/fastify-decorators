@@ -19,7 +19,7 @@ export interface ControllerConstructor<RawServer extends RawServerBase = RawServ
 
     new(): any;
 
-    new(...args: any[]): any;
+    new(...args: unknown[]): any;
 
     [CREATOR]: ControllerHandlersAndHooks<RawServer, RawRequest, RawReply>;
 }

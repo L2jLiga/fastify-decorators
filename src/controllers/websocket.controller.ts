@@ -10,7 +10,7 @@ export default class WebsocketController {
             websocket: true,
         },
     })
-    async exampleHandler(connection: SocketStream, request: FastifyRequest, params: { [key: string]: any }) {
+    exampleHandler(connection: SocketStream, request: FastifyRequest, params: { [key: string]: unknown }): void {
         const id = params.id;
         connection.socket.send(JSON.stringify({ id }));
     }

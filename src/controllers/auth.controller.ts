@@ -6,20 +6,20 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyInstance, FastifyReply, FastifyRequest, preValidationHookHandler } from 'fastify';
 import { Controller, FastifyInstanceToken, GET, getInstanceByToken, POST } from 'fastify-decorators';
 
 @Controller('/authorized')
 export default class AuthController {
-    private static instance = getInstanceByToken<any>(FastifyInstanceToken);
+    private static instance = getInstanceByToken<FastifyInstance & { authorization: preValidationHookHandler }>(FastifyInstanceToken);
 
     @GET({
         url: '/',
         options: {
-            preValidation: AuthController.instance.authorization
-        }
+            preValidation: AuthController.instance.authorization,
+        },
     })
-    async authorizedOnly() {
+    async authorizedOnly(): Promise<{ message: string }> {
         return { message: 'authorized!' };
     }
 
@@ -37,7 +37,7 @@ export default class AuthController {
             }
         }
     })
-    login(request: FastifyRequest<any, any, { Body: { login: string; password: string } }>, reply: FastifyReply) {
+    login(request: FastifyRequest<never, never, { Body: { login: string; password: string } }>, reply: FastifyReply): void {
         const { login, password } = request.body;
 
         reply.header('Set-Cookie', `token=${Buffer.from(login + password).toString('base64')}; path=/; HttpOnly`);

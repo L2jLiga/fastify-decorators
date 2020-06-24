@@ -6,12 +6,13 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
+import { Injectables } from '../interfaces/injectable-class';
 import { wrapInjectable } from '../utils/wrap-injectable';
 import { ServiceMock } from './service-mock';
 
 export class MocksManager {
-    static create(injectables: Map<any, any>, mocks: ServiceMock[] = []): Map<any, any> {
-        const injectablesWithMocks = new Map<any, any>(mocks.map(mock => [mock.provide, wrapInjectable(mock.useValue)]));
+    static create(injectables: Injectables, mocks: ServiceMock[] = []): Injectables {
+        const injectablesWithMocks: Injectables = new Map(mocks.map(mock => [mock.provide, wrapInjectable(mock.useValue)]));
 
         for (const [key, value] of injectables.entries()) {
             const mock = mocks.find(({ provide }) => provide === value);

@@ -7,6 +7,6 @@
  */
 
 export interface ServiceMock {
-    provide: any;
-    useValue: any;
+    provide: string | symbol | Record<string | symbol | number, any>;
+    useValue: Record<string | symbol | number, unknown>;
 }

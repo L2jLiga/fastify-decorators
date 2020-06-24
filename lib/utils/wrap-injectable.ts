@@ -6,14 +6,15 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
+import { InjectableService } from '../interfaces/injectable-class';
 import { CREATOR } from '../symbols';
 
-export function wrapInjectable(it: Object) {
-    return {
+export function wrapInjectable<T>(object: T): InjectableService {
+    return <InjectableService><unknown>{
         [CREATOR]: {
             register() {
-                return it;
-            }
-        }
-    }
+                return object;
+            },
+        },
+    };
 }
