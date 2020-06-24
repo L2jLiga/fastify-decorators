@@ -7,7 +7,7 @@
 
 Fastify-decorators is the set of decorators to easier development of Fastify application.
 
-This package based on Fastify `^2.0.0` and may not work with other versions.
+This package based on Fastify 3 and may not work with other versions.
 
 ## Installation and usage
 
