@@ -21,7 +21,7 @@ export abstract class RequestHandler<RawServer extends RawServerBase = RawServer
     ContextConfig = ContextConfigDefault,
     > {
 
-    protected constructor(protected request: FastifyRequest<RawServer, RawRequest, RequestGeneric>,
+    protected constructor(protected request: FastifyRequest<RequestGeneric, RawServer, RawRequest>,
                           protected reply: FastifyReply<RawServer, RawRequest, RawReply, RequestGeneric, ContextConfig>) {
     }
 

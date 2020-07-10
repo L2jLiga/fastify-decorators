@@ -37,7 +37,7 @@ export default class AuthController {
             }
         }
     })
-    login(request: FastifyRequest<never, never, { Body: { login: string; password: string } }>, reply: FastifyReply): void {
+    login(request: FastifyRequest<{ Body: { login: string; password: string } }>, reply: FastifyReply): void {
         const { login, password } = request.body;
 
         reply.header('Set-Cookie', `token=${Buffer.from(login + password).toString('base64')}; path=/; HttpOnly`);
