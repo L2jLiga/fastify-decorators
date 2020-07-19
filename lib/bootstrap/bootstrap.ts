@@ -52,14 +52,18 @@ function loadController(controller: InjectableController, fastify: FastifyInstan
 }
 
 async function* findModules(path: string, filter: RegExp): AsyncIterable<string> {
-    // TODO: can be replaced with for await (const filePath of fs.opendir) in Node.js >= 12.12
-    for (const filePath of await readdir(path, { withFileTypes: true })) {
-        const fullFilePath = join(path, filePath.name);
+    const directoriesToRead: string[] = [path];
 
-        if (filePath.isDirectory()) {
-            yield* findModules(fullFilePath, filter);
-        } else if (filter.test((filePath.name))) {
-            yield fullFilePath;
+    for (let dirPath = directoriesToRead.pop(); dirPath !== undefined; dirPath = directoriesToRead.pop()) {
+        // TODO: can be replaced with for await (const filePath of fs.opendir) in Node.js >= 12.12
+        for (const filePath of await readdir(dirPath, { withFileTypes: true })) {
+            const fullFilePath = join(dirPath, filePath.name);
+
+            if (filePath.isDirectory()) {
+                directoriesToRead.push(fullFilePath);
+            } else if (filter.test((filePath.name))) {
+                yield fullFilePath;
+            }
         }
     }
 }
