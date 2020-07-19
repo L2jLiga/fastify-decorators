@@ -10,14 +10,21 @@ module.exports = {
     preset: 'ts-jest',
     testEnvironment: './jest.environment.js',
     collectCoverage: true,
-    coverageReporters: ['text'],
+    coverageDirectory: './coverage/integration',
+    coverageReporters: ['text', 'lcov'],
     collectCoverageFrom: [
-        'src/**/*.ts',
+        'lib/**/*.ts',
+        '!lib/**/*.mock.ts',
+        '!lib/**/*.spec.ts',
     ],
     globals: {
         'ts-jest': {
             tsConfig: './tsconfig.json',
         },
+    },
+    moduleNameMapper: {
+        '^fastify-decorators$': '<rootDir>/lib/index.ts',
+        '^fastify-decorators/(.*)$': '<rootDir>/lib/$1',
     },
     modulePathIgnorePatterns: [
         '<rootDir>/dist',
