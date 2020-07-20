@@ -18,31 +18,36 @@ function parseConfig(config: string | RouteConfig = '/', options: RouteShorthand
     return { options, ...config };
 }
 
-export function requestDecoratorsFactory(method: HttpMethods) {
-    return function (routeOrConfig?: string | RouteConfig, options?: RouteShorthandOptions) {
+export function requestDecoratorsFactory(
+    method: HttpMethods
+): (routeOrConfig?: (string | RouteConfig), options?: RouteShorthandOptions) => (target: any, propKey?: (string | symbol)) => void {
+    return function (routeOrConfig?: string | RouteConfig, options?: RouteShorthandOptions): (target: any, propKey?: string | symbol) => void {
         const config = parseConfig(routeOrConfig, options);
 
-        return function (target: any, propKey?: string | symbol) {
-            if (propKey) return controllerMethodDecoratorsFactory(method, config, target, propKey);
+        return function (target: any, propKey?: string | symbol): void {
+            if (propKey) {
+                controllerMethodDecoratorsFactory(method, config, target, propKey);
+                return;
+            }
 
             target[CREATOR] = {
                 register: (instance: FastifyInstance) => instance[method](config.url, config.options!, function (...args) {
                     return (<RequestHandler>new target(...args)).handle();
-                })
+                }),
             };
         };
     };
 }
 
-export function controllerMethodDecoratorsFactory(method: HttpMethods, config: RouteConfig, target: any, propKey: string | symbol) {
-    injectDefaultControllerOptions(target.constructor);
+export function controllerMethodDecoratorsFactory(method: HttpMethods, config: RouteConfig, { constructor }: any, propKey: string | symbol): void {
+    injectDefaultControllerOptions(constructor);
 
-    const controllerOpts = (<ControllerConstructor>target.constructor)[CREATOR];
+    const controllerOpts = constructor[CREATOR];
 
     controllerOpts.handlers.push({
         url: config.url,
         method,
         options: config.options || {},
-        handlerMethod: propKey
+        handlerMethod: propKey,
     });
 }

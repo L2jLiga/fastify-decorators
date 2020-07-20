@@ -28,4 +28,10 @@ describe('Helper: inject controller options', () => {
 
         expect(Controller[CREATOR]).toBe(controllerOptions);
     });
+
+    it('should throw when trying to apply it to non function-like objects', () => {
+        const Controller = {};
+
+        expect(() => injectDefaultControllerOptions(Controller)).toThrow();
+    });
 });

@@ -6,7 +6,6 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { ControllerConstructor } from '../interfaces';
 import { CREATOR } from '../symbols';
 import { injectDefaultControllerOptions } from './helpers/inject-controller-options';
 
@@ -14,10 +13,10 @@ import { injectDefaultControllerOptions } from './helpers/inject-controller-opti
  * Creates handler which listen various hooks
  */
 export function Hook(name: string): MethodDecorator {
-    return (target: any, handlerName: string | symbol) => {
-        injectDefaultControllerOptions(target.constructor);
+    return ({ constructor }: any, handlerName: string | symbol) => {
+        injectDefaultControllerOptions(constructor);
 
-        const controllerOpts = (<ControllerConstructor>target.constructor)[CREATOR];
+        const controllerOpts = constructor[CREATOR];
 
         controllerOpts.hooks.push({
             name,

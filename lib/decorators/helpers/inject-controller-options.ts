@@ -11,9 +11,15 @@ import { ControllerConstructor, ControllerHandlersAndHooks } from '../../interfa
 import { CREATOR } from '../../symbols';
 
 export function injectDefaultControllerOptions(controller: unknown): asserts controller is ControllerConstructor {
-    if (!(<ControllerConstructor>controller)[CREATOR]) {
-        (<ControllerConstructor>controller)[CREATOR] = getDefaultControllerOptions();
+    if (controller instanceof Function) {
+        if (!(CREATOR in controller)) {
+            Object.defineProperty(controller, CREATOR, { value: getDefaultControllerOptions() });
+        }
+
+        return;
     }
+
+    throw new Error('Invalid usage of @Controller decorator');
 }
 
 function getDefaultControllerOptions(): ControllerHandlersAndHooks<Server, IncomingMessage, ServerResponse> {

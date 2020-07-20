@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { ControllerConstructor, ErrorHandler } from '../interfaces';
+import { ErrorHandler } from '../interfaces';
 import { CREATOR } from '../symbols';
 import { injectDefaultControllerOptions } from './helpers/inject-controller-options';
 import { Constructor } from './helpers/inject-dependencies';
@@ -16,9 +16,9 @@ export function ErrorHandler(code: string): MethodDecorator;
 export function ErrorHandler<T extends Error>(configuration: Constructor<T>): MethodDecorator;
 
 export function ErrorHandler<T extends ErrorConstructor>(parameter?: T | string): MethodDecorator {
-    return function (target: any, handlerName: string | symbol) {
-        injectDefaultControllerOptions(target.constructor);
-        const controllerOpts = (<ControllerConstructor>target.constructor)[CREATOR];
+    return function ({ constructor }: any, handlerName: string | symbol) {
+        injectDefaultControllerOptions(constructor);
+        const controllerOpts = constructor[CREATOR];
 
         if (parameter == null) {
             controllerOpts.errorHandlers.push(handlerFactory(() => true, handlerName));
