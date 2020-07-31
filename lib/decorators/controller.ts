@@ -35,6 +35,7 @@ export function Controller(config?: string | ControllerConfig): unknown {
 
         (<ControllerConstructor><unknown>controller)[CREATOR].register = (instance: FastifyInstance, injectablesMap = injectables, cacheResult = true) => {
             controller[INJECTABLES] = injectablesMap;
+            controller.prototype[INJECTABLES] = injectablesMap;
             return instance.register(async instance => ControllerTypeStrategies[type](instance, controller, injectablesMap, cacheResult), { prefix: route });
         };
     };
