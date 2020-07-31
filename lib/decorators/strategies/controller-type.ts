@@ -48,9 +48,7 @@ export const ControllerTypeStrategies = {
 
 function registerHandlers(handlers: Handler[], instance: FastifyInstance, controllerInstance: any): void {
     handlers.forEach(handler => {
-        instance[handler.method](handler.url, handler.options, function (...args) {
-            return controllerInstance[handler.handlerMethod](...args);
-        });
+        instance[handler.method](handler.url, handler.options, controllerInstance[handler.handlerMethod].bind(controllerInstance));
     });
 }
 
