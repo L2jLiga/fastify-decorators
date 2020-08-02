@@ -31,18 +31,17 @@
   "license": "MIT",
   "type": "commonjs",
   "devDependencies": {
-    "@types/jest": "^26.0.2",
+    "@types/jest": "^26.0.8",
     "@types/node": "~10.14.22",
-    "@types/ws": "^7.2.5",
-    "fastify": "^2.15.0",
+    "@types/ws": "^7.2.6",
+    "fastify": "^2.15.2",
     "fastify-websocket": "^1.1.2",
-    "jest": "^26.1.0",
-    "jest-environment-node": "^26.1.0",
+    "jest": "^26.2.2",
+    "jest-environment-node": "^26.2.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "source-map-support": "^0.5.19",
-    "ts-jest": "^26.1.1",
-    "typescript": "^3.9.5"
+    "ts-jest": "^26.1.4",
+    "typescript": "^3.9.7"
   },
   "engines": {
     "node": ">= 10.14.0",
