@@ -19,7 +19,9 @@ const expectedRoutes = `└── /
     ├── websocket/
     │   └── :id (GET)
     ├── get (GET)
-    ├── head (HEAD)
+    ├── h
+    │   ├── andler-with-error (GET)
+    │   └── ead (HEAD)
     ├── options (OPTIONS)
     └── p
         ├── atch (PATCH)
@@ -62,5 +64,13 @@ describe('Bootstrap entire application', () => {
 
         expect(res.statusCode).toBe(200);
         expect(res.payload).toBe(`{"message":"GET works!"}`);
+    });
+
+    it('should handler error in RequestHandler', async () => {
+        const res = await instance.inject('/handler-with-error');
+        const body = await res.json();
+
+        expect(res.statusCode).toEqual(422);
+        expect(body).toEqual({ message: 'Not implemented' });
     });
 });

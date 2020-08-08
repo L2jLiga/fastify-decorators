@@ -114,6 +114,29 @@ class MyRequestHandler extends RequestHandler {
 module.exports = MyRequestHandler;
 ```
 
+### Error handling
+
+`fastify-decorators` also provides abilities to handle error with `@ErrorHandler` decorator.
+
+`@ErrorHandler` may accept error code or type to handle or be empty which means will handle all errors. Let's take a look on example:
+
+```typescript
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { ErrorHandler, GET, RequestHandler } from 'fastify-decorators';
+
+@GET('/handler-with-error')
+export default class HandlerWithErrorHandler extends RequestHandler {
+    public handle(): Promise<never> {
+        return Promise.reject({ code: 'NOT_IMPLEMENTED' })
+    }
+
+    @ErrorHandler('NOT_IMPLEMENTED')
+    handleNotImplemented(error: Error, request: FastifyRequest, reply: FastifyReply): void {
+        reply.status(422).send({ message: 'Not implemented' });
+    }
+}
+```
+
 ## How it works
 
 We use symbols which are not public APIs.

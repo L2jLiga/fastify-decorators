@@ -6,9 +6,11 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { FastifyInstance, RouteShorthandOptions } from 'fastify';
+import { FastifyInstance, FastifyRequest, RouteShorthandOptions } from 'fastify';
 import { RequestHandler, RouteConfig } from '../../interfaces';
-import { CREATOR } from '../../symbols';
+import { CREATOR, ERROR_HANDLERS } from '../../symbols';
+import { hasErrorHandlers } from './class-properties';
+import { createErrorsHandler } from './create-errors-handler';
 import { HttpMethods } from './http-methods';
 import { injectDefaultControllerOptions } from './inject-controller-options';
 
@@ -17,6 +19,8 @@ function parseConfig(config: string | RouteConfig = '/', options: RouteShorthand
 
     return { options, ...config };
 }
+
+const requestHandlersCache = new WeakMap<FastifyRequest, RequestHandler>()
 
 export function requestDecoratorsFactory(
     method: HttpMethods
@@ -31,9 +35,21 @@ export function requestDecoratorsFactory(
             }
 
             target[CREATOR] = {
-                register: (instance: FastifyInstance) => instance[method](config.url, config.options, function (...args) {
-                    return (<RequestHandler>new target(...args)).handle();
-                }),
+                register: (instance: FastifyInstance) => {
+                    if (hasErrorHandlers(target)) {
+                        config.options.errorHandler = (error, request, reply) => {
+                            const errorsHandler = createErrorsHandler(target[ERROR_HANDLERS], requestHandlersCache.get(request));
+
+                            return errorsHandler(error, request, reply);
+                        }
+                    }
+                    instance[method](config.url, config.options, function (request, reply, ...rest) {
+                        const handler = <RequestHandler> new target(request, reply, ...rest);
+                        requestHandlersCache.set(request, handler);
+
+                        return handler.handle();
+                    })
+                },
             };
         };
     };

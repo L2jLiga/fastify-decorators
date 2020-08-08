@@ -15,6 +15,6 @@ export function ensureErrorHandlers(val: any): asserts val is { [ERROR_HANDLERS]
     }
 }
 
-export function hasErrorHandlers(val: any): val is { [ERROR_HANDLERS]: ErrorHandler[] } {
+export function hasErrorHandlers<T = any>(val: T): val is T & { [ERROR_HANDLERS]: ErrorHandler[] } {
     return ERROR_HANDLERS in val;
 }

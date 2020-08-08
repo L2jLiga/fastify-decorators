@@ -11,6 +11,7 @@ import { ControllerConstructor, ControllerHandlersAndHooks, ErrorHandler, Handle
 import { ControllerType } from '../../registry';
 import { CREATOR, ERROR_HANDLERS } from '../../symbols';
 import { hasErrorHandlers } from '../helpers/class-properties';
+import { createErrorsHandler } from '../helpers/create-errors-handler';
 import { createWithInjectedDependencies } from '../helpers/inject-dependencies';
 
 /**
@@ -59,21 +60,6 @@ function registerHooks(hooks: Hook[], instance: FastifyInstance, controllerInsta
     });
 }
 
-function registerErrorHandlers(errorHandlers: ErrorHandler[], instance: FastifyInstance, controllerInstance: any) {
-    instance.setErrorHandler(async (error, request, reply) => {
-        let err: Error | null = error;
-        for (const handler of errorHandlers) {
-            if (handler.accepts(error)) {
-                try {
-                    await controllerInstance[handler.handlerName](err, request, reply);
-                    err = null;
-                    return;
-                } catch (e) {
-                    err = e;
-                }
-            }
-        }
-
-        throw err;
-    });
+function registerErrorHandlers(errorHandlers: ErrorHandler[], instance: FastifyInstance, classInstance: any) {
+    instance.setErrorHandler(createErrorsHandler(errorHandlers, classInstance));
 }

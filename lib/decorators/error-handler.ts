@@ -33,8 +33,6 @@ interface ErrorWithCode extends Error {
     code?: string;
 }
 
-
-
 function handlerFactory(accepts: <T extends Error>(error?: T) => boolean, handlerName: string | symbol): ErrorHandler {
     return { accepts, handlerName };
 }
