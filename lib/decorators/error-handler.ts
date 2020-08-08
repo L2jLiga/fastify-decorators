@@ -7,8 +7,8 @@
  */
 
 import { ErrorHandler } from '../interfaces';
-import { CREATOR } from '../symbols';
-import { injectDefaultControllerOptions } from './helpers/inject-controller-options';
+import { ERROR_HANDLERS } from '../symbols';
+import { ensureErrorHandlers } from './helpers/class-properties';
 import { Constructor } from './helpers/inject-dependencies';
 
 export function ErrorHandler(): MethodDecorator;
@@ -17,15 +17,14 @@ export function ErrorHandler<T extends Error>(configuration: Constructor<T>): Me
 
 export function ErrorHandler<T extends ErrorConstructor>(parameter?: T | string): MethodDecorator {
     return function ({ constructor }: any, handlerName: string | symbol) {
-        injectDefaultControllerOptions(constructor);
-        const controllerOpts = constructor[CREATOR];
+        ensureErrorHandlers(constructor);
 
         if (parameter == null) {
-            controllerOpts.errorHandlers.push(handlerFactory(() => true, handlerName));
+            constructor[ERROR_HANDLERS].push(handlerFactory(() => true, handlerName));
         } else if (typeof parameter === 'string') {
-            controllerOpts.errorHandlers.push(handlerFactory((error?: ErrorWithCode) => error?.code === parameter, handlerName));
+            constructor[ERROR_HANDLERS].push(handlerFactory((error?: ErrorWithCode) => error?.code === parameter, handlerName));
         } else {
-            controllerOpts.errorHandlers.push(handlerFactory((error?: Error) => error instanceof parameter, handlerName));
+            constructor[ERROR_HANDLERS].push(handlerFactory((error?: Error) => error instanceof parameter, handlerName));
         }
     };
 }
@@ -33,6 +32,8 @@ export function ErrorHandler<T extends ErrorConstructor>(parameter?: T | string)
 interface ErrorWithCode extends Error {
     code?: string;
 }
+
+
 
 function handlerFactory(accepts: <T extends Error>(error?: T) => boolean, handlerName: string | symbol): ErrorHandler {
     return { accepts, handlerName };

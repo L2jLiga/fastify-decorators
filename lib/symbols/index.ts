@@ -6,7 +6,8 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-export const CREATOR = Symbol('Uses for storing register method of handler or controller');
-export const INJECTABLES = Symbol('Uses for storing injectables map');
+export const CREATOR = Symbol('fastify-decorators.creator');
+export const INJECTABLES = Symbol('fastify-decorators.injectables');
+export const ERROR_HANDLERS = Symbol('fastify-decorators.error-handlers')
 
 export const FastifyInstanceToken = Symbol('Token to inject FastifyInstance');

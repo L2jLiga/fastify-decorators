@@ -30,7 +30,6 @@ export interface ControllerHandlersAndHooks<RawServer extends RawServerBase,
 
     handlers: Handler<RawServer, RawRequest, RawReply>[];
     hooks: Hook[];
-    errorHandlers: ErrorHandler[];
     register?: (instance: FastifyInstance<RawServer, RawRequest, RawReply>) => void;
 }
 

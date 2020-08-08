@@ -9,7 +9,8 @@
 import { FastifyInstance } from 'fastify';
 import { ControllerConstructor, ControllerHandlersAndHooks, ErrorHandler, Handler, Hook } from '../../interfaces';
 import { ControllerType } from '../../registry';
-import { CREATOR } from '../../symbols';
+import { CREATOR, ERROR_HANDLERS } from '../../symbols';
+import { hasErrorHandlers } from '../helpers/class-properties';
 import { createWithInjectedDependencies } from '../helpers/inject-dependencies';
 
 /**
@@ -29,7 +30,7 @@ export const ControllerTypeStrategies = {
         const configuration: ControllerHandlersAndHooks<any, any, any> = constructor[CREATOR];
 
         registerHandlers(configuration.handlers, instance, controllerInstance);
-        registerErrorHandlers(configuration.errorHandlers, instance, controllerInstance);
+        if (hasErrorHandlers(constructor)) registerErrorHandlers(constructor[ERROR_HANDLERS], instance, controllerInstance);
         registerHooks(configuration.hooks, instance, controllerInstance);
     },
 

@@ -25,7 +25,6 @@ export function injectDefaultControllerOptions(controller: unknown): asserts con
 function getDefaultControllerOptions(): ControllerHandlersAndHooks<Server, IncomingMessage, ServerResponse> {
     return {
         handlers: [],
-        errorHandlers: [],
         hooks: [],
     };
 }
