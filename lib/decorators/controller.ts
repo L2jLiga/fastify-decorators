@@ -12,7 +12,7 @@ import { InjectableClass } from '../interfaces/injectable-class';
 import { ControllerType } from '../registry';
 import { injectables } from '../registry/injectables';
 import { CREATOR, INJECTABLES } from '../symbols';
-import { injectDefaultControllerOptions } from './helpers/inject-controller-options';
+import { injectControllerOptions } from './helpers/inject-controller-options';
 import { ControllerTypeStrategies } from './strategies/controller-type';
 
 function makeConfig(config?: string | ControllerConfig): ControllerConfig & { type: ControllerType } {
@@ -31,7 +31,7 @@ export function Controller(config?: string | ControllerConfig): unknown {
     return (controller: InjectableClass): void => {
         const { route, type } = makeConfig(config);
 
-        injectDefaultControllerOptions(controller);
+        injectControllerOptions(controller);
 
         (<ControllerConstructor><unknown>controller)[CREATOR].register = (instance: FastifyInstance, injectablesMap = injectables, cacheResult = true) => {
             controller[INJECTABLES] = injectablesMap;

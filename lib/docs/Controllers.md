@@ -234,7 +234,7 @@ import { Controller, Hook } from 'fastify-decorators';
 @Controller('/')
 export default class SimpleController {
     @Hook('onSend')
-    async (request, reply) {
+    async onSend(request, reply) {
         reply.removeHeader('X-Powered-By');
     }
 }

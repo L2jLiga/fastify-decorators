@@ -27,16 +27,10 @@ export interface ControllerConstructor<RawServer extends RawServerBase = RawServ
 export interface ControllerHandlersAndHooks<RawServer extends RawServerBase,
     RawRequest extends RawRequestDefaultExpression<RawServer>,
     RawReply extends RawReplyDefaultExpression<RawServer>> {
-
-    handlers: Handler<RawServer, RawRequest, RawReply>[];
-    hooks: Hook[];
     register?: (instance: FastifyInstance<RawServer, RawRequest, RawReply>) => void;
 }
 
-export interface Handler<RawServer extends RawServerBase = RawServerDefault,
-    RawRequest extends RawRequestDefaultExpression<RawServer> = RawRequestDefaultExpression<RawServer>,
-    RawReply extends RawReplyDefaultExpression<RawServer> = RawReplyDefaultExpression<RawServer>> {
-
+export interface Handler {
     url: string;
     method: HttpMethods;
     options: RouteShorthandOptions;

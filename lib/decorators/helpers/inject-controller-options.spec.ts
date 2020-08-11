@@ -1,29 +1,24 @@
 import { CREATOR } from '../../symbols';
-import { injectDefaultControllerOptions } from './inject-controller-options';
+import { injectControllerOptions } from './inject-controller-options';
 
 describe('Helper: inject controller options', () => {
     it('should inject default options into object if they are not exists', () => {
         class Controller {
         }
 
-        injectDefaultControllerOptions(Controller);
+        injectControllerOptions(Controller);
 
-        expect((<any>Controller)[CREATOR]).toEqual({
-            handlers: [],
-            hooks: [],
-        });
+        expect((<any>Controller)[CREATOR]).toEqual({});
     });
 
     it('should not inject anything if object has options', () => {
-        const controllerOptions = {
-            hooks: []
-        };
+        const controllerOptions = {};
 
         class Controller {
             static [CREATOR] = controllerOptions;
         }
 
-        injectDefaultControllerOptions(Controller);
+        injectControllerOptions(Controller);
 
         expect(Controller[CREATOR]).toBe(controllerOptions);
     });
@@ -31,6 +26,6 @@ describe('Helper: inject controller options', () => {
     it('should throw when trying to apply it to non function-like objects', () => {
         const Controller = {};
 
-        expect(() => injectDefaultControllerOptions(Controller)).toThrow();
+        expect(() => injectControllerOptions(Controller)).toThrow();
     });
 });

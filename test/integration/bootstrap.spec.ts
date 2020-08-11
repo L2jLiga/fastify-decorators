@@ -20,7 +20,9 @@ const expectedRoutes = `└── /
     │   └── :id (GET)
     ├── get (GET)
     ├── h
-    │   ├── andler-with-error (GET)
+    │   ├── andler
+    │   │   ├── -with-error (GET)
+    │   │   └── s-with-hook (GET)
     │   └── ead (HEAD)
     ├── options (OPTIONS)
     └── p
@@ -72,5 +74,11 @@ describe('Bootstrap entire application', () => {
 
         expect(res.statusCode).toEqual(422);
         expect(body).toEqual({ message: 'Not implemented' });
+    });
+
+    it('should run hooks in RequestHandler', async () => {
+        const res = await instance.inject('/handlers-with-hook');
+
+        expect(res.headers['x-powered-by'] === 'nodejs').toBe(true);
     });
 });

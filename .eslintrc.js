@@ -23,4 +23,7 @@ module.exports = {
         'plugin:@typescript-eslint/recommended',
         'plugin:jest/recommended',
     ],
+    rules: {
+        "@typescript-eslint/ban-ts-comment": "off",
+    },
 };

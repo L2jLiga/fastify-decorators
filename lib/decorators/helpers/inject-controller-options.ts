@@ -6,25 +6,17 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { IncomingMessage, Server, ServerResponse } from 'http';
-import { ControllerConstructor, ControllerHandlersAndHooks } from '../../interfaces';
+import { ControllerConstructor } from '../../interfaces';
 import { CREATOR } from '../../symbols';
 
-export function injectDefaultControllerOptions(controller: unknown): asserts controller is ControllerConstructor {
+export function injectControllerOptions(controller: unknown): asserts controller is ControllerConstructor {
     if (controller instanceof Function) {
         if (!(CREATOR in controller)) {
-            Object.defineProperty(controller, CREATOR, { value: getDefaultControllerOptions() });
+            Object.defineProperty(controller, CREATOR, { value: {} });
         }
 
         return;
     }
 
     throw new Error('Invalid usage of @Controller decorator');
-}
-
-function getDefaultControllerOptions(): ControllerHandlersAndHooks<Server, IncomingMessage, ServerResponse> {
-    return {
-        handlers: [],
-        hooks: [],
-    };
 }

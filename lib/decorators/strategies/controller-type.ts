@@ -9,8 +9,8 @@
 import { FastifyInstance } from 'fastify';
 import { ControllerConstructor, ControllerHandlersAndHooks, ErrorHandler, Handler, Hook } from '../../interfaces';
 import { ControllerType } from '../../registry';
-import { CREATOR, ERROR_HANDLERS } from '../../symbols';
-import { hasErrorHandlers } from '../helpers/class-properties';
+import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
+import { hasErrorHandlers, hasHandlers, hasHooks } from '../helpers/class-properties';
 import { createErrorsHandler } from '../helpers/create-errors-handler';
 import { createWithInjectedDependencies } from '../helpers/inject-dependencies';
 
@@ -28,23 +28,24 @@ import { createWithInjectedDependencies } from '../helpers/inject-dependencies';
 export const ControllerTypeStrategies = {
     [ControllerType.SINGLETON](instance: FastifyInstance<any, any, any, any>, constructor: ControllerConstructor, injectablesMap: Map<any, any>, cacheResult: boolean) {
         const controllerInstance = createWithInjectedDependencies(constructor, injectablesMap, cacheResult);
-        const configuration: ControllerHandlersAndHooks<any, any, any> = constructor[CREATOR];
 
-        registerHandlers(configuration.handlers, instance, controllerInstance);
-        if (hasErrorHandlers(constructor)) registerErrorHandlers(constructor[ERROR_HANDLERS], instance, controllerInstance);
-        registerHooks(configuration.hooks, instance, controllerInstance);
+        if (hasHandlers(constructor))
+            registerHandlers(constructor[HANDLERS], instance, controllerInstance);
+        if (hasErrorHandlers(constructor))
+            registerErrorHandlers(constructor[ERROR_HANDLERS], instance, controllerInstance);
+        if (hasHooks(constructor))
+            registerHooks(constructor[HOOKS], instance, controllerInstance);
     },
 
     [ControllerType.REQUEST](instance: FastifyInstance<any, any, any, any>, constructor: ControllerConstructor, injectablesMap: Map<any, any>, cacheResult: boolean) {
-        const configuration = constructor[CREATOR];
+        if (hasHandlers(constructor))
+            constructor[HANDLERS].forEach(handler => {
+                const { url, method, handlerMethod, options } = handler;
 
-        configuration.handlers.forEach(handler => {
-            const { url, method, handlerMethod, options } = handler;
-
-            instance[method](url, options, function (...args) {
-                return createWithInjectedDependencies(constructor, injectablesMap, cacheResult)[handlerMethod](...args);
+                instance[method](url, options, function (...args) {
+                    return createWithInjectedDependencies(constructor, injectablesMap, cacheResult)[handlerMethod](...args);
+                });
             });
-        });
     },
 } as const;
 

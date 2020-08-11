@@ -137,6 +137,25 @@ export default class HandlerWithErrorHandler extends RequestHandler {
 }
 ```
 
+### Hooks
+
+There are also decorator which allows using [Fastify Hooks]:
+```typescript
+import { GET, Hook } from 'fastify-decorators';
+
+@GET('/')
+export default class Handler extends RequestHandler {
+    public handle(): Promise<never> {
+        return Promise.reject({ code: 'NOT_IMPLEMENTED' })
+    }
+
+    @Hook('onSend')
+    async onSend(request, reply) {
+        reply.removeHeader('X-Powered-By');
+    }
+}
+```
+
 ## How it works
 
 We use symbols which are not public APIs.

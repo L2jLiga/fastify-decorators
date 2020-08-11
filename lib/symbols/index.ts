@@ -8,6 +8,8 @@
 
 export const CREATOR = Symbol('fastify-decorators.creator');
 export const INJECTABLES = Symbol('fastify-decorators.injectables');
-export const ERROR_HANDLERS = Symbol('fastify-decorators.error-handlers')
+export const ERROR_HANDLERS = Symbol('fastify-decorators.error-handlers');
+export const HANDLERS = Symbol('fastify-decorators.handlers');
+export const HOOKS = Symbol('fastify-decorators.handlers');
 
 export const FastifyInstanceToken = Symbol('Token to inject FastifyInstance');

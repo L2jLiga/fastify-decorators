@@ -6,13 +6,12 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { FastifyInstance, FastifyRequest, RouteShorthandOptions } from 'fastify';
-import { RequestHandler, RouteConfig } from '../../interfaces';
-import { CREATOR, ERROR_HANDLERS } from '../../symbols';
-import { hasErrorHandlers } from './class-properties';
+import { FastifyInstance, FastifyReply, FastifyRequest, RouteShorthandOptions } from 'fastify';
+import { Hook, RequestHandler, RouteConfig } from '../../interfaces';
+import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
+import { ensureHandlers, hasErrorHandlers, hasHooks } from './class-properties';
 import { createErrorsHandler } from './create-errors-handler';
 import { HttpMethods } from './http-methods';
-import { injectDefaultControllerOptions } from './inject-controller-options';
 
 function parseConfig(config: string | RouteConfig = '/', options: RouteShorthandOptions = {}): RouteConfig & { options: RouteShorthandOptions } {
     if (typeof config === 'string') return { url: config, options };
@@ -21,6 +20,12 @@ function parseConfig(config: string | RouteConfig = '/', options: RouteShorthand
 }
 
 const requestHandlersCache = new WeakMap<FastifyRequest, RequestHandler>()
+function getTarget(Target: any, request: FastifyRequest, ...rest: unknown[]) {
+    if (requestHandlersCache.has(request)) return requestHandlersCache.get(request);
+    const target = new Target(request, ...rest);
+    requestHandlersCache.set(request, target);
+    return target;
+}
 
 export function requestDecoratorsFactory(
     method: HttpMethods
@@ -36,15 +41,23 @@ export function requestDecoratorsFactory(
 
             target[CREATOR] = {
                 register: (instance: FastifyInstance) => {
-                    if (hasErrorHandlers(target)) {
-                        config.options.errorHandler = (error, request, reply) => {
-                            const errorsHandler = createErrorsHandler(target[ERROR_HANDLERS], requestHandlersCache.get(request));
-
-                            return errorsHandler(error, request, reply);
+                    if (hasHooks(target)) {
+                        for (const hook of target[HOOKS]) {
+                            // @ts-expect-error we know that hook.name is name of Fastify hook
+                            config.options[hook.name] = (request: FastifyRequest, ...rest: unknown[]) => {
+                                return getTarget(target, request, rest)[hook.handlerName](request, ...rest);
+                            };
                         }
                     }
-                    instance[method](config.url, config.options, function (request, reply, ...rest) {
-                        const handler = <RequestHandler> new target(request, reply, ...rest);
+                    if (hasErrorHandlers(target)) {
+                        config.options.errorHandler = (error, request, ...rest) => {
+                            const errorsHandler = createErrorsHandler(target[ERROR_HANDLERS], getTarget(target, request, ...rest));
+
+                            return errorsHandler(error, request, ...rest);
+                        }
+                    }
+                    instance[method](config.url, config.options, function (request, ...rest) {
+                        const handler = <RequestHandler> getTarget(target, request, ...rest);
                         requestHandlersCache.set(request, handler);
 
                         return handler.handle();
@@ -56,11 +69,9 @@ export function requestDecoratorsFactory(
 }
 
 export function controllerMethodDecoratorsFactory(method: HttpMethods, config: RouteConfig, { constructor }: any, propKey: string | symbol): void {
-    injectDefaultControllerOptions(constructor);
+    ensureHandlers(constructor);
 
-    const controllerOpts = constructor[CREATOR];
-
-    controllerOpts.handlers.push({
+    constructor[HANDLERS].push({
         url: config.url,
         method,
         options: config.options || {},
