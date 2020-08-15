@@ -29,20 +29,23 @@ Installation and basic usage instruction can be found in [library README]
 ## Repository structure
 
 - [lib] directory contains library sources
-- [src] directory contains example of usage of this library
+- [examples] directory contains sample projects
+- [src] directory contains application used for testing
 - [test] directory contains tests for library and example
 
 **NOTE**: give a look also to the [`package.json`] to find out how the scripts are done 😉
 
 ## How to run example
 
-1. clone this repository or download
-1. open terminal in project directory
-1. type `npm install`
-1. type `npm run build`
-1. type `npm start`
+1. clone or download this repository
+1. install library dependencies by running `yarn install` or `npm install` in root directory
+1. build library by running `yarn build` or `npm run build` in root directory
+1. open terminal in [examples] directory
+1. type `yarn install` or `npm install`
+1. type `yarn build` or `npm run build`
+1. type `yarn start` or `npm start`
 
-Example will be available on http://localhost:3000. You can check it by GET request to http://localhost:3000/get
+Example will run and show url, routes and documentation (if available).
 
 ## License
 
@@ -51,6 +54,7 @@ This project licensed under [MIT License]
 [library README]: ./lib/README.md
 [JetBrains IDE plugin]: https://plugins.jetbrains.com/plugin/13801-fastify-decorators
 [lib]: ./lib
+[examples]: ./examples
 [src]: ./src
 [test]: ./test
 [`package.json`]: ./package.json

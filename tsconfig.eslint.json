@@ -3,6 +3,7 @@
   "include": [
     "src/**/*.ts",
     "lib/**/*.ts",
+    "examples/**/*.ts",
     "test/**/*.ts"
   ],
   "exclude": [

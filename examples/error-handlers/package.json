@@ -1,0 +1,22 @@
+{
+  "name": "@fastify-decorators/error-handlers",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "fastify": "^3.2.0",
+    "fastify-decorators": "file:../../dist/fastify-decorators"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.9",
+    "@types/node": "~10.17.28",
+    "jest": "^26.4.0",
+    "ts-jest": "^26.2.0",
+    "typescript": "^3.9.7"
+  }
+}
