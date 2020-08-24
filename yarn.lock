@@ -1694,10 +1694,10 @@ fastify-websocket@^2.0.7:
     find-my-way "^3.0.0"
     ws "^7.2.3"
 
-fastify@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.2.0.tgz#acc009f86c06329a53515e303fc35f50d8f59527"
-  integrity sha512-+4gv8GiiblMtJf1z/sCQfEbndugmlpQu8wx4IgEpAstKY36fHIMBCSny9Wz6fHfq+FU/FTpYbrCFxzCMwiykFQ==
+fastify@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.2.1.tgz#119250e50a3f49e1a8036a4abaebef9823b0db1c"
+  integrity sha512-2y2qZzS4bqD1cwaX72ot8DjjUFqqxn/SbgKN1xe4vH2HVy7c6u++6IY8HzBRWJv38p3WiBogLWAObxaISxUlJg==
   dependencies:
     abstract-logging "^2.0.0"
     ajv "^6.12.2"
