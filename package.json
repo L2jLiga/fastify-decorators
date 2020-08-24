@@ -41,7 +41,7 @@
     "eslint-plugin-jest": "^23.20.0",
     "fastify": "^3.2.1",
     "fastify-websocket": "^2.0.7",
-    "jest": "^26.4.0",
+    "jest": "^26.4.2",
     "jest-environment-node": "^26.3.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
