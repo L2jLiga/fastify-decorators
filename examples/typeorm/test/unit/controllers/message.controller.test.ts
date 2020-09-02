@@ -12,6 +12,7 @@ describe('Controller: Message Controller', () => {
             getMessages: jest.fn(),
             getMessageBy: jest.fn(),
             storeMessage: jest.fn(),
+            deleteBy: jest.fn(),
         };
 
         instance = await configureControllerTest({
