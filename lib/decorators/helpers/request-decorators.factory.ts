@@ -6,12 +6,28 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { FastifyInstance, FastifyReply, FastifyRequest, RouteShorthandOptions } from 'fastify';
-import { Hook, RequestHandler, RouteConfig } from '../../interfaces';
+import { FastifyInstance, FastifyRequest, RouteShorthandOptions } from 'fastify';
+import { RequestHandler, RouteConfig } from '../../interfaces';
 import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
 import { ensureHandlers, hasErrorHandlers, hasHooks } from './class-properties';
 import { createErrorsHandler } from './create-errors-handler';
 import { HttpMethods } from './http-methods';
+
+/*
+function parseConfig(config?: string | RouteConfig, opts?: RouteShorthandOptions): RouteConfig & { options: RouteShorthandOptions } {
+    let url = '/';
+    let options: RouteShorthandOptions = {};
+
+    if (typeof config === 'string') url = config;
+    if (config && typeof config === 'object') {
+        if (config.url !== undefined) url = config.url;
+        if (config.options !== undefined) options = config.options;
+    }
+    if (opts && typeof opts === 'object') options = opts;
+
+    return { options, url };
+}
+*/
 
 function parseConfig(config: string | RouteConfig = '/', options: RouteShorthandOptions = {}): RouteConfig & { options: RouteShorthandOptions } {
     if (typeof config === 'string') return { url: config, options };
@@ -57,10 +73,7 @@ export function requestDecoratorsFactory(
                         }
                     }
                     instance[method](config.url, config.options, function (request, ...rest) {
-                        const handler = <RequestHandler> getTarget(target, request, ...rest);
-                        requestHandlersCache.set(request, handler);
-
-                        return handler.handle();
+                        return getTarget(target, request, ...rest).handle();
                     })
                 },
             };
