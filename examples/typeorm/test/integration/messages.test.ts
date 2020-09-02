@@ -20,6 +20,7 @@ describe('Messages CRUD test', () => {
         const body = result.json<Message>();
         id = body.id;
     });
+
     afterEach(async () => {
         await app.inject({
             url: `/messages/${id}`,

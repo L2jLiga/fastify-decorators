@@ -1,0 +1,39 @@
+name: Build example
+
+on:
+  push:
+    branches: [v*]
+  pull_request:
+    branches: [v*]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        example: [error-handlers, swagger, typeorm]
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v2.1.1
+        with:
+          node-version: 12.x
+      - name: Install dependencies
+        run: yarn install --frozen-lock-file
+      - name: Build library
+        run: yarn build:lib
+      - name: Build "${{ matrix.example }}"
+        run: |
+          cd examples
+          cd ${{ matrix.example }}
+          yarn install
+          yarn build
+      - name: Run tests on example
+        run: |
+          cd examples
+          cd ${{ matrix.example }}
+          yarn test
+        env:
+          CI: true
