@@ -1,6 +1,6 @@
 {
   "name": "fastify-decorators",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Build your Fastify server with controllers, services and hooks",
   "main": "index.js",
   "typings": "index.d.ts",
