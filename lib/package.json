@@ -16,6 +16,8 @@
     "typescript",
     "decorators",
     "controller",
+    "requests",
+    "dependency injection",
     "rest",
     "server",
     "http",
