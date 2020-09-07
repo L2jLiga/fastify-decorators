@@ -4,6 +4,9 @@
   "description": "Set of Typescript decorators to build Fastify server with controllers, services and hooks",
   "main": "index.js",
   "typings": "index.d.ts",
+  "typesVersions": {
+    "<3.9": { "*": ["ts3.4/*"] }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/L2jLiga/fastify-decorators.git"

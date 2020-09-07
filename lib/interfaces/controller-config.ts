@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { ControllerType } from '../registry';
+import type { ControllerType } from '../registry';
 
 /**
  * Config for controllers

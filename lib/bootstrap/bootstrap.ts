@@ -6,12 +6,12 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { FastifyInstance } from 'fastify';
+import type { FastifyInstance } from 'fastify';
 import * as fs from 'fs';
 import { join } from 'path';
 import { promisify } from 'util';
-import { BootstrapConfig, InjectableController } from '../interfaces';
-import { AutoLoadConfig, ControllersListConfig } from '../interfaces/bootstrap-config';
+import type { BootstrapConfig, InjectableController } from '../interfaces';
+import type { AutoLoadConfig, ControllersListConfig } from '../interfaces/bootstrap-config';
 import { injectables } from '../registry/injectables';
 import { CREATOR, FastifyInstanceToken } from '../symbols';
 import { wrapInjectable } from '../utils/wrap-injectable';

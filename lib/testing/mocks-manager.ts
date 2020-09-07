@@ -6,9 +6,9 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { Injectables, InjectableService } from '../interfaces/injectable-class';
+import type { Injectables, InjectableService } from '../interfaces/injectable-class';
 import { wrapInjectable } from '../utils/wrap-injectable';
-import { ServiceMock } from './service-mock';
+import type { ServiceMock } from './service-mock';
 
 export class MocksManager {
     static create(injectables: Injectables, mocks: ServiceMock[] = []): Injectables {

@@ -6,8 +6,8 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { RouteShorthandOptions } from 'fastify';
-import { RouteConfig } from '../interfaces';
+import type { RouteShorthandOptions } from 'fastify';
+import type { RouteConfig } from '../interfaces';
 import { requestDecoratorsFactory } from './helpers/request-decorators.factory';
 
 export function ALL(): (target: unknown, propKey?: string | symbol) => void;

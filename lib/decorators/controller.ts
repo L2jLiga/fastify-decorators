@@ -6,9 +6,9 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { FastifyInstance } from 'fastify';
-import { ControllerConfig, ControllerConstructor } from '../interfaces';
-import { InjectableClass } from '../interfaces/injectable-class';
+import type { FastifyInstance } from 'fastify';
+import type { ControllerConfig, ControllerConstructor } from '../interfaces';
+import type { InjectableClass } from '../interfaces/injectable-class';
 import { ControllerType } from '../registry';
 import { injectables } from '../registry/injectables';
 import { CREATOR, INJECTABLES } from '../symbols';

@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { RouteShorthandOptions } from 'fastify';
+import type { RouteShorthandOptions } from 'fastify';
 
 /**
  * Common config for all route handlers

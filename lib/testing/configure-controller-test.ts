@@ -7,11 +7,11 @@
  */
 
 import { fastify, FastifyInstance } from 'fastify';
-import { InjectableController } from '../interfaces';
+import type { InjectableController } from '../interfaces';
 import { injectables } from '../registry/injectables';
 import { CREATOR } from '../symbols';
 import { MocksManager } from './mocks-manager';
-import { ServiceMock } from './service-mock';
+import type { ServiceMock } from './service-mock';
 
 export interface ControllerTestConfig {
     controller: any;

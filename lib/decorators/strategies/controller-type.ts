@@ -6,8 +6,8 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { FastifyInstance } from 'fastify';
-import { ControllerConstructor, ErrorHandler, Handler, Hook } from '../../interfaces';
+import type { FastifyInstance } from 'fastify';
+import type { ControllerConstructor, ErrorHandler, Handler, Hook } from '../../interfaces';
 import { ControllerType } from '../../registry';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
 import { hasErrorHandlers, hasHandlers, hasHooks } from '../helpers/class-properties';

@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { ErrorHandler, Handler, Hook } from '../../interfaces';
+import type { ErrorHandler, Handler, Hook } from '../../interfaces';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
 
 export function ensureHandlers(val: any): asserts val is { [HANDLERS]: Handler[] } {

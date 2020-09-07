@@ -6,6 +6,6 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { Injectables } from '../interfaces/injectable-class';
+import type { Injectables } from '../interfaces/injectable-class';
 
 export const injectables: Injectables = new Map();

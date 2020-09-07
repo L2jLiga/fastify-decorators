@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node bin/start.js",
     "build": "yarn clean && yarn build:lib && yarn build:server",
-    "build:lib": "tsc -p lib/tsconfig.lib.json && yarn cp",
+    "build:lib": "tsc -p lib/tsconfig.lib.json && yarn cp && yarn downlevel",
     "build:server": "tsc",
     "clean": "yarn clean:server && yarn clean:lib",
     "clean:server": "rimraf dist/server",
@@ -13,6 +13,7 @@
     "cp": "yarn cp:assets && yarn cp:package",
     "cp:assets": "cp -r ./lib/package.json ./lib/README.md ./CHANGELOG.md ./LICENSE ./lib/docs ./dist/fastify-decorators && node patch-readme.cjs",
     "cp:package": "cp -r ./dist/fastify-decorators ./node_modules",
+    "downlevel": "downlevel-dts ./dist/fastify-decorators ./dist/fastify-decorators/ts3.4",
     "lint": "eslint .",
     "test": "jest --config lib/jest.config.js",
     "test:application": "jest"
@@ -37,6 +38,7 @@
     "@types/ws": "^7.2.6",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
+    "downlevel-dts": "^0.6.0",
     "eslint": "^7.8.1",
     "eslint-plugin-jest": "^24.0.0",
     "fastify": "^3.3.0",

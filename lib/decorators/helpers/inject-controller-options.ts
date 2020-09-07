@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { ControllerConstructor } from '../../interfaces';
+import type { ControllerConstructor } from '../../interfaces';
 import { CREATOR } from '../../symbols';
 
 export function injectControllerOptions(controller: unknown): asserts controller is ControllerConstructor {

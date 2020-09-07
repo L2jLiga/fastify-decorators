@@ -1,6 +1,7 @@
 /* eslint-disable jest/no-standalone-expect,jest/expect-expect */
-import { RouteShorthandOptions } from 'fastify';
-import { CREATOR } from '../../symbols';
+import { FastifyRequest, RouteShorthandOptions } from 'fastify';
+import { Hook } from '../../interfaces';
+import { CREATOR, HOOKS } from '../../symbols';
 import { requestDecoratorsFactory } from './request-decorators.factory';
 
 describe('Factory: request decorators', () => {

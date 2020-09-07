@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { InjectableClass } from '../interfaces/injectable-class';
+import type { InjectableClass } from '../interfaces/injectable-class';
 import { CREATOR, INJECTABLES } from '../symbols';
 
 /**

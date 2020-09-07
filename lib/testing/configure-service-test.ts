@@ -6,12 +6,12 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { Constructor } from '../decorators/helpers/inject-dependencies';
-import { Injectables } from '../interfaces/injectable-class';
+import type { Constructor } from '../decorators/helpers/inject-dependencies';
+import type { Injectables } from '../interfaces/injectable-class';
 import { injectables } from '../registry/injectables';
 import { CREATOR } from '../symbols';
 import { MocksManager } from './mocks-manager';
-import { ServiceMock } from './service-mock';
+import type { ServiceMock } from './service-mock';
 
 export interface ServiceTestConfig<Service> {
     service: Constructor<Service>;

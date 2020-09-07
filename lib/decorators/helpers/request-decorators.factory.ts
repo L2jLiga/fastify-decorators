@@ -6,12 +6,12 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { FastifyInstance, FastifyRequest, RouteShorthandOptions } from 'fastify';
-import { RequestHandler, RouteConfig } from '../../interfaces';
+import type { FastifyInstance, FastifyRequest, RouteShorthandOptions } from 'fastify';
+import type { RequestHandler, RouteConfig } from '../../interfaces';
 import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
 import { ensureHandlers, hasErrorHandlers, hasHooks } from './class-properties';
 import { createErrorsHandler } from './create-errors-handler';
-import { HttpMethods } from './http-methods';
+import type { HttpMethods } from './http-methods';
 
 function parseConfig(config: string | RouteConfig = '/', options: RouteShorthandOptions = {}): RouteConfig & { options: RouteShorthandOptions } {
     if (typeof config === 'string') return { url: config, options };

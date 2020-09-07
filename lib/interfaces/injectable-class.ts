@@ -6,8 +6,8 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { FastifyInstance } from 'fastify';
-import { CREATOR, INJECTABLES } from '../symbols';
+import type { FastifyInstance } from 'fastify';
+import type { CREATOR, INJECTABLES } from '../symbols';
 
 export type Injectables = Map<string | symbol | unknown, InjectableService>;
 

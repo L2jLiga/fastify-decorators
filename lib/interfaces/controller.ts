@@ -6,11 +6,11 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { FastifyInstance, RouteShorthandOptions } from 'fastify';
-import { FastifyLoggerInstance } from 'fastify/types/logger';
-import { RawReplyDefaultExpression, RawRequestDefaultExpression, RawServerBase, RawServerDefault } from 'fastify/types/utils';
-import { HttpMethods } from '../decorators/helpers/http-methods';
-import { CREATOR } from '../symbols';
+import type { FastifyInstance, RouteShorthandOptions } from 'fastify';
+import type { FastifyLoggerInstance } from 'fastify/types/logger';
+import type { RawReplyDefaultExpression, RawRequestDefaultExpression, RawServerBase, RawServerDefault } from 'fastify/types/utils';
+import type { HttpMethods } from '../decorators/helpers/http-methods';
+import type { CREATOR } from '../symbols';
 
 export interface ControllerConstructor<RawServer extends RawServerBase = RawServerDefault,
     RawRequest extends RawRequestDefaultExpression<RawServer> = RawRequestDefaultExpression<RawServer>,
