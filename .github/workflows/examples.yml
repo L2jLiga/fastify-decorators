@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        example: [error-handlers, swagger, typeorm, typescript-3.4]
+        example: [controllers, error-handlers, request-handlers, swagger, typeorm, typescript-3.4]
 
     steps:
       - name: Checkout branch
