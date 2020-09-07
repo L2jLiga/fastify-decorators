@@ -1,0 +1,25 @@
+{
+  "name": "@fastify-decorators/typeorm",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "^0.10.1",
+    "fastify": "^3.3.0",
+    "fastify-decorators": "file:../../dist/fastify-decorators",
+    "fastify-oas": "^3.0.3",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.2.3",
+    "@types/node": "~10.17.28",
+    "jest": "^25.5.4",
+    "ts-jest": "^25.5.1",
+    "typescript": "^3.4.5"
+  }
+}
