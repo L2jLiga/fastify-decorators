@@ -20,7 +20,7 @@
   "directories": {
     "bin": "./bin",
     "doc": "./lib/docs",
-    "example": "./src",
+    "example": "./examples",
     "lib": "./lib",
     "test": "./test"
   },
