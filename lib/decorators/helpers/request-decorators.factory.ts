@@ -13,7 +13,9 @@ import { ensureHandlers, hasErrorHandlers, hasHooks } from './class-properties';
 import { createErrorsHandler } from './create-errors-handler';
 import type { HttpMethods } from './http-methods';
 
-function parseConfig(config: string | RouteConfig = '/', options: RouteShorthandOptions = {}): RouteConfig & { options: RouteShorthandOptions } {
+type ParsedRouteConfig = RouteConfig & { options: RouteShorthandOptions };
+
+function parseConfig(config: string | RouteConfig = '/', options: RouteShorthandOptions = {}): ParsedRouteConfig {
     if (typeof config === 'string') return { url: config, options };
 
     return { options, ...config };
@@ -65,13 +67,13 @@ export function requestDecoratorsFactory(
     };
 }
 
-export function controllerMethodDecoratorsFactory(method: HttpMethods, config: RouteConfig, { constructor }: any, propKey: string | symbol): void {
+export function controllerMethodDecoratorsFactory(method: HttpMethods, config: ParsedRouteConfig, { constructor }: any, propKey: string | symbol): void {
     ensureHandlers(constructor);
 
     constructor[HANDLERS].push({
         url: config.url,
         method,
-        options: config.options || {},
+        options: config.options,
         handlerMethod: propKey,
     });
 }
