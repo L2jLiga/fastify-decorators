@@ -1,5 +1,5 @@
 {
-  "name": "@fastify-decorators/typeorm",
+  "name": "@fastify-decorators/typescript-3.4",
   "version": "1.0.0",
   "main": "dist/index.js",
   "license": "MIT",

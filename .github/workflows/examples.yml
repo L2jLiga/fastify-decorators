@@ -37,3 +37,8 @@ jobs:
           yarn test
         env:
           CI: true
+      - name: Upload examples code coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          directory: coverage/examples
+          flags: examples

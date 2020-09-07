@@ -1,12 +1,7 @@
+const baseConfig = require('../../jest.examples.config');
+
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: '../../jest.environment.js',
-  collectCoverage: true,
-  coverageReporters: ['text'],
-  globals: {
-    'ts-jest': {
-      tsConfig: './tsconfig.json',
-    },
-  },
-  testRegex: 'test/.*.test.ts$',
+  ...baseConfig,
+  coverageDirectory: './coverage/examples/error-handlers',
+  testRegex: 'examples/error-handlers/test/.*.test.ts$',
 }
