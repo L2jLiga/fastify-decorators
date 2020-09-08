@@ -11,7 +11,7 @@ import type { CREATOR, INJECTABLES } from '../symbols';
 
 export type Injectables = Map<string | symbol | unknown, InjectableService>;
 
-export interface InjectableService extends InjectableClass {
+export interface InjectableService extends InjectableClass, Object {
     [CREATOR]: {
         register<Type>(injectables?: Injectables, cacheResult?: boolean): Type
     }

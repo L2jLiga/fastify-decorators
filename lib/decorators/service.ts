@@ -15,9 +15,9 @@ import { createWithInjectedDependencies } from './helpers/inject-dependencies';
  */
 export function Service(): ClassDecorator;
 export function Service(injectableToken: string | symbol): ClassDecorator;
-export function Service(injectableToken?: string | symbol): ClassDecorator {
+export function Service(injectableToken?: string | symbol): unknown {
     return (target: any) => {
-        let instance: any;
+        let instance: unknown;
 
         injectables.set(target, target);
         if (injectableToken) injectables.set(injectableToken, target);

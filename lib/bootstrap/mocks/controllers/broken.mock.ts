@@ -1,10 +1,9 @@
-import { Controller } from '../../../decorators/controller';
-import { GET } from '../../../decorators/request-handlers';
+import { Controller, GET } from '../../../decorators';
 
 @Controller('/broken')
 export class BrokenMock {
     @GET()
-    get() {
+    get(): number {
         return 0;
     }
 }

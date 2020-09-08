@@ -7,6 +7,7 @@
  */
 
 import type { FastifyPluginOptions } from 'fastify';
+import { Constructor } from '../decorators/helpers/inject-dependencies';
 
 /**
  * Config for application bootstrap
@@ -35,7 +36,7 @@ export interface ControllersListConfig extends FastifyPluginOptions {
     /**
      * List of Controller classes to bootstrap
      */
-    controllers: any[];
+    controllers: Constructor<unknown>[];
 
     /**
      * By default application will fails to bootstrap if one or more of loaded files does not contain valid controller or handler

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-namespace
-import { Injectables, InjectableService } from '../../interfaces/injectable-class';
+import { InjectableService } from '../../interfaces/injectable-class';
 import { CREATOR, INJECTABLES } from '../../symbols';
 import { createWithInjectedDependencies } from './inject-dependencies';
 

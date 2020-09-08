@@ -116,7 +116,7 @@ module.exports = MyRequestHandler;
 
 ### Error handling
 
-`fastify-decorators` also provides abilities to handle error with `@ErrorHandler` decorator.
+`fastify-decorators` provides abilities to handle error with `@ErrorHandler` decorator.
 
 `@ErrorHandler` may accept error code or type to handle or be empty which means will handle all errors. Let's take a look on example:
 

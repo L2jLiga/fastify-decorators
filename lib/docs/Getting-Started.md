@@ -9,7 +9,7 @@ This documents aims to be gentle introduction to the fastify-decorators and its 
 
 - Typescript
 - Fastify
-- typings for node.js (`@types/node` package installed)
+- typings for NodeJS (`@types/node` package installed)
 
 ### Install
 
@@ -35,8 +35,15 @@ Fastify-decorators requires `experimentalDecorators` feature to be enabled. For 
 }
 ```
 
-*Note*: if you struggle which `target` to choose we would like to propose `"target": "es2018"`.
-This choice was made because `fastify-decorators` supports `node >= 10` and according to info from [Node.js ES2018 Support] this version and upper supports all `ES2018` features.
+*Note*: if you struggle which `target` please refer to table below:
+
+| Node version | target |
+|--------------|--------|
+| 10.x         | es2018 |
+| 12.x         | es2019 |
+| 14.x         | es2020 |
+
+`fastify-decorators` itself use `"target": "es2018"` to support NodeJS 10+ (see [Node.js ES2018 Support]).
 
 ### Your first server
 #### Request handler way

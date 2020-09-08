@@ -1,7 +1,6 @@
 import { FastifyReply } from 'fastify/types/reply';
 import { FastifyRequest } from 'fastify/types/request';
-import { CREATOR, HOOKS } from '../symbols';
-import { hasHooks } from './helpers/class-properties';
+import { HOOKS } from '../symbols';
 import { Hook } from './hook';
 
 describe('Decorators: @Hook', () => {

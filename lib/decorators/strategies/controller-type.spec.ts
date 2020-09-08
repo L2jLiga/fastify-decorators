@@ -1,4 +1,4 @@
-import { FastifyInstance, RouteShorthandOptions } from 'fastify';
+import { RouteShorthandOptions } from 'fastify';
 import { ErrorHandler, Handler, Hook } from '../../interfaces';
 import { ControllerType } from '../../registry';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
@@ -48,7 +48,7 @@ describe('Strategies: controller types', () => {
             class Controller {
                 static [ERROR_HANDLERS]: ErrorHandler[] = [
                     {
-                        accepts<T extends Error>(error?: T): boolean {
+                        accepts<T extends Error>(): boolean {
                             return true;
                         },
                         handlerName: 'test',

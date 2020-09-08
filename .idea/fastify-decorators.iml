@@ -7,12 +7,16 @@
       <sourceFolder url="file://$MODULE_DIR$/examples/error-handlers/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/examples/swagger/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/examples/typeorm/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/examples/controllers/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/examples/request-handlers/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/examples/typescript-3.4/test" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.nyc_output" />
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/coverage" />
       <excludeFolder url="file://$MODULE_DIR$/dist" />
       <excludeFolder url="file://$MODULE_DIR$/examples/request-handlers/dist" />
       <excludeFolder url="file://$MODULE_DIR$/examples/swagger/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/examples/typescript-3.4/dist" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
     </content>

@@ -46,7 +46,7 @@ export class MyService {
 
 ## Injecting into Controllers
 
-Dependency may be injected via constructor like in example below:
+The easiest way to inject dependencies to controllers is using contructors:
 
 *sample.controller.ts*:
 ```typescript
@@ -83,7 +83,7 @@ export class SampleController {
 }
 ```
 
-And third one available option is to use `getInstanceByToken` function:
+It's also possible to use `getInstanceByToken` function:
 
 *sample.controller.ts*:
 ```typescript

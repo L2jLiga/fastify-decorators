@@ -10,12 +10,12 @@ describe('Decorators: @ErrorHandler', function () {
             static [ERROR_HANDLERS]: IErrorHandler[];
 
             @ErrorHandler(TypeError)
-            public handleTypeError(error: TypeError, request: FastifyRequest, reply: FastifyReply) {
+            public handleTypeError(error: TypeError) {
                 throw new Error(error.message);
             }
 
             @ErrorHandler('HEADERS_ALREADY_SENT')
-            public handleHeadersError(error: ErrnoException, request: FastifyRequest, reply: FastifyReply) {
+            public handleHeadersError() {
                 // nothing to do here
             }
 

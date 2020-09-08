@@ -8,7 +8,8 @@ describe('Helper: inject controller options', () => {
 
         injectControllerOptions(Controller);
 
-        expect((<any>Controller)[CREATOR]).toEqual({});
+        // @ts-expect-error TypeScript does not know about patches within decorator
+        expect(Controller[CREATOR]).toEqual({});
     });
 
     it('should not inject anything if object has options', () => {

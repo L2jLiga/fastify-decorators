@@ -6,14 +6,16 @@ describe('Decorators: @Service', () => {
         @Service()
         class Srv {}
 
-        expect((<any>Srv)[CREATOR]).toBeTruthy();
+        // @ts-expect-error TypeScript does not know about patches within decorator
+        expect(Srv[CREATOR]).toBeTruthy();
     });
 
     it('should create service', () => {
         @Service()
         class Srv {}
 
-        const instance = (<any>Srv)[CREATOR].register();
+        // @ts-expect-error TypeScript does not know about patches within decorator
+        const instance = Srv[CREATOR].register();
 
         expect(instance).toBeDefined();
     });
@@ -22,9 +24,12 @@ describe('Decorators: @Service', () => {
         @Service()
         class Srv {}
 
-        const instance1 = (<any>Srv)[CREATOR].register();
-        const instance2 = (<any>Srv)[CREATOR].register();
-        const instance3 = (<any>Srv)[CREATOR].register();
+        // @ts-expect-error TypeScript does not know about patches within decorator
+        const instance1 = Srv[CREATOR].register();
+        // @ts-expect-error TypeScript does not know about patches within decorator
+        const instance2 = Srv[CREATOR].register();
+        // @ts-expect-error TypeScript does not know about patches within decorator
+        const instance3 = Srv[CREATOR].register();
 
         expect(instance1).toBe(instance2);
         expect(instance1).toBe(instance3);

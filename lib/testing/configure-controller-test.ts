@@ -18,7 +18,7 @@ export interface ControllerTestConfig {
     mocks?: ServiceMock[];
 }
 
-export async function configureControllerTest(config: ControllerTestConfig): Promise<FastifyInstance<any, any, any, any>> {
+export async function configureControllerTest(config: ControllerTestConfig): Promise<FastifyInstance> {
     const instance = fastify();
     const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
 

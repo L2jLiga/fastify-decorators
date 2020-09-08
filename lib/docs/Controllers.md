@@ -203,7 +203,7 @@ export default class SimpleController {
 If you need `FastifyInstance` in decorators (for example to determine specific hooks for route) `fastify-decorators` provides `getInstanceByToken` function.
 This function accepts injectable token which is `FastifyInstanceToken` for the instance.
 
-*Note*: Be aware instance property should be static otherwise decorators can not get access to it. 
+*Note*: Be aware instance property should be static otherwise decorators cannot get access to it. 
 
 ```typescript
 import { FastifyInstance } from 'fastify';
@@ -242,7 +242,7 @@ export default class SimpleController {
 
 ### Error handling
 
-`fastify-decorators` also provides abilities to handle error with `@ErrorHandler` decorator.
+`fastify-decorators` provides abilities to handle error with `@ErrorHandler` decorator.
 
 `@ErrorHandler` may accept error code or type to handle or be empty which means will handle all errors. Let's take a look on example:
 

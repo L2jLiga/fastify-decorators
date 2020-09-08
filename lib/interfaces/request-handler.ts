@@ -28,7 +28,7 @@ export abstract class RequestHandler<RawServer extends RawServerBase = RawServer
     /**
      * Main method for request handling
      */
-    abstract handle(): void | Promise<any>;
+    abstract handle(): void | Promise<unknown>;
 
     /**
      * Static method to register handler by autoloader (bootstrap)
