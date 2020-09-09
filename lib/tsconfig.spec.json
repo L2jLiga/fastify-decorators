@@ -1,11 +1,16 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    }
+  ],
   "include": [
-    "*.spec.ts",
-    "*.mock.ts"
+    "**/*.spec.ts",
+    "**/*.mock.ts"
   ]
 }
