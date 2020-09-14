@@ -40,7 +40,7 @@
     "@typescript-eslint/parser": "^4.0.1",
     "downlevel-dts": "^0.6.0",
     "eslint": "^7.8.1",
-    "eslint-plugin-jest": "^24.0.0",
+    "eslint-plugin-jest": "^24.0.1",
     "fastify": "^3.3.0",
     "fastify-websocket": "^2.0.7",
     "jest": "^26.4.2",
