@@ -7,6 +7,8 @@
  */
 
 import type { FastifyInstance } from 'fastify';
+import fp from 'fastify-plugin';
+import { FastifyPluginAsync } from 'fastify/types/plugin';
 import * as fs from 'fs';
 import { join } from 'path';
 import { promisify } from 'util';
@@ -21,15 +23,15 @@ const readdir = promisify(fs.readdir);
 
 const defaultMask = /\.(handler|controller)\./;
 
-/**
- * Method which recursively scan handlers/controllers directory and bootstrap them
- */
-export async function bootstrap(fastify: FastifyInstance, config: BootstrapConfig): Promise<void> {
+export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig>(async (fastify, config) => {
     injectables.set(FastifyInstanceToken, wrapInjectable(fastify));
 
     if ('directory' in config) await autoLoadModules(config as AutoLoadConfig, fastify);
     if ('controllers' in config) loadControllers(config as ControllersListConfig, fastify);
-}
+}, {
+    fastify: '^3.0.0',
+    name: 'fastifyDecorators',
+});
 
 function loadControllers(config: ControllersListConfig, fastify: FastifyInstance) {
     for (const controller of config.controllers) {
