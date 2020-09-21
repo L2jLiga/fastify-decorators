@@ -33,7 +33,7 @@
   "license": "MIT",
   "type": "commonjs",
   "devDependencies": {
-    "@types/jest": "^26.0.13",
+    "@types/jest": "^26.0.14",
     "@types/node": "~10.17.32",
     "@types/ws": "^7.2.6",
     "@typescript-eslint/eslint-plugin": "^4.1.1",
