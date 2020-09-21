@@ -49,7 +49,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.3.0",
-    "typescript": "^4.0.2"
+    "typescript": "^4.0.3"
   },
   "engines": {
     "node": ">= 10.16.0",
