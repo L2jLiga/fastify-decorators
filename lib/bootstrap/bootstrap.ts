@@ -18,6 +18,8 @@ import type { AutoLoadConfig, ControllersListConfig } from '../interfaces/bootst
 import { injectables } from '../registry/injectables';
 import { CREATOR, FastifyInstanceToken } from '../symbols';
 import { wrapInjectable } from '../utils/wrap-injectable';
+// fixme probably needs the import
+//  import { readyMap } from "../decorators";
 
 const readdir = promisify(fs.readdir);
 
@@ -28,6 +30,9 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
 
     if ('directory' in config) await autoLoadModules(config as AutoLoadConfig, fastify);
     if ('controllers' in config) loadControllers(config as ControllersListConfig, fastify);
+
+    // fixme the bootstrap should wait for this but it fails...
+    //  await Promise.all(readyMap.values());
 }, {
     fastify: '^3.0.0',
     name: 'fastifyDecorators',

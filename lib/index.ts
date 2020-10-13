@@ -16,6 +16,7 @@ export { ControllerConfig } from './interfaces';
 
 export { Service } from './decorators';
 export { Inject } from './decorators';
+export { Initializer } from './decorators';
 export { Hook } from './decorators';
 export { ErrorHandler } from './decorators';
 
