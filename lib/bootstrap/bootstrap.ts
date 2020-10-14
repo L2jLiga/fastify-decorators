@@ -18,8 +18,7 @@ import type { AutoLoadConfig, ControllersListConfig } from '../interfaces/bootst
 import { injectables } from '../registry/injectables';
 import { CREATOR, FastifyInstanceToken } from '../symbols';
 import { wrapInjectable } from '../utils/wrap-injectable';
-// fixme probably needs the import
-//  import { readyMap } from "../decorators";
+import { readyMap } from "../decorators";
 
 const readdir = promisify(fs.readdir);
 
@@ -29,19 +28,16 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
     injectables.set(FastifyInstanceToken, wrapInjectable(fastify));
 
     if ('directory' in config) await autoLoadModules(config as AutoLoadConfig, fastify);
-    if ('controllers' in config) loadControllers(config as ControllersListConfig, fastify);
+    if ('controllers' in config) await loadControllers(config as ControllersListConfig, fastify);
 
-    // fixme the bootstrap should wait for this but it fails...
-    //  await Promise.all(readyMap.values());
+    await Promise.all(readyMap.values());
 }, {
     fastify: '^3.0.0',
     name: 'fastifyDecorators',
 });
 
-function loadControllers(config: ControllersListConfig, fastify: FastifyInstance) {
-    for (const controller of config.controllers) {
-        loadController(controller, fastify, config);
-    }
+async function loadControllers(config: ControllersListConfig, fastify: FastifyInstance): Promise<void> {
+    await Promise.all(config.controllers.map(controller => loadController(controller, fastify, config)));
 }
 
 async function autoLoadModules(config: AutoLoadConfig, fastify: FastifyInstance) {
@@ -53,7 +49,7 @@ async function autoLoadModules(config: AutoLoadConfig, fastify: FastifyInstance)
 
 function loadController(controller: Constructor<unknown> | InjectableController, fastify: FastifyInstance, config: BootstrapConfig) {
     if (verifyController(controller)) {
-        controller[CREATOR].register(fastify);
+        return controller[CREATOR].register(fastify);
     } else if (!config.skipBroken) {
         throw new TypeError(`Loaded file is incorrect module and can not be bootstrapped: ${module}`);
     }
