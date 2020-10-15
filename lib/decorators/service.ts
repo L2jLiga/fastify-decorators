@@ -25,14 +25,10 @@ export function Service(injectableToken?: string | symbol): unknown {
             register(injectablesMap = injectables, cacheResult = true) {
                 target[INJECTABLES] = injectablesMap;
                 target.prototype[INJECTABLES] = injectablesMap;
-                if (!cacheResult) {
-                    instance = createWithInjectedDependencies(target, injectablesMap, cacheResult);
-                } else {
-                    if (instance) return instance;
 
-                    instance = createWithInjectedDependencies(target, injectablesMap, cacheResult);
+                if (instance && cacheResult) return instance;
+                instance = createWithInjectedDependencies(target, injectablesMap, cacheResult);
 
-                }
                 if (target[INITIALIZER])
                     target[INITIALIZER](instance);
 

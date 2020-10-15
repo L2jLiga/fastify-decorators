@@ -16,8 +16,7 @@ export class ConnectionService {
     }
 
     @Initializer()
-    async init() {
-        console.log("CALLED CONNECTION");
+    async init(): Promise<void> {
         this._connection = await createConnection({
             type: 'sqljs',
             autoSave: true,
@@ -28,8 +27,5 @@ export class ConnectionService {
             logging: ['query', 'schema'],
             synchronize: true
         });
-
-        console.log("FINISH CONNECTION");
-
     }
 }

@@ -1,7 +1,7 @@
 import { Initializer, Service } from 'fastify-decorators';
 import { Message } from '../entity/message';
 import { ConnectionService } from '../services/connection.service';
-import { Repository } from "typeorm/index";
+import { Repository } from "typeorm";
 
 @Service()
 export class MessageFacade {
@@ -10,10 +10,10 @@ export class MessageFacade {
     }
 
     @Initializer([ConnectionService])
-    async init() {
-        console.log("CALLED MESSAGE");
+    async init(): Promise<void> {
+        // because we added ConnectionService as a dependency, we are sure it was properly initialized if it reaches
+        // this point
         this.repository = this.connectionService.connection.getRepository(Message);
-        console.log("FINISH MESSAGE");
     }
 
 
