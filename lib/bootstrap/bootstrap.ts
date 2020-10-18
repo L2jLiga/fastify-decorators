@@ -6,9 +6,8 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { FastifyInstance } from 'fastify';
+import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
-import { FastifyPluginAsync } from 'fastify/types/plugin';
 import * as fs from 'fs';
 import { join } from 'path';
 import { promisify } from 'util';

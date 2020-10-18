@@ -7,7 +7,7 @@
  */
 
 import type { FastifyInstance } from 'fastify';
-import type { ControllerConstructor, ErrorHandler, Handler, Hook } from '../../interfaces';
+import type { ErrorHandler, Handler, Hook, InjectableController } from '../../interfaces';
 import { ControllerType } from '../../registry';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
 import { hasErrorHandlers, hasHandlers, hasHooks } from '../helpers/class-properties';
@@ -26,7 +26,7 @@ import { createWithInjectedDependencies } from '../helpers/inject-dependencies';
  * By default controllers use SINGLETON strategy
  */
 export const ControllerTypeStrategies = {
-    [ControllerType.SINGLETON](instance: FastifyInstance<any, any, any, any>, constructor: ControllerConstructor, injectablesMap: Map<any, any>, cacheResult: boolean) {
+    [ControllerType.SINGLETON](instance: FastifyInstance<any, any, any, any>, constructor: InjectableController, injectablesMap: Map<any, any>, cacheResult: boolean) {
         const controllerInstance = createWithInjectedDependencies(constructor, injectablesMap, cacheResult);
 
         if (hasHandlers(constructor))
@@ -37,7 +37,7 @@ export const ControllerTypeStrategies = {
             registerHooks(constructor[HOOKS], instance, controllerInstance);
     },
 
-    [ControllerType.REQUEST](instance: FastifyInstance<any, any, any, any>, constructor: ControllerConstructor, injectablesMap: Map<any, any>, cacheResult: boolean) {
+    [ControllerType.REQUEST](instance: FastifyInstance<any, any, any, any>, constructor: InjectableController, injectablesMap: Map<any, any>, cacheResult: boolean) {
         if (hasHandlers(constructor))
             constructor[HANDLERS].forEach(handler => {
                 const { url, method, handlerMethod, options } = handler;

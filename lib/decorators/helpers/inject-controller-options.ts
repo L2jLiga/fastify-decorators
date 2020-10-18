@@ -6,10 +6,10 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { ControllerConstructor } from '../../interfaces';
+import type { InjectableController } from '../../interfaces';
 import { CREATOR } from '../../symbols';
 
-export function injectControllerOptions(controller: unknown): asserts controller is ControllerConstructor {
+export function injectControllerOptions(controller: unknown): asserts controller is InjectableController {
     if (controller instanceof Function) {
         if (!(CREATOR in controller)) {
             Object.defineProperty(controller, CREATOR, { value: {} });
