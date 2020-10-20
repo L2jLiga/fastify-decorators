@@ -19,7 +19,7 @@ export interface InjectableService extends InjectableClass, Object {
 
 export interface InjectableController extends InjectableClass {
     [CREATOR]: {
-        register(instance?: FastifyInstance, injectables?: Injectables, cacheResult?: boolean): void
+        register(instance?: FastifyInstance, injectables?: Injectables, cacheResult?: boolean): Promise<void>
     }
 }
 

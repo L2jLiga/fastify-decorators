@@ -8,9 +8,8 @@
 
 import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
-import * as fs from 'fs';
+import { readdirSync } from 'fs';
 import { join } from 'path';
-import { promisify } from 'util';
 import { Constructor } from '../decorators/helpers/inject-dependencies';
 import type { BootstrapConfig, InjectableController } from '../interfaces';
 import type { AutoLoadConfig, ControllersListConfig } from '../interfaces/bootstrap-config';
@@ -18,37 +17,36 @@ import { injectables } from '../registry/injectables';
 import { CREATOR, FastifyInstanceToken } from '../symbols';
 import { wrapInjectable } from '../utils/wrap-injectable';
 
-const readdir = promisify(fs.readdir);
-
 const defaultMask = /\.(handler|controller)\./;
 
 export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig>(async (fastify, config) => {
     injectables.set(FastifyInstanceToken, wrapInjectable(fastify));
+    const controllers = new Set<Constructor<unknown>>();
+    const skipBroken = config.skipBroken;
 
-    if ('directory' in config) await autoLoadModules(config as AutoLoadConfig, fastify);
-    if ('controllers' in config) loadControllers(config as ControllersListConfig, fastify);
+    if ('directory' in config) autoLoadModules(config as AutoLoadConfig).forEach(controllers.add, controllers);
+    if ('controllers' in config) config.controllers.forEach(controllers.add, controllers);
+
+    await loadControllers({ controllers: [...controllers], skipBroken }, fastify);
 }, {
     fastify: '^3.0.0',
     name: 'fastifyDecorators',
 });
 
-function loadControllers(config: ControllersListConfig, fastify: FastifyInstance) {
-    for (const controller of config.controllers) {
-        loadController(controller, fastify, config);
-    }
+async function loadControllers(config: ControllersListConfig, fastify: FastifyInstance): Promise<void> {
+    await Promise.all(config.controllers.map(controller => loadController(controller, fastify, config)));
 }
 
-async function autoLoadModules(config: AutoLoadConfig, fastify: FastifyInstance) {
+function autoLoadModules(config: AutoLoadConfig): InjectableController[] {
     const flags = config.mask instanceof RegExp ? config.mask.flags.replace('g', '') : '';
     const filter = config.mask ? new RegExp(config.mask, flags) : defaultMask;
-    for await (const module of findModules(config.directory, filter)) {
-        loadController(loadModule(module), fastify, config);
-    }
+
+    return [...findModules(config.directory, filter)].map(loadModule);
 }
 
 function loadController(controller: Constructor<unknown> | InjectableController, fastify: FastifyInstance, config: BootstrapConfig) {
     if (verifyController(controller)) {
-        controller[CREATOR].register(fastify);
+        return controller[CREATOR].register(fastify);
     } else if (!config.skipBroken) {
         throw new TypeError(`Loaded file is incorrect module and can not be bootstrapped: ${module}`);
     }
@@ -58,12 +56,12 @@ function verifyController(controller: Constructor<unknown> | InjectableControlle
     return controller && CREATOR in controller;
 }
 
-async function* findModules(path: string, filter: RegExp): AsyncIterable<string> {
+function* findModules(path: string, filter: RegExp): Iterable<string> {
     const directoriesToRead: string[] = [path];
 
     for (let dirPath = directoriesToRead.pop(); dirPath !== undefined; dirPath = directoriesToRead.pop()) {
         // TODO: can be replaced with for await (const filePath of fs.opendir) in Node.js >= 12.12
-        for (const filePath of await readdir(dirPath, { withFileTypes: true })) {
+        for (const filePath of readdirSync(dirPath, { withFileTypes: true })) {
             const fullFilePath = join(dirPath, filePath.name);
 
             if (filePath.isDirectory()) {
