@@ -39,7 +39,8 @@ function loadControllers(config: ControllersListConfig, fastify: FastifyInstance
 }
 
 async function autoLoadModules(config: AutoLoadConfig, fastify: FastifyInstance) {
-    const filter = config.mask ? new RegExp(config.mask) : defaultMask;
+    const flags = config.mask instanceof RegExp ? config.mask.flags.replace('g', '') : '';
+    const filter = config.mask ? new RegExp(config.mask, flags) : defaultMask;
     for await (const module of findModules(config.directory, filter)) {
         loadController(loadModule(module), fastify, config);
     }
