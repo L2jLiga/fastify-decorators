@@ -33,19 +33,19 @@
   "license": "MIT",
   "type": "commonjs",
   "devDependencies": {
-    "@types/jest": "^26.0.14",
+    "@types/jest": "^26.0.15",
     "@types/node": "~10.17.40",
     "@types/ws": "^7.2.7",
-    "@typescript-eslint/eslint-plugin": "^4.4.1",
-    "@typescript-eslint/parser": "^4.4.1",
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
     "downlevel-dts": "^0.6.0",
     "eslint": "^7.11.0",
     "eslint-plugin-jest": "^24.1.0",
-    "fastify": "^3.6.0",
-    "fastify-plugin": "^2.3.4",
+    "fastify": "^3.7.0",
+    "fastify-plugin": "^3.0.0",
     "fastify-websocket": "^2.0.10",
-    "jest": "^26.5.3",
-    "jest-environment-node": "^26.5.2",
+    "jest": "^26.6.0",
+    "jest-environment-node": "^26.6.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.4.1",
@@ -54,9 +54,5 @@
   "engines": {
     "node": ">= 10.16.0",
     "yarn": "^1.0.0"
-  },
-  "resolutions": {
-    "jest-diff": "^26.5.2",
-    "pretty-format": "^26.5.2"
   }
 }
