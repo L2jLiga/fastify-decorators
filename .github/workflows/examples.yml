@@ -2,9 +2,9 @@ name: Build example
 
 on:
   push:
-    branches: [v*]
+    branches: [v*, next]
   pull_request:
-    branches: [v*]
+    branches: [v*, next]
 jobs:
   build:
     runs-on: ubuntu-latest

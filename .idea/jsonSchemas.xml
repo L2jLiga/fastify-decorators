@@ -3,16 +3,35 @@
   <component name="JsonSchemaMappingsProjectConfiguration">
     <state>
       <map>
+        <entry key="dependabot-2.0">
+          <value>
+            <SchemaInfo>
+              <option name="name" value="dependabot-2.0" />
+              <option name="relativePathToSchema" value="https://json.schemastore.org/dependabot-2.0" />
+              <option name="applicationDefined" value="true" />
+              <option name="patterns">
+                <list>
+                  <Item>
+                    <option name="path" value=".github/dependabot.yml" />
+                  </Item>
+                </list>
+              </option>
+            </SchemaInfo>
+          </value>
+        </entry>
         <entry key="github-workflow">
           <value>
             <SchemaInfo>
               <option name="name" value="github-workflow" />
               <option name="relativePathToSchema" value="http://json.schemastore.org/github-workflow" />
+              <option name="schemaVersion" value="JSON Schema version 7" />
               <option name="applicationDefined" value="true" />
               <option name="patterns">
                 <list>
                   <Item>
-                    <option name="path" value=".github/workflows/nodejs.yml" />
+                    <option name="pattern" value="true" />
+                    <option name="path" value=".github/workflows/*.yml" />
+                    <option name="mappingKind" value="Pattern" />
                   </Item>
                 </list>
               </option>
