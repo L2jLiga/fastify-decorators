@@ -1,5 +1,5 @@
 {
-  "name": "@fastify-decorators/request-handlers",
+  "name": "@fastify-decorators/controllers",
   "version": "1.0.0",
   "main": "dist/index.js",
   "license": "MIT",

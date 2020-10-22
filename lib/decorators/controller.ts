@@ -7,7 +7,7 @@
  */
 
 import type { FastifyInstance } from 'fastify';
-import type { ControllerConfig, ControllerConstructor } from '../interfaces';
+import type { ControllerConfig } from '../interfaces';
 import type { InjectableClass } from '../interfaces/injectable-class';
 import { ControllerType } from '../registry';
 import { injectables } from '../registry/injectables';
@@ -33,10 +33,11 @@ export function Controller(config?: string | ControllerConfig): unknown {
 
         injectControllerOptions(controller);
 
-        (<ControllerConstructor><unknown>controller)[CREATOR].register = (instance: FastifyInstance, injectablesMap = injectables, cacheResult = true) => {
+        (controller)[CREATOR].register = async (instance: FastifyInstance, injectablesMap = injectables, cacheResult = true) => {
             controller[INJECTABLES] = injectablesMap;
             controller.prototype[INJECTABLES] = injectablesMap;
-            return instance.register(async instance => ControllerTypeStrategies[type](instance, controller, injectablesMap, cacheResult), { prefix: route });
+
+            await instance.register(async instance => ControllerTypeStrategies[type](instance, controller, injectablesMap, cacheResult), { prefix: route });
         };
     };
 }

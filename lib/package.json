@@ -1,6 +1,6 @@
 {
   "name": "fastify-decorators",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "description": "Set of Typescript decorators to build Fastify server with controllers, services and hooks",
   "main": "index.js",
   "typings": "index.d.ts",
@@ -40,7 +40,7 @@
   "peerDependencies": {
     "@types/node": "*",
     "fastify": "^3.0.1",
-    "fastify-plugin": "^2.0.0"
+    "fastify-plugin": "^2.0.0 || ^3.0.0"
   },
   "maintainers": [
     "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)"
