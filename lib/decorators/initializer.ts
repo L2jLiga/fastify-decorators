@@ -1,5 +1,5 @@
 import { INITIALIZER } from '../symbols';
-import { Deferred } from '../utils/Deferred'
+import { Deferred } from '../utils/deferred';
 
 export const readyMap = new Map<any, Promise<void>>();
 
@@ -9,25 +9,22 @@ export const readyMap = new Map<any, Promise<void>>();
  * @param dependencies The dependencies that need to be initialized before this one will be
  */
 export function Initializer(dependencies?: any[]): MethodDecorator {
-
-    const init: MethodDecorator = (targetPrototype: any, propertyKey, descriptor) => {
+    return (targetPrototype: any, propertyKey) => {
         const target = targetPrototype.constructor;
         const ready = new Deferred()
-        const init = async (self: any) => {
-                try {
-                    if (dependencies)
-                        await Promise.all(dependencies.map(dep => readyMap.get(dep)));
 
-                    await targetPrototype[propertyKey].call(self);
-                    ready.resolve();
-                } catch (e) {
-                    ready.reject();
-                }
+        target[INITIALIZER] = async (self: any) => {
+            try {
+                if (dependencies)
+                    await Promise.all(dependencies.map(dep => readyMap.get(dep)));
+
+                await targetPrototype[propertyKey].call(self);
+                ready.resolve();
+            } catch (e) {
+                ready.reject();
             }
-        target[INITIALIZER] = init;
+        };
 
         readyMap.set(target, ready.promise);
     };
-
-    return init;
 }

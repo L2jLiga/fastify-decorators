@@ -28,8 +28,8 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
     if ('directory' in config) autoLoadModules(config as AutoLoadConfig).forEach(controllers.add, controllers);
     if ('controllers' in config) config.controllers.forEach(controllers.add, controllers);
 
-    await Promise.all(readyMap.values());
     await loadControllers({ controllers: [...controllers], skipBroken }, fastify);
+    await Promise.all(readyMap.values());
 }, {
     fastify: '^3.0.0',
     name: 'fastifyDecorators',

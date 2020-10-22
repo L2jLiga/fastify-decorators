@@ -22,7 +22,7 @@ function parseConfig(config: string | RouteConfig = '/', options: RouteShorthand
 }
 
 const requestHandlersCache = new WeakMap<FastifyRequest, RequestHandler>()
-function getTarget(Target: any, request: FastifyRequest, ...rest: unknown[]) {
+function getTarget(Target: any, request: FastifyRequest, ...rest: unknown[]): any {
     if (requestHandlersCache.has(request)) return requestHandlersCache.get(request);
     const target = new Target(request, ...rest);
     requestHandlersCache.set(request, target);

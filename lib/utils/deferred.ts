@@ -11,7 +11,7 @@ export class Deferred<T = void> {
         )
     }
 
-    get promise() {
+    get promise(): Promise<T> {
         return this._promise
     }
 

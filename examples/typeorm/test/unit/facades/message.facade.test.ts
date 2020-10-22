@@ -9,7 +9,7 @@ interface MockRepository {
 }
 
 interface MockConnection {
-    getRepository(): Promise<MockRepository>
+    getRepository(): MockRepository
 
     close: jest.Mock
 }
@@ -18,7 +18,7 @@ describe('Facade: MessageFacade', () => {
     let facade: MessageFacade;
     let repository: MockRepository;
 
-    beforeEach(() => {
+    beforeEach(async () => {
         repository = {
             find: jest.fn(),
             findOne: jest.fn(),
@@ -29,13 +29,15 @@ describe('Facade: MessageFacade', () => {
             mocks: [{
                 provide: ConnectionService,
                 useValue: {
-                    connection: Promise.resolve({
-                        getRepository: () => Promise.resolve(repository),
+                    connection: {
+                        getRepository: () => repository,
                         close: jest.fn(),
-                    }),
-                } as Record<keyof ConnectionService, Promise<MockConnection>>,
+                    },
+                } as Record<keyof ConnectionService, MockConnection>,
             }],
         });
+
+        await facade.init();
     });
 
     it('should return all messages', async () => {
