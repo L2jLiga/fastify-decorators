@@ -1,4 +1,4 @@
-import { CREATOR } from '../symbols';
+import { CREATOR, INITIALIZER } from '../symbols';
 import { Service } from './service';
 
 describe('Decorators: @Service', () => {
@@ -18,6 +18,20 @@ describe('Decorators: @Service', () => {
         const instance = Srv[CREATOR].register();
 
         expect(instance).toBeDefined();
+    });
+
+    it('should call initializer when instantiate service', () => {
+        @Service()
+        class Srv {
+            static [INITIALIZER] = jest.fn((srv: unknown) => {
+                expect(srv).toBeInstanceOf(Srv);
+            });
+        }
+
+        // @ts-expect-error TypeScript does not know about patches within decorator
+        Srv[CREATOR].register();
+
+        expect(Srv[INITIALIZER]).toHaveBeenCalled();
     });
 
     it('should return same instance if service created multiple times', () => {
