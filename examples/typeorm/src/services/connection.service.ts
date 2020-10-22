@@ -1,23 +1,31 @@
-import { Service } from 'fastify-decorators';
+import {Initializer, Service} from 'fastify-decorators';
 import * as fs from 'fs';
 import { join } from 'path';
-import { createConnection } from 'typeorm';
+import { createConnection, Connection } from 'typeorm';
 import { Message } from '../entity/message';
 
 @Service()
 export class ConnectionService {
+    private _connection!: Connection;
     constructor() {
         fs.mkdirSync(join(process.cwd(), 'db'), { recursive: true });
     }
 
-    connection = createConnection({
-        type: 'sqljs',
-        autoSave: true,
-        location: join(process.cwd(), 'db', 'database.db'),
-        entities: [
-            Message,
-        ],
-        logging: ['query', 'schema'],
-        synchronize: true
-    });
+    public get connection(): Connection {
+        return this._connection;
+    }
+
+    @Initializer()
+    async init(): Promise<void> {
+        this._connection = await createConnection({
+            type: 'sqljs',
+            autoSave: true,
+            location: join(process.cwd(), 'db', 'database.db'),
+            entities: [
+                Message,
+            ],
+            logging: ['query', 'schema'],
+            synchronize: true
+        });
+    }
 }

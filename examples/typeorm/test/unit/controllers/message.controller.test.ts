@@ -9,6 +9,7 @@ describe('Controller: Message Controller', () => {
 
     beforeEach(async () => {
         facade = {
+            init: jest.fn(),
             getMessages: jest.fn(),
             getMessageBy: jest.fn(),
             storeMessage: jest.fn(),

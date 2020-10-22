@@ -7,7 +7,7 @@
  */
 
 import { injectables } from '../registry/injectables';
-import { CREATOR, INJECTABLES } from '../symbols';
+import { CREATOR, INITIALIZER, INJECTABLES } from '../symbols';
 import { createWithInjectedDependencies } from './helpers/inject-dependencies';
 
 /**
@@ -25,12 +25,15 @@ export function Service(injectableToken?: string | symbol): unknown {
             register(injectablesMap = injectables, cacheResult = true) {
                 target[INJECTABLES] = injectablesMap;
                 target.prototype[INJECTABLES] = injectablesMap;
-                if (!cacheResult) return createWithInjectedDependencies(target, injectablesMap, cacheResult);
-                if (instance) return instance;
 
+                if (instance && cacheResult) return instance;
                 instance = createWithInjectedDependencies(target, injectablesMap, cacheResult);
 
+                if (target[INITIALIZER])
+                    target[INITIALIZER](instance);
+
                 return instance;
+
             },
         };
     };

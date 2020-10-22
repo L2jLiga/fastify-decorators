@@ -16,6 +16,7 @@ import type { AutoLoadConfig, ControllersListConfig } from '../interfaces/bootst
 import { injectables } from '../registry/injectables';
 import { CREATOR, FastifyInstanceToken } from '../symbols';
 import { wrapInjectable } from '../utils/wrap-injectable';
+import { readyMap } from "../decorators";
 
 const defaultMask = /\.(handler|controller)\./;
 
@@ -28,6 +29,7 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
     if ('controllers' in config) config.controllers.forEach(controllers.add, controllers);
 
     await loadControllers({ controllers: [...controllers], skipBroken }, fastify);
+    await Promise.all(readyMap.values());
 }, {
     fastify: '^3.0.0',
     name: 'fastifyDecorators',

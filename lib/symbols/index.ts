@@ -8,6 +8,7 @@
 
 export const CREATOR = Symbol('fastify-decorators.creator');
 export const INJECTABLES = Symbol('fastify-decorators.injectables');
+export const INITIALIZER = Symbol('fastify-decorators.initializer');
 export const ERROR_HANDLERS = Symbol('fastify-decorators.error-handlers');
 export const HANDLERS = Symbol('fastify-decorators.handlers');
 export const HOOKS = Symbol('fastify-decorators.handlers');

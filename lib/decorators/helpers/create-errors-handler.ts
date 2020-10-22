@@ -12,7 +12,7 @@ import type { ErrorHandler } from '../../interfaces';
 export function createErrorsHandler(
     errorHandlers: ErrorHandler[], classInstance: any
 ): (error: Error, request: FastifyRequest, reply: FastifyReply) => Promise<void> {
-    return async function errorHandler(error: Error, request: FastifyRequest, reply: FastifyReply) {
+    return async function errorHandler(error: Error, request: FastifyRequest, reply: FastifyReply): Promise<void> {
         for (const handler of errorHandlers) {
             if (handler.accepts(error)) {
                 try {
