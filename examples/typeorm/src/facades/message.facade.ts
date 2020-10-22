@@ -1,11 +1,12 @@
 import { Initializer, Service } from 'fastify-decorators';
+import { Repository } from 'typeorm';
 import { Message } from '../entity/message';
 import { ConnectionService } from '../services/connection.service';
-import { Repository } from "typeorm";
 
 @Service()
 export class MessageFacade {
     private repository!: Repository<Message>;
+
     constructor(private connectionService: ConnectionService) {
     }
 
@@ -15,7 +16,6 @@ export class MessageFacade {
         // this point
         this.repository = this.connectionService.connection.getRepository(Message);
     }
-
 
     async getMessages(): Promise<Message[]> {
         return this.repository.find();

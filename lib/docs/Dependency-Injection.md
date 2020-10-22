@@ -44,9 +44,68 @@ export class MyService {
 }
 ```
 
+### Async service initialization
+
+It's possible that some services may require async initialization, for example to setup database connection.
+For such reasons library provides the special decorator called `@Initializer`.
+
+Usage is quite simple, just annotate your async method with it:
+
+*database.service.ts*:
+```typescript
+import { Initializer, Service } from 'fastify-decorators';
+import { join } from 'path';
+import { createConnection, Connection } from 'typeorm';
+import { Message } from '../entity/message';
+
+@Service()
+export class ConnectionService {
+    connection!: Connection;
+
+    @Initializer()
+    async init(): Promise<void> {
+        this._connection = await createConnection({
+            type: 'sqljs',
+            autoSave: true,
+            location: join(process.cwd(), 'db', 'database.db'),
+            entities: [Message],
+            logging: ['query', 'schema'],
+            synchronize: true
+        });
+    }
+}
+```
+
+Services may depend on other async services for their init, for such reasons `@Initializer` accepts array of such services:
+
+```typescript
+import { Initializer, Service } from 'fastify-decorators';
+import { Message } from '../entity/message';
+import { ConnectionService } from '../services/connection.service';
+import { Repository } from "typeorm";
+
+@Service()
+export class MessageFacade {
+    private repository!: Repository<Message>;
+    constructor(private connectionService: ConnectionService) {
+    }
+
+    @Initializer([ConnectionService])
+    async init(): Promise<void> {
+        // because we added ConnectionService as a dependency, we are sure it was properly initialized if it reaches
+        // this point
+        this.repository = this.connectionService.connection.getRepository(Message);
+    }
+
+    async getMessages(): Promise<Message[]> {
+        return this.repository.find();
+    }
+}
+```
+
 ## Injecting into Controllers
 
-The easiest way to inject dependencies to controllers is using contructors:
+The easiest way to inject dependencies to controllers is using constructors:
 
 *sample.controller.ts*:
 ```typescript
