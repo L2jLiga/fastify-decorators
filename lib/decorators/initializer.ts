@@ -21,7 +21,7 @@ export function Initializer(dependencies?: any[]): MethodDecorator {
                 await targetPrototype[propertyKey].call(self);
                 ready.resolve();
             } catch (e) {
-                ready.reject();
+                ready.reject(e);
             }
         };
 
