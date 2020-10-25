@@ -5,5 +5,4 @@ coverage
 # npm and built files
 dist
 node_modules
-npm-*.log
-yarn-*.log
+*.log

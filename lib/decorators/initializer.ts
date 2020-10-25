@@ -8,21 +8,16 @@ export const readyMap = new Map<any, Promise<void>>();
  *
  * @param dependencies The dependencies that need to be initialized before this one will be
  */
-export function Initializer(dependencies?: any[]): MethodDecorator {
+export function Initializer(dependencies: any[] = []): MethodDecorator {
     return (targetPrototype: any, propertyKey) => {
         const target = targetPrototype.constructor;
-        const ready = new Deferred()
+        const ready = new Deferred();
 
-        target[INITIALIZER] = async (self: any) => {
-            try {
-                if (dependencies)
-                    await Promise.all(dependencies.map(dep => readyMap.get(dep)));
-
-                await targetPrototype[propertyKey].call(self);
-                ready.resolve();
-            } catch (e) {
-                ready.reject(e);
-            }
+        target[INITIALIZER] = (self: any) => {
+            Promise.all(dependencies.map(dep => readyMap.get(dep)))
+                .then(targetPrototype[propertyKey].bind(self) as () => void)
+                .then(ready.resolve)
+                .catch(ready.reject);
         };
 
         readyMap.set(target, ready.promise);

@@ -10,13 +10,13 @@ import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 import { readdirSync } from 'fs';
 import { join } from 'path';
+import { readyMap } from '../decorators';
 import { Constructor } from '../decorators/helpers/inject-dependencies';
 import type { BootstrapConfig, InjectableController } from '../interfaces';
 import type { AutoLoadConfig, ControllersListConfig } from '../interfaces/bootstrap-config';
 import { injectables } from '../registry/injectables';
 import { CREATOR, FastifyInstanceToken } from '../symbols';
 import { wrapInjectable } from '../utils/wrap-injectable';
-import { readyMap } from "../decorators";
 
 const defaultMask = /\.(handler|controller)\./;
 
@@ -46,7 +46,7 @@ function autoLoadModules(config: AutoLoadConfig): InjectableController[] {
     return [...findModules(config.directory, filter)].map(loadModule);
 }
 
-function loadController(controller: Constructor<unknown> | InjectableController, fastify: FastifyInstance, config: BootstrapConfig) {
+function loadController(controller: Constructor<unknown>, fastify: FastifyInstance, config: BootstrapConfig) {
     if (verifyController(controller)) {
         return controller[CREATOR].register(fastify);
     } else if (!config.skipBroken) {
@@ -54,20 +54,20 @@ function loadController(controller: Constructor<unknown> | InjectableController,
     }
 }
 
-function verifyController(controller: Constructor<unknown> | InjectableController): controller is Constructor<unknown> & InjectableController {
+function verifyController(controller: Constructor<unknown>): controller is InjectableController {
     return controller && CREATOR in controller;
 }
 
 function* findModules(path: string, filter: RegExp): Iterable<string> {
-    const directoriesToRead: string[] = [path];
+    const directoriesToRead = new Set<string>([path]);
 
-    for (let dirPath = directoriesToRead.pop(); dirPath !== undefined; dirPath = directoriesToRead.pop()) {
+    for (const dirPath of directoriesToRead) {
         // TODO: can be replaced with for await (const filePath of fs.opendir) in Node.js >= 12.12
         for (const filePath of readdirSync(dirPath, { withFileTypes: true })) {
             const fullFilePath = join(dirPath, filePath.name);
 
             if (filePath.isDirectory()) {
-                directoriesToRead.push(fullFilePath);
+                directoriesToRead.add(fullFilePath);
             } else if (filter.test((filePath.name))) {
                 yield fullFilePath;
             }
