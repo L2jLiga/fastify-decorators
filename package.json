@@ -39,7 +39,7 @@
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
     "downlevel-dts": "^0.6.0",
-    "eslint": "^7.11.0",
+    "eslint": "^7.12.0",
     "eslint-plugin-jest": "^24.1.0",
     "fastify": "^3.7.0",
     "fastify-plugin": "^3.0.0",
