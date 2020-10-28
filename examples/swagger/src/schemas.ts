@@ -1,5 +1,5 @@
 import { Static, Type } from '@sinclair/typebox';
-import { RouteSchema,FastifySchema } from 'fastify';
+import { FastifySchema, RouteSchema } from 'fastify';
 
 const body = Type.Object({
     message: Type.String()
