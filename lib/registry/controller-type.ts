@@ -1,7 +1,7 @@
 /**
  * Enum used to define controller type
  */
-export enum ControllerType {
+export const enum ControllerType {
     /**
      * Controller will use SINGLETON strategy
      */
