@@ -47,7 +47,7 @@ export function requestDecoratorsFactory(
                         for (const hook of target[HOOKS]) {
                             // @ts-expect-error we know that hook.name is name of Fastify hook
                             config.options[hook.name] = (request: FastifyRequest, ...rest: unknown[]) => {
-                                return getTarget(target, request, rest)[hook.handlerName](request, ...rest);
+                                return getTarget(target, request, ...rest)[hook.handlerName](request, ...rest);
                             };
                         }
                     }
