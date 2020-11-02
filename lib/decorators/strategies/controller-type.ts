@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { FastifyInstance } from 'fastify';
+import type { FastifyInstance, FastifyRequest } from 'fastify';
 import type { ErrorHandler, Handler, Hook, InjectableController } from '../../interfaces';
 import { Injectables } from '../../interfaces/injectable-class';
 import { ControllerType } from '../../registry';
@@ -14,6 +14,17 @@ import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
 import { hasErrorHandlers, hasHandlers, hasHooks } from '../helpers/class-properties';
 import { createErrorsHandler } from '../helpers/create-errors-handler';
 import { createWithInjectedDependencies } from '../helpers/inject-dependencies';
+
+const controllersCache = new WeakMap<FastifyRequest, any>();
+
+function targetFactory(constructor: InjectableController, injectablesMap: Injectables, cacheResult: boolean) {
+    return function getTarget(request: FastifyRequest): any {
+        if (controllersCache.has(request)) return controllersCache.get(request);
+        const target = createWithInjectedDependencies(constructor, injectablesMap, cacheResult);
+        controllersCache.set(request, target);
+        return target;
+    };
+}
 
 /**
  * Various strategies which can be applied to controller
@@ -39,14 +50,28 @@ export const ControllerTypeStrategies = {
     },
 
     [ControllerType.REQUEST](instance: FastifyInstance, constructor: InjectableController, injectablesMap: Injectables, cacheResult: boolean) {
+        const getTarget = targetFactory(constructor, injectablesMap, cacheResult);
+
         if (hasHandlers(constructor))
             constructor[HANDLERS].forEach(handler => {
                 const { url, method, handlerMethod, options } = handler;
 
-                instance[method](url, options, function (...args) {
-                    return createWithInjectedDependencies(constructor, injectablesMap, cacheResult)[handlerMethod](...args);
+                instance[method](url, options, function (request, ...args) {
+                    return getTarget(request)[handlerMethod](request, ...args);
                 });
             });
+
+        if (hasErrorHandlers(constructor))
+            instance.setErrorHandler((error, request, ...rest) => {
+                const errorsHandler = createErrorsHandler(constructor[ERROR_HANDLERS], getTarget(request));
+
+                return errorsHandler(error, request, ...rest);
+            });
+
+        if (hasHooks(constructor))
+            constructor[HOOKS].forEach(hook => instance.addHook(hook.name, (request: FastifyRequest, ...rest: unknown[]) => {
+                return getTarget(request)[hook.handlerName](request, ...rest);
+            }));
     },
 } as const;
 
