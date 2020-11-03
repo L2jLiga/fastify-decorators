@@ -29,3 +29,6 @@ package-lock.json text -diff
 
 # Ignore files (like .npmignore or .gitignore)
 *.*ignore         text
+
+# Images
+*.png             binary
