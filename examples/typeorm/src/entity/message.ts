@@ -8,8 +8,8 @@ export class Message {
     @Column()
     author!: string;
 
-    @Column("text")
+    @Column('text')
     text!: string;
 }
 
-export type MessageInput = Omit<Message, 'id'>
+export type MessageInput = Omit<Message, 'id'>;

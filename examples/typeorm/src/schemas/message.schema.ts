@@ -4,7 +4,7 @@ export const messageSchema = {
         id: { type: 'number', nullable: false },
         author: { type: 'string', nullable: false },
         text: { type: 'string', nullable: false },
-    }
+    },
 };
 
 export const messageInputSchema = {
@@ -12,5 +12,5 @@ export const messageInputSchema = {
     properties: {
         author: { type: 'string', nullable: false },
         text: { type: 'string', nullable: false },
-    }
+    },
 };

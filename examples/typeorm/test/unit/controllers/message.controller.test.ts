@@ -34,7 +34,12 @@ describe('Controller: Message Controller', () => {
     });
 
     it('should omit extra properties from response', async () => {
-        facade.getMessages.mockReturnValue(Promise.resolve([{ id: 1, author: 'Admin', text: 'Test', extra: 'some extra property' }]));
+        facade.getMessages.mockReturnValue(Promise.resolve([{
+            id: 1,
+            author: 'Admin',
+            text: 'Test',
+            extra: 'some extra property',
+        }]));
 
         const result = await instance.inject('/messages');
 

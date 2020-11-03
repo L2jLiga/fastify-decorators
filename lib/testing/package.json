@@ -2,6 +2,10 @@
   "main": "./index.js",
   "typings": "./index.d.ts",
   "typesVersions": {
-    "<3.9": { "*": ["../ts3.4/testing/*"] }
+    "<3.9": {
+      "*": [
+        "../ts3.4/testing/*"
+      ]
+    }
   }
 }

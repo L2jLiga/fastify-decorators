@@ -6,7 +6,7 @@ module.exports = {
   coverageReporters: ['text', 'lcov'],
   globals: {
     'ts-jest': {
-      tsconfig: './tsconfig.json',
+      tsconfig: './tsconfig.spec.json',
     },
   },
   collectCoverageFrom: [
@@ -23,4 +23,4 @@ module.exports = {
     '<rootDir>/dist/fastify-decorators',
     '<rootDir>/node_modules/fastify-decorators',
   ],
-}
+};

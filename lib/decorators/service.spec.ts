@@ -4,7 +4,8 @@ import { Service } from './service';
 describe('Decorators: @Service', () => {
     it('should add CREATOR static property to class', () => {
         @Service()
-        class Srv {}
+        class Srv {
+        }
 
         // @ts-expect-error TypeScript does not know about patches within decorator
         expect(Srv[CREATOR]).toBeTruthy();
@@ -12,7 +13,8 @@ describe('Decorators: @Service', () => {
 
     it('should create service', () => {
         @Service()
-        class Srv {}
+        class Srv {
+        }
 
         // @ts-expect-error TypeScript does not know about patches within decorator
         const instance = Srv[CREATOR].register();
@@ -36,7 +38,8 @@ describe('Decorators: @Service', () => {
 
     it('should return same instance if service created multiple times', () => {
         @Service()
-        class Srv {}
+        class Srv {
+        }
 
         // @ts-expect-error TypeScript does not know about patches within decorator
         const instance1 = Srv[CREATOR].register();

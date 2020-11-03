@@ -9,7 +9,7 @@
 import type { Injectables, InjectableService } from '../../interfaces/injectable-class';
 import { CREATOR } from '../../symbols';
 
-export type Constructor<T> = { new(): T } | { new(...args: any): T }
+export type Constructor<T> = { new(): T } | { new(...args: any): T };
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Reflect {

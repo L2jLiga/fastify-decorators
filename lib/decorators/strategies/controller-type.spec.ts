@@ -7,8 +7,11 @@ import { ControllerTypeStrategies } from './controller-type';
 describe('Strategies: controller types', () => {
     describe('Singleton strategy', () => {
         it('should do nothing with empty controller', () => {
-            class Controller {}
-            class Instance {}
+            class Controller {
+            }
+
+            class Instance {
+            }
 
             // @ts-expect-error classes implements only required methods -> ts show errors
             expect(() => ControllerTypeStrategies[ControllerType.SINGLETON](new Instance(), Controller, new Map(), false)).not.toThrow();
@@ -25,7 +28,7 @@ describe('Strategies: controller types', () => {
                     },
                 ];
 
-                payload = 'Message'
+                payload = 'Message';
 
                 test() {
                     return this.payload;
@@ -55,7 +58,7 @@ describe('Strategies: controller types', () => {
                     },
                 ];
 
-                payload = 'Message'
+                payload = 'Message';
 
                 test() {
                     return this.payload;
@@ -81,7 +84,7 @@ describe('Strategies: controller types', () => {
                     },
                 ];
 
-                payload = 'Message'
+                payload = 'Message';
 
                 test() {
                     return this.payload;
@@ -101,8 +104,11 @@ describe('Strategies: controller types', () => {
 
     describe('Per request strategy', () => {
         it('should do nothing with empty controller', () => {
-            class Controller {}
-            class Instance {}
+            class Controller {
+            }
+
+            class Instance {
+            }
 
             // @ts-expect-error classes implements only required methods -> ts show errors
             expect(() => ControllerTypeStrategies[ControllerType.REQUEST](new Instance(), Controller, new Map(), false)).not.toThrow();
@@ -118,7 +124,7 @@ describe('Strategies: controller types', () => {
                         handlerMethod: 'test',
                     },
                 ];
-                payload = 'Message'
+                payload = 'Message';
 
                 test() {
                     return this.payload;
@@ -148,7 +154,7 @@ describe('Strategies: controller types', () => {
                     },
                 ];
 
-                payload = 'Message'
+                payload = 'Message';
 
                 test() {
                     return this.payload;
@@ -174,7 +180,7 @@ describe('Strategies: controller types', () => {
                     },
                 ];
 
-                payload = 'Message'
+                payload = 'Message';
 
                 test() {
                     return this.payload;

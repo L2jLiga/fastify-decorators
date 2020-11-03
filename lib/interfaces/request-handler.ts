@@ -8,7 +8,13 @@
 
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { RequestGenericInterface } from 'fastify/types/request';
-import { ContextConfigDefault, RawReplyDefaultExpression, RawRequestDefaultExpression, RawServerBase, RawServerDefault } from 'fastify/types/utils';
+import {
+    ContextConfigDefault,
+    RawReplyDefaultExpression,
+    RawRequestDefaultExpression,
+    RawServerBase,
+    RawServerDefault,
+} from 'fastify/types/utils';
 import { CREATOR } from '../symbols';
 
 /**

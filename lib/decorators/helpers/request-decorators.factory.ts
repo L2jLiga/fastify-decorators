@@ -21,7 +21,8 @@ function parseConfig(config: string | RouteConfig = '/', options: RouteShorthand
     return { options, ...config };
 }
 
-const requestHandlersCache = new WeakMap<FastifyRequest, RequestHandler>()
+const requestHandlersCache = new WeakMap<FastifyRequest, RequestHandler>();
+
 function getTarget(Target: any, request: FastifyRequest, ...rest: unknown[]): any {
     if (requestHandlersCache.has(request)) return requestHandlersCache.get(request);
     const target = new Target(request, ...rest);
@@ -30,7 +31,7 @@ function getTarget(Target: any, request: FastifyRequest, ...rest: unknown[]): an
 }
 
 export function requestDecoratorsFactory(
-    method: HttpMethods
+    method: HttpMethods,
 ): (routeOrConfig?: (string | RouteConfig), options?: RouteShorthandOptions) => (target: any, propKey?: (string | symbol)) => void {
     return function (routeOrConfig?: string | RouteConfig, options?: RouteShorthandOptions): (target: any, propKey?: string | symbol) => void {
         const config = parseConfig(routeOrConfig, options);
@@ -56,11 +57,11 @@ export function requestDecoratorsFactory(
                             const errorsHandler = createErrorsHandler(target[ERROR_HANDLERS], getTarget(target, request, ...rest));
 
                             return errorsHandler(error, request, ...rest);
-                        }
+                        };
                     }
                     instance[method](config.url, config.options, function (request, ...rest) {
                         return getTarget(target, request, ...rest).handle();
-                    })
+                    });
                 },
             };
         };

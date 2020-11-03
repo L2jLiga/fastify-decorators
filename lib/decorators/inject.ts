@@ -25,7 +25,7 @@ export function Inject(name: string | symbol | unknown): PropertyDecorator {
             get(this: InjectableClass): unknown {
                 return this[INJECTABLES].get(name)
                     ?.[CREATOR]
-                    .register(this[INJECTABLES]);
+                    ?.register(this[INJECTABLES]);
             },
             enumerable: true,
             configurable: true,

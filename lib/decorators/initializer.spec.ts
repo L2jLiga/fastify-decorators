@@ -19,8 +19,12 @@ describe('Decorator: @Initializer', () => {
     });
 
     it('should resolve deferred when async initializer of service and it\'s dependencies succeeded', async () => {
-        class Dep1 {}
-        class Dep2 {}
+        class Dep1 {
+        }
+
+        class Dep2 {
+        }
+
         readyMap.set(Dep1, Promise.resolve()).set(Dep2, Promise.resolve());
 
         class Target {
@@ -37,8 +41,12 @@ describe('Decorator: @Initializer', () => {
     });
 
     it('should reject deferred when some of dependencies initializer failed', async () => {
-        class Dep1 {}
-        class Dep2 {}
+        class Dep1 {
+        }
+
+        class Dep2 {
+        }
+
         readyMap.set(Dep1, Promise.resolve()).set(Dep2, Promise.reject());
 
         class Target {

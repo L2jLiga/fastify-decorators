@@ -1,6 +1,6 @@
 import { RouteShorthandOptions } from 'fastify';
 import { CREATOR } from '../symbols';
-import { ALL, GET, POST, DELETE, HEAD, OPTIONS, PATCH, PUT } from './request-handlers';
+import { ALL, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT } from './request-handlers';
 
 describe('Decorators: request handlers', () => {
     it('should instantiate ALL handler', () => {
@@ -13,7 +13,9 @@ describe('Decorators: request handlers', () => {
                 expect(options).toEqual(this.options);
             }
         }
-        class Handler {}
+
+        class Handler {
+        }
 
         const instance = new Instance('/', {});
         const decorate = ALL('/');
@@ -34,7 +36,9 @@ describe('Decorators: request handlers', () => {
                 expect(options).toEqual(this.options);
             }
         }
-        class Handler {}
+
+        class Handler {
+        }
 
         const instance = new Instance('/', {});
         const decorate = GET('/');
@@ -55,7 +59,9 @@ describe('Decorators: request handlers', () => {
                 expect(options).toEqual(this.options);
             }
         }
-        class Handler {}
+
+        class Handler {
+        }
 
         const instance = new Instance('/', {});
         const decorate = POST('/');
@@ -76,7 +82,9 @@ describe('Decorators: request handlers', () => {
                 expect(options).toEqual(this.options);
             }
         }
-        class Handler {}
+
+        class Handler {
+        }
 
         const instance = new Instance('/', {});
         const decorate = DELETE('/');
@@ -97,7 +105,9 @@ describe('Decorators: request handlers', () => {
                 expect(options).toEqual(this.options);
             }
         }
-        class Handler {}
+
+        class Handler {
+        }
 
         const instance = new Instance('/', {});
         const decorate = HEAD('/');
@@ -118,7 +128,9 @@ describe('Decorators: request handlers', () => {
                 expect(options).toEqual(this._options);
             }
         }
-        class Handler {}
+
+        class Handler {
+        }
 
         const instance = new Instance('/', {});
         const decorate = OPTIONS('/');
@@ -139,7 +151,9 @@ describe('Decorators: request handlers', () => {
                 expect(options).toEqual(this.options);
             }
         }
-        class Handler {}
+
+        class Handler {
+        }
 
         const instance = new Instance('/', {});
         const decorate = PATCH('/');
@@ -160,7 +174,9 @@ describe('Decorators: request handlers', () => {
                 expect(options).toEqual(this.options);
             }
         }
-        class Handler {}
+
+        class Handler {
+        }
 
         const instance = new Instance('/', {});
         const decorate = PUT('/');

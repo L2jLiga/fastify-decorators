@@ -51,7 +51,10 @@ describe('Testing: configure service test', () => {
     });
 
     it('should throw error when instantiating class without service decorator', () => {
-        expect(() => configureServiceTest({ service: class Service {}, mocks: [] })).toThrow();
+        expect(() => configureServiceTest({
+            service: class Service {
+            }, mocks: [],
+        })).toThrow();
     });
 });
 
