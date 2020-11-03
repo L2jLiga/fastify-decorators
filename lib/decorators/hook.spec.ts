@@ -15,7 +15,7 @@ describe('Decorators: @Hook', () => {
         // @ts-expect-error HOOKS created implicitly
         expect(Controller[HOOKS][0]).toEqual({
             name: 'onSend',
-            handlerName: 'onSendHook'
+            handlerName: 'onSendHook',
         });
     });
 });

@@ -34,12 +34,3 @@ jobs:
         with:
           file: coverage/unittests/lcov.info
           flags: unittests
-      - name: Run tests on application
-        run: yarn test:application
-        env:
-          CI: true
-      - name: Upload e2e-tests coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          file: coverage/integration/lcov.info
-          flags: integration

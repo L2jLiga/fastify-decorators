@@ -25,6 +25,7 @@ export interface InjectableController extends InjectableClass {
 
 export interface InjectableClass {
     new(): any;
+
     new(...args: unknown[]): any;
 
     [INJECTABLES]: Injectables;

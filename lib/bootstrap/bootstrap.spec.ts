@@ -8,7 +8,7 @@ describe('Bootstrap test', () => {
         const instance = fastify();
         instance.register(bootstrap, {
             directory: resolve(__dirname, 'mocks'),
-            mask: /\.controller\.mock\.ts/
+            mask: /\.controller\.mock\.ts/,
         });
 
         const res = await instance.inject({ url: '/index' });
@@ -41,7 +41,7 @@ describe('Bootstrap test', () => {
     it('should load specified controllers', async () => {
         const instance = fastify();
         instance.register(bootstrap, {
-            controllers: [SampleControllerMock]
+            controllers: [SampleControllerMock],
         });
 
         const res = await instance.inject({ url: '/index' });
@@ -50,17 +50,17 @@ describe('Bootstrap test', () => {
     });
 
     it('should throw an error while bootstrap application', async () => {
-        const instance = fastify()
+        const instance = fastify();
         instance.register(bootstrap, {
             directory: resolve(__dirname, 'mocks', 'controllers'),
-            mask: /\.ts/
+            mask: /\.ts/,
         });
 
         await expect(instance.inject({ url: '/broken' })).rejects.toThrow();
     });
 
     it('should skip broken controller', async () => {
-        const instance = fastify()
+        const instance = fastify();
         instance.register(bootstrap, {
             directory: resolve(__dirname, 'mocks', 'controllers'),
             mask: /\.ts/,

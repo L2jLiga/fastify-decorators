@@ -18,7 +18,7 @@ export function Hook(name: string): MethodDecorator {
 
         constructor[HOOKS].push({
             name,
-            handlerName
+            handlerName,
         });
     };
 }

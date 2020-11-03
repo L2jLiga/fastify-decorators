@@ -14,8 +14,12 @@
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/coverage" />
       <excludeFolder url="file://$MODULE_DIR$/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/examples/controllers/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/examples/error-handlers/dist" />
       <excludeFolder url="file://$MODULE_DIR$/examples/request-handlers/dist" />
       <excludeFolder url="file://$MODULE_DIR$/examples/swagger/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/examples/typeorm/db" />
+      <excludeFolder url="file://$MODULE_DIR$/examples/typeorm/dist" />
       <excludeFolder url="file://$MODULE_DIR$/examples/typescript-3.4/dist" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />

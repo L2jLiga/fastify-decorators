@@ -5,7 +5,7 @@ describe('User feature', () => {
     afterEach(() => users.clear());
 
     it('should return username when user exists', async () => {
-        users.add('Player')
+        users.add('Player');
         const response = await app.inject('/user/Player');
         const body = response.json();
 
@@ -16,7 +16,7 @@ describe('User feature', () => {
         const response = await app.inject('/user/Player');
         const body = response.json();
 
-        expect(response.statusCode).toBe(404)
+        expect(response.statusCode).toBe(404);
         expect(body).toEqual({ message: 'User not found' });
     });
 
@@ -50,8 +50,8 @@ describe('User feature', () => {
             payload: {
                 username: 'David',
                 age: 19,
-                region: 'Msk'
-            }
+                region: 'Msk',
+            },
         });
         const body = response.json();
 
@@ -66,8 +66,8 @@ describe('User feature', () => {
             payload: {
                 username: 'David',
                 age: 19,
-                region: 'Msk'
-            }
+                region: 'Msk',
+            },
         });
         const body = response.json();
 

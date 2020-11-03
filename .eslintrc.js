@@ -7,23 +7,25 @@
  */
 
 module.exports = {
-    root: true,
-    parser: '@typescript-eslint/parser',
-    parserOptions: {
-        ecmaVersion: 2018,
-        sourceType: 'module',
-        project: './tsconfig.eslint.json',
-    },
-    plugins: [
-        '@typescript-eslint',
-        'jest',
-    ],
-    extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:jest/recommended',
-    ],
-    rules: {
-        "@typescript-eslint/ban-ts-comment": "off",
-    },
+  root: true,
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaVersion: 2018,
+    sourceType: 'module',
+    project: './tsconfig.eslint.json',
+  },
+  plugins: [
+    '@typescript-eslint',
+    'jest',
+  ],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:jest/recommended',
+  ],
+  rules: {
+    '@typescript-eslint/ban-ts-comment': ['error', { 'ts-expect-error': 'allow-with-description' }],
+    'semi': 'off',
+    '@typescript-eslint/semi': ['error'],
+  },
 };

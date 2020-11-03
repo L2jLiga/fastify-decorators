@@ -8,12 +8,12 @@ describe('Helpers: create errors handler', () => {
             accepts(): boolean {
                 return true;
             },
-            handlerName: 'test'
-        }
+            handlerName: 'test',
+        };
         const instance = {
             test(error: Error) {
                 expect(error).toBe(expectedError);
-            }
+            },
         };
 
         const handler = createErrorsHandler([errorHandlerDescription], instance);
@@ -28,8 +28,8 @@ describe('Helpers: create errors handler', () => {
             accepts(): boolean {
                 return false;
             },
-            handlerName: 'test'
-        }
+            handlerName: 'test',
+        };
         const instance = {};
 
         const handler = createErrorsHandler([errorHandlerDescription], instance);
@@ -45,15 +45,15 @@ describe('Helpers: create errors handler', () => {
                 accepts(): boolean {
                     return true;
                 },
-                handlerName: 'throws'
+                handlerName: 'throws',
             },
             {
                 accepts(): boolean {
                     return true;
                 },
-                handlerName: 'catches'
-            }
-        ]
+                handlerName: 'catches',
+            },
+        ];
         const instance = {
             throws(error: Error) {
                 expect(error).toBe(expectedError);

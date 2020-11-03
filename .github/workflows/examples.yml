@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        example: [controllers, error-handlers, request-handlers, swagger, typeorm, typescript-3.4]
+        example: [controllers, request-handlers, swagger, typeorm, typescript-3.4]
 
     steps:
       - name: Checkout branch
@@ -26,15 +26,12 @@ jobs:
         run: yarn build:lib
       - name: Build "${{ matrix.example }}"
         run: |
-          cd examples
-          cd ${{ matrix.example }}
           yarn install
           yarn build
+        working-directory: examples/${{ matrix.example }}
       - name: Run tests on example
-        run: |
-          cd examples
-          cd ${{ matrix.example }}
-          yarn test
+        run: yarn test
+        working-directory: examples/${{ matrix.example }}
         env:
           CI: true
       - name: Upload examples code coverage to Codecov

@@ -1,6 +1,13 @@
 import { ErrorHandler, Handler, Hook } from '../../interfaces';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
-import { ensureErrorHandlers, ensureHandlers, ensureHooks, hasErrorHandlers, hasHandlers, hasHooks } from './class-properties';
+import {
+    ensureErrorHandlers,
+    ensureHandlers,
+    ensureHooks,
+    hasErrorHandlers,
+    hasHandlers,
+    hasHooks,
+} from './class-properties';
 
 describe('Helpers: class properties', () => {
     describe('ensure object has handlers symbol', () => {
@@ -15,7 +22,7 @@ describe('Helpers: class properties', () => {
         it('should not create when exists', () => {
             const handlers: Handler[] = [];
             const obj = {
-                [HANDLERS]: handlers
+                [HANDLERS]: handlers,
             };
 
             ensureHandlers(obj);
@@ -35,7 +42,7 @@ describe('Helpers: class properties', () => {
 
         it('should return true when exists', () => {
             const obj = {
-                [HANDLERS]: []
+                [HANDLERS]: [],
             };
 
             const result = hasHandlers(obj);
@@ -56,7 +63,7 @@ describe('Helpers: class properties', () => {
         it('should not create when exists', () => {
             const errorHandlers: ErrorHandler[] = [];
             const obj = {
-                [ERROR_HANDLERS]: errorHandlers
+                [ERROR_HANDLERS]: errorHandlers,
             };
 
             ensureErrorHandlers(obj);
@@ -76,7 +83,7 @@ describe('Helpers: class properties', () => {
 
         it('should return true when exists', () => {
             const obj = {
-                [ERROR_HANDLERS]: []
+                [ERROR_HANDLERS]: [],
             };
 
             const result = hasErrorHandlers(obj);
@@ -97,7 +104,7 @@ describe('Helpers: class properties', () => {
         it('should not create when exists', () => {
             const hooks: Hook[] = [];
             const obj = {
-                [HOOKS]: hooks
+                [HOOKS]: hooks,
             };
 
             ensureHooks(obj);
@@ -117,7 +124,7 @@ describe('Helpers: class properties', () => {
 
         it('should return true when exists', () => {
             const obj = {
-                [HOOKS]: []
+                [HOOKS]: [],
             };
 
             const result = hasHooks(obj);

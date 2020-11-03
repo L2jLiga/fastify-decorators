@@ -9,11 +9,11 @@
 const instance = require('../dist/server').instance;
 
 instance.listen(3000, (err) => {
-    if (err) {
-        throw err;
-    }
+  if (err) {
+    throw err;
+  }
 
-    console.log(`Application is ready and listening on http://localhost:3000`);
-    console.log(`Available routes:`);
-    console.log(instance.printRoutes());
+  console.log(`Application is ready and listening on http://localhost:3000`);
+  console.log(`Available routes:`);
+  console.log(instance.printRoutes());
 });
