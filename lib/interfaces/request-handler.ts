@@ -41,3 +41,8 @@ export abstract class RequestHandler<RawServer extends RawServerBase = RawServer
      */
     static readonly [CREATOR]: { register: (instance: FastifyInstance) => void };
 }
+
+export interface RequestHook {
+    name: 'onRequest' | 'preParsing' | 'preValidation' | 'preHandler' | 'preSerialization' | 'onSend' | 'onResponse' | 'onTimeout' | 'onError';
+    handlerName: string | symbol;
+}

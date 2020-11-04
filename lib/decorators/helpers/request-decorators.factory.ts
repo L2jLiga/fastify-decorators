@@ -7,7 +7,7 @@
  */
 
 import type { FastifyInstance, FastifyRequest, RouteShorthandOptions } from 'fastify';
-import type { RequestHandler, RouteConfig } from '../../interfaces';
+import type { RequestHandler, RequestHook, RouteConfig } from '../../interfaces';
 import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
 import { ensureHandlers, hasErrorHandlers, hasHooks } from './class-properties';
 import { createErrorsHandler } from './create-errors-handler';
@@ -48,11 +48,15 @@ export function requestDecoratorsFactory(
             target[CREATOR] = {
                 register: (instance: FastifyInstance) => {
                     if (hasHooks(target)) {
-                        for (const hook of target[HOOKS]) {
-                            // @ts-expect-error we know that hook.name is name of Fastify hook
-                            config.options[hook.name] = (request: FastifyRequest, ...rest: unknown[]) => {
+                        for (const hook of target[HOOKS] as RequestHook[]) {
+                            const hookFn = (request: FastifyRequest, ...rest: unknown[]) => {
                                 return getTarget(target, request, ...rest)[hook.handlerName](request, ...rest);
                             };
+
+                            const option = config.options[hook.name];
+                            if (option == null) config.options[hook.name] = hookFn;
+                            else if (Array.isArray(option)) option.push(hookFn);
+                            else config.options[hook.name] = [option as (...args: unknown[]) => void, hookFn];
                         }
                     }
                     if (hasErrorHandlers(target)) {

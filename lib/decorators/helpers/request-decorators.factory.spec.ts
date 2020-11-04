@@ -69,31 +69,95 @@ describe('Factory: request decorators', () => {
         expect(instance.get).toHaveBeenCalledWith('/url', <RouteShorthandOptions>{ schema: { body: { type: 'string' } } }, expect.any(Function));
     });
 
-    it('should add hooks to options', () => {
-        class Handler {
-            static [HOOKS]: Hook[] = [
-                {
-                    name: 'onSend',
-                    handlerName: 'onSendFn',
-                },
-            ];
-        }
+    describe('hooks support', () => {
+        it('should create define hook in options when it does not exists', () => {
+            class Handler {
+                static [HOOKS]: Hook[] = [
+                    {
+                        name: 'onSend',
+                        handlerName: 'onSendFn',
+                    },
+                ];
+            }
 
-        const instance = { get: jest.fn(), addHook: jest.fn() };
-        const decorate = factory({
-            url: '/url',
-            options: <RouteShorthandOptions>{ schema: { body: { type: 'string' } } },
+            const instance = { get: jest.fn(), addHook: jest.fn() };
+            const decorate = factory({
+                url: '/url',
+                options: <RouteShorthandOptions>{ schema: { body: { type: 'string' } } },
+            });
+
+            decorate(Handler);
+
+            // @ts-expect-error created implicitly by decorate
+            Handler[CREATOR].register(instance);
+
+            expect(instance.get).toHaveBeenCalledWith('/url', <RouteShorthandOptions>{
+                onSend: expect.any(Function),
+                schema: { body: { type: 'string' } },
+            }, expect.any(Function));
         });
 
-        decorate(Handler);
+        it('should wrap current hook and add one more if hook exists in options', () => {
+            class Handler {
+                static [HOOKS]: Hook[] = [
+                    {
+                        name: 'onSend',
+                        handlerName: 'onSendFn',
+                    },
+                ];
+            }
 
-        // @ts-expect-error created implicitly by decorate
-        Handler[CREATOR].register(instance);
+            const instance = { get: jest.fn(), addHook: jest.fn() };
+            const decorate = factory({
+                url: '/url',
+                options: <RouteShorthandOptions>{
+                    onSend() {
+                        return Promise.resolve();
+                    },
+                    schema: { body: { type: 'string' } },
+                },
+            });
 
-        expect(instance.get).toHaveBeenCalledWith('/url', <RouteShorthandOptions>{
-            onSend: expect.any(Function),
-            schema: { body: { type: 'string' } },
-        }, expect.any(Function));
+            decorate(Handler);
+
+            // @ts-expect-error created implicitly by decorate
+            Handler[CREATOR].register(instance);
+
+            expect(instance.get).toHaveBeenCalledWith('/url', <RouteShorthandOptions>{
+                onSend: [expect.any(Function), expect.any(Function)],
+                schema: { body: { type: 'string' } },
+            }, expect.any(Function));
+        });
+
+        it('should add hook to hook handlers array in options', () => {
+            class Handler {
+                static [HOOKS]: Hook[] = [
+                    {
+                        name: 'onSend',
+                        handlerName: 'onSendFn',
+                    },
+                ];
+            }
+
+            const instance = { get: jest.fn(), addHook: jest.fn() };
+            const decorate = factory({
+                url: '/url',
+                options: <RouteShorthandOptions>{
+                    onSend: [() => Promise.resolve()],
+                    schema: { body: { type: 'string' } },
+                },
+            });
+
+            decorate(Handler);
+
+            // @ts-expect-error created implicitly by decorate
+            Handler[CREATOR].register(instance);
+
+            expect(instance.get).toHaveBeenCalledWith('/url', <RouteShorthandOptions>{
+                onSend: [expect.any(Function), expect.any(Function)],
+                schema: { body: { type: 'string' } },
+            }, expect.any(Function));
+        });
     });
 
     it('should add error handlers to options', () => {
