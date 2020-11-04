@@ -13,12 +13,15 @@ import { ensureHandlers, hasErrorHandlers, hasHooks } from './class-properties';
 import { createErrorsHandler } from './create-errors-handler';
 import type { HttpMethods } from './http-methods';
 
-type ParsedRouteConfig = RouteConfig & { options: RouteShorthandOptions };
+type ParsedRouteConfig = { url: string; options: RouteShorthandOptions };
 
 function parseConfig(config: string | RouteConfig = '/', options: RouteShorthandOptions = {}): ParsedRouteConfig {
     if (typeof config === 'string') return { url: config, options };
 
-    return { options, ...config };
+    const parsed = { options, ...config };
+    return {
+        ...parsed, options: { ...parsed.options }
+    };
 }
 
 const requestHandlersCache = new WeakMap<FastifyRequest, RequestHandler>();
