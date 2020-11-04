@@ -4,12 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node bin/start.js",
-    "build": "yarn clean && yarn build:lib",
-    "build:lib": "tsc -p lib/tsconfig.lib.json && yarn cp && yarn downlevel",
-    "clean": "rimraf node_modules/fastify-decorators",
-    "cp": "yarn cp:assets && yarn cp:package",
-    "cp:assets": "cp -r ./lib/package.json ./README.md ./CHANGELOG.md ./LICENSE docs ./dist/fastify-decorators && node patch-readme.cjs",
-    "cp:package": "cp -r ./dist/fastify-decorators ./node_modules",
+    "build": "tsc -p lib/tsconfig.lib.json && yarn cp && yarn downlevel",
+    "cp": "cp -r ./lib/package.json ./README.md ./CHANGELOG.md ./LICENSE docs ./dist/fastify-decorators && node patch-readme.cjs",
     "downlevel": "downlevel-dts ./dist/fastify-decorators ./dist/fastify-decorators/ts3.4",
     "lint": "eslint .",
     "test": "jest --config lib/jest.config.js"

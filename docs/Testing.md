@@ -2,6 +2,14 @@
 
 ## Testing
 
+### Table of content:
+
+- [Using `configureControllerTest`](#using-configurecontrollertest)
+- [Using `configureServiceTest`](#using-configureservicetest)
+    - [Services without async initializer](#sync-service-testing)
+    - [Services with async initializer](#async-service-testing)
+- [Bootstrap whole server](#bootstrap-whole-server)
+
 ### Using `configureControllerTest`
 
 The `configureControllerTest(options)` function registers a Controller and allow you to mock out the Services for testing functionality.
@@ -53,6 +61,10 @@ The `configureControllerTest(options)` is pretty close to `configureControllerTe
 
 *Note*: if mock was not provided for one or more dependencies then originals will be used.
 
+#### Sync service testing
+
+For those services which has no method with `@Initializer` decorator, then `configureServiceTest` will return an instance of it.
+
 *Usage*:
 ```typescript
 import { configureServiceTest } from 'fastify-decorators/testing';
@@ -63,8 +75,47 @@ describe('Service: AuthService', () => {
   let service: AuthService;
   const rolesService = { isTechnical: jest.fn(), isAdmin: jest.fn() };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     service = configureServiceTest({
+      service: AuthService,
+      mocks: [
+        {
+          provide: RolesService,
+          useValue: rolesService,
+        },
+      ],
+    });
+  });
+  afterEach(() => jest.restoreAllMocks());
+
+  it(`should reply with 'ok' if authorization success`, async () => {
+    rolesService.isTechnical.and.returnValue(true);
+    rolesService.isAdmin.and.returnValue(false);
+    const bearer = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6W119.0Dd6yUeJ4UbCr8WyXOiK3BhqVVwJFk5c53ipJBWenmc';
+
+    const result = service.hasSufficientRole(bearer);
+
+    expect(result).toBe(true);
+  });
+});
+```
+
+#### Async service testing
+
+If service has method with `@Initializer` decorator, then `configureServiceTest` will return intersection of an instance and Promise.
+You can work with service like it has no `@Initializer` unless you await it.
+
+```typescript
+import { configureServiceTest } from 'fastify-decorators/testing';
+import { RolesService } from '../src/roles.service';
+import { AuthService } from '../src/auth.service';
+
+describe('Service: AuthService', () => {
+  let service: AuthService;
+  const rolesService = { isTechnical: jest.fn(), isAdmin: jest.fn() };
+
+  beforeEach(async () => {
+    service = await configureServiceTest({
       service: AuthService,
       mocks: [
         {

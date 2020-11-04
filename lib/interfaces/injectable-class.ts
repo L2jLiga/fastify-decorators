@@ -7,7 +7,7 @@
  */
 
 import type { FastifyInstance } from 'fastify';
-import type { CREATOR, INJECTABLES } from '../symbols';
+import type { CREATOR, INITIALIZER, INJECTABLES } from '../symbols';
 
 export type Injectables = Map<string | symbol | unknown, InjectableService>;
 
@@ -15,6 +15,8 @@ export interface InjectableService extends InjectableClass, Object {
     [CREATOR]: {
         register<Type>(injectables?: Injectables, cacheResult?: boolean): Type
     }
+
+    [INITIALIZER]?<Type>(self: Type): void;
 }
 
 export interface InjectableController extends InjectableClass {
@@ -24,9 +26,9 @@ export interface InjectableController extends InjectableClass {
 }
 
 export interface InjectableClass {
+    [INJECTABLES]: Injectables;
+
     new(): any;
 
     new(...args: unknown[]): any;
-
-    [INJECTABLES]: Injectables;
 }

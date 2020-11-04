@@ -15,7 +15,7 @@ export function Initializer(dependencies: any[] = []): MethodDecorator {
 
         target[INITIALIZER] = (self: any) => {
             Promise.all(dependencies.map(dep => readyMap.get(dep)))
-                .then(targetPrototype[propertyKey].bind(self) as () => void)
+                .then(() => self[propertyKey]())
                 .then(ready.resolve)
                 .catch(ready.reject);
         };

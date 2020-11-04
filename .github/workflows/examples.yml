@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lock-file
       - name: Build library
-        run: yarn build:lib
+        run: yarn build
       - name: Build "${{ matrix.example }}"
         run: |
           yarn install
