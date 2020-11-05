@@ -1,4 +1,4 @@
-import { Controller, GET, Inject, Service } from '../decorators';
+import { Controller, GET, Initializer, Inject, Service } from '../decorators';
 import { configureControllerTest } from './configure-controller-test';
 import { ServiceMock } from './service-mock';
 
@@ -24,6 +24,16 @@ describe('Testing: configure controller test', () => {
         const result = await instance.inject('/index');
 
         expect(result.body).toBe('{"message":"la-la-la"}');
+    });
+
+    it('should bootstrap controller with async service', async () => {
+        const instance = await configureControllerTest({
+            controller: WithAsyncServiceInjected,
+        });
+
+        const result = await instance.inject('/index');
+
+        expect(result.body).toBe('{"message":"ok"}');
     });
 
     it('should not cache results', async () => {
@@ -78,6 +88,16 @@ class DependencyService {
     }
 }
 
+@Service()
+class AsyncService {
+    initialized = false;
+
+    @Initializer()
+    async init() {
+        this.initialized = true;
+    }
+}
+
 @Controller()
 class WithDependencies {
     constructor(private service: DependencyService) {
@@ -98,6 +118,18 @@ class UsingInjectDecorator {
     @GET('/index')
     async getAll() {
         const message = this.service.message;
+        return { message };
+    }
+}
+
+@Controller()
+class WithAsyncServiceInjected {
+    @Inject(AsyncService)
+    private service!: AsyncService;
+
+    @GET('/index')
+    async getAll() {
+        const message = this.service.initialized ? 'ok' : 'fail';
         return { message };
     }
 }

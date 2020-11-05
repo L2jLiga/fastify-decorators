@@ -1,10 +1,10 @@
 const NodeEnvironment = require('jest-environment-node');
 
 class FastifyDecoratorsTestEnvironment extends NodeEnvironment {
-  async setup() {
+  setup() {
     require('reflect-metadata');
     this.global.Reflect = Reflect;
-    await super.setup();
+    return super.setup();
   }
 }
 

@@ -9,9 +9,18 @@
 import { fastify, FastifyInstance } from 'fastify';
 import type { InjectableController } from '../interfaces';
 import { injectables } from '../registry/injectables';
-import { CREATOR } from '../symbols';
+import { CREATOR, SERVICE_INJECTION } from '../symbols';
 import { MocksManager } from './mocks-manager';
 import type { ServiceMock } from './service-mock';
+import { readyMap } from '../decorators';
+import type { InjectableClass } from '../interfaces/injectable-class';
+import { ServiceInjection } from '../decorators/helpers/inject-dependencies';
+import { hasServiceInjection } from '../decorators/helpers/class-properties';
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+declare namespace Reflect {
+    function getMetadata(metadataKey: 'design:paramtypes', target: unknown): ServiceInjection['name'][] | undefined;
+}
 
 export interface ControllerTestConfig {
     controller: any;
@@ -24,7 +33,23 @@ export async function configureControllerTest(config: ControllerTestConfig): Pro
 
     const controller: InjectableController = config.controller;
     await controller[CREATOR].register(instance, injectablesWithMocks, false);
+
+    await Promise.all([
+        ...getInjectedProps(controller),
+        ...getInjectedProps(controller.prototype),
+        ...getConstructorArgs(controller),
+    ].map(value => injectablesWithMocks.get(value)).map(it => readyMap.get(it)));
+
     await instance.ready();
 
     return instance;
+}
+
+function getInjectedProps(target: unknown): Array<unknown> {
+    if (!hasServiceInjection(target)) return [];
+    return target[SERVICE_INJECTION].map(it => it.name);
+}
+
+function getConstructorArgs(constructor: InjectableClass): Array<unknown> {
+    return Reflect.getMetadata('design:paramtypes', constructor) || [];
 }

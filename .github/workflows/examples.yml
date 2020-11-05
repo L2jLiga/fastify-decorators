@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        example: [controllers, request-handlers, swagger, typeorm, typescript-3.4]
+        example: [controllers, request-handlers, swagger, typeorm]
 
     steps:
       - name: Checkout branch

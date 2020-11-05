@@ -1,56 +1,41 @@
 import { Inject } from './inject';
-import { wrapInjectable } from '../utils/wrap-injectable';
-import { Injectables, InjectableService } from '../interfaces/injectable-class';
-import { INJECTABLES } from '../symbols';
+import { Injectables } from '../interfaces/injectable-class';
+import { ServiceInjection } from './helpers/inject-dependencies';
+import { SERVICE_INJECTION } from '../symbols';
 
 describe('Decorator: @Inject', () => {
     const injectables: Injectables = new Map();
     afterEach(() => injectables.clear());
 
-    const injectable = Symbol('injectable');
+    const InjectToken = Symbol('Token');
 
-    it('should define getter for property', () => {
-        const injectableInst = {};
-        injectables.set(injectable, wrapInjectable(injectableInst));
-
+    it('should create metadata for inject', () => {
         class Target {
-            [INJECTABLES] = injectables;
-
-            @Inject(injectable)
-            prop!: Record<never, never>;
+            @Inject(InjectToken)
+            srv: unknown;
         }
 
-        const target = new Target();
+        // @ts-expect-error SERVICE_INJECTION implicitly created by @Inject
+        const viaInject: ServiceInjection[] = Target.prototype[SERVICE_INJECTION];
 
-        expect(target.prop).toBe(injectableInst);
+        expect(viaInject).toHaveLength(1);
+        expect(viaInject[0]).toEqual({ propertyKey: 'srv', name: InjectToken });
     });
 
-    it('should return undefined while accessing property when injectable not annotated', () => {
-        const injectableInst = <InjectableService>{};
-        injectables.set(injectable, injectableInst);
-
+    it('should not override metadata when it exists', () => {
         class Target {
-            [INJECTABLES] = injectables;
+            @Inject(InjectToken)
+            srv: unknown;
 
-            @Inject(injectable)
-            prop!: Record<never, never>;
+            @Inject(InjectToken)
+            srv2: unknown;
         }
 
-        const target = new Target();
+        // @ts-expect-error SERVICE_INJECTION implicitly created by @Inject
+        const viaInject: ServiceInjection[] = Target.prototype[SERVICE_INJECTION];
 
-        expect(target.prop).toBe(undefined);
-    });
-
-    it('should return undefined while accessing property when injectable not found', () => {
-        class Target {
-            [INJECTABLES] = injectables;
-
-            @Inject(injectable)
-            prop!: Record<never, never>;
-        }
-
-        const target = new Target();
-
-        expect(target.prop).toBe(undefined);
+        expect(viaInject).toHaveLength(2);
+        expect(viaInject[0]).toEqual({ propertyKey: 'srv', name: InjectToken });
+        expect(viaInject[1]).toEqual({ propertyKey: 'srv2', name: InjectToken });
     });
 });

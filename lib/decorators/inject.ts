@@ -5,9 +5,8 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
-
-import type { InjectableClass } from '../interfaces/injectable-class';
-import { CREATOR, INJECTABLES } from '../symbols';
+import { SERVICE_INJECTION } from '../symbols';
+import { ensureServiceInjection } from './helpers/class-properties';
 
 /**
  * Property decorator to inject dependencies
@@ -21,14 +20,8 @@ import { CREATOR, INJECTABLES } from '../symbols';
  */
 export function Inject(name: string | symbol | unknown): PropertyDecorator {
     return (target, propertyKey) => {
-        Object.defineProperty(target, propertyKey, {
-            get(this: InjectableClass): unknown {
-                return this[INJECTABLES].get(name)
-                    ?.[CREATOR]
-                    ?.register(this[INJECTABLES]);
-            },
-            enumerable: true,
-            configurable: true,
-        });
+        ensureServiceInjection(target);
+
+        target[SERVICE_INJECTION].push({ propertyKey, name });
     };
 }
