@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 3.4.0
+### Added
+- Hooks and error handlers support for stateless controllers (ControllerType.REQUEST)
+- Support for async services testing
+
+### Fixed
+- Hooks override in RequestHandler when hook with same name defined multiple times
+- Invalid RequestHandler constructor call when it has hooks
+- RequestHandler / Controller options mutation
+- Bootstrap failure when async services injected with `@Inject`
+
 ## 3.3.1
 ### Fixed
 - Warning when install due to unsatisfied peer dependency - `fastify-plugin`
