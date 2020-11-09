@@ -8,7 +8,8 @@
     "cp": "cp -r ./lib/package.json ./README.md ./CHANGELOG.md ./LICENSE docs ./dist/fastify-decorators && node patch-readme.cjs",
     "downlevel": "downlevel-dts ./dist/fastify-decorators ./dist/fastify-decorators/ts3.4",
     "lint": "eslint .",
-    "test": "jest --config lib/jest.config.js"
+    "test": "jest --config lib/jest.config.js",
+    "license-checker": "license-checker --production --onlyAllow=\"MIT;ISC;BSD-3-Clause;BSD-2-Clause\" --excludePrivatePackages"
   },
   "directories": {
     "bin": "./bin",
@@ -23,6 +24,10 @@
   "author": "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)",
   "license": "MIT",
   "type": "commonjs",
+  "dependencies": {
+    "fastify": "^3.7.0",
+    "fastify-plugin": "^3.0.0"
+  },
   "devDependencies": {
     "@types/jest": "^26.0.15",
     "@types/node": "~10.17.44",
@@ -31,10 +36,9 @@
     "downlevel-dts": "^0.7.0",
     "eslint": "^7.12.1",
     "eslint-plugin-jest": "^24.1.0",
-    "fastify": "^3.7.0",
-    "fastify-plugin": "^3.0.0",
     "jest": "^26.6.2",
     "jest-environment-node": "^26.6.2",
+    "license-checker": "^25.0.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.4.3",
