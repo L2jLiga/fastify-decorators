@@ -3,8 +3,15 @@ name: Node.js CI
 on:
   push:
     branches: [v*, next]
+    paths-ignore:
+      - 'docs/*'
+      - '*.md'
   pull_request:
     branches: [v*, next]
+    paths-ignore:
+      - 'docs/*'
+      - '*.md'
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -12,7 +19,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [10.16, 10.x, 12.x, 14.x]
+        node-version: [10.16, 12.x, 14.x, 15.x]
 
     steps:
       - name: Checkout branch
@@ -34,3 +41,76 @@ jobs:
         with:
           file: coverage/unittests/lcov.info
           flags: unittests
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 12.x
+      - name: Install dependencies
+        run: yarn install --frozen-lock-file
+      - name: Check licenses
+        run: yarn license-checker
+      - name: Lint project
+        run: yarn lint
+
+  build-example:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        example: [controllers, request-handlers, swagger, typeorm]
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 12.x
+      - name: Install dependencies
+        run: yarn install --frozen-lock-file
+      - name: Build library
+        run: yarn build
+      - name: Build '${{ matrix.example }}'
+        run: |
+          yarn install
+          yarn build
+        working-directory: examples/${{ matrix.example }}
+      - name: Run tests on example
+        run: yarn test
+        working-directory: examples/${{ matrix.example }}
+        env:
+          CI: true
+      - name: Upload examples code coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          directory: coverage/examples
+          flags: examples
+
+  automerge:
+    needs: [lint, build, build-example]
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    steps:
+      - name: Dependabot Auto Merge
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.github_token}}
+          script: |
+            github.pulls.createReview({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              pull_number: context.payload.pull_request.number,
+              event: 'APPROVE'
+            })
+            github.pulls.merge({
+              owner: context.payload.repository.owner.login,
+              repo: context.payload.repository.name,
+              pull_number: context.payload.pull_request.number,
+              merge_method: 'rebase'
+            })

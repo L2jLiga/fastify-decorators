@@ -3,8 +3,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: "daily"
     assignees:
       - L2jLiga
     reviewers:
@@ -17,8 +16,7 @@ updates:
     # default location of `.github/workflows`
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: "daily"
     assignees:
       - L2jLiga
     reviewers:
