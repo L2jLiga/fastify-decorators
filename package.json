@@ -25,7 +25,7 @@
   "license": "MIT",
   "type": "commonjs",
   "dependencies": {
-    "fastify": "^3.7.0",
+    "fastify": "^3.8.0",
     "fastify-plugin": "^3.0.0"
   },
   "devDependencies": {
