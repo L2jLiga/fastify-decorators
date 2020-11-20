@@ -5,10 +5,6 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    assignees:
-      - L2jLiga
-    reviewers:
-      - L2jLiga
     commit-message:
       prefix: "chore: "
 
@@ -17,22 +13,28 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    assignees:
-      - L2jLiga
-    reviewers:
-      - L2jLiga
     commit-message:
       prefix: "chore: "
 
   # Examples
   - package-ecosystem: "npm"
-    directory: "/examples"
+    directory: "/examples/controllers"
     schedule:
       interval: "daily"
-    assignees:
-      - L2jLiga
-    reviewers:
-      - L2jLiga
+    commit-message:
+      prefix: "chore: "
+
+  - package-ecosystem: "npm"
+    directory: "/examples/request-handlers"
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: "chore: "
+
+  - package-ecosystem: "npm"
+    directory: "/examples/swagger"
+    schedule:
+      interval: "daily"
     commit-message:
       prefix: "chore: "
 
@@ -40,9 +42,5 @@ updates:
     directory: "/examples/typeorm"
     schedule:
       interval: "daily"
-    assignees:
-      - L2jLiga
-    reviewers:
-      - L2jLiga
     commit-message:
       prefix: "chore: "
