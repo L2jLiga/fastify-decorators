@@ -82,36 +82,36 @@ describe('Testing: configure service test', () => {
         });
 
         it('should be able to catch error in async initializer', () =>
-            new Promise((resolve, reject) =>
+            new Promise<void>((resolve, reject) =>
                 configureServiceTest({ service: AsyncInvalidService })
                     .catch(() => resolve())
                     .finally(() => reject())));
 
         describe('Compatibility with Promise', () => {
             it('should support then with one argument', () =>
-                new Promise((resolve, reject) =>
+                new Promise<void>((resolve, reject) =>
                     configureServiceTest({ service: AsyncService })
                         .then(() => resolve())
                         .finally(() => reject())));
 
             it('should support then with two arguments', () =>
-                new Promise((resolve, reject) =>
+                new Promise<void>((resolve, reject) =>
                     configureServiceTest({ service: AsyncInvalidService })
                         .then(() => reject(), () => resolve())));
 
             it('should support catch', () =>
-                new Promise((resolve, reject) =>
+                new Promise<void>((resolve, reject) =>
                     configureServiceTest({ service: AsyncInvalidService })
                         .catch(() => resolve())
                         .finally(() => reject())));
 
             it('should support finally', () =>
-                new Promise((resolve) =>
+                new Promise<void>((resolve) =>
                     configureServiceTest({ service: AsyncService })
                         .finally(() => resolve())));
 
             it('should not fail with services without initializer', () =>
-                new Promise((resolve) =>
+                new Promise<void>((resolve) =>
                     configureServiceTest({ service: ServiceWithoutDependencies })
                         .finally(() => resolve())));
         });
