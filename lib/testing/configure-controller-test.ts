@@ -9,13 +9,14 @@
 import { fastify, FastifyInstance } from 'fastify';
 import type { InjectableController } from '../interfaces';
 import { injectables } from '../registry/injectables';
-import { CREATOR, SERVICE_INJECTION } from '../symbols';
+import { CREATOR, FastifyInstanceToken, SERVICE_INJECTION } from '../symbols';
 import { MocksManager } from './mocks-manager';
 import type { ServiceMock } from './service-mock';
 import { readyMap } from '../decorators';
 import type { InjectableClass } from '../interfaces/injectable-class';
 import { ServiceInjection } from '../decorators/helpers/inject-dependencies';
 import { hasServiceInjection } from '../decorators/helpers/class-properties';
+import { wrapInjectable } from '../utils/wrap-injectable';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Reflect {
@@ -30,6 +31,9 @@ export interface ControllerTestConfig {
 export async function configureControllerTest(config: ControllerTestConfig): Promise<FastifyInstance> {
     const instance = fastify();
     const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
+    if (!injectablesWithMocks.has(FastifyInstanceToken)) {
+        injectablesWithMocks.set(FastifyInstanceToken, wrapInjectable(instance));
+    }
 
     const controller: InjectableController = config.controller;
     await controller[CREATOR].register(instance, injectablesWithMocks, false);

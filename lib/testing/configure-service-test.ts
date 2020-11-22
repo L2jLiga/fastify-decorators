@@ -9,10 +9,12 @@
 import type { Constructor } from '../decorators/helpers/inject-dependencies';
 import type { InjectableService } from '../interfaces/injectable-class';
 import { injectables } from '../registry/injectables';
-import { CREATOR, INITIALIZER } from '../symbols';
+import { CREATOR, FastifyInstanceToken, INITIALIZER } from '../symbols';
 import { MocksManager } from './mocks-manager';
 import type { ServiceMock } from './service-mock';
 import { readyMap } from '../decorators';
+import { wrapInjectable } from '../utils/wrap-injectable';
+import { fastify } from 'fastify';
 
 export interface ServiceTestConfig<Service> {
     service: Constructor<Service>;
@@ -28,6 +30,9 @@ export interface ServiceTestConfig<Service> {
 export function configureServiceTest<Service extends object>(config: ServiceTestConfig<Service>): Promise<Service> & Service {
     const service: Constructor<Service> = config.service;
     const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
+    if (!injectablesWithMocks.has(FastifyInstanceToken)) {
+        injectablesWithMocks.set(FastifyInstanceToken, wrapInjectable(fastify()));
+    }
 
     isInjectable(service);
     const instance = service[CREATOR].register<Service>(injectablesWithMocks, false);

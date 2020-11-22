@@ -1,6 +1,8 @@
 import { Initializer, Inject, Service } from '../decorators';
 import { configureServiceTest } from './configure-service-test';
 import { ServiceMock } from './service-mock';
+import { FastifyInstanceToken } from '../symbols';
+import { FastifyInstance } from 'fastify';
 
 describe('Testing: configure service test', () => {
     afterEach(() => jest.clearAllMocks());
@@ -57,6 +59,31 @@ describe('Testing: configure service test', () => {
             service: class Service {
             }, mocks: [],
         })).toThrow();
+    });
+
+    it('should inject fastify instance', () => {
+        const service = configureServiceTest({
+            service: WithFastifyInstance,
+        });
+
+        expect(typeof service.getVersion()).toBe('string');
+    });
+
+    it('should not override mocked injection of fastify instance', () => {
+        const service = configureServiceTest({
+            service: WithFastifyInstance,
+            mocks: [
+                {
+                    provide: FastifyInstanceToken, useValue: {
+                        get version() {
+                            return '0.0.0';
+                        },
+                    },
+                },
+            ],
+        });
+
+        expect(service.getVersion()).toBe('0.0.0');
     });
 
     describe('async service setup', () => {
@@ -160,5 +187,15 @@ class AsyncInvalidService {
     @Initializer()
     async init() {
         throw new Error('Invalid');
+    }
+}
+
+@Service()
+class WithFastifyInstance {
+    @Inject(FastifyInstanceToken)
+    instance!: FastifyInstance;
+
+    getVersion() {
+        return this.instance.version;
     }
 }

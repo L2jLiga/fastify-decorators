@@ -1,6 +1,8 @@
 import { Controller, GET, Initializer, Inject, Service } from '../decorators';
 import { configureControllerTest } from './configure-controller-test';
 import { ServiceMock } from './service-mock';
+import { FastifyInstanceToken } from '../symbols';
+import { FastifyInstance } from 'fastify';
 
 describe('Testing: configure controller test', () => {
     it('should bootstrap controller', async () => {
@@ -71,6 +73,36 @@ describe('Testing: configure controller test', () => {
 
         expect(result2.body).toBe('{"message":"ok"}');
     });
+
+    it('should inject fastify instance', async () => {
+        const instance = await configureControllerTest({
+            controller: WithFastifyInstance,
+        });
+
+        const result = await instance.inject('/index');
+
+        expect(result.statusCode).toBe(200);
+    });
+
+    it('should not override mocked injection of fastify instance', async () => {
+        const instance = await configureControllerTest({
+            controller: WithFastifyInstance,
+            mocks: [
+                {
+                    provide: FastifyInstanceToken, useValue: {
+                        get version() {
+                            return '0.0.0';
+                        },
+                    },
+                },
+            ],
+        });
+
+        const result = await instance.inject('/index');
+
+        expect(result.statusCode).toBe(200);
+        expect(result.json()).toEqual({ version: '0.0.0' });
+    });
 });
 
 @Controller()
@@ -131,5 +163,17 @@ class WithAsyncServiceInjected {
     async getAll() {
         const message = this.service.initialized ? 'ok' : 'fail';
         return { message };
+    }
+}
+
+@Controller()
+class WithFastifyInstance {
+    @Inject(FastifyInstanceToken)
+    instance!: FastifyInstance;
+
+    @GET('/index')
+    async getAll() {
+        const { version } = this.instance;
+        return { version };
     }
 }
