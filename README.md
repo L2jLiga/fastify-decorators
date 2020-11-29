@@ -260,4 +260,4 @@ This project licensed under [MIT License]
 [hooks]: ./docs/Hooks.md
 [error handling]: ./docs/Error%20handling.md
 [testing]: ./docs/Testing.md
-[migration guide (v3)]: docs/Migration%20to%20v3.md
+[migration guide (v3)]: ./docs/Migration%20to%20v3.md
