@@ -44,7 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 3.2.1
 ### Fixed
 - Request handlers decorators (GET, POST, PUT etc) ignore second argument:
-   ```typescript
+   ```ts
    class Ctrl {
      @GET('/', { schema: { body: { type: 'string' } } }) // fastify options were ignored
      get() {}

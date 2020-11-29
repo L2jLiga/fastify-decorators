@@ -4,11 +4,20 @@
 
 ### Table of content:
 
+- [Notes about dependency injection](#notes-about-dependency-injection)
 - [Using `configureControllerTest`](#using-configurecontrollertest)
 - [Using `configureServiceTest`](#using-configureservicetest)
     - [Services without async initializer](#sync-service-testing)
     - [Services with async initializer](#async-service-testing)
 - [Bootstrap whole server](#bootstrap-whole-server)
+
+### Notes about dependency injection
+
+fastify-decorators provide dependency injection functionality only when [`reflect-metadata`] required.
+
+It leads to mandatory of requiring this package to tests as well.
+
+As example for Jest you can take a look on our [`jest.environment.js`]
 
 ### Using `configureControllerTest`
 
@@ -18,14 +27,14 @@ You can write tests validating behaviors corresponding to the specific result of
 *Note*: if mock was not provided for one or more dependencies then originals will be used.
 
 *Usage*:
-```typescript
-import { FastifyInstance } from 'fastify';
-import { configureControllerTest } from 'fastify-decorators/testing';
-import { AuthController } from '../src/auth.controller';
-import { AuthService } from '../src/auth.service';
+```ts
+import { FastifyInstance } from 'fastify'
+import { configureControllerTest } from 'fastify-decorators/testing'
+import { AuthController } from '../src/auth.controller'
+import { AuthService } from '../src/auth.service'
 
 describe('Controller: AuthController', () => {
-  let instance: FastifyInstance;
+  let instance: FastifyInstance
   const authService = { authorize: jest.fn() }
 
   beforeEach(async () => {
@@ -37,22 +46,22 @@ describe('Controller: AuthController', () => {
           useValue: authService,
         },
       ],
-    });
-  });
- afterEach(() => jest.restoreAllMocks());
+    })
+  })
+ afterEach(() => jest.restoreAllMocks())
 
   it(`should reply with 'ok' if authorization success`, async () => {
-    authService.authorize.and.returnValue(Promise.resolve(true));
+    authService.authorize.and.returnValue(Promise.resolve(true))
 
     const result = await instance.inject({
       url: '/authorize',
       method: 'POST',
       payload: { login: 'test', password: 'test' },
-    });
+    })
 
-    expect(JSON.parse(result.body)).toEqual({ message: 'ok' });
-  });
-});
+    expect(JSON.parse(result.body)).toEqual({ message: 'ok' })
+  })
+})
 ```
 
 ### Using `configureServiceTest`
@@ -66,14 +75,14 @@ The `configureControllerTest(options)` is pretty close to `configureControllerTe
 For those services which has no method with `@Initializer` decorator, then `configureServiceTest` will return an instance of it.
 
 *Usage*:
-```typescript
-import { configureServiceTest } from 'fastify-decorators/testing';
-import { RolesService } from '../src/roles.service';
-import { AuthService } from '../src/auth.service';
+```ts
+import { configureServiceTest } from 'fastify-decorators/testing'
+import { RolesService } from '../src/roles.service'
+import { AuthService } from '../src/auth.service'
 
 describe('Service: AuthService', () => {
-  let service: AuthService;
-  const rolesService = { isTechnical: jest.fn(), isAdmin: jest.fn() };
+  let service: AuthService
+  const rolesService = { isTechnical: jest.fn(), isAdmin: jest.fn() }
 
   beforeEach(() => {
     service = configureServiceTest({
@@ -84,20 +93,20 @@ describe('Service: AuthService', () => {
           useValue: rolesService,
         },
       ],
-    });
-  });
-  afterEach(() => jest.restoreAllMocks());
+    })
+  })
+  afterEach(() => jest.restoreAllMocks())
 
   it(`should reply with 'ok' if authorization success`, async () => {
-    rolesService.isTechnical.and.returnValue(true);
-    rolesService.isAdmin.and.returnValue(false);
-    const bearer = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6W119.0Dd6yUeJ4UbCr8WyXOiK3BhqVVwJFk5c53ipJBWenmc';
+    rolesService.isTechnical.and.returnValue(true)
+    rolesService.isAdmin.and.returnValue(false)
+    const bearer = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6W119.0Dd6yUeJ4UbCr8WyXOiK3BhqVVwJFk5c53ipJBWenmc'
 
-    const result = service.hasSufficientRole(bearer);
+    const result = service.hasSufficientRole(bearer)
 
-    expect(result).toBe(true);
-  });
-});
+    expect(result).toBe(true)
+  })
+})
 ```
 
 #### Async service testing
@@ -105,14 +114,14 @@ describe('Service: AuthService', () => {
 If service has method with `@Initializer` decorator, then `configureServiceTest` will return intersection of an instance and Promise.
 You can work with service like it has no `@Initializer` unless you await it.
 
-```typescript
-import { configureServiceTest } from 'fastify-decorators/testing';
-import { RolesService } from '../src/roles.service';
-import { AuthService } from '../src/auth.service';
+```ts
+import { configureServiceTest } from 'fastify-decorators/testing'
+import { RolesService } from '../src/roles.service'
+import { AuthService } from '../src/auth.service'
 
 describe('Service: AuthService', () => {
-  let service: AuthService;
-  const rolesService = { isTechnical: jest.fn(), isAdmin: jest.fn() };
+  let service: AuthService
+  const rolesService = { isTechnical: jest.fn(), isAdmin: jest.fn() }
 
   beforeEach(async () => {
     service = await configureServiceTest({
@@ -123,20 +132,20 @@ describe('Service: AuthService', () => {
           useValue: rolesService,
         },
       ],
-    });
-  });
-  afterEach(() => jest.restoreAllMocks());
+    })
+  })
+  afterEach(() => jest.restoreAllMocks())
 
   it(`should reply with 'ok' if authorization success`, async () => {
-    rolesService.isTechnical.and.returnValue(true);
-    rolesService.isAdmin.and.returnValue(false);
-    const bearer = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6W119.0Dd6yUeJ4UbCr8WyXOiK3BhqVVwJFk5c53ipJBWenmc';
+    rolesService.isTechnical.and.returnValue(true)
+    rolesService.isAdmin.and.returnValue(false)
+    const bearer = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6W119.0Dd6yUeJ4UbCr8WyXOiK3BhqVVwJFk5c53ipJBWenmc'
 
-    const result = service.hasSufficientRole(bearer);
+    const result = service.hasSufficientRole(bearer)
 
-    expect(result).toBe(true);
-  });
-});
+    expect(result).toBe(true)
+  })
+})
 ```
 
 ### Bootstrap whole server
@@ -149,34 +158,37 @@ Difference is server will not run.
 *Example*:
 
 *src/index.ts*:
-```typescript
-import fastify from 'fastify';
+```ts
+import fastify from 'fastify'
 
-const instance = fastify({ /* options */ });
+const instance = fastify({ /* options */ })
 
 /* your code */
 
-export { instance };
+export { instance }
 ```
 
 *test/auth.spec.ts*:
-```typescript
+```ts
 import { instance } from '../src'
 
 describe('Application: authorization', () => {
-  beforeEach(() => { /* Setup logic for test */ });
-  afterEach(() => { /* Teardown logic for test */ });
+  beforeEach(() => { /* Setup logic for test */ })
+  afterEach(() => { /* Teardown logic for test */ })
 
   it('should check credentials and reply with result', async () => {
-    const payload = { login: 'test', password: 'test' };
+    const payload = { login: 'test', password: 'test' }
 
     const result = await instance.inject({
       url: '/auth/authorize',
       method: 'POST',
       payload,
-    });
+    })
 
-    expect(JSON.parse(result.body)).toEqual({ message: 'ok' });
-  });
-});
+    expect(JSON.parse(result.body)).toEqual({ message: 'ok' })
+  })
+})
 ```
+
+[`reflect-metadata`]: http://npmjs.com/package/reflect-metadata
+[`jest.environment.js`]: ../jest.environment.js

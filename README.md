@@ -9,161 +9,224 @@
 [![codecov](https://codecov.io/gh/L2jLiga/fastify-decorators/branch/v3/graph/badge.svg)](https://codecov.io/gh/L2jLiga/fastify-decorators)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/L2jLiga/fastify-decorators.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/L2jLiga/fastify-decorators/context:javascript)
 
-This package developed to provide useful typescript decorators to implement RequestHandler pattern with [Fastify].
+> **Framework aimed to provide useful TypeScript decorators to implement controllers, services and request handlers, built with [Fastify].**
 
-**NOTE**: Fastify-decorators was developed with fastify `^3.0.0` and may not work with other versions.
+**NOTE**: fastify-decorators was developed with fastify `^3.0.0` and may not work with other versions.
 
-## Install
+## Benefits
 
-via npm:
+- **Fastify compatible** - Built with [Fastify] and supports all its features and plugins
+   - **JSON Schema validation** - Build [JSON Schemas](https://json-schema.org/) to validate and speedup your requests and replies
+   - **High performance** - Framework adds as less overhead to Fastify as it can
+- **Highly customizable** - Create your controllers, services and their methods as you wish
+- **100% TypeScript** - Written in [TypeScript](https://www.typescriptlang.org/) and comes with all the required typings
+- **Built-in DI** - Provides simple Dependency Injection interface to bind your entries
+
+## Documentation
+
+- [Getting started](#getting-started)
+- [Controllers]
+- [Request Handlers]
+- [Services and dependency injection]
+- [Hooks]
+- [Error handling]
+- [Testing]
+- [Migration guide (V3)]
+
+## IDE Support
+
+- [JetBrains IDE plugin]
+
+## Alternatives
+
+- **[NestJS]** - A progressive Node.js framework for building efficient, reliable and scalable server-side applications.
+- **[Fastify Resty]** - Modern and declarative REST API framework for superfast and oversimplification backend development, build on top of Fastify and TypeScript.
+
+## Getting started
+Hello! Thank you for checking out fastify-decorators!
+
+This documents aims to be gentle introduction to the fastify-decorators and its usages.
+
+### Prerequisites
+
+- Typescript
+- Fastify
+- typings for NodeJS (`@types/node` package installed)
+
+### Install
+
+Install with npm
 ```
-npm install fastify-decorators --save
+npm i fastify-decorators --save
 ```
-
-via yarn:
+Install with yarn
 ```
 yarn add fastify-decorators
 ```
 
-## IDE support
+### Additional TypeScript configuration
 
-- [JetBrains IDE plugin]
+Fastify-decorators requires `experimentalDecorators` feature to be enabled. For this you need to update your TypeScript config:
 
-## Documentation
-
-- [Getting Started]
-- [Request Handler]
-- [Controllers]
-- [Dependency Injection]
-- [Testing]
-- [Migration guide (V3)]
-
-## Basic usage
-
-### Controller
-
-*src/sample.controller.ts*:
-```typescript
-import { Controller, GET } from 'fastify-decorators';
-
-@Controller('/sample')
-export default class SampleController {
-    @GET('/')
-    async handle() {
-        return 'It works!';
-    }
+*tsconfig.json*:
+```json
+{
+  "compilerOptions": {
+    "experimentalDecorators": true
+  }  
 }
 ```
 
-### Request Handler
+*Note*: if you struggle which `target` please refer to table below:
 
-*src/sample.handler.ts*:
-```typescript
-import { GET, RequestHandler } from 'fastify-decorators';
+| Node version | target |
+|--------------|--------|
+| 10.x         | es2018 |
+| 12.x         | es2019 |
+| 14.x         | es2020 |
 
-@GET('/sample')
-export default class SampleHandler extends RequestHandler {
-    async handle() {
-        return 'It works!';
-    }
-}
+`fastify-decorators` itself use `"target": "es2018"` to support NodeJS 10+ (see [Node.js ES2018 Support]).
+
+### Your first server
+#### Request handler way
+Let's write your first server with request handler:
+
+*Project structure*:
+
 ```
-
-### Bootstrapping
+ ├── index.ts
+ ├── handlers
+ │    └── first.handler.ts
+ └── tsconfig.json
+```
 
 *index.ts*:
-```typescript
-import { bootstrap } from 'fastify-decorators';
-import fastify = require('fastify');
-import { resolve } from 'path';
+```ts
+import { bootstrap } from 'fastify-decorators'
+import { resolve } from 'path'
 
-// Create Fastify instance
-const instance = fastify();
+// Require the framework and instantiate it
+const instance = require('fastify')()
 
 // Register handlers auto-bootstrap
 instance.register(bootstrap, {
-    directory: resolve(__dirname, `src`),
-    mask: /\.(controller|handler)\./
-});
+    // Specify directory with our handler
+    directory: resolve(__dirname, `handlers`),
 
-instance.listen(3000);
+    // Specify mask to match only our handler
+    mask: /\.handler\./
+})
+
+// Run the server!
+instance.listen(3000)
 ```
 
-**NOTE**: Using decorators require `experimentalDecorators` to be enabled in `tsconfig.json`
+*handlers/first.handler.ts*:
+```ts
+import { GET, RequestHandler } from 'fastify-decorators'
 
-## API
-
-### bootstrap
-
-`bootstrap` is Fastify plugin to autoload all decorated modules
-
-*example*:
-```typescript
-import fastify = require('fastify');
-import {bootstrap} from 'fastify-decorators';
-
-const instance = fastify();
-
-instance.register(bootstrap, options)
-```
-
-#### Bootstrap options
-
-| name              | type               | required | description                                              |
-|-------------------|--------------------|:--------:|----------------------------------------------------------|
-| directory         | `string`           | yes      | Specify directory where controllers/handlers are located |
-| mask              | `string`, `RegExp` | no       | Specify mask for files filter                            |
-| prefix            | `string`           | no       | Specify prefix for routes                                |
-
-### Decorators
-
-List of available decorators for handlers:
-- `GET`
-- `POST`
-- `PUT`
-- `DELETE`
-- `HEAD`
-- `OPTIONS`
-- `ALL`
-
-*example*:
-```typescript
-import { POST, RequestHandler } from 'fastify-decorators';
-
-@POST(options)
-export default class SimpleHandler extends RequestHandler {
-    async handle() {return ''}
+@GET({
+    url: '/hello'
+})
+export default class FirstHandler extends RequestHandler {
+    async handle() {
+        return 'Hello world!'
+    }
 }
 ```
 
-Also fastify-decorators provides decorator for Controllers implementation:
+#### Controllers way
+fastify-decorators also provides way to build controllers with multiple handlers:
 
-- `Controller` decorator uses on class
-- `hook` decorator to uses on methods to define [Fastify Hook]
-- Same decorators as for handlers use on methods to define [Fastify Route]
 
-#### Controller decorator options:
-Controller accepts `string` as route parameter.
-It also possible to passthroughs configuration object in case if complex configuration needed:
+*Project structure*:
 
-| name  | type                  | required | description                                      |
-|-------|-----------------------|:--------:|--------------------------------------------------|
-| route | string                | yes      | Controller base route                            |
-| type  | `ControllerType` enum | no       | Define controller behaviour. Default `SINGLETON` |
+```
+ ├── index.ts
+ ├── controllers
+ │    └── first.controller.ts
+ └── tsconfig.json
+```
 
-#### Hook decorator options:
-| name  | type   | required | description           |
-|-------|--------|:--------:|-----------------------|
-| name  | string | yes      | Hook name             |
+*index.ts*:
+```ts
+import { bootstrap } from 'fastify-decorators'
+import { resolve } from 'path'
 
-#### Handler decorators options (for controllers and handlers both)
-Handler decorators accept `srting` as URL parameter.
-It also possible to passthroughs configuration object in case if complex configuration needed:
+// Require the framework and instantiate it
+const instance = require('fastify')()
 
-| name    | type            | required | description                                      |
-|---------|-----------------|:--------:|--------------------------------------------------|
-| url     | `string`        | yes      | Route url which will be passed to Fastify        |
-| options | [`RouteConfig`] | no       | Config for route which will be passed to Fastify |
+// Register handlers auto-bootstrap
+instance.register(bootstrap, {
+    // Specify directory with our controllers
+    directory: resolve(__dirname, `controllers`),
+
+    // Specify mask to match only our controllers
+    mask: /\.controller\./
+})
+
+// Run the server!
+instance.listen(3000)
+```
+
+*controllers/first.controller.ts*:
+```ts
+import { Controller, GET } from 'fastify-decorators'
+
+@Controller({route: '/'})
+export default class FirstController {
+    @GET({url: '/hello'})
+    async helloHandler() {
+        return 'Hello world!'
+    }
+
+    @GET({url: '/goodbye'})
+    async goodbyeHandler() {
+        return 'Bye-bye!'
+    }
+}
+```
+
+Also, we need to enable `experimentalDecorators` feature in our TypeScript config
+
+*tsconfig.json*:
+```json
+{
+  "compilerOptions": {
+    "experimentalDecorators": true
+  }  
+}
+```
+
+### Build and run server
+
+After all our files done we have to build server before we can run it:
+
+1. Add to our package.json script to build server:
+    ```
+    "scripts": {
+      "build": "tsc"
+    }
+    ```
+
+1. Run build script
+    With npm:
+    ```
+    npm run build
+    ```
+    with yarn:
+    ```
+    yarn build
+    ```
+
+1. Start server
+    ```
+    node index.ts
+    ```
+
+Awesome, that was easy.
+
+[Node.js ES2018 Support]: https://node.green/#ES2018
 
 ## License
 
@@ -172,13 +235,15 @@ This project licensed under [MIT License]
 [Fastify]: https://npmjs.org/package/fastify
 [JetBrains IDE plugin]: https://plugins.jetbrains.com/plugin/13801-fastify-decorators
 [MIT License]: https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
-[`RouteConfig`]: https://github.com/fastify/fastify/blob/master/docs/Routes.md
-[Fastify Hook]: https://github.com/fastify/fastify/blob/master/docs/Hooks.md
-[Fastify Route]: https://github.com/fastify/fastify/blob/master/docs/Routes.md
 
-[Getting Started]: ./docs/Getting-Started.md
-[Request Handler]: ./docs/Request-Handlers.md
+[NestJS]: https://nestjs.com/
+[Fastify Resty]: https://github.com/FastifyResty/fastify-resty
+
+[Bootstrapping]: ./docs/Bootstrapping.md
 [Controllers]: ./docs/Controllers.md
-[Dependency Injection]: ./docs/Dependency-Injection.md
+[Request Handlers]: ./docs/Request%20Handlers.md
+[Services and dependency injection]: ./docs/Services%20and%20dependency%20injection.md
+[Hooks]: ./docs/Hooks.md
+[Error handling]: ./docs/Error%20handling.md
 [Testing]: ./docs/Testing.md
-[Migration guide (V3)]: ./docs/Migration-to-v3.md
+[Migration guide (V3)]: docs/Migration%20to%20v3.md

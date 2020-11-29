@@ -1,241 +1,125 @@
 <h1 style="text-align: center">Fastify decorators</h1>
 
-## Bootstrap controllers
+Controller is class decorated with `@Controller` and designed to handle request to its routes.
 
-### by using controllers list
+### Creating controller
 
-It's possible to bootstrap controllers without necessarily knowing where they are and just treat them as "modules".
-For that reason `bootstrap` method has `controller` options parameter that accepts array of controllers to bootstrap.
+First step is to create a class and decorate it
 
-*Usage*:
-```typescript
-import { bootstrap } from 'fastify-decorators';
-import AuthController from './src/auth/auth.controller';
-import UserController from './src/user/user.controller';
-import { PaymentController } from './src/payment/PaymentController';
+```ts
+import { Controller } from 'fastify-decorators'
 
-// Require the framework and instantiate it
-const instance = require('fastify')();
-
-// Define bootstrap options
-const bootstrapOptions = {
-  controllers: [
-    AuthController,
-    UserController,
-    PaymentController,
-  ],
-};
-
-// Register our bootstrap with options
-instance.register(bootstrap, bootstrapOptions);
-```
-
-### by using autoloader
-
-Let's imagine that:
-- We already have the directory named `controllers` which contains all our controllers
-- Each handler contains `.controller.` in its name.
-
-To make it works without manual loading we can use `bootstrap` method:
-```typescript
-import { bootstrap } from 'fastify-decorators';
-import { resolve } from 'path';
-
-// Require the framework and instantiate it
-const instance = require('fastify')();
-
-// Define bootstrap options
-const bootstrapOptions = {
-    // This option defines path to directory with files to load
-    directory: resolve(__dirname, `controllers`),
-
-    // This option defines which pattern should file match
-    mask: /\.controller\./
-};
-
-// Register our bootstrap with options
-instance.register(bootstrap, bootstrapOptions);
-```
-
-## Writing controllers
-
-The Fastify decorators module exports set of decorators to implement controllers with multiple handlers and hooks.
-
-### Base class
-
-Every controller should be decorated with `@Controller` decorator and exported:
-```typescript
-import { Controller } from 'fastify-decorators';
-
-@Controller('/')
+@Controller()
 export default class SimpleController {
 }
 ```
 
-### Handlers
+*Controller decorator configuration*:
 
-To mark controller method as handler you have to use one of the following decorators:
-- `ALL`
-- `GET`
-- `POST`
-- `PUT`
-- `PATCH`
-- `DELETE`
-- `OPTIONS`
-- `HEAD`
+Controller decorator may accept 2 kinds of options
 
-*example*:
-```typescript
-import { Controller, GET } from 'fastify-decorators';
+1. String which represent route URL which will be the root path of our controller's endpoints.
 
-@Controller('/')
+   default is `'/'`
+
+1. Object which contains `route` representing URL used as the root path and `type` for controller type.
+
+   Controller must be one of the two types:
+      - `ControllerType.SINGLETON` - creates single class instance for all requests
+      - `ControllerType.REQUEST` - creates new class instance per request
+
+### Creating handlers
+
+Controller is able to handle different HTTP requests methods with different routes. 
+For that, we need to declare a controller class method and decorate it with HTTP method decorator.
+
+*List of available decorators*: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`, 'HEAD' and `OPTIONS`.
+There also special decorator in place - `ALL` which will handle all types of request.
+
+```ts
+import { FastifyRequest, FastifyReply } from 'fastify'
+import { Controller, GET } from 'fastify-decorators'
+
+@Controller()
 export default class SimpleController {
-    @GET('/')
-    async getHandler(request, reply) {
-        return 'Hello world!'
-    }
-}
-```
-
-### Controller configuration
-
-Controller may have to different behaviours:
-- `Singleton` (default) - creates single controller instance for all requests
-- `Request` - creates new controller instance for each request
-
-If you would like to use behaviour different to `Singleton` then you need specify it in decorator like in example below:
-
-```typescript
-import { Controller, ControllerType, GET } from 'fastify-decorators';
-
-@Controller({
-   route: '/',
-   type: ControllerType.REQUEST,
-})
-export default class SimpleController {
-    @GET('/')
-    async getHandler(request, reply) {
-        return 'Hello world!'
-    }
-}
-```
-
-### Requests handlers configuration
-
-Not only controller but also handlers within may have complex configuration, to use it you can provide [`RouteConfig`] object instead of string in method decorator.
-For example if we want to specify response type for our endpoint above we can use configuration object with a schema specified:
-
- ```typescript
-import { Controller, ControllerType, GET } from 'fastify-decorators';
- 
-@Controller({
-  route: '/',
-  type: ControllerType.REQUEST,
-})
-export default class SimpleController {
-    @GET({
-        url: '/',
-        options: {
-            schema: {
-                response: {
-                    200: { type: 'string' },
-                },
-            },
-        },
-    })
-    async getHandler(request, reply) {
-        return 'Hello world!'
-    }
-}
- ```
-
-Decorators accept `RouteConfig` with follow fields:
-
-| name    | type            | required | description                                      |
-|---------|-----------------|:--------:|--------------------------------------------------|
-| url     | `string`        | yes      | Route url which will be passed to Fastify        |
-| options | [`RouteConfig`] | no       | Config for route which will be passed to Fastify |
-
-**NOTE**: These decorators can't be mixed, and you can use only one decorator per method.
-
-### Dependency injection and access to Fastify instance
-
-Main article [Dependency injection]
-
-Since v2 `fastify-decorators` supports DI mechanism.
-DI able to provide `FastifyInstance` for your controllers. It is possible via `@Inject` decorator:
-
-```typescript
-import { FastifyInstance } from 'fastify';
-import { GET, ControllerType, Controller, Inject, FastifyInstanceToken } from 'fastify-decorators';
-
-@Controller({
-  route: '/',
-  type: ControllerType.REQUEST,
-})
-export default class SimpleController {
-    @Inject(FastifyInstanceToken)
-    private instance!: FastifyInstance;
-
-    @GET({
-        url: '/',
-        options: {
-            schema: {
-                response: {
-                    200: { type: 'string' },
-                },
-            },
-        },
-    })
-    async getHandler(request, reply) {
+    @GET()
+    async getHandler(request: FastifyRequest, reply: FastifyReply) {
         return 'Hello world!'
     }
 
-    @GET('/routes')
-    async routes() {
-        return this.instance.printRoutes();
+    @POST()
+    async postHandler(request: FastifyRequest, reply: FastifyReply) {
+      // Doing some activities here
     }
 }
 ```
 
-#### Accessing FastifyInstance in decorators
+Read [Request Handlers] for more info.
 
-If you need `FastifyInstance` in decorators (for example to determine specific hooks for route) `fastify-decorators` provides `getInstanceByToken` function.
-This function accepts injectable token which is `FastifyInstanceToken` for the instance.
+### Injecting services
 
-*Note*: Be aware instance property should be static otherwise decorators cannot get access to it. 
+Controllers may depend on other services and for such cases library provides dependency injection mechanism.
 
-```typescript
-import { FastifyInstance } from 'fastify';
-import { Controller, FastifyInstanceToken, GET, getInstanceByToken } from 'fastify-decorators';
+To inject service you will need to decorate your service with `@Service` decorator.
 
-@Controller({ route: '' })
-export default class MyController {
-    private static instance = getInstanceByToken<FastifyInstance>(FastifyInstanceToken);
+*Example*:
+```ts
+import { Service } from 'fastify-decorators'
 
-    @GET({
-        url: '',
-        options: {
-            preValidation: MyController.instance.preValidationDecorator
-        }
-    })
-    public async validatedRoute() {
-        /* Some stuff */
-    }
+@Service()
+export class MyService {}
+```
+
+After that you can inject the service into other service or controller with one of 3 ways:
+
+*getInstanceByToken*:
+```ts
+import { getInstanceByToken, Controller } from 'fastify-decorators'
+import { MyService } from './my-service'
+
+@Controller()
+export class MyController {
+  myService: MyService = getInstanceByToken(MyService)
 }
 ```
 
-### Hooks
+*Inject*:
+```ts
+import { Controller, Inject } from 'fastify-decorators'
+import { MyService } from './my-service'
+
+@Controller()
+export class MyController {
+  @Inject(MyService)
+  myService!: MyService
+}
+```
+
+*Constructor parameters*:
+```ts
+import { Controller } from 'fastify-decorators'
+import { MyService } from './my-service'
+
+@Controller()
+export class MyController {
+ constructor(public myService: MyService) {
+ }
+}
+```
+
+Read [Services and dependency injection] for more info
+
+### Creating hooks
 
 There are also decorator which allows using [Fastify Hooks]:
-```typescript
-import { Controller, Hook } from 'fastify-decorators';
+```ts
+import { Controller, Hook } from 'fastify-decorators'
 
 @Controller('/')
 export default class SimpleController {
     @Hook('onSend')
     async onSend(request, reply) {
-        reply.removeHeader('X-Powered-By');
+        reply.removeHeader('X-Powered-By')
     }
 }
 ```
@@ -246,10 +130,10 @@ export default class SimpleController {
 
 `@ErrorHandler` may accept error code or type to handle or be empty which means will handle all errors. Let's take a look on example:
 
-```typescript
-import fs from 'fs';
-import path from 'path';
-import { Controller, GET, ErrorHandler } from 'fastify-decorators';
+```ts
+import fs from 'fs'
+import path from 'path'
+import { Controller, GET, ErrorHandler } from 'fastify-decorators'
 
 class TokenNotFoundError extends Error {
 }
@@ -259,7 +143,7 @@ export default class SimpleController {
     @GET('/')
     async get(request, reply) {
       // may throw FS_READ_ERROR
-      const content = fs.readFileSync(path.join(__dirname, request.query.fileName));
+      const content = fs.readFileSync(path.join(__dirname, request.query.fileName))
 
       if (!content.includes('token')) {
         throw new TokenNotFoundError('Token not found in file requested')
@@ -270,11 +154,13 @@ export default class SimpleController {
 
     @ErrorHandler(TokenNotFoundError)
     handleTokenNotFound(error: TokenNotFoundError, request, reply) {
-      reply.status(403).send({ message: 'You have no access' });
+      reply.status(403).send({ message: 'You have no access' })
     }
 }
 ```
 
+[Request Handlers]: ./Request%20Handlers.md
+[Services and dependency injection]: ./Services%20and%20dependency%20injection.md
+
 [Fastify Hooks]: https://github.com/fastify/fastify/blob/master/docs/Hooks.md
 [`RouteConfig`]: https://github.com/fastify/fastify/blob/master/docs/Routes.md
-[Dependency Injection]: Dependency-Injection.md
