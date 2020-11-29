@@ -1,12 +1,10 @@
 import { app } from '../src';
 
 describe('RequestHandlers hooks support', () => {
+  it('should return username when user exists', async () => {
+    const response = await app.inject('/hook');
 
-    it('should return username when user exists', async () => {
-        const response = await app.inject('/hook');
-
-        expect(response.statusCode).toBe(204);
-        expect(response.headers['x-powered-by']).toBe('RequestHandler');
-    });
-
+    expect(response.statusCode).toBe(204);
+    expect(response.headers['x-powered-by']).toBe('RequestHandler');
+  });
 });

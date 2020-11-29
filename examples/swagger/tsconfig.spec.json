@@ -5,7 +5,5 @@
       "path": "./tsconfig.lib.json"
     }
   ],
-  "include": [
-    "test/**/*.ts"
-  ]
+  "include": ["test/**/*.ts"]
 }

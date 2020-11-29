@@ -5,31 +5,30 @@ import { ConnectionService } from '../services/connection.service';
 
 @Service()
 export class MessageFacade {
-    private repository!: Repository<Message>;
+  private repository!: Repository<Message>;
 
-    constructor(private connectionService: ConnectionService) {
-    }
+  constructor(private connectionService: ConnectionService) {}
 
-    @Initializer([ConnectionService])
-    async init(): Promise<void> {
-        // because we added ConnectionService as a dependency, we are sure it was properly initialized if it reaches
-        // this point
-        this.repository = this.connectionService.connection.getRepository(Message);
-    }
+  @Initializer([ConnectionService])
+  async init(): Promise<void> {
+    // because we added ConnectionService as a dependency, we are sure it was properly initialized if it reaches
+    // this point
+    this.repository = this.connectionService.connection.getRepository(Message);
+  }
 
-    async getMessages(): Promise<Message[]> {
-        return this.repository.find();
-    }
+  async getMessages(): Promise<Message[]> {
+    return this.repository.find();
+  }
 
-    async getMessageBy(id: number): Promise<Message | undefined> {
-        return this.repository.findOne(id);
-    }
+  async getMessageBy(id: number): Promise<Message | undefined> {
+    return this.repository.findOne(id);
+  }
 
-    async storeMessage(message: Partial<Message>): Promise<Message> {
-        return this.repository.save(message);
-    }
+  async storeMessage(message: Partial<Message>): Promise<Message> {
+    return this.repository.save(message);
+  }
 
-    async deleteBy(id: number): Promise<void> {
-        await this.repository.delete(id);
-    }
+  async deleteBy(id: number): Promise<void> {
+    await this.repository.delete(id);
+  }
 }

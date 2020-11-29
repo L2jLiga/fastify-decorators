@@ -12,13 +12,13 @@ import type { ControllerType } from '../registry';
  * Config for controllers
  */
 export interface ControllerConfig {
-    /**
-     * Controller base route
-     */
-    route: string;
+  /**
+   * Controller base route
+   */
+  route: string;
 
-    /**
-     * Controller type
-     */
-    type?: ControllerType;
+  /**
+   * Controller type
+   */
+  type?: ControllerType;
 }

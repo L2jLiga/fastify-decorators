@@ -1,135 +1,135 @@
 import { ErrorHandler, Handler, Hook } from '../../interfaces';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
 import {
-    ensureErrorHandlers,
-    ensureHandlers,
-    ensureHooks,
-    hasErrorHandlers,
-    hasHandlers,
-    hasHooks,
+  ensureErrorHandlers,
+  ensureHandlers,
+  ensureHooks,
+  hasErrorHandlers,
+  hasHandlers,
+  hasHooks,
 } from './class-properties';
 
 describe('Helpers: class properties', () => {
-    describe('ensure object has handlers symbol', () => {
-        it('should create when not exists', () => {
-            const obj = {};
+  describe('ensure object has handlers symbol', () => {
+    it('should create when not exists', () => {
+      const obj = {};
 
-            ensureHandlers(obj);
+      ensureHandlers(obj);
 
-            expect(obj[HANDLERS]).toEqual([]);
-        });
-
-        it('should not create when exists', () => {
-            const handlers: Handler[] = [];
-            const obj = {
-                [HANDLERS]: handlers,
-            };
-
-            ensureHandlers(obj);
-
-            expect(obj[HANDLERS]).toBe(handlers);
-        });
+      expect(obj[HANDLERS]).toEqual([]);
     });
 
-    describe('check if handlers symbol exists', () => {
-        it('should return false when not exists', () => {
-            const obj = {};
+    it('should not create when exists', () => {
+      const handlers: Handler[] = [];
+      const obj = {
+        [HANDLERS]: handlers,
+      };
 
-            const result = hasHandlers(obj);
+      ensureHandlers(obj);
 
-            expect(result).toBe(false);
-        });
+      expect(obj[HANDLERS]).toBe(handlers);
+    });
+  });
 
-        it('should return true when exists', () => {
-            const obj = {
-                [HANDLERS]: [],
-            };
+  describe('check if handlers symbol exists', () => {
+    it('should return false when not exists', () => {
+      const obj = {};
 
-            const result = hasHandlers(obj);
+      const result = hasHandlers(obj);
 
-            expect(result).toBe(true);
-        });
+      expect(result).toBe(false);
     });
 
-    describe('ensure object has error handlers symbol', () => {
-        it('should create when not exists', () => {
-            const obj = {};
+    it('should return true when exists', () => {
+      const obj = {
+        [HANDLERS]: [],
+      };
 
-            ensureErrorHandlers(obj);
+      const result = hasHandlers(obj);
 
-            expect(obj[ERROR_HANDLERS]).toEqual([]);
-        });
+      expect(result).toBe(true);
+    });
+  });
 
-        it('should not create when exists', () => {
-            const errorHandlers: ErrorHandler[] = [];
-            const obj = {
-                [ERROR_HANDLERS]: errorHandlers,
-            };
+  describe('ensure object has error handlers symbol', () => {
+    it('should create when not exists', () => {
+      const obj = {};
 
-            ensureErrorHandlers(obj);
+      ensureErrorHandlers(obj);
 
-            expect(obj[ERROR_HANDLERS]).toBe(errorHandlers);
-        });
+      expect(obj[ERROR_HANDLERS]).toEqual([]);
     });
 
-    describe('check if error handlers symbol exists', () => {
-        it('should return false when not exists', () => {
-            const obj = {};
+    it('should not create when exists', () => {
+      const errorHandlers: ErrorHandler[] = [];
+      const obj = {
+        [ERROR_HANDLERS]: errorHandlers,
+      };
 
-            const result = hasErrorHandlers(obj);
+      ensureErrorHandlers(obj);
 
-            expect(result).toBe(false);
-        });
+      expect(obj[ERROR_HANDLERS]).toBe(errorHandlers);
+    });
+  });
 
-        it('should return true when exists', () => {
-            const obj = {
-                [ERROR_HANDLERS]: [],
-            };
+  describe('check if error handlers symbol exists', () => {
+    it('should return false when not exists', () => {
+      const obj = {};
 
-            const result = hasErrorHandlers(obj);
+      const result = hasErrorHandlers(obj);
 
-            expect(result).toBe(true);
-        });
+      expect(result).toBe(false);
     });
 
-    describe('ensure object has hooks symbol', () => {
-        it('should create when not exists', () => {
-            const obj = {};
+    it('should return true when exists', () => {
+      const obj = {
+        [ERROR_HANDLERS]: [],
+      };
 
-            ensureHooks(obj);
+      const result = hasErrorHandlers(obj);
 
-            expect(obj[HOOKS]).toEqual([]);
-        });
+      expect(result).toBe(true);
+    });
+  });
 
-        it('should not create when exists', () => {
-            const hooks: Hook[] = [];
-            const obj = {
-                [HOOKS]: hooks,
-            };
+  describe('ensure object has hooks symbol', () => {
+    it('should create when not exists', () => {
+      const obj = {};
 
-            ensureHooks(obj);
+      ensureHooks(obj);
 
-            expect(obj[HOOKS]).toBe(hooks);
-        });
+      expect(obj[HOOKS]).toEqual([]);
     });
 
-    describe('check if hooks symbol exists', () => {
-        it('should return false when not exists', () => {
-            const obj = {};
+    it('should not create when exists', () => {
+      const hooks: Hook[] = [];
+      const obj = {
+        [HOOKS]: hooks,
+      };
 
-            const result = hasHooks(obj);
+      ensureHooks(obj);
 
-            expect(result).toBe(false);
-        });
-
-        it('should return true when exists', () => {
-            const obj = {
-                [HOOKS]: [],
-            };
-
-            const result = hasHooks(obj);
-
-            expect(result).toBe(true);
-        });
+      expect(obj[HOOKS]).toBe(hooks);
     });
+  });
+
+  describe('check if hooks symbol exists', () => {
+    it('should return false when not exists', () => {
+      const obj = {};
+
+      const result = hasHooks(obj);
+
+      expect(result).toBe(false);
+    });
+
+    it('should return true when exists', () => {
+      const obj = {
+        [HOOKS]: [],
+      };
+
+      const result = hasHooks(obj);
+
+      expect(result).toBe(true);
+    });
+  });
 });

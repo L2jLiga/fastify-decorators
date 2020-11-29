@@ -12,23 +12,23 @@ import type { CREATOR, INITIALIZER, INJECTABLES } from '../symbols';
 export type Injectables = Map<string | symbol | unknown, InjectableService>;
 
 export interface InjectableService extends InjectableClass, Object {
-    [CREATOR]: {
-        register<Type>(injectables?: Injectables, cacheResult?: boolean): Type
-    }
+  [CREATOR]: {
+    register<Type>(injectables?: Injectables, cacheResult?: boolean): Type;
+  };
 
-    [INITIALIZER]?<Type>(self: Type): void;
+  [INITIALIZER]?<Type>(self: Type): void;
 }
 
 export interface InjectableController extends InjectableClass {
-    [CREATOR]: {
-        register(instance?: FastifyInstance, injectables?: Injectables, cacheResult?: boolean): Promise<void>
-    }
+  [CREATOR]: {
+    register(instance?: FastifyInstance, injectables?: Injectables, cacheResult?: boolean): Promise<void>;
+  };
 }
 
 export interface InjectableClass {
-    [INJECTABLES]: Injectables;
+  [INJECTABLES]: Injectables;
 
-    new(): any;
+  new (): any;
 
-    new(...args: unknown[]): any;
+  new (...args: unknown[]): any;
 }

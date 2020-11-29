@@ -4,73 +4,73 @@ import { bootstrap } from './bootstrap';
 import SampleControllerMock from './mocks/controllers/sample.controller.mock';
 
 describe('Bootstrap test', () => {
-    it('should bootstrap controller', async () => {
-        const instance = fastify();
-        instance.register(bootstrap, {
-            directory: resolve(__dirname, 'mocks'),
-            mask: /\.controller\.mock\.ts/,
-        });
-
-        const res = await instance.inject({ url: '/index' });
-
-        expect(res.payload).toBe('{"message":"ok"}');
+  it('should bootstrap controller', async () => {
+    const instance = fastify();
+    instance.register(bootstrap, {
+      directory: resolve(__dirname, 'mocks'),
+      mask: /\.controller\.mock\.ts/,
     });
 
-    it('should bootstrap request handler', async () => {
-        const instance = fastify();
-        instance.register(bootstrap, {
-            directory: resolve(__dirname, 'mocks'),
-            mask: /\.handler\.mock\.ts/,
-        });
+    const res = await instance.inject({ url: '/index' });
 
-        const res = await instance.inject({ url: '/index' });
+    expect(res.payload).toBe('{"message":"ok"}');
+  });
 
-        expect(res.payload).toBe('{"message":"ok"}');
+  it('should bootstrap request handler', async () => {
+    const instance = fastify();
+    instance.register(bootstrap, {
+      directory: resolve(__dirname, 'mocks'),
+      mask: /\.handler\.mock\.ts/,
     });
 
-    it('should not bootstrap server when try to bootstrap controllers/handlers with same routes', async () => {
-        const instance = fastify();
-        instance.register(bootstrap, {
-            directory: resolve(__dirname, 'mocks'),
-            mask: /\.mock\.ts/,
-        });
+    const res = await instance.inject({ url: '/index' });
 
-        await expect(instance.inject({ url: '/index' })).rejects.toThrow();
+    expect(res.payload).toBe('{"message":"ok"}');
+  });
+
+  it('should not bootstrap server when try to bootstrap controllers/handlers with same routes', async () => {
+    const instance = fastify();
+    instance.register(bootstrap, {
+      directory: resolve(__dirname, 'mocks'),
+      mask: /\.mock\.ts/,
     });
 
-    it('should load specified controllers', async () => {
-        const instance = fastify();
-        instance.register(bootstrap, {
-            controllers: [SampleControllerMock],
-        });
+    await expect(instance.inject({ url: '/index' })).rejects.toThrow();
+  });
 
-        const res = await instance.inject({ url: '/index' });
-
-        expect(res.payload).toBe('{"message":"ok"}');
+  it('should load specified controllers', async () => {
+    const instance = fastify();
+    instance.register(bootstrap, {
+      controllers: [SampleControllerMock],
     });
 
-    it('should throw an error while bootstrap application', async () => {
-        const instance = fastify();
-        instance.register(bootstrap, {
-            directory: resolve(__dirname, 'mocks', 'controllers'),
-            mask: /\.ts/,
-        });
+    const res = await instance.inject({ url: '/index' });
 
-        await expect(instance.inject({ url: '/broken' })).rejects.toThrow();
+    expect(res.payload).toBe('{"message":"ok"}');
+  });
+
+  it('should throw an error while bootstrap application', async () => {
+    const instance = fastify();
+    instance.register(bootstrap, {
+      directory: resolve(__dirname, 'mocks', 'controllers'),
+      mask: /\.ts/,
     });
 
-    it('should skip broken controller', async () => {
-        const instance = fastify();
-        instance.register(bootstrap, {
-            directory: resolve(__dirname, 'mocks', 'controllers'),
-            mask: /\.ts/,
-            skipBroken: true,
-        });
+    await expect(instance.inject({ url: '/broken' })).rejects.toThrow();
+  });
 
-        const res1 = await instance.inject({ url: '/index' });
-        const res2 = await instance.inject({ url: '/broken' });
-
-        expect(res1.payload).toBe('{"message":"ok"}');
-        expect(res2.statusCode).toBe(404);
+  it('should skip broken controller', async () => {
+    const instance = fastify();
+    instance.register(bootstrap, {
+      directory: resolve(__dirname, 'mocks', 'controllers'),
+      mask: /\.ts/,
+      skipBroken: true,
     });
+
+    const res1 = await instance.inject({ url: '/index' });
+    const res2 = await instance.inject({ url: '/broken' });
+
+    expect(res1.payload).toBe('{"message":"ok"}');
+    expect(res2.statusCode).toBe(404);
+  });
 });

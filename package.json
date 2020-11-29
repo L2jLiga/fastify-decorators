@@ -8,7 +8,8 @@
     "downlevel": "downlevel-dts ./dist/fastify-decorators ./dist/fastify-decorators/ts3.4",
     "lint": "eslint .",
     "test": "jest --config lib/jest.config.js",
-    "license-checker": "license-checker --production --onlyAllow=\"MIT;ISC;BSD-3-Clause;BSD-2-Clause\" --excludePrivatePackages"
+    "license-checker": "license-checker --production --onlyAllow=\"MIT;ISC;BSD-3-Clause;BSD-2-Clause\" --excludePrivatePackages",
+    "postinstall": "husky install"
   },
   "directories": {
     "doc": "./docs",
@@ -27,16 +28,22 @@
     "fastify-plugin": "^3.0.0"
   },
   "devDependencies": {
+    "@prettier/plugin-xml": "^0.12.0",
     "@types/jest": "^26.0.15",
     "@types/node": "~10.17.47",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@typescript-eslint/parser": "^4.8.2",
     "downlevel-dts": "^0.7.0",
     "eslint": "^7.14.0",
+    "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-jest": "^24.1.3",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^5.0.4",
     "jest": "^26.6.3",
     "jest-environment-node": "^26.6.2",
     "license-checker": "^25.0.1",
+    "lint-staged": "^10.5.2",
+    "prettier": "^2.2.1",
     "reflect-metadata": "^0.1.13",
     "ts-jest": "^26.4.4",
     "typescript": "^4.1.2"

@@ -9,40 +9,50 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { RequestGenericInterface } from 'fastify/types/request';
 import {
-    ContextConfigDefault,
-    RawReplyDefaultExpression,
-    RawRequestDefaultExpression,
-    RawServerBase,
-    RawServerDefault,
+  ContextConfigDefault,
+  RawReplyDefaultExpression,
+  RawRequestDefaultExpression,
+  RawServerBase,
+  RawServerDefault,
 } from 'fastify/types/utils';
 import { CREATOR } from '../symbols';
 
 /**
  * Abstract class which should extend all decorated request handlers
  */
-export abstract class RequestHandler<RawServer extends RawServerBase = RawServerDefault,
-    RawRequest extends RawRequestDefaultExpression<RawServer> = RawRequestDefaultExpression<RawServer>,
-    RawReply extends RawReplyDefaultExpression<RawServer> = RawReplyDefaultExpression<RawServer>,
-    RequestGeneric extends RequestGenericInterface = RequestGenericInterface,
-    ContextConfig = ContextConfigDefault,
-    > {
+export abstract class RequestHandler<
+  RawServer extends RawServerBase = RawServerDefault,
+  RawRequest extends RawRequestDefaultExpression<RawServer> = RawRequestDefaultExpression<RawServer>,
+  RawReply extends RawReplyDefaultExpression<RawServer> = RawReplyDefaultExpression<RawServer>,
+  RequestGeneric extends RequestGenericInterface = RequestGenericInterface,
+  ContextConfig = ContextConfigDefault
+> {
+  protected constructor(
+    protected request: FastifyRequest<RequestGeneric, RawServer, RawRequest>,
+    protected reply: FastifyReply<RawServer, RawRequest, RawReply, RequestGeneric, ContextConfig>,
+  ) {}
 
-    protected constructor(protected request: FastifyRequest<RequestGeneric, RawServer, RawRequest>,
-                          protected reply: FastifyReply<RawServer, RawRequest, RawReply, RequestGeneric, ContextConfig>) {
-    }
+  /**
+   * Main method for request handling
+   */
+  abstract handle(): void | Promise<unknown>;
 
-    /**
-     * Main method for request handling
-     */
-    abstract handle(): void | Promise<unknown>;
-
-    /**
-     * Static method to register handler by autoloader (bootstrap)
-     */
-    static readonly [CREATOR]: { register: (instance: FastifyInstance) => void };
+  /**
+   * Static method to register handler by autoloader (bootstrap)
+   */
+  static readonly [CREATOR]: { register: (instance: FastifyInstance) => void };
 }
 
 export interface RequestHook {
-    name: 'onRequest' | 'preParsing' | 'preValidation' | 'preHandler' | 'preSerialization' | 'onSend' | 'onResponse' | 'onTimeout' | 'onError';
-    handlerName: string | symbol;
+  name:
+    | 'onRequest'
+    | 'preParsing'
+    | 'preValidation'
+    | 'preHandler'
+    | 'preSerialization'
+    | 'onSend'
+    | 'onResponse'
+    | 'onTimeout'
+    | 'onError';
+  handlerName: string | symbol;
 }

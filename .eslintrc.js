@@ -14,18 +14,17 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.eslint.json',
   },
-  plugins: [
-    '@typescript-eslint',
-    'jest',
-  ],
+  plugins: ['@typescript-eslint', 'jest'],
   extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
     'plugin:jest/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier/@typescript-eslint',
+    'plugin:prettier/recommended',
   ],
   rules: {
     '@typescript-eslint/ban-ts-comment': ['error', { 'ts-expect-error': 'allow-with-description' }],
-    'semi': 'off',
+    semi: 'off',
     '@typescript-eslint/semi': ['error'],
   },
 };

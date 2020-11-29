@@ -9,8 +9,5 @@
       "path": "./tsconfig.lib.json"
     }
   ],
-  "include": [
-    "**/*.spec.ts",
-    "**/*.mock.ts"
-  ]
+  "include": ["**/*.spec.ts", "**/*.mock.ts"]
 }

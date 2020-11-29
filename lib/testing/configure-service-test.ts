@@ -17,8 +17,8 @@ import { wrapInjectable } from '../utils/wrap-injectable';
 import { fastify } from 'fastify';
 
 export interface ServiceTestConfig<Service> {
-    service: Constructor<Service>;
-    mocks?: ServiceMock[];
+  service: Constructor<Service>;
+  mocks?: ServiceMock[];
 }
 
 /**
@@ -27,39 +27,40 @@ export interface ServiceTestConfig<Service> {
  * @returns configured service & promise which resolves when async initializer done (if it exists, otherwise resolved)
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function configureServiceTest<Service extends object>(config: ServiceTestConfig<Service>): Promise<Service> & Service {
-    const service: Constructor<Service> = config.service;
-    const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
-    if (!injectablesWithMocks.has(FastifyInstanceToken)) {
-        injectablesWithMocks.set(FastifyInstanceToken, wrapInjectable(fastify()));
-    }
+export function configureServiceTest<Service extends object>(
+  config: ServiceTestConfig<Service>,
+): Promise<Service> & Service {
+  const service: Constructor<Service> = config.service;
+  const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
+  if (!injectablesWithMocks.has(FastifyInstanceToken)) {
+    injectablesWithMocks.set(FastifyInstanceToken, wrapInjectable(fastify()));
+  }
 
-    isInjectable(service);
-    const instance = service[CREATOR].register<Service>(injectablesWithMocks, false);
+  isInjectable(service);
+  const instance = service[CREATOR].register<Service>(injectablesWithMocks, false);
 
-    let promise: Promise<unknown> | null = null;
+  let promise: Promise<unknown> | null = null;
 
-    return new Proxy(instance, {
-        get<T>(target: T, p: keyof T | 'then' | 'catch' | 'finally') {
-            if (p === 'then' || p === 'catch' || p === 'finally') {
-                if (promise == null) promise = hasAsyncInitializer(service)
-                    ? readyMap.get(service)!.then(() => target)
-                    : Promise.resolve(target);
+  return new Proxy(instance, {
+    get<T>(target: T, p: keyof T | 'then' | 'catch' | 'finally') {
+      if (p === 'then' || p === 'catch' || p === 'finally') {
+        if (promise == null)
+          promise = hasAsyncInitializer(service) ? readyMap.get(service)!.then(() => target) : Promise.resolve(target);
 
-                return promise[p as 'then' | 'catch' | 'finally'].bind(promise);
-            }
+        return promise[p as 'then' | 'catch' | 'finally'].bind(promise);
+      }
 
-            return target[p];
-        },
-    }) as Promise<Service> & Service;
+      return target[p];
+    },
+  }) as Promise<Service> & Service;
 }
 
 function isInjectable<Service>(service: Constructor<Service>): asserts service is InjectableService {
-    if (!(CREATOR in service)) {
-        throw new Error('Provided service does not annotated with @Service!');
-    }
+  if (!(CREATOR in service)) {
+    throw new Error('Provided service does not annotated with @Service!');
+  }
 }
 
 function hasAsyncInitializer(service: InjectableService): service is InjectableService & Required<InjectableService> {
-    return INITIALIZER in service;
+  return INITIALIZER in service;
 }

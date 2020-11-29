@@ -16,9 +16,9 @@ import { injectControllerOptions } from './helpers/inject-controller-options';
 import { ControllerTypeStrategies } from './strategies/controller-type';
 
 function makeConfig(config?: string | ControllerConfig): ControllerConfig & { type: ControllerType } {
-    if (typeof config === 'string') config = { route: config };
+  if (typeof config === 'string') config = { route: config };
 
-    return { type: ControllerType.SINGLETON, route: '/', ...config };
+  return { type: ControllerType.SINGLETON, route: '/', ...config };
 }
 
 /**
@@ -28,16 +28,23 @@ export function Controller(): ClassDecorator;
 export function Controller(route: string): ClassDecorator;
 export function Controller(config: ControllerConfig): ClassDecorator;
 export function Controller(config?: string | ControllerConfig): unknown {
-    return (controller: InjectableClass): void => {
-        const { route, type } = makeConfig(config);
+  return (controller: InjectableClass): void => {
+    const { route, type } = makeConfig(config);
 
-        injectControllerOptions(controller);
+    injectControllerOptions(controller);
 
-        (controller)[CREATOR].register = async (instance: FastifyInstance, injectablesMap = injectables, cacheResult = true) => {
-            controller[INJECTABLES] = injectablesMap;
-            controller.prototype[INJECTABLES] = injectablesMap;
+    controller[CREATOR].register = async (
+      instance: FastifyInstance,
+      injectablesMap = injectables,
+      cacheResult = true,
+    ) => {
+      controller[INJECTABLES] = injectablesMap;
+      controller.prototype[INJECTABLES] = injectablesMap;
 
-            await instance.register(async instance => ControllerTypeStrategies[type](instance, controller, injectablesMap, cacheResult), { prefix: route });
-        };
+      await instance.register(
+        async (instance) => ControllerTypeStrategies[type](instance, controller, injectablesMap, cacheResult),
+        { prefix: route },
+      );
     };
+  };
 }

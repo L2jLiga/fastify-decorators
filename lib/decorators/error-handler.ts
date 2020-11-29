@@ -16,23 +16,25 @@ export function ErrorHandler(code: string): MethodDecorator;
 export function ErrorHandler<T extends Error>(configuration: Constructor<T>): MethodDecorator;
 
 export function ErrorHandler<T extends ErrorConstructor>(parameter?: T | string): MethodDecorator {
-    return function ({ constructor }: any, handlerName: string | symbol) {
-        ensureErrorHandlers(constructor);
+  return function ({ constructor }: any, handlerName: string | symbol) {
+    ensureErrorHandlers(constructor);
 
-        if (parameter == null) {
-            constructor[ERROR_HANDLERS].push(handlerFactory(() => true, handlerName));
-        } else if (typeof parameter === 'string') {
-            constructor[ERROR_HANDLERS].push(handlerFactory((error?: ErrorWithCode) => error?.code === parameter, handlerName));
-        } else {
-            constructor[ERROR_HANDLERS].push(handlerFactory((error?: Error) => error instanceof parameter, handlerName));
-        }
-    };
+    if (parameter == null) {
+      constructor[ERROR_HANDLERS].push(handlerFactory(() => true, handlerName));
+    } else if (typeof parameter === 'string') {
+      constructor[ERROR_HANDLERS].push(
+        handlerFactory((error?: ErrorWithCode) => error?.code === parameter, handlerName),
+      );
+    } else {
+      constructor[ERROR_HANDLERS].push(handlerFactory((error?: Error) => error instanceof parameter, handlerName));
+    }
+  };
 }
 
 interface ErrorWithCode extends Error {
-    code?: string;
+  code?: string;
 }
 
 function handlerFactory(accepts: <T extends Error>(error?: T) => boolean, handlerName: string | symbol): ErrorHandler {
-    return { accepts, handlerName };
+  return { accepts, handlerName };
 }

@@ -10,11 +10,11 @@ import type { InjectableService } from '../interfaces/injectable-class';
 import { CREATOR } from '../symbols';
 
 export function wrapInjectable<T>(object: T): InjectableService {
-    return <InjectableService>{
-        [CREATOR]: {
-            register() {
-                return object;
-            },
-        },
-    };
+  return <InjectableService>{
+    [CREATOR]: {
+      register() {
+        return object;
+      },
+    },
+  };
 }

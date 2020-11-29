@@ -10,11 +10,11 @@ import { CREATOR } from '../symbols';
 import { wrapInjectable } from './wrap-injectable';
 
 describe('Utils: wrap into injectable', () => {
-    it('should wrap object into injectable construction', () => {
-        const object = {};
+  it('should wrap object into injectable construction', () => {
+    const object = {};
 
-        const result = wrapInjectable(object)[CREATOR].register();
+    const result = wrapInjectable(object)[CREATOR].register();
 
-        expect(result).toBe(object);
-    });
+    expect(result).toBe(object);
+  });
 });

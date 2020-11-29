@@ -16,25 +16,23 @@ import { createWithInjectedDependencies } from './helpers/inject-dependencies';
 export function Service(): ClassDecorator;
 export function Service(injectableToken: string | symbol): ClassDecorator;
 export function Service(injectableToken?: string | symbol): unknown {
-    return (target: any) => {
-        let instance: unknown;
+  return (target: any) => {
+    let instance: unknown;
 
-        injectables.set(target, target);
-        if (injectableToken) injectables.set(injectableToken, target);
-        target[CREATOR] = {
-            register(injectablesMap = injectables, cacheResult = true) {
-                target[INJECTABLES] = injectablesMap;
-                target.prototype[INJECTABLES] = injectablesMap;
+    injectables.set(target, target);
+    if (injectableToken) injectables.set(injectableToken, target);
+    target[CREATOR] = {
+      register(injectablesMap = injectables, cacheResult = true) {
+        target[INJECTABLES] = injectablesMap;
+        target.prototype[INJECTABLES] = injectablesMap;
 
-                if (instance && cacheResult) return instance;
-                instance = createWithInjectedDependencies(target, injectablesMap, cacheResult);
+        if (instance && cacheResult) return instance;
+        instance = createWithInjectedDependencies(target, injectablesMap, cacheResult);
 
-                if (target[INITIALIZER])
-                    target[INITIALIZER](instance);
+        if (target[INITIALIZER]) target[INITIALIZER](instance);
 
-                return instance;
-
-            },
-        };
+        return instance;
+      },
     };
+  };
 }

@@ -20,40 +20,40 @@ import { wrapInjectable } from '../utils/wrap-injectable';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Reflect {
-    function getMetadata(metadataKey: 'design:paramtypes', target: unknown): ServiceInjection['name'][] | undefined;
+  function getMetadata(metadataKey: 'design:paramtypes', target: unknown): ServiceInjection['name'][] | undefined;
 }
 
 export interface ControllerTestConfig {
-    controller: any;
-    mocks?: ServiceMock[];
+  controller: any;
+  mocks?: ServiceMock[];
 }
 
 export async function configureControllerTest(config: ControllerTestConfig): Promise<FastifyInstance> {
-    const instance = fastify();
-    const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
-    if (!injectablesWithMocks.has(FastifyInstanceToken)) {
-        injectablesWithMocks.set(FastifyInstanceToken, wrapInjectable(instance));
-    }
+  const instance = fastify();
+  const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
+  if (!injectablesWithMocks.has(FastifyInstanceToken)) {
+    injectablesWithMocks.set(FastifyInstanceToken, wrapInjectable(instance));
+  }
 
-    const controller: InjectableController = config.controller;
-    await controller[CREATOR].register(instance, injectablesWithMocks, false);
+  const controller: InjectableController = config.controller;
+  await controller[CREATOR].register(instance, injectablesWithMocks, false);
 
-    await Promise.all([
-        ...getInjectedProps(controller),
-        ...getInjectedProps(controller.prototype),
-        ...getConstructorArgs(controller),
-    ].map(value => injectablesWithMocks.get(value)).map(it => readyMap.get(it)));
+  await Promise.all(
+    [...getInjectedProps(controller), ...getInjectedProps(controller.prototype), ...getConstructorArgs(controller)]
+      .map((value) => injectablesWithMocks.get(value))
+      .map((it) => readyMap.get(it)),
+  );
 
-    await instance.ready();
+  await instance.ready();
 
-    return instance;
+  return instance;
 }
 
 function getInjectedProps(target: unknown): Array<unknown> {
-    if (!hasServiceInjection(target)) return [];
-    return target[SERVICE_INJECTION].map(it => it.name);
+  if (!hasServiceInjection(target)) return [];
+  return target[SERVICE_INJECTION].map((it) => it.name);
 }
 
 function getConstructorArgs(constructor: InjectableClass): Array<unknown> {
-    return Reflect.getMetadata('design:paramtypes', constructor) || [];
+  return Reflect.getMetadata('design:paramtypes', constructor) || [];
 }

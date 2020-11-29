@@ -10,13 +10,13 @@ import type { InjectableController } from '../../interfaces';
 import { CREATOR } from '../../symbols';
 
 export function injectControllerOptions(controller: unknown): asserts controller is InjectableController {
-    if (controller instanceof Function) {
-        if (!(CREATOR in controller)) {
-            Object.defineProperty(controller, CREATOR, { value: {} });
-        }
-
-        return;
+  if (controller instanceof Function) {
+    if (!(CREATOR in controller)) {
+      Object.defineProperty(controller, CREATOR, { value: {} });
     }
 
-    throw new Error('Invalid usage of @Controller decorator');
+    return;
+  }
+
+  throw new Error('Invalid usage of @Controller decorator');
 }

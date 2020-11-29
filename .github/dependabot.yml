@@ -1,46 +1,46 @@
 version: 2
 updates:
   # Library
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "daily"
+      interval: 'daily'
     commit-message:
-      prefix: "chore: "
+      prefix: 'chore: '
 
   # Github Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "daily"
+      interval: 'daily'
     commit-message:
-      prefix: "chore: "
+      prefix: 'chore: '
 
   # Examples
-  - package-ecosystem: "npm"
-    directory: "/examples/controllers"
+  - package-ecosystem: 'npm'
+    directory: '/examples/controllers'
     schedule:
-      interval: "daily"
+      interval: 'daily'
     commit-message:
-      prefix: "chore: "
+      prefix: 'chore: '
 
-  - package-ecosystem: "npm"
-    directory: "/examples/request-handlers"
+  - package-ecosystem: 'npm'
+    directory: '/examples/request-handlers'
     schedule:
-      interval: "daily"
+      interval: 'daily'
     commit-message:
-      prefix: "chore: "
+      prefix: 'chore: '
 
-  - package-ecosystem: "npm"
-    directory: "/examples/swagger"
+  - package-ecosystem: 'npm'
+    directory: '/examples/swagger'
     schedule:
-      interval: "daily"
+      interval: 'daily'
     commit-message:
-      prefix: "chore: "
+      prefix: 'chore: '
 
-  - package-ecosystem: "npm"
-    directory: "/examples/typeorm"
+  - package-ecosystem: 'npm'
+    directory: '/examples/typeorm'
     schedule:
-      interval: "daily"
+      interval: 'daily'
     commit-message:
-      prefix: "chore: "
+      prefix: 'chore: '

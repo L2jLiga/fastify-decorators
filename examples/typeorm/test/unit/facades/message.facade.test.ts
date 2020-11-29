@@ -3,64 +3,66 @@ import { MessageFacade } from '../../../src/facades/message.facade';
 import { ConnectionService } from '../../../src/services/connection.service';
 
 interface MockRepository {
-    find: jest.Mock
-    findOne: jest.Mock
-    save: jest.Mock
+  find: jest.Mock;
+  findOne: jest.Mock;
+  save: jest.Mock;
 }
 
 interface MockConnection {
-    getRepository(): MockRepository
+  getRepository(): MockRepository;
 
-    close: jest.Mock
+  close: jest.Mock;
 }
 
 describe('Facade: MessageFacade', () => {
-    let facade: MessageFacade;
-    let repository: MockRepository;
+  let facade: MessageFacade;
+  let repository: MockRepository;
 
-    beforeEach(async () => {
-        repository = {
-            find: jest.fn(),
-            findOne: jest.fn(),
-            save: jest.fn(),
-        };
-        facade = configureServiceTest({
-            service: MessageFacade,
-            mocks: [{
-                provide: ConnectionService,
-                useValue: {
-                    connection: {
-                        getRepository: () => repository,
-                        close: jest.fn(),
-                    },
-                } as Record<keyof ConnectionService, MockConnection>,
-            }],
-        });
-
-        await facade.init();
+  beforeEach(async () => {
+    repository = {
+      find: jest.fn(),
+      findOne: jest.fn(),
+      save: jest.fn(),
+    };
+    facade = configureServiceTest({
+      service: MessageFacade,
+      mocks: [
+        {
+          provide: ConnectionService,
+          useValue: {
+            connection: {
+              getRepository: () => repository,
+              close: jest.fn(),
+            },
+          } as Record<keyof ConnectionService, MockConnection>,
+        },
+      ],
     });
 
-    it('should return all messages', async () => {
-        repository.find.mockImplementation(() => Promise.resolve([{ id: 332, author: 'Me', text: 'yep' }]));
+    await facade.init();
+  });
 
-        const result = await facade.getMessages();
+  it('should return all messages', async () => {
+    repository.find.mockImplementation(() => Promise.resolve([{ id: 332, author: 'Me', text: 'yep' }]));
 
-        expect(result).toEqual([{ id: 332, author: 'Me', text: 'yep' }]);
-    });
+    const result = await facade.getMessages();
 
-    it('should return message by id', async () => {
-        repository.findOne.mockImplementation((id: number) => Promise.resolve({ id, author: 'Me', text: 'yep' }));
+    expect(result).toEqual([{ id: 332, author: 'Me', text: 'yep' }]);
+  });
 
-        const result = await facade.getMessageBy(55);
+  it('should return message by id', async () => {
+    repository.findOne.mockImplementation((id: number) => Promise.resolve({ id, author: 'Me', text: 'yep' }));
 
-        expect(result).toEqual({ id: 55, author: 'Me', text: 'yep' });
-    });
+    const result = await facade.getMessageBy(55);
 
-    it('should create message', async () => {
-        repository.save.mockImplementation(it => Promise.resolve({ id: 1, ...it }));
+    expect(result).toEqual({ id: 55, author: 'Me', text: 'yep' });
+  });
 
-        const result = await facade.storeMessage({ text: 'test', author: 'test' });
+  it('should create message', async () => {
+    repository.save.mockImplementation((it) => Promise.resolve({ id: 1, ...it }));
 
-        expect(result).toEqual({ id: 1, text: 'test', author: 'test' });
-    });
+    const result = await facade.storeMessage({ text: 'test', author: 'test' });
+
+    expect(result).toEqual({ id: 1, text: 'test', author: 'test' });
+  });
 });

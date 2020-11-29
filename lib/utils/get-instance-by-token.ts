@@ -12,13 +12,15 @@ import { injectables } from '../registry/injectables';
 import { CREATOR } from '../symbols';
 
 export function getInstanceByToken<Type>(token: string | symbol | Constructor<Type>): Type {
-    const injectable: InjectableService | undefined = injectables.get(token);
-    verifyInjectable(token, injectable);
+  const injectable: InjectableService | undefined = injectables.get(token);
+  verifyInjectable(token, injectable);
 
-    return injectable[CREATOR]
-        .register<Type>(injectables);
+  return injectable[CREATOR].register<Type>(injectables);
 }
 
-function verifyInjectable<Type>(token: string | symbol | Constructor<Type>, injectable: InjectableService | undefined): asserts injectable is InjectableService {
-    if (!injectable) throw new Error(`Injectable not found for token "${token.toString()}"`);
+function verifyInjectable<Type>(
+  token: string | symbol | Constructor<Type>,
+  injectable: InjectableService | undefined,
+): asserts injectable is InjectableService {
+  if (!injectable) throw new Error(`Injectable not found for token "${token.toString()}"`);
 }

@@ -18,12 +18,12 @@ import { createWithInjectedDependencies } from '../helpers/inject-dependencies';
 const controllersCache = new WeakMap<FastifyRequest, any>();
 
 function targetFactory(constructor: InjectableController, injectablesMap: Injectables, cacheResult: boolean) {
-    return function getTarget(request: FastifyRequest): any {
-        if (controllersCache.has(request)) return controllersCache.get(request);
-        const target = createWithInjectedDependencies(constructor, injectablesMap, cacheResult);
-        controllersCache.set(request, target);
-        return target;
-    };
+  return function getTarget(request: FastifyRequest): any {
+    if (controllersCache.has(request)) return controllersCache.get(request);
+    const target = createWithInjectedDependencies(constructor, injectablesMap, cacheResult);
+    controllersCache.set(request, target);
+    return target;
+  };
 }
 
 /**
@@ -38,55 +38,68 @@ function targetFactory(constructor: InjectableController, injectablesMap: Inject
  * By default controllers use SINGLETON strategy
  */
 export const ControllerTypeStrategies = {
-    [ControllerType.SINGLETON](instance: FastifyInstance, constructor: InjectableController, injectablesMap: Injectables, cacheResult: boolean) {
-        const controllerInstance = createWithInjectedDependencies(constructor, injectablesMap, cacheResult);
+  [ControllerType.SINGLETON](
+    instance: FastifyInstance,
+    constructor: InjectableController,
+    injectablesMap: Injectables,
+    cacheResult: boolean,
+  ) {
+    const controllerInstance = createWithInjectedDependencies(constructor, injectablesMap, cacheResult);
 
-        if (hasHandlers(constructor))
-            registerHandlers(constructor[HANDLERS], instance, controllerInstance);
-        if (hasErrorHandlers(constructor))
-            registerErrorHandlers(constructor[ERROR_HANDLERS], instance, controllerInstance);
-        if (hasHooks(constructor))
-            registerHooks(constructor[HOOKS], instance, controllerInstance);
-    },
+    if (hasHandlers(constructor)) registerHandlers(constructor[HANDLERS], instance, controllerInstance);
+    if (hasErrorHandlers(constructor)) registerErrorHandlers(constructor[ERROR_HANDLERS], instance, controllerInstance);
+    if (hasHooks(constructor)) registerHooks(constructor[HOOKS], instance, controllerInstance);
+  },
 
-    [ControllerType.REQUEST](instance: FastifyInstance, constructor: InjectableController, injectablesMap: Injectables, cacheResult: boolean) {
-        const getTarget = targetFactory(constructor, injectablesMap, cacheResult);
+  [ControllerType.REQUEST](
+    instance: FastifyInstance,
+    constructor: InjectableController,
+    injectablesMap: Injectables,
+    cacheResult: boolean,
+  ) {
+    const getTarget = targetFactory(constructor, injectablesMap, cacheResult);
 
-        if (hasHandlers(constructor))
-            constructor[HANDLERS].forEach(handler => {
-                const { url, method, handlerMethod, options } = handler;
+    if (hasHandlers(constructor))
+      constructor[HANDLERS].forEach((handler) => {
+        const { url, method, handlerMethod, options } = handler;
 
-                instance[method](url, options, function (request, ...args) {
-                    return getTarget(request)[handlerMethod](request, ...args);
-                });
-            });
+        instance[method](url, options, function (request, ...args) {
+          return getTarget(request)[handlerMethod](request, ...args);
+        });
+      });
 
-        if (hasErrorHandlers(constructor))
-            instance.setErrorHandler((error, request, ...rest) => {
-                const errorsHandler = createErrorsHandler(constructor[ERROR_HANDLERS], getTarget(request));
+    if (hasErrorHandlers(constructor))
+      instance.setErrorHandler((error, request, ...rest) => {
+        const errorsHandler = createErrorsHandler(constructor[ERROR_HANDLERS], getTarget(request));
 
-                return errorsHandler(error, request, ...rest);
-            });
+        return errorsHandler(error, request, ...rest);
+      });
 
-        if (hasHooks(constructor))
-            constructor[HOOKS].forEach(hook => instance.addHook(hook.name, (request: FastifyRequest, ...rest: unknown[]) => {
-                return getTarget(request)[hook.handlerName](request, ...rest);
-            }));
-    },
+    if (hasHooks(constructor))
+      constructor[HOOKS].forEach((hook) =>
+        instance.addHook(hook.name, (request: FastifyRequest, ...rest: unknown[]) => {
+          return getTarget(request)[hook.handlerName](request, ...rest);
+        }),
+      );
+  },
 } as const;
 
 function registerHandlers(handlers: Handler[], instance: FastifyInstance, controllerInstance: any): void {
-    handlers.forEach(handler => {
-        instance[handler.method](handler.url, handler.options, controllerInstance[handler.handlerMethod].bind(controllerInstance));
-    });
+  handlers.forEach((handler) => {
+    instance[handler.method](
+      handler.url,
+      handler.options,
+      controllerInstance[handler.handlerMethod].bind(controllerInstance),
+    );
+  });
 }
 
 function registerHooks(hooks: Hook[], instance: FastifyInstance, controllerInstance: any): void {
-    hooks.forEach(hook => {
-        instance.addHook(hook.name, controllerInstance[hook.handlerName].bind(controllerInstance));
-    });
+  hooks.forEach((hook) => {
+    instance.addHook(hook.name, controllerInstance[hook.handlerName].bind(controllerInstance));
+  });
 }
 
 function registerErrorHandlers(errorHandlers: ErrorHandler[], instance: FastifyInstance, classInstance: any) {
-    instance.setErrorHandler(createErrorsHandler(errorHandlers, classInstance));
+  instance.setErrorHandler(createErrorsHandler(errorHandlers, classInstance));
 }

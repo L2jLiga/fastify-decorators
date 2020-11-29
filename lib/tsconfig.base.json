@@ -11,8 +11,5 @@
     "inlineSources": true,
     "lib": ["es2018"]
   },
-  "files": [
-    "index.ts",
-    "testing/index.ts"
-  ]
+  "files": ["index.ts", "testing/index.ts"]
 }

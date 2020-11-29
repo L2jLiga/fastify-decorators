@@ -13,12 +13,12 @@ import { ensureHooks } from './helpers/class-properties';
  * Creates handler which listen various hooks
  */
 export function Hook(name: string): MethodDecorator {
-    return ({ constructor }: any, handlerName: string | symbol) => {
-        ensureHooks(constructor);
+  return ({ constructor }: any, handlerName: string | symbol) => {
+    ensureHooks(constructor);
 
-        constructor[HOOKS].push({
-            name,
-            handlerName,
-        });
-    };
+    constructor[HOOKS].push({
+      name,
+      handlerName,
+    });
+  };
 }

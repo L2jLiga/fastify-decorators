@@ -10,19 +10,19 @@ import type { RouteShorthandOptions } from 'fastify';
 import type { HttpMethods } from '../decorators/helpers/http-methods';
 
 export interface Handler {
-    url: string;
-    method: HttpMethods;
-    options: RouteShorthandOptions;
-    handlerMethod: string | symbol;
+  url: string;
+  method: HttpMethods;
+  options: RouteShorthandOptions;
+  handlerMethod: string | symbol;
 }
 
 export interface ErrorHandler {
-    accepts<T extends Error>(error?: T): boolean;
+  accepts<T extends Error>(error?: T): boolean;
 
-    handlerName: string | symbol;
+  handlerName: string | symbol;
 }
 
 export interface Hook {
-    name: any;
-    handlerName: string | symbol;
+  name: any;
+  handlerName: string | symbol;
 }

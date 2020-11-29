@@ -2,14 +2,14 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Message {
-    @PrimaryGeneratedColumn()
-    id!: number;
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @Column()
-    author!: string;
+  @Column()
+  author!: string;
 
-    @Column('text')
-    text!: string;
+  @Column('text')
+  text!: string;
 }
 
 export type MessageInput = Omit<Message, 'id'>;

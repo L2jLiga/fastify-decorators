@@ -11,13 +11,13 @@ import { wrapInjectable } from '../utils/wrap-injectable';
 import type { ServiceMock } from './service-mock';
 
 export class MocksManager {
-    static create(injectables: Injectables, mocks: ServiceMock[] = []): Injectables {
-        const mocksMap: Injectables = new Map(injectables.entries());
+  static create(injectables: Injectables, mocks: ServiceMock[] = []): Injectables {
+    const mocksMap: Injectables = new Map(injectables.entries());
 
-        for (const { provide, useValue } of mocks) {
-            mocksMap.set(provide, wrapInjectable(useValue));
-        }
-
-        return mocksMap;
+    for (const { provide, useValue } of mocks) {
+      mocksMap.set(provide, wrapInjectable(useValue));
     }
+
+    return mocksMap;
+  }
 }

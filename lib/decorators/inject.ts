@@ -19,9 +19,9 @@ import { ensureServiceInjection } from './helpers/class-properties';
  * }
  */
 export function Inject(name: string | symbol | unknown): PropertyDecorator {
-    return (target, propertyKey) => {
-        ensureServiceInjection(target);
+  return (target, propertyKey) => {
+    ensureServiceInjection(target);
 
-        target[SERVICE_INJECTION].push({ propertyKey, name });
-    };
+    target[SERVICE_INJECTION].push({ propertyKey, name });
+  };
 }

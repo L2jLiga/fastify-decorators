@@ -4,9 +4,9 @@ export const injectableServiceToken = Symbol('InjectableService');
 
 @Service(injectableServiceToken)
 export class InjectableService {
-    private _message = 'Message';
+  private _message = 'Message';
 
-    getMessage(): string {
-        return this._message;
-    }
+  getMessage(): string {
+    return this._message;
+  }
 }
