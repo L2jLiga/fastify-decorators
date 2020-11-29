@@ -49,6 +49,8 @@ export const ControllerTypeStrategies = {
     if (hasHandlers(constructor)) registerHandlers(constructor[HANDLERS], instance, controllerInstance);
     if (hasErrorHandlers(constructor)) registerErrorHandlers(constructor[ERROR_HANDLERS], instance, controllerInstance);
     if (hasHooks(constructor)) registerHooks(constructor[HOOKS], instance, controllerInstance);
+
+    return controllerInstance;
   },
 
   [ControllerType.REQUEST](

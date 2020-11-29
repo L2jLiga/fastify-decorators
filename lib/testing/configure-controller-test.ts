@@ -14,7 +14,7 @@ import { MocksManager } from './mocks-manager';
 import type { ServiceMock } from './service-mock';
 import { readyMap } from '../decorators';
 import type { InjectableClass } from '../interfaces/injectable-class';
-import { ServiceInjection } from '../decorators/helpers/inject-dependencies';
+import { Constructor, ServiceInjection } from '../decorators/helpers/inject-dependencies';
 import { hasServiceInjection } from '../decorators/helpers/class-properties';
 import { wrapInjectable } from '../utils/wrap-injectable';
 
@@ -23,20 +23,23 @@ declare namespace Reflect {
   function getMetadata(metadataKey: 'design:paramtypes', target: unknown): ServiceInjection['name'][] | undefined;
 }
 
-export interface ControllerTestConfig {
-  controller: any;
+export interface ControllerTestConfig<C = any> {
+  controller: C;
   mocks?: ServiceMock[];
 }
 
-export async function configureControllerTest(config: ControllerTestConfig): Promise<FastifyInstance> {
+export async function configureControllerTest<C>(
+  config: ControllerTestConfig<Constructor<C>>,
+): Promise<FastifyInstance & { controller: C }> {
   const instance = fastify();
   const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
   if (!injectablesWithMocks.has(FastifyInstanceToken)) {
     injectablesWithMocks.set(FastifyInstanceToken, wrapInjectable(instance));
   }
 
-  const controller: InjectableController = config.controller;
-  await controller[CREATOR].register(instance, injectablesWithMocks, false);
+  const controller = config.controller as InjectableController;
+  const controllerInstance = await controller[CREATOR].register(instance, injectablesWithMocks, false);
+  instance.decorate('controller', controllerInstance);
 
   await Promise.all(
     [...getInjectedProps(controller), ...getInjectedProps(controller.prototype), ...getConstructorArgs(controller)]
@@ -46,6 +49,7 @@ export async function configureControllerTest(config: ControllerTestConfig): Pro
 
   await instance.ready();
 
+  // @ts-expect-error we have decorated instance, TypeScript can't handle it :(
   return instance;
 }
 

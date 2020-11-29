@@ -60,7 +60,45 @@ describe('Controller: AuthController', () => {
       payload: { login: 'test', password: 'test' },
     });
 
-    expect(JSON.parse(result.body)).toEqual({ message: 'ok' });
+    expect(result.json()).toEqual({ message: 'ok' });
+  });
+});
+```
+
+#### Accessing controller instance
+
+The `configureControllerTest` decorate Fastify instance with `controller` property which may be used to access controller instance.
+
+_Note_: controller will be `undefined` in case "per request" type is used.
+
+_Example_:
+
+```ts
+import { FastifyInstance } from 'fastify';
+import { configureControllerTest } from 'fastify-decorators/testing';
+import { AuthController } from '../src/auth.controller';
+
+describe('Controller: AuthController', () => {
+  let instance: FastifyInstance;
+
+  beforeEach(async () => {
+    instance = await configureControllerTest({
+      controller: AuthController,
+    });
+  });
+  afterEach(() => jest.restoreAllMocks());
+
+  it(`should reply with 'ok' if authorization success`, async () => {
+    const controllerInstance = instance.controller;
+    jest.spyOn(controllerInstance, 'authorize').mockReturnValue(Promise.resolve({ message: 'ok' }));
+
+    const result = await instance.inject({
+      url: '/authorize',
+      method: 'POST',
+      payload: { login: 'test', password: 'test' },
+    });
+
+    expect(result.json()).toEqual({ message: 'ok' });
   });
 });
 ```

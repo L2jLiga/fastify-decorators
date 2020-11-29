@@ -13,6 +13,13 @@ describe('Testing: configure controller test', () => {
     expect(result.body).toBe('{"message":"ok"}');
   });
 
+  it('should decorate instance with controller property', async () => {
+    const instance = await configureControllerTest({ controller: WithoutDependencies });
+
+    expect(instance.hasDecorator('controller')).toBe(true);
+    expect(instance.controller).toBeInstanceOf(WithoutDependencies);
+  });
+
   it('should bootstrap controller with mocked dependency', async () => {
     const serviceMock: ServiceMock = {
       provide: DependencyService,

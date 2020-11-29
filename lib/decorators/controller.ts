@@ -41,10 +41,16 @@ export function Controller(config?: string | ControllerConfig): unknown {
       controller[INJECTABLES] = injectablesMap;
       controller.prototype[INJECTABLES] = injectablesMap;
 
+      let controllerInstance;
+
       await instance.register(
-        async (instance) => ControllerTypeStrategies[type](instance, controller, injectablesMap, cacheResult),
+        async (instance) => {
+          controllerInstance = await ControllerTypeStrategies[type](instance, controller, injectablesMap, cacheResult);
+        },
         { prefix: route },
       );
+
+      return controllerInstance;
     };
   };
 }
