@@ -75,11 +75,11 @@ _Example_:
 
 ```ts
 import { FastifyInstance } from 'fastify';
-import { configureControllerTest } from 'fastify-decorators/testing';
+import { configureControllerTest, FastifyInstanceWithController } from 'fastify-decorators/testing';
 import { AuthController } from '../src/auth.controller';
 
 describe('Controller: AuthController', () => {
-  let instance: FastifyInstance;
+  let instance: FastifyInstanceWithController<AuthController>;
 
   beforeEach(async () => {
     instance = await configureControllerTest({

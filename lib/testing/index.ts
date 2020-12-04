@@ -7,5 +7,9 @@
  */
 
 export type { ServiceMock } from './service-mock';
-export { ControllerTestConfig, configureControllerTest } from './configure-controller-test';
+export {
+  ControllerTestConfig,
+  FastifyInstanceWithController,
+  configureControllerTest,
+} from './configure-controller-test';
 export { ServiceTestConfig, configureServiceTest } from './configure-service-test';
