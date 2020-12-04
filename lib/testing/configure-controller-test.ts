@@ -28,9 +28,11 @@ export interface ControllerTestConfig<C = any> {
   mocks?: ServiceMock[];
 }
 
+export type FastifyInstanceWithController<C> = FastifyInstance & Pick<ControllerTestConfig<C>, 'controller'>;
+
 export async function configureControllerTest<C>(
   config: ControllerTestConfig<Constructor<C>>,
-): Promise<FastifyInstance & { controller: C }> {
+): Promise<FastifyInstanceWithController<C>> {
   const instance = fastify();
   const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
   if (!injectablesWithMocks.has(FastifyInstanceToken)) {
