@@ -2,6 +2,8 @@
   <code_scheme name="Project" version="173">
     <HTMLCodeStyleSettings>
       <option name="HTML_SPACE_INSIDE_EMPTY_TAG" value="true" />
+      <option name="HTML_QUOTE_STYLE" value="Single" />
+      <option name="HTML_ENFORCE_QUOTES" value="true" />
     </HTMLCodeStyleSettings>
     <JSCodeStyleSettings version="0">
       <option name="FORCE_SEMICOLON_STYLE" value="true" />

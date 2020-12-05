@@ -32,3 +32,6 @@ package-lock.json text -diff
 
 # Images
 *.png             binary
+
+# Husky
+/.husky/*         text linguist-language=Shell
