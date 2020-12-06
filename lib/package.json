@@ -1,7 +1,7 @@
 {
   "name": "fastify-decorators",
   "version": "3.6.0",
-  "description": "Set of Typescript decorators to build Fastify server with controllers, services and hooks",
+  "description": "Framework aimed to provide useful TypeScript decorators to implement controllers, services and request handlers, built with Fastify.",
   "main": "index.js",
   "typings": "index.d.ts",
   "typesVersions": {
