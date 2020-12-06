@@ -7,7 +7,7 @@
  */
 
 import type { RouteShorthandOptions } from 'fastify';
-import type { HttpMethods } from '../decorators/helpers/http-methods';
+import type { HttpMethods } from './http-methods';
 
 export interface Handler {
   url: string;

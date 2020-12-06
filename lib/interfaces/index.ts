@@ -7,8 +7,9 @@
  */
 
 export type { BootstrapConfig } from './bootstrap-config';
-export type { ControllerConfig } from './controller-config';
 export type { ErrorHandler, Handler, Hook } from './controller';
+export type { ControllerConfig } from './controller-config';
+export { HttpMethods } from './http-methods';
+export type { InjectableController } from './injectable-class';
 export { RequestHandler, RequestHook } from './request-handler';
 export type { RouteConfig } from './route-config';
-export type { InjectableController } from './injectable-class';

@@ -7,11 +7,10 @@
  */
 
 import type { FastifyInstance, FastifyRequest, RouteShorthandOptions } from 'fastify';
-import type { RequestHandler, RequestHook, RouteConfig } from '../../interfaces';
+import type { HttpMethods, RequestHandler, RequestHook, RouteConfig } from '../../interfaces';
 import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
 import { ensureHandlers, hasErrorHandlers, hasHooks } from './class-properties';
 import { createErrorsHandler } from './create-errors-handler';
-import type { HttpMethods } from './http-methods';
 
 type ParsedRouteConfig = { url: string; options: RouteShorthandOptions };
 
