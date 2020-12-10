@@ -15,10 +15,12 @@ import type { ServiceMock } from './service-mock';
 import { readyMap } from '../decorators';
 import { wrapInjectable } from '../utils/wrap-injectable';
 import { fastify } from 'fastify';
+import { loadPlugins, Plugins } from './fastify-plugins';
 
 export interface ServiceTestConfig<Service> {
   service: Constructor<Service>;
   mocks?: ServiceMock[];
+  plugins?: Plugins;
 }
 
 /**
@@ -33,7 +35,9 @@ export function configureServiceTest<Service extends object>(
   const service: Constructor<Service> = config.service;
   const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
   if (!injectablesWithMocks.has(FastifyInstanceToken)) {
-    injectablesWithMocks.set(FastifyInstanceToken, wrapInjectable(fastify()));
+    const fastifyInstance = fastify();
+    loadPlugins(fastifyInstance, config.plugins);
+    injectablesWithMocks.set(FastifyInstanceToken, wrapInjectable(fastifyInstance));
   }
 
   isInjectable(service);

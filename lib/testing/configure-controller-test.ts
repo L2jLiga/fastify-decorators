@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { fastify, FastifyInstance } from 'fastify';
+import { fastify, FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fastify';
 import type { InjectableController } from '../interfaces';
 import { injectables } from '../registry/injectables';
 import { CREATOR, FastifyInstanceToken, SERVICE_INJECTION } from '../symbols';
@@ -17,6 +17,7 @@ import type { InjectableClass } from '../interfaces/injectable-class';
 import { Constructor, ServiceInjection } from '../decorators/helpers/inject-dependencies';
 import { hasServiceInjection } from '../decorators/helpers/class-properties';
 import { wrapInjectable } from '../utils/wrap-injectable';
+import { loadPlugins, Plugins } from './fastify-plugins';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Reflect {
@@ -26,6 +27,7 @@ declare namespace Reflect {
 export interface ControllerTestConfig<C = any> {
   controller: C;
   mocks?: ServiceMock[];
+  plugins?: Plugins;
 }
 
 export type FastifyInstanceWithController<C> = FastifyInstance & Pick<ControllerTestConfig<C>, 'controller'>;
@@ -34,6 +36,8 @@ export async function configureControllerTest<C>(
   config: ControllerTestConfig<Constructor<C>>,
 ): Promise<FastifyInstanceWithController<C>> {
   const instance = fastify();
+  loadPlugins(instance, config.plugins);
+
   const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
   if (!injectablesWithMocks.has(FastifyInstanceToken)) {
     injectablesWithMocks.set(FastifyInstanceToken, wrapInjectable(instance));

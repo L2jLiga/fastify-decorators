@@ -2,7 +2,8 @@ import { Initializer, Inject, Service } from '../decorators';
 import { configureServiceTest } from './configure-service-test';
 import { ServiceMock } from './service-mock';
 import { FastifyInstanceToken } from '../symbols';
-import { FastifyInstance } from 'fastify';
+import { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fastify';
+import fastifyPlugin from 'fastify-plugin';
 
 describe('Testing: configure service test', () => {
   afterEach(() => jest.clearAllMocks());
@@ -70,6 +71,36 @@ describe('Testing: configure service test', () => {
     });
 
     expect(typeof service.getVersion()).toBe('string');
+  });
+
+  it('should be able to load plugins onto fastify instance', async () => {
+    interface Ops {
+      key: null;
+    }
+    interface OpsAsync {
+      promise: PromiseConstructor;
+    }
+    const pluginCallback = fastifyPlugin<Ops>(((instance, opts, next) => {
+      instance.decorate('pluginOpts', opts);
+      next();
+    }) as FastifyPluginCallback);
+    const pluginAsync = fastifyPlugin<OpsAsync>((async (instance, opts) => {
+      instance.decorate('pluginAsyncOpts', opts);
+    }) as FastifyPluginAsync);
+
+    const service = configureServiceTest({
+      service: WithFastifyInstance,
+      plugins: [pluginCallback, [pluginAsync, { promise: Promise }]],
+    });
+
+    await service.instance.ready();
+
+    expect(service.instance.hasDecorator('pluginOpts')).toBeTruthy();
+    expect(service.instance.hasDecorator('pluginAsyncOpts')).toBeTruthy();
+    // @ts-expect-error we do not enhance FastifyInstance typings in "plugin" hence we expect this error
+    expect(service.instance.pluginOpts).toEqual({});
+    // @ts-expect-error we do not enhance FastifyInstance typings in "plugin" hence we expect this error
+    expect(service.instance.pluginAsyncOpts.promise).toBe(Promise);
   });
 
   it('should not override mocked injection of fastify instance', () => {

@@ -2,7 +2,8 @@ import { Controller, GET, Initializer, Inject, Service } from '../decorators';
 import { configureControllerTest } from './configure-controller-test';
 import { ServiceMock } from './service-mock';
 import { FastifyInstanceToken } from '../symbols';
-import { FastifyInstance } from 'fastify';
+import { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fastify';
+import fastifyPlugin from 'fastify-plugin';
 
 describe('Testing: configure controller test', () => {
   it('should bootstrap controller', async () => {
@@ -110,6 +111,49 @@ describe('Testing: configure controller test', () => {
 
     expect(result.statusCode).toBe(200);
     expect(result.json()).toEqual({ version: '0.0.0' });
+  });
+
+  describe('with plugins', () => {
+    interface Ops {
+      key: null;
+    }
+    interface OpsAsync {
+      promise: PromiseConstructor;
+    }
+    const pluginCallback = fastifyPlugin<Ops>(((instance, opts, next) => {
+      instance.decorate('pluginOpts', opts);
+      next();
+    }) as FastifyPluginCallback);
+    const pluginAsync = fastifyPlugin<OpsAsync>((async (instance, opts) => {
+      instance.decorate('pluginAsyncOpts', opts);
+    }) as FastifyPluginAsync);
+
+    it('should be able to register plugin', async () => {
+      const instance = await configureControllerTest({
+        controller: WithoutDependencies,
+        plugins: [pluginAsync, pluginCallback],
+      });
+
+      expect(instance.hasDecorator('pluginOpts')).toBeTruthy();
+      expect(instance.hasDecorator('pluginAsyncOpts')).toBeTruthy();
+    });
+
+    it('should be able to register plugin with opts', async () => {
+      const instance = await configureControllerTest({
+        controller: WithoutDependencies,
+        plugins: [
+          [pluginAsync, { promise: Promise }],
+          [pluginCallback, { key: null, key2: false }],
+        ],
+      });
+
+      expect(instance.hasDecorator('pluginOpts')).toBeTruthy();
+      expect(instance.hasDecorator('pluginAsyncOpts')).toBeTruthy();
+      // @ts-expect-error we do not enhance FastifyInstance typings in "plugin" hence we expect this error
+      expect(instance.pluginOpts.key).toBeNull();
+      // @ts-expect-error we do not enhance FastifyInstance typings in "plugin" hence we expect this error
+      expect(instance.pluginAsyncOpts.promise).toBe(Promise);
+    });
   });
 });
 
