@@ -1,5 +1,5 @@
-import { ErrorHandler } from '../../interfaces';
-import { createErrorsHandler } from './create-errors-handler';
+import { ErrorHandler } from '../../interfaces/controller.js';
+import { createErrorsHandler } from './create-errors-handler.js';
 
 describe('Helpers: create errors handler', () => {
   it('should create error handler which will catch errors specified', () => {

@@ -2,7 +2,7 @@ import { fastify } from 'fastify';
 import { bootstrap } from 'fastify-decorators';
 import fastifyOAS from 'fastify-oas';
 import 'reflect-metadata';
-import { MessageController } from './controllers/message.controller';
+import { MessageController } from './controllers/message.controller.js';
 
 export const app = fastify();
 

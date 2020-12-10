@@ -6,29 +6,29 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-export { bootstrap } from './bootstrap/bootstrap';
-export { BootstrapConfig } from './interfaces';
-export { RequestHandler } from './interfaces';
+export { bootstrap } from './bootstrap/bootstrap.js';
+export { BootstrapConfig } from './interfaces/bootstrap-config.js';
+export { RequestHandler } from './interfaces/request-handler.js';
 
-export { Controller } from './decorators';
-export { ControllerType } from './registry';
-export { ControllerConfig } from './interfaces';
+export { Controller } from './decorators/controller.js';
+export { ControllerType } from './registry/controller-type.js';
+export { ControllerConfig } from './interfaces/controller-config.js';
 
-export { Service } from './decorators';
-export { Inject } from './decorators';
-export { Initializer } from './decorators';
-export { Hook } from './decorators';
-export { ErrorHandler } from './decorators';
+export { Service } from './decorators/service.js';
+export { Inject } from './decorators/inject.js';
+export { Initializer } from './decorators/initializer.js';
+export { Hook } from './decorators/hook.js';
+export { ErrorHandler } from './decorators/error-handler.js';
 
-export { getInstanceByToken } from './utils';
-export { FastifyInstanceToken } from './symbols';
+export { getInstanceByToken } from './utils/get-instance-by-token.js';
+export { FastifyInstanceToken } from './symbols/index.js';
 
-export { ALL } from './decorators';
-export { DELETE } from './decorators';
-export { GET } from './decorators';
-export { HEAD } from './decorators';
-export { OPTIONS } from './decorators';
-export { PATCH } from './decorators';
-export { POST } from './decorators';
-export { PUT } from './decorators';
-export { RouteConfig } from './interfaces';
+export { ALL } from './decorators/request-handlers.js';
+export { DELETE } from './decorators/request-handlers.js';
+export { GET } from './decorators/request-handlers.js';
+export { HEAD } from './decorators/request-handlers.js';
+export { OPTIONS } from './decorators/request-handlers.js';
+export { PATCH } from './decorators/request-handlers.js';
+export { POST } from './decorators/request-handlers.js';
+export { PUT } from './decorators/request-handlers.js';
+export { RouteConfig } from './interfaces/route-config.js';

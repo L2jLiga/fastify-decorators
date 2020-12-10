@@ -1,11 +1,20 @@
 {
-  "main": "./index.js",
+  "type": "module",
+  "main": "./index.cjs",
+  "module": "./index.js",
+  "types": "./index.d.ts",
   "typings": "./index.d.ts",
   "typesVersions": {
     "<3.9": {
       "*": [
         "../ts3.4/testing/*"
       ]
+    }
+  },
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs"
     }
   }
 }

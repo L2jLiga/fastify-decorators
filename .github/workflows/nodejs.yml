@@ -58,7 +58,7 @@ jobs:
       - name: Lint project
         run: yarn lint
 
-  build-example:
+  Examples:
     runs-on: ubuntu-latest
 
     strategy:
@@ -92,8 +92,31 @@ jobs:
           directory: coverage/examples
           flags: examples
 
+  ESM-Support:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 14.x
+      - name: Install dependencies
+        run: yarn install --frozen-lock-file
+      - name: Build library
+        run: yarn build
+      - name: Build ESM example
+        run: |
+          yarn install
+          yarn build
+        working-directory: examples/esm
+      - name: Run tests on example
+        run: yarn test
+        working-directory: examples/esm
+
   automerge:
-    needs: [lint, build, build-example]
+    needs: [lint, build, Examples, ESM-Support]
     runs-on: ubuntu-latest
     if: ${{ github.actor == 'dependabot[bot]' }}
     steps:

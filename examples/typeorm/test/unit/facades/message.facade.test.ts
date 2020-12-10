@@ -1,6 +1,6 @@
 import { configureServiceTest } from 'fastify-decorators/testing';
-import { MessageFacade } from '../../../src/facades/message.facade';
-import { ConnectionService } from '../../../src/services/connection.service';
+import { MessageFacade } from '../../../src/facades/message.facade.js';
+import { ConnectionService } from '../../../src/services/connection.service.js';
 
 interface MockRepository {
   find: jest.Mock;

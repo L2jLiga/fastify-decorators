@@ -6,9 +6,9 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { ErrorHandler, Handler, Hook } from '../../interfaces';
-import { ERROR_HANDLERS, HANDLERS, HOOKS, SERVICE_INJECTION } from '../../symbols';
-import { ServiceInjection } from './inject-dependencies';
+import { ErrorHandler, Handler, Hook } from '../../interfaces/controller.js';
+import { ERROR_HANDLERS, HANDLERS, HOOKS, SERVICE_INJECTION } from '../../symbols/index.js';
+import { ServiceInjection } from './inject-dependencies.js';
 
 export function ensureHandlers(val: { [HANDLERS]?: Handler[] }): asserts val is { [HANDLERS]: Handler[] } {
   if (!(HANDLERS in val)) {

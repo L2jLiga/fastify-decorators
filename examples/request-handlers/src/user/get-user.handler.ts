@@ -1,6 +1,6 @@
 import { ErrorHandler, GET, RequestHandler } from 'fastify-decorators';
-import { schema, users } from './user';
-import { UserError } from './user-error';
+import { schema, users } from './user.js';
+import { UserError } from './user-error.js';
 
 @GET('/user/:username', { schema })
 export default class GetUserHandler extends RequestHandler {

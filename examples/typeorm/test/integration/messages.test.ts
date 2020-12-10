@@ -1,5 +1,5 @@
-import { app } from '../../src';
-import { Message, MessageInput } from '../../src/entity/message';
+import { app } from '../../src/index.js';
+import { Message, MessageInput } from '../../src/entity/message.js';
 
 describe('Messages CRUD test', () => {
   beforeEach(() => app.ready());

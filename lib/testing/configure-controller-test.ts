@@ -6,18 +6,18 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { fastify, FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fastify';
-import type { InjectableController } from '../interfaces';
-import { injectables } from '../registry/injectables';
-import { CREATOR, FastifyInstanceToken, SERVICE_INJECTION } from '../symbols';
-import { MocksManager } from './mocks-manager';
-import type { ServiceMock } from './service-mock';
-import { readyMap } from '../decorators';
-import type { InjectableClass } from '../interfaces/injectable-class';
-import { Constructor, ServiceInjection } from '../decorators/helpers/inject-dependencies';
-import { hasServiceInjection } from '../decorators/helpers/class-properties';
-import { wrapInjectable } from '../utils/wrap-injectable';
-import { loadPlugins, Plugins } from './fastify-plugins';
+import { fastify, FastifyInstance } from 'fastify';
+import type { InjectableController } from '../interfaces/index.js';
+import { injectables } from '../registry/injectables.js';
+import { CREATOR, FastifyInstanceToken, SERVICE_INJECTION } from '../symbols/index.js';
+import { MocksManager } from './mocks-manager.js';
+import type { ServiceMock } from './service-mock.js';
+import { readyMap } from '../decorators/index.js';
+import type { InjectableClass } from '../interfaces/injectable-class.js';
+import { Constructor, ServiceInjection } from '../decorators/helpers/inject-dependencies.js';
+import { hasServiceInjection } from '../decorators/helpers/class-properties.js';
+import { wrapInjectable } from '../utils/wrap-injectable.js';
+import { loadPlugins, Plugins } from './fastify-plugins.js';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Reflect {

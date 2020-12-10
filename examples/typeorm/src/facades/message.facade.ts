@@ -1,7 +1,7 @@
 import { Initializer, Service } from 'fastify-decorators';
 import { Repository } from 'typeorm';
-import { Message } from '../entity/message';
-import { ConnectionService } from '../services/connection.service';
+import { Message } from '../entity/message.js';
+import { ConnectionService } from '../services/connection.service.js';
 
 @Service()
 export class MessageFacade {

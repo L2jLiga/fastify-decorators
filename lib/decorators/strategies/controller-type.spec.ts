@@ -1,8 +1,8 @@
 import { RouteShorthandOptions } from 'fastify';
-import { ErrorHandler, Handler, Hook } from '../../interfaces';
-import { ControllerType } from '../../registry';
-import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
-import { ControllerTypeStrategies } from './controller-type';
+import { ErrorHandler, Handler, Hook } from '../../interfaces/controller.js';
+import { ControllerType } from '../../registry/controller-type.js';
+import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
+import { ControllerTypeStrategies } from './controller-type.js';
 
 describe('Strategies: controller types', () => {
   describe('Singleton strategy', () => {

@@ -6,8 +6,8 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { CREATOR } from '../symbols';
-import { wrapInjectable } from './wrap-injectable';
+import { CREATOR } from '../symbols/index.js';
+import { wrapInjectable } from './wrap-injectable.js';
 
 describe('Utils: wrap into injectable', () => {
   it('should wrap object into injectable construction', () => {

@@ -1,5 +1,5 @@
-import { app } from '../src';
-import { users } from '../src/user/user';
+import { app } from '../src/index.js';
+import { users } from '../src/user/user.js';
 
 describe('User feature', () => {
   afterEach(() => users.clear());

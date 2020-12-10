@@ -1,7 +1,7 @@
 import { fastify } from 'fastify';
 import { bootstrap } from 'fastify-decorators';
 import fastifyOAS from 'fastify-oas';
-import { TypedController } from './typed.controller';
+import { TypedController } from './typed.controller.js';
 
 const app = fastify();
 

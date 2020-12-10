@@ -1,5 +1,5 @@
 import { configureControllerTest } from 'fastify-decorators/testing';
-import { TypedController } from '../src/typed.controller';
+import { TypedController } from '../src/typed.controller.js';
 
 it('should return message from request', async () => {
   const message = 'Hello world!';

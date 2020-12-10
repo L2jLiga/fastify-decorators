@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import { configureControllerTest } from 'fastify-decorators/testing';
-import { users } from '../../src/user/user';
-import UserController from '../../src/user/user.controller';
+import { users } from '../../src/user/user.js';
+import UserController from '../../src/user/user.controller.js';
 
 describe('Controller: User', () => {
   let app: FastifyInstance;

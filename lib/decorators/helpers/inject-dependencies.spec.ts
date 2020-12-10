@@ -1,8 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-namespace
-import { InjectableService } from '../../interfaces/injectable-class';
-import { CREATOR, INJECTABLES } from '../../symbols';
-import { createWithInjectedDependencies } from './inject-dependencies';
-import { Inject } from '../inject';
+import { InjectableService } from '../../interfaces/injectable-class.js';
+import { CREATOR, INJECTABLES } from '../../symbols/index.js';
+import { Inject } from '../inject.js';
+import { createWithInjectedDependencies } from './inject-dependencies.js';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Reflect {

@@ -7,10 +7,12 @@
  */
 
 import type { FastifyInstance, FastifyRequest, RouteShorthandOptions } from 'fastify';
-import type { HttpMethods, RequestHandler, RequestHook, RouteConfig } from '../../interfaces';
-import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
-import { ensureHandlers, hasErrorHandlers, hasHooks } from './class-properties';
-import { createErrorsHandler } from './create-errors-handler';
+import { HttpMethods } from '../../interfaces/http-methods.js';
+import { RequestHandler, RequestHook } from '../../interfaces/request-handler.js';
+import { RouteConfig } from '../../interfaces/route-config.js';
+import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
+import { ensureHandlers, hasErrorHandlers, hasHooks } from './class-properties.js';
+import { createErrorsHandler } from './create-errors-handler.js';
 
 type ParsedRouteConfig = { url: string; options: RouteShorthandOptions };
 

@@ -6,9 +6,9 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { Injectables, InjectableService } from '../../interfaces/injectable-class';
-import { CREATOR, SERVICE_INJECTION } from '../../symbols';
-import { hasServiceInjection } from './class-properties';
+import { Injectables, InjectableService } from '../../interfaces/injectable-class.js';
+import { CREATOR, SERVICE_INJECTION } from '../../symbols/index.js';
+import { hasServiceInjection } from './class-properties.js';
 
 export type Constructor<T> = { new (): T } | { new (...args: any): T };
 

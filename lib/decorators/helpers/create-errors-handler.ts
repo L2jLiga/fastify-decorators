@@ -5,9 +5,8 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
-
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import type { ErrorHandler } from '../../interfaces';
+import { ErrorHandler } from '../../interfaces/controller.js';
 
 export function createErrorsHandler(
   errorHandlers: ErrorHandler[],

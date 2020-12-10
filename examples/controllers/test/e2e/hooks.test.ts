@@ -1,4 +1,4 @@
-import { app } from '../../src';
+import { app } from '../../src/index.js';
 
 describe('Controllers hooks tests', () => {
   it('Stateful controller should support hooks', async () => {

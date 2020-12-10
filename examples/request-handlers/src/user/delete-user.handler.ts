@@ -1,6 +1,6 @@
 import { DELETE, ErrorHandler, RequestHandler } from 'fastify-decorators';
-import { users } from './user';
-import { UserError } from './user-error';
+import { users } from './user.js';
+import { UserError } from './user-error.js';
 
 @DELETE('/user/:username')
 export default class DeleteUserHandler extends RequestHandler {

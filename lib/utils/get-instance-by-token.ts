@@ -6,10 +6,10 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { Constructor } from '../decorators/helpers/inject-dependencies';
-import type { InjectableService } from '../interfaces/injectable-class';
-import { injectables } from '../registry/injectables';
-import { CREATOR } from '../symbols';
+import type { Constructor } from '../decorators/helpers/inject-dependencies.js';
+import type { InjectableService } from '../interfaces/injectable-class.js';
+import { injectables } from '../registry/injectables.js';
+import { CREATOR } from '../symbols/index.js';
 
 export function getInstanceByToken<Type>(token: string | symbol | Constructor<Type>): Type {
   const injectable: InjectableService | undefined = injectables.get(token);

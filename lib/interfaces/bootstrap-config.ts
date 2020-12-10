@@ -7,7 +7,7 @@
  */
 
 import type { FastifyPluginOptions } from 'fastify';
-import { Constructor } from '../decorators/helpers/inject-dependencies';
+import { Constructor } from '../decorators/helpers/inject-dependencies.js';
 
 /**
  * Config for application bootstrap

@@ -6,12 +6,12 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-export { Service } from './service';
-export { Inject } from './inject';
-export { Initializer, readyMap } from './initializer';
-export { Hook } from './hook';
-export { ErrorHandler } from './error-handler';
+export { Service } from './service.js';
+export { Inject } from './inject.js';
+export { Initializer, readyMap } from './initializer.js';
+export { Hook } from './hook.js';
+export { ErrorHandler } from './error-handler.js';
 
-export { Controller } from './controller';
+export { Controller } from './controller.js';
 
-export { ALL, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT } from './request-handlers';
+export { ALL, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT } from './request-handlers.js';

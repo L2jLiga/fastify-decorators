@@ -1,7 +1,7 @@
 import { fastify } from 'fastify';
 import { resolve } from 'path';
-import { bootstrap } from './bootstrap';
-import SampleControllerMock from './mocks/controllers/sample.controller.mock';
+import { bootstrap } from './bootstrap.js';
+import SampleControllerMock from './mocks/controllers/sample.controller.mock.js';
 
 describe('Bootstrap test', () => {
   it('should bootstrap controller', async () => {

@@ -7,13 +7,13 @@
  */
 
 import type { FastifyInstance } from 'fastify';
-import type { ControllerConfig } from '../interfaces';
-import type { InjectableClass } from '../interfaces/injectable-class';
-import { ControllerType } from '../registry';
-import { injectables } from '../registry/injectables';
-import { CREATOR, INJECTABLES } from '../symbols';
-import { injectControllerOptions } from './helpers/inject-controller-options';
-import { ControllerTypeStrategies } from './strategies/controller-type';
+import type { ControllerConfig } from '../interfaces/index.js';
+import type { InjectableClass } from '../interfaces/injectable-class.js';
+import { ControllerType } from '../registry/controller-type.js';
+import { injectables } from '../registry/injectables.js';
+import { CREATOR, INJECTABLES } from '../symbols/index.js';
+import { injectControllerOptions } from './helpers/inject-controller-options.js';
+import { ControllerTypeStrategies } from './strategies/controller-type.js';
 
 function makeConfig(config?: string | ControllerConfig): ControllerConfig & { type: ControllerType } {
   if (typeof config === 'string') config = { route: config };

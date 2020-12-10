@@ -2,7 +2,7 @@ import { Initializer, Service } from 'fastify-decorators';
 import * as fs from 'fs';
 import { join } from 'path';
 import { Connection, createConnection } from 'typeorm';
-import { Message } from '../entity/message';
+import { Message } from '../entity/message.js';
 
 @Service()
 export class ConnectionService {

@@ -1,7 +1,7 @@
-import { ErrorHandler, Hook } from '../../interfaces';
-import { CREATOR, ERROR_HANDLERS, HOOKS } from '../../symbols';
-import { requestDecoratorsFactory } from './request-decorators.factory';
-import { RouteShorthandOptions } from 'fastify';
+import type { RouteShorthandOptions } from 'fastify';
+import { ErrorHandler, Hook } from '../../interfaces/controller.js';
+import { CREATOR, ERROR_HANDLERS, HOOKS } from '../../symbols/index.js';
+import { requestDecoratorsFactory } from './request-decorators.factory.js';
 
 describe('Factory: request decorators', () => {
   const factory = requestDecoratorsFactory('get');
