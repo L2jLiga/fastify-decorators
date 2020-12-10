@@ -1,8 +1,8 @@
 import { FastifyReply, FastifyRequest, FastifySchema, RouteSchema } from 'fastify';
 import { Controller, DELETE, GET, POST } from 'fastify-decorators';
-import { Message, MessageInput } from '../entity/message';
-import { MessageFacade } from '../facades/message.facade';
-import { messageInputSchema, messageSchema } from '../schemas/message.schema';
+import { Message, MessageInput } from '../entity/message.js';
+import { MessageFacade } from '../facades/message.facade.js';
+import { messageInputSchema, messageSchema } from '../schemas/message.schema.js';
 
 @Controller('/messages')
 export class MessageController {

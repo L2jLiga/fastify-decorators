@@ -1,4 +1,4 @@
-import { app } from '../../src';
+import { app } from '../../src/index.js';
 
 describe('States controllers tests', () => {
   it('Stateful controller should save state', async () => {

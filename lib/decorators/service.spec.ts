@@ -1,5 +1,5 @@
-import { CREATOR, INITIALIZER } from '../symbols';
-import { Service } from './service';
+import { CREATOR, INITIALIZER } from '../symbols/index.js';
+import { Service } from './service.js';
 
 describe('Decorators: @Service', () => {
   it('should add CREATOR static property to class', () => {

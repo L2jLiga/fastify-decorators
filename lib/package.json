@@ -2,13 +2,26 @@
   "name": "fastify-decorators",
   "version": "3.6.0",
   "description": "Framework aimed to provide useful TypeScript decorators to implement controllers, services and request handlers, built with Fastify.",
-  "main": "index.js",
+  "type": "module",
+  "main": "index.cjs",
+  "module": "index.js",
+  "types": "index.d.ts",
   "typings": "index.d.ts",
   "typesVersions": {
     "<3.9": {
       "*": [
         "ts3.4/*"
       ]
+    }
+  },
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs"
+    },
+    "./testing": {
+      "import": "./testing/index.js",
+      "require": "./testing/index.cjs"
     }
   },
   "repository": {
@@ -37,7 +50,6 @@
   "engines": {
     "node": ">= 10.16.0"
   },
-  "type": "commonjs",
   "dependencies": {
     "fastify-plugin": "^2.0.0 || ^3.0.0"
   },

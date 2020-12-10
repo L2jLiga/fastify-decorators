@@ -1,0 +1,7 @@
+bail: false
+timeout: 10000
+enable-source-maps: true
+v8-stack-trace-limit: 100
+extension:
+  - 'ts'
+  - 'js'

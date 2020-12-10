@@ -1,4 +1,4 @@
-import { app } from '../src';
+import { app } from '../src/index.js';
 
 describe('RequestHandlers hooks support', () => {
   it('should return username when user exists', async () => {

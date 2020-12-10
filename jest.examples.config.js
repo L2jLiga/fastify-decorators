@@ -1,7 +1,7 @@
 module.exports = {
   preset: 'ts-jest',
   rootDir: '../..',
-  testEnvironment: './jest.environment.js',
+  testEnvironment: './jest.environment.cjs',
   collectCoverage: true,
   coverageReporters: ['text', 'lcov'],
   globals: {
@@ -9,6 +9,7 @@ module.exports = {
       tsconfig: './tsconfig.spec.json',
     },
   },
+  resolver: 'jest-ts-webcompat-resolver',
   collectCoverageFrom: ['lib/**/*.ts', '!lib/**/*.mock.ts', '!lib/**/*.test.ts', '!lib/**/*.spec.ts'],
   moduleNameMapper: {
     '^fastify-decorators$': '<rootDir>/lib/index.ts',

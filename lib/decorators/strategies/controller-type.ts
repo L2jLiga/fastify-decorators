@@ -7,13 +7,13 @@
  */
 
 import type { FastifyInstance, FastifyRequest } from 'fastify';
-import type { ErrorHandler, Handler, Hook, InjectableController } from '../../interfaces';
-import { Injectables } from '../../interfaces/injectable-class';
-import { ControllerType } from '../../registry';
-import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
-import { hasErrorHandlers, hasHandlers, hasHooks } from '../helpers/class-properties';
-import { createErrorsHandler } from '../helpers/create-errors-handler';
-import { createWithInjectedDependencies } from '../helpers/inject-dependencies';
+import type { ErrorHandler, Handler, Hook, InjectableController } from '../../interfaces/index.js';
+import { Injectables } from '../../interfaces/injectable-class.js';
+import { ControllerType } from '../../registry/controller-type.js';
+import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
+import { hasErrorHandlers, hasHandlers, hasHooks } from '../helpers/class-properties.js';
+import { createErrorsHandler } from '../helpers/create-errors-handler.js';
+import { createWithInjectedDependencies } from '../helpers/inject-dependencies.js';
 
 const controllersCache = new WeakMap<FastifyRequest, any>();
 

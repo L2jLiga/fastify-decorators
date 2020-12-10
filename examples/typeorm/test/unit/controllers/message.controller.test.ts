@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import { configureControllerTest } from 'fastify-decorators/testing';
-import { MessageController } from '../../../src/controllers/message.controller';
-import { MessageFacade } from '../../../src/facades/message.facade';
+import { MessageController } from '../../../src/controllers/message.controller.js';
+import { MessageFacade } from '../../../src/facades/message.facade.js';
 
 describe('Controller: Message Controller', () => {
   let instance: FastifyInstance;

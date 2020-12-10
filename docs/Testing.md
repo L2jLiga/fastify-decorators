@@ -17,7 +17,7 @@ fastify-decorators provide dependency injection functionality only when [`reflec
 
 It leads to mandatory of requiring this package to tests as well.
 
-As example for Jest you can take a look on our [`jest.environment.js`]
+As example for Jest you can take a look on our [`jest.environment.cjs`]
 
 ### Using `configureControllerTest`
 
@@ -241,4 +241,4 @@ describe('Application: authorization', () => {
 ```
 
 [`reflect-metadata`]: http://npmjs.com/package/reflect-metadata
-[`jest.environment.js`]: ../jest.environment.js
+[`jest.environment.cjs`]: ../jest.environment.cjs

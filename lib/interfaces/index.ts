@@ -6,10 +6,10 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-export type { BootstrapConfig } from './bootstrap-config';
-export type { ErrorHandler, Handler, Hook } from './controller';
-export type { ControllerConfig } from './controller-config';
-export { HttpMethods } from './http-methods';
-export type { InjectableController } from './injectable-class';
-export { RequestHandler, RequestHook } from './request-handler';
-export type { RouteConfig } from './route-config';
+export type { BootstrapConfig } from './bootstrap-config.js';
+export type { ErrorHandler, Handler, Hook } from './controller.js';
+export type { ControllerConfig } from './controller-config.js';
+export { HttpMethods } from './http-methods.js';
+export type { InjectableController } from './injectable-class.js';
+export { RequestHandler, RequestHook } from './request-handler.js';
+export type { RouteConfig } from './route-config.js';

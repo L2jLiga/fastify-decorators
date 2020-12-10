@@ -1,5 +1,5 @@
-import { INITIALIZER } from '../symbols';
-import { Initializer, readyMap } from './initializer';
+import { INITIALIZER } from '../symbols/index.js';
+import { Initializer, readyMap } from './initializer.js';
 
 describe('Decorator: @Initializer', () => {
   afterEach(() => readyMap.clear());

@@ -1,6 +1,6 @@
-import { Injectables } from '../interfaces/injectable-class';
-import { wrapInjectable } from '../utils/wrap-injectable';
-import { MocksManager } from './mocks-manager';
+import { Injectables } from '../interfaces/injectable-class.js';
+import { wrapInjectable } from '../utils/wrap-injectable.js';
+import { MocksManager } from './mocks-manager.js';
 
 describe('Testing: mocks manager', () => {
   it('should create injectables map from another one', () => {

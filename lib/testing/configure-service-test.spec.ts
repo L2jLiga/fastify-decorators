@@ -1,7 +1,7 @@
-import { Initializer, Inject, Service } from '../decorators';
-import { configureServiceTest } from './configure-service-test';
-import { ServiceMock } from './service-mock';
-import { FastifyInstanceToken } from '../symbols';
+import { Initializer, Inject, Service } from '../decorators/index.js';
+import { configureServiceTest } from './configure-service-test.js';
+import { ServiceMock } from './service-mock.js';
+import { FastifyInstanceToken } from '../symbols/index.js';
 import { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fastify';
 import fastifyPlugin from 'fastify-plugin';
 

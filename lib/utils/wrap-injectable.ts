@@ -6,8 +6,8 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { InjectableService } from '../interfaces/injectable-class';
-import { CREATOR } from '../symbols';
+import type { InjectableService } from '../interfaces/injectable-class.js';
+import { CREATOR } from '../symbols/index.js';
 
 export function wrapInjectable<T>(object: T): InjectableService {
   return <InjectableService>{

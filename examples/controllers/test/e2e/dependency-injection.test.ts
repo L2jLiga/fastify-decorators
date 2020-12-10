@@ -1,16 +1,16 @@
-import { app } from '../../src';
+import { app } from '../../src/index.js';
 
 describe('Controllers dependency injection tests', () => {
   describe('Controller with constructor', () => {
     it('should work with sync service', async () => {
-      const initialState = await app.inject('/dependency-injection/constructor/sync');
+      const initialState = await app.inject('/dependency-injection/using-constructor/sync');
 
       expect(initialState.statusCode).toEqual(200);
       expect(initialState.body).toEqual('Message');
     });
 
     it('should work with async service', async () => {
-      const initialState = await app.inject('/dependency-injection/constructor/async');
+      const initialState = await app.inject('/dependency-injection/using-constructor/async');
 
       expect(initialState.statusCode).toEqual(200);
       expect(initialState.body).toEqual('Message');

@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { Controller, POST } from 'fastify-decorators';
-import { schema, TBody } from './schemas';
+import { schema, TBody } from './schemas.js';
 
 @Controller('/typed')
 export class TypedController {

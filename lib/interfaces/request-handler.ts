@@ -6,16 +6,18 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
-import { RequestGenericInterface } from 'fastify/types/request';
-import {
+import type {
   ContextConfigDefault,
+  FastifyInstance,
+  FastifyReply,
+  FastifyRequest,
   RawReplyDefaultExpression,
   RawRequestDefaultExpression,
   RawServerBase,
   RawServerDefault,
-} from 'fastify/types/utils';
-import { CREATOR } from '../symbols';
+  RequestGenericInterface,
+} from 'fastify';
+import { CREATOR } from '../symbols/index.js';
 
 /**
  * Abstract class which should extend all decorated request handlers

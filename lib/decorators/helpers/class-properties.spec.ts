@@ -1,5 +1,5 @@
-import { ErrorHandler, Handler, Hook } from '../../interfaces';
-import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols';
+import { ErrorHandler, Handler, Hook } from '../../interfaces/controller.js';
+import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import {
   ensureErrorHandlers,
   ensureHandlers,
@@ -7,7 +7,7 @@ import {
   hasErrorHandlers,
   hasHandlers,
   hasHooks,
-} from './class-properties';
+} from './class-properties.js';
 
 describe('Helpers: class properties', () => {
   describe('ensure object has handlers symbol', () => {

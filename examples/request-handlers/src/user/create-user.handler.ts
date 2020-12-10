@@ -1,6 +1,6 @@
 import { ErrorHandler, POST, RequestHandler } from 'fastify-decorators';
-import { schema, users } from './user';
-import { UserError } from './user-error';
+import { schema, users } from './user.js';
+import { UserError } from './user-error.js';
 
 @POST('/user', { schema })
 export default class CreateUserHandler extends RequestHandler {

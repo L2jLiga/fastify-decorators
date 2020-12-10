@@ -6,8 +6,8 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { InjectableController } from '../../interfaces';
-import { CREATOR } from '../../symbols';
+import { InjectableController } from '../../interfaces/injectable-class.js';
+import { CREATOR } from '../../symbols/index.js';
 
 export function injectControllerOptions(controller: unknown): asserts controller is InjectableController {
   if (controller instanceof Function) {

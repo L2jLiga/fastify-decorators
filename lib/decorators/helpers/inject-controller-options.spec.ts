@@ -1,5 +1,5 @@
-import { CREATOR } from '../../symbols';
-import { injectControllerOptions } from './inject-controller-options';
+import { CREATOR } from '../../symbols/index.js';
+import { injectControllerOptions } from './inject-controller-options.js';
 
 describe('Helper: inject controller options', () => {
   it('should inject default options into object if they are not exists', () => {

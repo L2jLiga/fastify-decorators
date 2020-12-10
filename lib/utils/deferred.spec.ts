@@ -1,4 +1,4 @@
-import { Deferred } from './deferred';
+import { Deferred } from './deferred.js';
 
 describe('Utils: deferred', () => {
   it('should be able to resolve promise', () => {

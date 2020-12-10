@@ -10,13 +10,14 @@ import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 import { readdirSync } from 'fs';
 import { join } from 'path';
-import { readyMap } from '../decorators';
-import { Constructor } from '../decorators/helpers/inject-dependencies';
-import type { BootstrapConfig, InjectableController } from '../interfaces';
-import type { AutoLoadConfig, ControllersListConfig } from '../interfaces/bootstrap-config';
-import { injectables } from '../registry/injectables';
-import { CREATOR, FastifyInstanceToken } from '../symbols';
-import { wrapInjectable } from '../utils/wrap-injectable';
+import { pathToFileURL } from 'url';
+import { readyMap } from '../decorators/index.js';
+import { Constructor } from '../decorators/helpers/inject-dependencies.js';
+import type { BootstrapConfig, InjectableController } from '../interfaces/index.js';
+import type { AutoLoadConfig, ControllersListConfig } from '../interfaces/bootstrap-config.js';
+import { injectables } from '../registry/injectables.js';
+import { CREATOR, FastifyInstanceToken } from '../symbols/index.js';
+import { wrapInjectable } from '../utils/wrap-injectable.js';
 
 const defaultMask = /\.(handler|controller)\./;
 
@@ -26,7 +27,7 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
     const controllers = new Set<Constructor<unknown>>();
     const skipBroken = config.skipBroken;
 
-    if ('directory' in config) autoLoadModules(config as AutoLoadConfig).forEach(controllers.add, controllers);
+    if ('directory' in config) (await autoLoadModules(config as AutoLoadConfig)).forEach(controllers.add, controllers);
     if ('controllers' in config) config.controllers.forEach(controllers.add, controllers);
 
     await loadControllers({ controllers: [...controllers], skipBroken }, fastify);
@@ -42,18 +43,18 @@ async function loadControllers(config: ControllersListConfig, fastify: FastifyIn
   await Promise.all(config.controllers.map((controller) => loadController(controller, fastify, config)));
 }
 
-function autoLoadModules(config: AutoLoadConfig): InjectableController[] {
+function autoLoadModules(config: AutoLoadConfig): Promise<InjectableController[]> {
   const flags = config.mask instanceof RegExp ? config.mask.flags.replace('g', '') : '';
   const filter = config.mask ? new RegExp(config.mask, flags) : defaultMask;
 
-  return [...findModules(config.directory, filter)].map(loadModule);
+  return Promise.all([...findModules(config.directory, filter)].map(loadModule));
 }
 
 function loadController(controller: Constructor<unknown>, fastify: FastifyInstance, config: BootstrapConfig) {
   if (verifyController(controller)) {
     return controller[CREATOR].register(fastify);
   } else if (!config.skipBroken) {
-    throw new TypeError(`Loaded file is incorrect module and can not be bootstrapped: ${module}`);
+    throw new TypeError(`Loaded file is incorrect module and can not be bootstrapped: ${controller}`);
   }
 }
 
@@ -78,7 +79,12 @@ function* findModules(path: string, filter: RegExp): Iterable<string> {
   }
 }
 
-function loadModule(module: string): InjectableController {
-  /* eslint-disable @typescript-eslint/no-var-requires */
-  return require(module).__esModule ? require(module).default : require(module);
+/* istanbul ignore next */
+async function loadModule(module: string): Promise<InjectableController> {
+  if (typeof require !== 'undefined') {
+    /* eslint-disable @typescript-eslint/no-var-requires */
+    return require(module).__esModule ? require(module).default : require(module);
+  }
+
+  return import(pathToFileURL(module).toString()).then((m) => m.default);
 }

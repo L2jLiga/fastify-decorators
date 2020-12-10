@@ -1,6 +1,6 @@
 import { RouteShorthandOptions } from 'fastify';
-import { CREATOR } from '../symbols';
-import { ALL, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT } from './request-handlers';
+import { CREATOR } from '../symbols/index.js';
+import { ALL, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT } from './request-handlers.js';
 
 describe('Decorators: request handlers', () => {
   it('should instantiate ALL handler', () => {

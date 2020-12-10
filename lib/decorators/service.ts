@@ -6,9 +6,9 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { injectables } from '../registry/injectables';
-import { CREATOR, INITIALIZER, INJECTABLES } from '../symbols';
-import { createWithInjectedDependencies } from './helpers/inject-dependencies';
+import { injectables } from '../registry/injectables.js';
+import { CREATOR, INITIALIZER, INJECTABLES } from '../symbols/index.js';
+import { createWithInjectedDependencies } from './helpers/inject-dependencies.js';
 
 /**
  * Decorator for making classes injectable

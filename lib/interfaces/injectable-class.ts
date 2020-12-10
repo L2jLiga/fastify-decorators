@@ -7,7 +7,7 @@
  */
 
 import type { FastifyInstance } from 'fastify';
-import type { CREATOR, INITIALIZER, INJECTABLES } from '../symbols';
+import type { CREATOR, INITIALIZER, INJECTABLES } from '../symbols/index.js';
 
 export type Injectables = Map<string | symbol | unknown, InjectableService>;
 

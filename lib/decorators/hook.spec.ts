@@ -1,7 +1,7 @@
-import { FastifyReply } from 'fastify/types/reply';
-import { FastifyRequest } from 'fastify/types/request';
-import { HOOKS } from '../symbols';
-import { Hook } from './hook';
+import type { FastifyReply } from 'fastify';
+import type { FastifyRequest } from 'fastify';
+import { HOOKS } from '../symbols/index.js';
+import { Hook } from './hook.js';
 
 describe('Decorators: @Hook', () => {
   it('should add method annotated with @Hook to controller options', () => {

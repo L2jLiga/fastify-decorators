@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Library tests" type="JavaScriptTestRunnerJest">
-    <config-file value="$PROJECT_DIR$/lib/jest.config.js" />
+    <config-file value="$PROJECT_DIR$/lib/jest.config.cjs" />
     <node-interpreter value="project" />
     <node-options value="" />
     <jest-package value="$PROJECT_DIR$/node_modules/jest" />

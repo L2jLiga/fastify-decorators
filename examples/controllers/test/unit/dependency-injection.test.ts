@@ -1,10 +1,10 @@
 import { FastifyInstance } from 'fastify';
 import { configureControllerTest } from 'fastify-decorators/testing';
-import ConstructorController from '../../src/dependency-injection/constructor.controller';
-import { InjectableAsyncService } from '../../src/dependency-injection/injectable-async-service';
-import { InjectableService, injectableServiceToken } from '../../src/dependency-injection/injectable.service';
-import GetInstanceByTokenController from '../../src/dependency-injection/get-instance-by-token.controller';
-import InjectController from '../../src/dependency-injection/inject.controller';
+import ConstructorController from '../../src/dependency-injection/constructor.controller.js';
+import { InjectableAsyncService } from '../../src/dependency-injection/injectable-async-service.js';
+import { InjectableService, injectableServiceToken } from '../../src/dependency-injection/injectable.service.js';
+import GetInstanceByTokenController from '../../src/dependency-injection/get-instance-by-token.controller.js';
+import InjectController from '../../src/dependency-injection/inject.controller.js';
 
 describe('Controllers dependency injection tests', () => {
   describe('Controller with constructor', () => {
@@ -26,14 +26,14 @@ describe('Controllers dependency injection tests', () => {
     });
 
     it('should work with sync service', async () => {
-      const initialState = await app.inject('/dependency-injection/constructor/sync');
+      const initialState = await app.inject('/dependency-injection/using-constructor/sync');
 
       expect(initialState.statusCode).toEqual(200);
       expect(initialState.body).toEqual('Message');
     });
 
     it('should work with async service', async () => {
-      const initialState = await app.inject('/dependency-injection/constructor/async');
+      const initialState = await app.inject('/dependency-injection/using-constructor/async');
 
       expect(initialState.statusCode).toEqual(200);
       expect(initialState.body).toEqual('Message');

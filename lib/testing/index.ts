@@ -6,10 +6,10 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-export type { ServiceMock } from './service-mock';
+export type { ServiceMock } from './service-mock.js';
 export {
   ControllerTestConfig,
   FastifyInstanceWithController,
   configureControllerTest,
-} from './configure-controller-test';
-export { ServiceTestConfig, configureServiceTest } from './configure-service-test';
+} from './configure-controller-test.js';
+export { ServiceTestConfig, configureServiceTest } from './configure-service-test.js';

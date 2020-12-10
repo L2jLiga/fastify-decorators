@@ -1,8 +1,8 @@
-import { InjectableService } from '../interfaces/injectable-class';
-import { injectables } from '../registry/injectables';
-import { CREATOR } from '../symbols';
-import { getInstanceByToken } from './get-instance-by-token';
-import { wrapInjectable } from './wrap-injectable';
+import { InjectableService } from '../interfaces/injectable-class.js';
+import { injectables } from '../registry/injectables.js';
+import { CREATOR } from '../symbols/index.js';
+import { getInstanceByToken } from './get-instance-by-token.js';
+import { wrapInjectable } from './wrap-injectable.js';
 
 describe('Get instance by token', function () {
   beforeEach(() => injectables.clear());
