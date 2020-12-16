@@ -3,7 +3,7 @@ import typescript from '@rollup/plugin-typescript';
 
 // Rollup Configuration
 export default {
-  input: 'lib/index.ts',
+  input: ['lib/index.ts', 'lib/testing/index.ts'],
   output: {
     dir: 'dist/fastify-decorators',
     format: 'cjs',
