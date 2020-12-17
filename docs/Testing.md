@@ -4,12 +4,63 @@
 
 ### Table of content:
 
+- [Configuring test framework](#configuring-test-framework)
+  - [Jest](#jest--26)
 - [Notes about dependency injection](#notes-about-dependency-injection)
 - [Using `configureControllerTest`](#using-configurecontrollertest)
 - [Using `configureServiceTest`](#using-configureservicetest)
   - [Services without async initializer](#sync-service-testing)
   - [Services with async initializer](#async-service-testing)
 - [Bootstrap whole server](#bootstrap-whole-server)
+
+### Configuring test framework
+
+#### Jest <= 26
+
+Packages to be installed:
+
+- [`reflect-metadata`](https://www.npmjs.com/package/reflect-metadata)
+- [`jest-environment-node`](https://www.npmjs.com/package/jest-environment-node)
+- [`ts-jest`](https://www.npmjs.com/package/ts-jest)
+
+Also if you're using imports with file extensions then you will need:
+
+- [jest-ts-webcompat-resolver](https://www.npmjs.com/package/jest-ts-webcompat-resolver)
+- [jest-resolver](https://www.npmjs.com/package/jest-resolver)
+
+Example configuration:
+_jest.environment.js_:
+
+```javascript
+const NodeEnvironment = require('jest-environment-node');
+
+class FastifyDecoratorsTestEnvironment extends NodeEnvironment {
+  setup() {
+    require('reflect-metadata');
+    this.global.Reflect = Reflect;
+    return super.setup();
+  }
+}
+
+module.exports = FastifyDecoratorsTestEnvironment;
+```
+
+_jest.config.js_:
+
+```javascript
+module.exports = {
+  preset: 'ts-jest',
+  // Note resolver required only when using imports with extensions
+  resolver: 'jest-ts-webcompat-resolver',
+  // In test environment we setup reflect-metadata
+  testEnvironment: './jest.environment.cjs',
+  // Jest does not support ESM modules well, so you will need to define mappings to CJS modules
+  moduleNameMapper: {
+    'fastify-decorators/testing': 'fastify-decorators/testing/index.cjs',
+    'fastify-decorators': 'fastify-decorators/index.cjs',
+  },
+};
+```
 
 ### Notes about dependency injection
 
