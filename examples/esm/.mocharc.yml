@@ -1,7 +1,16 @@
+# Common Mocha options
 bail: false
 timeout: 10000
 enable-source-maps: true
 v8-stack-trace-limit: 100
 extension:
   - 'ts'
-  - 'js'
+# Enable experimental TS ESM loader
+loader:
+  - ts-node/esm
+require:
+  - test/mocha-hooks.ts
+# Specify tests pattern
+spec:
+  - test/**/*.test.ts
+  - test/**/*.spec.ts

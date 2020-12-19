@@ -1,9 +1,6 @@
+import { strictEqual } from 'assert';
 import { app } from '../../src/app.js';
 import { ErrorType } from '../../src/error-handling/error-type.js';
-import chai from 'chai';
-
-/* eslint-disable jest/valid-expect */
-const { expect } = chai;
 
 describe('Controllers error handling tests', () => {
   describe('Stateful controller error handling support', () => {
@@ -15,7 +12,7 @@ describe('Controllers error handling tests', () => {
         },
       });
 
-      expect(initialState.statusCode).to.equal(500);
+      strictEqual(initialState.statusCode, 500);
     });
 
     it('should trigger syntax error handler', async () => {
@@ -26,7 +23,7 @@ describe('Controllers error handling tests', () => {
         },
       });
 
-      expect(initialState.statusCode).to.equal(501);
+      strictEqual(initialState.statusCode, 501);
     });
 
     it('should trigger type error handler', async () => {
@@ -37,7 +34,7 @@ describe('Controllers error handling tests', () => {
         },
       });
 
-      expect(initialState.statusCode).to.equal(502);
+      strictEqual(initialState.statusCode, 502);
     });
 
     it('should trigger custom error handler', async () => {
@@ -48,7 +45,7 @@ describe('Controllers error handling tests', () => {
         },
       });
 
-      expect(initialState.statusCode).to.equal(503);
+      strictEqual(initialState.statusCode, 503);
     });
   });
 
@@ -61,7 +58,7 @@ describe('Controllers error handling tests', () => {
         },
       });
 
-      expect(initialState.statusCode).to.equal(500);
+      strictEqual(initialState.statusCode, 500);
     });
 
     it('should trigger syntax error handler', async () => {
@@ -72,7 +69,7 @@ describe('Controllers error handling tests', () => {
         },
       });
 
-      expect(initialState.statusCode).to.equal(501);
+      strictEqual(initialState.statusCode, 501);
     });
 
     it('should trigger type error handler', async () => {
@@ -83,7 +80,7 @@ describe('Controllers error handling tests', () => {
         },
       });
 
-      expect(initialState.statusCode).to.equal(502);
+      strictEqual(initialState.statusCode, 502);
     });
 
     it('should trigger custom error handler', async () => {
@@ -94,7 +91,7 @@ describe('Controllers error handling tests', () => {
         },
       });
 
-      expect(initialState.statusCode).to.equal(503);
+      strictEqual(initialState.statusCode, 503);
     });
   });
 });

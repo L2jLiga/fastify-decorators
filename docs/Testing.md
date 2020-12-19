@@ -6,6 +6,7 @@
 
 - [Configuring test framework](#configuring-test-framework)
   - [Jest](#jest--26)
+  - [Mocha](#mocha)
 - [Notes about dependency injection](#notes-about-dependency-injection)
 - [Using `configureControllerTest`](#using-configurecontrollertest)
 - [Using `configureServiceTest`](#using-configureservicetest)
@@ -19,6 +20,8 @@
 
 Packages to be installed:
 
+- [`@types/jest`](https://www.npmjs.com/package/@types/jest)
+- [`jest`](https://www.npmjs.com/package/jest)
 - [`reflect-metadata`](https://www.npmjs.com/package/reflect-metadata)
 - [`jest-environment-node`](https://www.npmjs.com/package/jest-environment-node)
 - [`ts-jest`](https://www.npmjs.com/package/ts-jest)
@@ -60,6 +63,44 @@ module.exports = {
     'fastify-decorators': 'fastify-decorators/index.cjs',
   },
 };
+```
+
+#### Mocha
+
+Packages to be installed:
+
+- [`@types/mocha`](https://www.npmjs.com/package/@types/mocha)
+- [`mocha`](https://www.npmjs.com/package/mocha)
+- [`ts-node`](https://www.npmjs.com/package/ts-node)
+
+Example configuration:
+
+_.mocharc.yml_:
+
+```yaml
+# Common Mocha options
+bail: false
+timeout: 10000
+enable-source-maps: true
+v8-stack-trace-limit: 100
+extension:
+  - 'ts'
+# Enable experimental TS ESM loader
+loader:
+  - ts-node/esm
+# Specify root hooks file, required for `reflect-metadata` loading
+require:
+  - test/mocha-hooks.ts
+# Specify tests pattern
+spec:
+  - test/**/*.test.ts
+  - test/**/*.spec.ts
+```
+
+_test/mocha-hooks.ts_:
+
+```typescript
+import 'reflect-metadata';
 ```
 
 ### Notes about dependency injection

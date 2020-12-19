@@ -1,9 +1,6 @@
+import { deepStrictEqual, strictEqual } from 'assert';
 import { app } from '../../src/app.js';
 import { users } from '../../src/user/user.js';
-import chai from 'chai';
-
-/* eslint-disable jest/valid-expect */
-const { expect } = chai;
 
 describe('User feature', () => {
   afterEach(() => users.clear());
@@ -11,17 +8,15 @@ describe('User feature', () => {
   it('should return username when user exists', async () => {
     users.add('Player');
     const response = await app.inject('/user/Player');
-    const body = response.json();
 
-    expect(body).to.deep.equal({ username: 'Player' });
+    deepStrictEqual(response.json(), { username: 'Player' });
   });
 
   it('should return 404 error when user does exist', async () => {
     const response = await app.inject('/user/Player');
-    const body = response.json();
 
-    expect(response.statusCode).to.equal(404);
-    expect(body).to.deep.equal({ message: 'User not found' });
+    strictEqual(response.statusCode, 404);
+    deepStrictEqual(response.json(), { message: 'User not found' });
   });
 
   it('should delete existing user', async () => {
@@ -30,10 +25,9 @@ describe('User feature', () => {
       url: '/user/User',
       method: 'DELETE',
     });
-    const body = response.payload;
 
-    expect(response.statusCode).to.equal(204);
-    expect(body).to.equal('');
+    strictEqual(response.statusCode, 204);
+    deepStrictEqual(response.payload, '');
   });
 
   it('should return 404 when deleting not existing user', async () => {
@@ -41,10 +35,9 @@ describe('User feature', () => {
       url: '/user/User',
       method: 'DELETE',
     });
-    const body = response.json();
 
-    expect(response.statusCode).to.equal(404);
-    expect(body).to.deep.equal({ message: 'User not found' });
+    strictEqual(response.statusCode, 404);
+    deepStrictEqual(response.json(), { message: 'User not found' });
   });
 
   it('should return username when creating user', async () => {
@@ -57,9 +50,8 @@ describe('User feature', () => {
         region: 'Msk',
       },
     });
-    const body = response.json();
 
-    expect(body).to.deep.equal({ username: 'David' });
+    deepStrictEqual(response.json(), { username: 'David' });
   });
 
   it('should return unprocessable entity error when new user name is busy', async () => {
@@ -73,9 +65,8 @@ describe('User feature', () => {
         region: 'Msk',
       },
     });
-    const body = response.json();
 
-    expect(response.statusCode).to.equal(422);
-    expect(body).to.deep.equal({ message: 'User already exists' });
+    strictEqual(response.statusCode, 422);
+    deepStrictEqual(response.json(), { message: 'User already exists' });
   });
 });
