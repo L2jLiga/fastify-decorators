@@ -5,9 +5,9 @@
 ### Table of content:
 
 - [Configuring test framework](#configuring-test-framework)
+  - [Notes about dependency injection](#notes-about-dependency-injection)
   - [Jest](#jest--26)
   - [Mocha](#mocha)
-- [Notes about dependency injection](#notes-about-dependency-injection)
 - [Using `configureControllerTest`](#using-configurecontrollertest)
 - [Using `configureServiceTest`](#using-configureservicetest)
   - [Services without async initializer](#sync-service-testing)
@@ -15,6 +15,12 @@
 - [Bootstrap whole server](#bootstrap-whole-server)
 
 ### Configuring test framework
+
+#### Notes about dependency injection
+
+fastify-decorators provide dependency injection functionality only when [`reflect-metadata`] required.
+
+It leads to mandatory of requiring this package to tests as well.
 
 #### Jest <= 26
 
@@ -102,14 +108,6 @@ _test/mocha-hooks.ts_:
 ```typescript
 import 'reflect-metadata';
 ```
-
-### Notes about dependency injection
-
-fastify-decorators provide dependency injection functionality only when [`reflect-metadata`] required.
-
-It leads to mandatory of requiring this package to tests as well.
-
-As example for Jest you can take a look on our [`jest.environment.cjs`]
 
 ### Using `configureControllerTest`
 
