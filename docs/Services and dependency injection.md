@@ -107,6 +107,31 @@ export class MessageFacade {
 }
 ```
 
+### Graceful services destroy
+
+If you need to have stuff executed before service destroyed (e.g. close database connection) you can use `@Destructor` decorator:
+
+```ts
+import { Initializer, Destructor, Service } from 'fastify-decorators';
+import { Message } from '../entity/message';
+import { createConnection, Connection } from 'typeorm';
+
+@Service()
+export class ConnectionService {
+  connection!: Connection;
+
+  @Initializer()
+  async init(): Promise<void> {
+    this.connection = await createConnection();
+  }
+
+  @Destructor()
+  async destroy(): Promise<void> {
+    await this.connection.close();
+  }
+}
+```
+
 ## Injecting into Controllers
 
 The easiest way to inject dependencies to controllers is using constructors:

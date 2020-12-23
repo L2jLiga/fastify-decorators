@@ -3,6 +3,7 @@ import { Message, MessageInput } from '../../src/entity/message.js';
 
 describe('Messages CRUD test', () => {
   beforeEach(() => app.ready());
+  afterAll(() => app.close());
 
   let id: number;
   const input: MessageInput = {

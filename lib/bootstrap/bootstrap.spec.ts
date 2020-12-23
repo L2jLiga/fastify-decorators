@@ -1,9 +1,17 @@
-import { fastify } from 'fastify';
+import { fastify, FastifyInstance } from 'fastify';
 import { resolve } from 'path';
+import { servicesWithDestructors } from '../decorators/destructor.js';
+import { injectables } from '../registry/injectables.js';
+import { wrapInjectable } from '../utils/wrap-injectable.js';
 import { bootstrap } from './bootstrap.js';
 import SampleControllerMock from './mocks/controllers/sample.controller.mock.js';
 
 describe('Bootstrap test', () => {
+  afterEach(() => {
+    servicesWithDestructors.clear();
+    injectables.clear();
+  });
+
   it('should bootstrap controller', async () => {
     const instance = fastify();
     instance.register(bootstrap, {
@@ -72,5 +80,26 @@ describe('Bootstrap test', () => {
 
     expect(res1.payload).toBe('{"message":"ok"}');
     expect(res2.statusCode).toBe(404);
+  });
+
+  it('should define graceful shutdown', async () => {
+    class Foo {
+      bar = jest.fn();
+    }
+
+    const foo = new Foo();
+    injectables.set(Foo, wrapInjectable(foo));
+    servicesWithDestructors.set(Foo, 'bar');
+    const instance = {
+      addHook(hook: 'onClose', handler: () => Promise<void>) {
+        expect(hook).toBe('onClose');
+        expect(handler).toBeInstanceOf(Function);
+        handler();
+      },
+    } as FastifyInstance;
+
+    await bootstrap(instance, { controllers: [] });
+
+    expect(foo.bar).toHaveBeenCalled();
   });
 });

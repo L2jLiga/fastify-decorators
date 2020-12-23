@@ -17,6 +17,7 @@ export { ControllerConfig } from './interfaces/controller-config.js';
 export { Service } from './decorators/service.js';
 export { Inject } from './decorators/inject.js';
 export { Initializer } from './decorators/initializer.js';
+export { Destructor } from './decorators/destructor.js';
 export { Hook } from './decorators/hook.js';
 export { ErrorHandler } from './decorators/error-handler.js';
 

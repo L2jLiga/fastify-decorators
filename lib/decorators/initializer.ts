@@ -1,15 +1,15 @@
 import { INITIALIZER } from '../symbols/index.js';
 import { Deferred } from '../utils/deferred.js';
 
-export const readyMap = new Map<any, Promise<void>>();
+export const readyMap = new Map<unknown, Promise<void>>();
 
 /**
  * Used to mark a Service method to be called after all the Services are created, but before the server starts
  *
  * @param dependencies The dependencies that need to be initialized before this one will be
  */
-export function Initializer(dependencies: any[] = []): MethodDecorator {
-  return (targetPrototype: any, propertyKey) => {
+export function Initializer(dependencies: any[] = []): PropertyDecorator {
+  return (targetPrototype: any, propertyKey: string | symbol) => {
     const target = targetPrototype.constructor;
     const ready = new Deferred();
 

@@ -11,11 +11,10 @@ import { ERROR_HANDLERS } from '../symbols/index.js';
 import { ensureErrorHandlers } from './helpers/class-properties.js';
 import type { Constructor } from './helpers/inject-dependencies.js';
 
-export function ErrorHandler(): MethodDecorator;
-export function ErrorHandler(code: string): MethodDecorator;
-export function ErrorHandler<T extends Error>(configuration: Constructor<T>): MethodDecorator;
-
-export function ErrorHandler<T extends ErrorConstructor>(parameter?: T | string): MethodDecorator {
+export function ErrorHandler(): PropertyDecorator;
+export function ErrorHandler(code: string): PropertyDecorator;
+export function ErrorHandler<T extends Error>(configuration: Constructor<T>): PropertyDecorator;
+export function ErrorHandler<T extends ErrorConstructor>(parameter?: T | string): PropertyDecorator {
   return function ({ constructor }: any, handlerName: string | symbol) {
     ensureErrorHandlers(constructor);
 

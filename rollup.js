@@ -20,6 +20,6 @@ export default {
       sourcemap: true,
     }),
   ],
-  external: ['fastify-plugin', 'fs', 'path', 'url'],
+  external: ['fastify', 'fastify-plugin', 'fs', 'path', 'url'],
   treeshake: false,
 };
