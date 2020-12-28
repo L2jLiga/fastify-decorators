@@ -7,17 +7,17 @@
  */
 
 import { fastify, FastifyInstance } from 'fastify';
+import { hasServiceInjection } from '../decorators/helpers/class-properties.js';
+import { Constructor, ServiceInjection } from '../decorators/helpers/inject-dependencies.js';
+import { readyMap } from '../decorators/index.js';
 import type { InjectableController } from '../interfaces/index.js';
+import type { InjectableClass } from '../interfaces/injectable-class.js';
 import { injectables } from '../registry/injectables.js';
 import { CREATOR, FastifyInstanceToken, SERVICE_INJECTION } from '../symbols/index.js';
-import { MocksManager } from './mocks-manager.js';
-import type { ServiceMock } from './service-mock.js';
-import { readyMap } from '../decorators/index.js';
-import type { InjectableClass } from '../interfaces/injectable-class.js';
-import { Constructor, ServiceInjection } from '../decorators/helpers/inject-dependencies.js';
-import { hasServiceInjection } from '../decorators/helpers/class-properties.js';
 import { wrapInjectable } from '../utils/wrap-injectable.js';
 import { loadPlugins, Plugins } from './fastify-plugins.js';
+import { MocksManager } from './mocks-manager.js';
+import type { ServiceMock } from './service-mock.js';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Reflect {

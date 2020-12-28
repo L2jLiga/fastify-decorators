@@ -1,5 +1,4 @@
-import type { FastifyReply } from 'fastify';
-import type { FastifyRequest } from 'fastify';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 import { HOOKS } from '../symbols/index.js';
 import { Hook } from './hook.js';
 

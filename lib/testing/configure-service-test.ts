@@ -6,16 +6,16 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
+import { fastify } from 'fastify';
 import type { Constructor } from '../decorators/helpers/inject-dependencies.js';
+import { readyMap } from '../decorators/index.js';
 import type { InjectableService } from '../interfaces/injectable-class.js';
 import { injectables } from '../registry/injectables.js';
 import { CREATOR, FastifyInstanceToken, INITIALIZER } from '../symbols/index.js';
+import { wrapInjectable } from '../utils/wrap-injectable.js';
+import { loadPlugins, Plugins } from './fastify-plugins.js';
 import { MocksManager } from './mocks-manager.js';
 import type { ServiceMock } from './service-mock.js';
-import { readyMap } from '../decorators/index.js';
-import { wrapInjectable } from '../utils/wrap-injectable.js';
-import { fastify } from 'fastify';
-import { loadPlugins, Plugins } from './fastify-plugins.js';
 
 export interface ServiceTestConfig<Service> {
   service: Constructor<Service>;

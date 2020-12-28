@@ -1,9 +1,9 @@
-import { Controller, GET, Initializer, Inject, Service } from '../decorators/index.js';
-import { configureControllerTest } from './configure-controller-test.js';
-import { ServiceMock } from './service-mock.js';
-import { FastifyInstanceToken } from '../symbols/index.js';
 import { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fastify';
 import fastifyPlugin from 'fastify-plugin';
+import { Controller, GET, Initializer, Inject, Service } from '../decorators/index.js';
+import { FastifyInstanceToken } from '../symbols/index.js';
+import { configureControllerTest } from './configure-controller-test.js';
+import { ServiceMock } from './service-mock.js';
 
 describe('Testing: configure controller test', () => {
   it('should bootstrap controller', async () => {
