@@ -35,7 +35,7 @@
     "@types/jest": "^26.0.19",
     "@types/node": "~10.17.47",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
-    "@typescript-eslint/parser": "^4.11.0",
+    "@typescript-eslint/parser": "^4.11.1",
     "downlevel-dts": "^0.7.0",
     "eslint": "^7.16.0",
     "eslint-config-prettier": "^7.1.0",
