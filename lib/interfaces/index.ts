@@ -7,7 +7,7 @@
  */
 
 export type { BootstrapConfig } from './bootstrap-config.js';
-export type { ErrorHandler, Handler, Hook } from './controller.js';
+export type { IErrorHandler, IHandler, IHook } from './controller.js';
 export type { ControllerConfig } from './controller-config.js';
 export { HttpMethods } from './http-methods.js';
 export type { InjectableController } from './injectable-class.js';

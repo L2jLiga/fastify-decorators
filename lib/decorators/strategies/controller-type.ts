@@ -7,7 +7,7 @@
  */
 
 import type { FastifyInstance, FastifyRequest } from 'fastify';
-import type { ErrorHandler, Handler, Hook, InjectableController } from '../../interfaces/index.js';
+import type { IErrorHandler, IHandler, IHook, InjectableController } from '../../interfaces/index.js';
 import { Injectables } from '../../interfaces/injectable-class.js';
 import { ControllerType } from '../../registry/controller-type.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
@@ -26,6 +26,13 @@ function targetFactory(constructor: InjectableController, injectablesMap: Inject
   };
 }
 
+type ControllerFactory = (
+  instance: FastifyInstance,
+  constructor: InjectableController,
+  injectablesMap: Injectables,
+  cacheResult: boolean,
+) => unknown;
+
 /**
  * Various strategies which can be applied to controller
  *
@@ -37,13 +44,8 @@ function targetFactory(constructor: InjectableController, injectablesMap: Inject
  *
  * By default controllers use SINGLETON strategy
  */
-export const ControllerTypeStrategies = {
-  [ControllerType.SINGLETON](
-    instance: FastifyInstance,
-    constructor: InjectableController,
-    injectablesMap: Injectables,
-    cacheResult: boolean,
-  ) {
+export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory> = {
+  [ControllerType.SINGLETON](instance, constructor, injectablesMap, cacheResult) {
     const controllerInstance = createWithInjectedDependencies(constructor, injectablesMap, cacheResult);
 
     if (hasHandlers(constructor)) registerHandlers(constructor[HANDLERS], instance, controllerInstance);
@@ -53,12 +55,7 @@ export const ControllerTypeStrategies = {
     return controllerInstance;
   },
 
-  [ControllerType.REQUEST](
-    instance: FastifyInstance,
-    constructor: InjectableController,
-    injectablesMap: Injectables,
-    cacheResult: boolean,
-  ) {
+  [ControllerType.REQUEST](instance, constructor, injectablesMap, cacheResult) {
     const getTarget = targetFactory(constructor, injectablesMap, cacheResult);
 
     if (hasHandlers(constructor))
@@ -84,9 +81,9 @@ export const ControllerTypeStrategies = {
         }),
       );
   },
-} as const;
+};
 
-function registerHandlers(handlers: Handler[], instance: FastifyInstance, controllerInstance: any): void {
+function registerHandlers(handlers: IHandler[], instance: FastifyInstance, controllerInstance: any): void {
   handlers.forEach((handler) => {
     instance[handler.method](
       handler.url,
@@ -96,12 +93,12 @@ function registerHandlers(handlers: Handler[], instance: FastifyInstance, contro
   });
 }
 
-function registerHooks(hooks: Hook[], instance: FastifyInstance, controllerInstance: any): void {
+function registerHooks(hooks: IHook[], instance: FastifyInstance, controllerInstance: any): void {
   hooks.forEach((hook) => {
     instance.addHook(hook.name, controllerInstance[hook.handlerName].bind(controllerInstance));
   });
 }
 
-function registerErrorHandlers(errorHandlers: ErrorHandler[], instance: FastifyInstance, classInstance: any) {
+function registerErrorHandlers(errorHandlers: IErrorHandler[], instance: FastifyInstance, classInstance: any) {
   instance.setErrorHandler(createErrorsHandler(errorHandlers, classInstance));
 }

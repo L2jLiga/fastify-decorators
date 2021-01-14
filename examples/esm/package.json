@@ -12,13 +12,13 @@
     "test": "cross-env TS_NODE_PROJECT=tsconfig.spec.json mocha"
   },
   "dependencies": {
-    "fastify": "^3.9.1",
+    "fastify": "^3.9.2",
     "fastify-decorators": "file:../../dist/fastify-decorators",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.0",
-    "@types/node": "^12.19.9",
+    "@types/node": "^12.19.13",
     "cross-env": "^7.0.3",
     "mocha": "^8.2.1",
     "ts-node": "^9.1.1",

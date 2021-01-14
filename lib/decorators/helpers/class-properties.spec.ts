@@ -1,4 +1,4 @@
-import { ErrorHandler, Handler, Hook } from '../../interfaces/controller.js';
+import { IErrorHandler, IHandler, IHook } from '../../interfaces/controller.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import {
   ensureErrorHandlers,
@@ -20,7 +20,7 @@ describe('Helpers: class properties', () => {
     });
 
     it('should not create when exists', () => {
-      const handlers: Handler[] = [];
+      const handlers: IHandler[] = [];
       const obj = {
         [HANDLERS]: handlers,
       };
@@ -61,7 +61,7 @@ describe('Helpers: class properties', () => {
     });
 
     it('should not create when exists', () => {
-      const errorHandlers: ErrorHandler[] = [];
+      const errorHandlers: IErrorHandler[] = [];
       const obj = {
         [ERROR_HANDLERS]: errorHandlers,
       };
@@ -102,7 +102,7 @@ describe('Helpers: class properties', () => {
     });
 
     it('should not create when exists', () => {
-      const hooks: Hook[] = [];
+      const hooks: IHook[] = [];
       const obj = {
         [HOOKS]: hooks,
       };

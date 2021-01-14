@@ -1,4 +1,5 @@
 import { CREATOR, INITIALIZER } from '../symbols/index.js';
+import { getInstanceByToken } from '../utils/get-instance-by-token.js';
 import { Service } from './service.js';
 
 describe('Decorators: @Service', () => {
@@ -48,5 +49,16 @@ describe('Decorators: @Service', () => {
     expect(instance1).toBe(instance2);
     expect(instance1).toBe(instance3);
     expect(instance2).toBe(instance3);
+  });
+
+  it('should register service by injectable token and class', () => {
+    @Service('token')
+    class Srv {}
+
+    const instanceByClass = getInstanceByToken(Srv);
+    const instanceByToken = getInstanceByToken('token');
+
+    expect(instanceByClass).toBeInstanceOf(Srv);
+    expect(instanceByToken).toBeInstanceOf(Srv);
   });
 });

@@ -1,10 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { ErrorHandler as IErrorHandler } from '../interfaces/index.js';
+import { IErrorHandler as IErrorHandler } from '../interfaces/index.js';
 import { ERROR_HANDLERS } from '../symbols/index.js';
 import { ErrorHandler } from './error-handler.js';
 import ErrnoException = NodeJS.ErrnoException;
 
-describe('Decorators: @ErrorHandler', function () {
+describe('Decorators: @IErrorHandler', function () {
   it('should add annotated method to controller options', () => {
     class WithHandlers {
       static [ERROR_HANDLERS]: IErrorHandler[];

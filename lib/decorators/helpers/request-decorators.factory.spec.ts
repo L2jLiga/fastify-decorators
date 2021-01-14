@@ -1,6 +1,11 @@
 import type { RouteShorthandOptions } from 'fastify';
-import { ErrorHandler, Hook } from '../../interfaces/controller.js';
+import { IErrorHandler, IHook } from '../../interfaces/controller.js';
+import { ControllerType } from '../../registry/controller-type.js';
 import { CREATOR, ERROR_HANDLERS, HOOKS } from '../../symbols/index.js';
+import { ErrorHandler } from '../error-handler.js';
+import { Hook } from '../hook.js';
+import { GET } from '../request-handlers.js';
+import { ControllerTypeStrategies } from '../strategies/controller-type.js';
 import { requestDecoratorsFactory } from './request-decorators.factory.js';
 
 describe('Factory: request decorators', () => {
@@ -74,9 +79,9 @@ describe('Factory: request decorators', () => {
   });
 
   describe('hooks support', () => {
-    it('should create define hook in options when it does not exists', () => {
+    it('should create defined hook in options when it does not exists', () => {
       class Handler {
-        static [HOOKS]: Hook[] = [
+        static [HOOKS]: IHook[] = [
           {
             name: 'onSend',
             handlerName: 'onSendFn',
@@ -105,9 +110,33 @@ describe('Factory: request decorators', () => {
       );
     });
 
+    it('onSend option should relate to onSend hook fn defined', () => {
+      const onSendHook = jest.fn();
+      class Handler {
+        @Hook('onSend')
+        onSendHook = onSendHook;
+      }
+
+      const instance = { get: jest.fn() };
+      const decorate = factory({
+        url: '/url',
+        options: <RouteShorthandOptions>{ schema: { body: { type: 'string' } } },
+      });
+
+      decorate(Handler);
+
+      // @ts-expect-error created implicitly by decorate
+      Handler[CREATOR].register(instance);
+
+      const [, { onSend }] = instance.get.mock.calls.pop();
+      onSend({});
+
+      expect(onSendHook).toHaveBeenCalledWith({});
+    });
+
     it('should wrap current hook and add one more if hook exists in options', () => {
       class Handler {
-        static [HOOKS]: Hook[] = [
+        static [HOOKS]: IHook[] = [
           {
             name: 'onSend',
             handlerName: 'onSendFn',
@@ -143,7 +172,7 @@ describe('Factory: request decorators', () => {
 
     it('should add hook to hook handlers array in options', () => {
       class Handler {
-        static [HOOKS]: Hook[] = [
+        static [HOOKS]: IHook[] = [
           {
             name: 'onSend',
             handlerName: 'onSendFn',
@@ -176,34 +205,57 @@ describe('Factory: request decorators', () => {
     });
   });
 
-  it('should add error handlers to options', () => {
+  describe('error handling support', () => {
+    const typeError = jest.fn();
+    const generalError = jest.fn();
+    @GET()
     class Handler {
-      static [ERROR_HANDLERS]: ErrorHandler[] = [
-        {
-          accepts: jest.fn(),
-          handlerName: 'onSendFn',
-        },
-      ];
+      @ErrorHandler(TypeError)
+      typeError = typeError;
+
+      @ErrorHandler()
+      general = generalError;
     }
 
-    const instance = { get: jest.fn(), addHook: jest.fn() };
-    const decorate = factory({
-      url: '/url',
-      options: <RouteShorthandOptions>{ schema: { body: { type: 'string' } } },
+    let errorHandler: (error: Error, request: unknown) => void;
+    const instance = { get: jest.fn() };
+
+    beforeEach(() => {
+      jest.resetAllMocks();
+
+      // @ts-expect-error created implicitly by decorate
+      Handler[CREATOR].register(instance);
+
+      const [, { errorHandler: _errorHandler }] = instance.get.mock.calls.pop();
+      errorHandler = _errorHandler;
     });
 
-    decorate(Handler);
+    it('should register error handler', () => {
+      expect(errorHandler).toBeInstanceOf(Function);
+    });
 
-    // @ts-expect-error created implicitly by decorate
-    Handler[CREATOR].register(instance);
+    it('should call TypeError handler only', async () => {
+      errorHandler(new TypeError('test'), {});
 
-    expect(instance.get).toHaveBeenCalledWith(
-      '/url',
-      <RouteShorthandOptions>{
-        errorHandler: expect.any(Function),
-        schema: { body: { type: 'string' } },
-      },
-      expect.any(Function),
-    );
+      expect(typeError).toHaveBeenCalledWith(new TypeError('test'), {}, undefined);
+      expect(generalError).not.toHaveBeenCalled();
+    });
+
+    it('should call general error handler when TypeError specific fails', async () => {
+      typeError.mockImplementation(() => {
+        throw new Error('Unaccepted');
+      });
+      errorHandler(new TypeError('test'), {});
+
+      expect(typeError).toHaveBeenCalledWith(new TypeError('test'), {}, undefined);
+      expect(generalError).toHaveBeenCalledWith(new Error('Unaccepted'), {}, undefined);
+    });
+
+    it('should call general error handler when non TypeError received', async () => {
+      errorHandler(new Error('test'), {});
+
+      expect(typeError).not.toHaveBeenCalled();
+      expect(generalError).toHaveBeenCalledWith(new Error('test'), {}, undefined);
+    });
   });
 });

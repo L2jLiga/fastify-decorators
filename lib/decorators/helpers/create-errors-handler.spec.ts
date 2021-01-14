@@ -1,10 +1,10 @@
-import { ErrorHandler } from '../../interfaces/controller.js';
+import { IErrorHandler } from '../../interfaces/controller.js';
 import { createErrorsHandler } from './create-errors-handler.js';
 
 describe('Helpers: create errors handler', () => {
   it('should create error handler which will catch errors specified', () => {
     const expectedError = new Error('Smth went wrong');
-    const errorHandlerDescription: ErrorHandler = {
+    const errorHandlerDescription: IErrorHandler = {
       accepts(): boolean {
         return true;
       },
@@ -24,7 +24,7 @@ describe('Helpers: create errors handler', () => {
 
   it('should throw error when no handlers match', () => {
     const expectedError = new Error('Smth went wrong');
-    const errorHandlerDescription: ErrorHandler = {
+    const errorHandlerDescription: IErrorHandler = {
       accepts(): boolean {
         return false;
       },
@@ -40,7 +40,7 @@ describe('Helpers: create errors handler', () => {
 
   it('should throw to next error handler when previous throws', () => {
     const expectedError = new Error('Smth went wrong');
-    const errorHandlers: ErrorHandler[] = [
+    const errorHandlers: IErrorHandler[] = [
       {
         accepts(): boolean {
           return true;

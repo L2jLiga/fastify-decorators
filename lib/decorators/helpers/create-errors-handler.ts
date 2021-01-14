@@ -6,10 +6,10 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import { ErrorHandler } from '../../interfaces/controller.js';
+import { IErrorHandler } from '../../interfaces/controller.js';
 
 export function createErrorsHandler(
-  errorHandlers: ErrorHandler[],
+  errorHandlers: IErrorHandler[],
   classInstance: any,
 ): (error: Error, request: FastifyRequest, reply: FastifyReply) => Promise<void> {
   return async function errorHandler(error: Error, request: FastifyRequest, reply: FastifyReply): Promise<void> {

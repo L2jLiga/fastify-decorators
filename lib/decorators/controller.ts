@@ -45,7 +45,7 @@ export function Controller(config?: string | ControllerConfig): unknown {
 
       await instance.register(
         async (instance) => {
-          controllerInstance = await ControllerTypeStrategies[type](instance, controller, injectablesMap, cacheResult);
+          controllerInstance = ControllerTypeStrategies[type](instance, controller, injectablesMap, cacheResult);
         },
         { prefix: route },
       );

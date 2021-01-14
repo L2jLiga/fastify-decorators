@@ -25,7 +25,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.1.4
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
@@ -34,12 +34,10 @@ jobs:
         run: yarn build
       - name: Run tests on library
         run: yarn test
-        env:
-          CI: true
       - name: Upload unit-tests coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
-          file: coverage/unittests/lcov.info
+          file: coverage/library/lcov.info
           flags: unittests
 
   lint:
@@ -48,7 +46,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
       - name: Use Node.js 12.x
-        uses: actions/setup-node@v2.1.4
+        uses: actions/setup-node@v2
         with:
           node-version: 12.x
       - name: Install dependencies
@@ -69,7 +67,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
       - name: Use Node.js 12.x
-        uses: actions/setup-node@v2.1.4
+        uses: actions/setup-node@v2
         with:
           node-version: 12.x
       - name: Install dependencies
@@ -84,13 +82,11 @@ jobs:
       - name: Run tests on example
         run: yarn test
         working-directory: examples/${{ matrix.example }}
-        env:
-          CI: true
       - name: Upload examples code coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
-          directory: coverage/examples
-          flags: examples
+          directory: coverage/integration
+          flags: integration
 
   ESM-Support:
     runs-on: ubuntu-latest
@@ -99,7 +95,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
       - name: Use Node.js 14.x
-        uses: actions/setup-node@v2.1.4
+        uses: actions/setup-node@v2
         with:
           node-version: 14.x
       - name: Install dependencies
