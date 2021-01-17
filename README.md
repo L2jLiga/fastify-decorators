@@ -1,6 +1,7 @@
 [![Fastify decorators](./assets/logo.png)](https://github.com/L2jLiga/fastify-decorators)
 
 [![npm version](https://badge.fury.io/js/fastify-decorators.svg?colorB=brightgreen)](https://www.npmjs.com/package/fastify-decorators)
+[![Jetbrains plugin version](https://img.shields.io/jetbrains/plugin/v/13801.svg)](https://plugins.jetbrains.com/plugin/13801)
 [![npm](https://img.shields.io/npm/dm/fastify-decorators.svg?colorB=brightgreen)](https://www.npmjs.com/package/fastify-decorators)
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
