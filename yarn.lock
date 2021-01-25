@@ -512,10 +512,10 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
-"@prettier/plugin-xml@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@prettier/plugin-xml/-/plugin-xml-0.12.0.tgz#975522ac9216e66b0f5d240b4b5a8109c423d427"
-  integrity sha512-196oXlmim2SiqeG1jQO5aS/nChI85DvyfIQTBkOiVHHev2j15x4TVxOMGAWHkqdlD8pmCg/KmX8SfFIyT2L7tA==
+"@prettier/plugin-xml@^0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@prettier/plugin-xml/-/plugin-xml-0.13.0.tgz#0927ab554668de0a9c6c5d15c5f94a9346c79a01"
+  integrity sha512-kjC8ZoqrNdSGyUfGS0KGxmA2YxI/mpO2bQtOsg8663DISyfvkN/1LoR8nO+0BaAKkGWhP2rzgk6rqiSEQz8vQw==
   dependencies:
     "@xml-tools/parser" "^1.0.2"
     prettier ">=1.10"
