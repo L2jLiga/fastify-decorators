@@ -1,5 +1,6 @@
 {
-  "name": "@fastify-decorators/esm",
+  "private": true,
+  "name": "@fastify-decorators-examples/esm",
   "version": "1.0.0",
   "description": "Example of using fastify-decorators with ESM",
   "type": "module",
@@ -12,16 +13,15 @@
     "test": "cross-env TS_NODE_PROJECT=tsconfig.spec.json mocha"
   },
   "dependencies": {
-    "fastify": "^3.9.2",
-    "fastify-decorators": "file:../../dist/fastify-decorators",
+    "fastify": "^3.11.0",
+    "fastify-decorators": "^3.8.0",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@types/mocha": "^8.2.0",
-    "@types/node": "^12.19.13",
+    "@types/node": "^12.19.16",
     "cross-env": "^7.0.3",
-    "mocha": "^8.2.1",
+    "mocha": "^8.3.0",
     "ts-node": "^9.1.1",
-    "typescript": "^4.1.3"
+    "typescript": "^4.1.5"
   }
 }

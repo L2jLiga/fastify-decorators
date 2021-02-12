@@ -12,5 +12,6 @@
     "lib": ["es2018"],
     "esModuleInterop": true
   },
-  "files": ["index.ts", "testing/index.ts"]
+  "files": ["index.ts", "testing/index.ts"],
+  "exclude": ["node_modules"]
 }

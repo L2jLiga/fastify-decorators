@@ -22,7 +22,18 @@
     "./testing": {
       "import": "./testing/index.js",
       "require": "./testing/index.cjs"
+    },
+    "./plugins": {
+      "import": "./plugins/index.js",
+      "require": "./plugins/index.cjs"
     }
+  },
+  "scripts": {
+    "build": "rollup -c rollup-config.js && tsc -p tsconfig.lib.json && yarn downlevel",
+    "prebuild": "rimraf ../dist/",
+    "postbuild": "cp -r ./package.json ../README.md ../CHANGELOG.md ../LICENSE ../docs ../dist/fastify-decorators && node ../patch-readme.cjs",
+    "downlevel": "downlevel-dts ../dist/fastify-decorators ../dist/fastify-decorators/ts3.4",
+    "test": "jest --config jest.config.cjs"
   },
   "repository": {
     "type": "git",
@@ -64,6 +75,7 @@
     "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)",
     "Tobias Mühl (https://github.com/tobiasmuehl)",
     "Муравьёв Семён <s01@ngs.ru> (https://github.com/Zulcom)",
-    "Mihai Voicescu <mihaivo@intern.pch> (https://github.com/mihai1voicescu)"
+    "Mihai Voicescu <mihaivo@intern.pch> (https://github.com/mihai1voicescu)",
+    "Mati Kärner <mati.karner@gmail.com>"
   ]
 }
