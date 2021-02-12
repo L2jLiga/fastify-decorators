@@ -10,7 +10,14 @@ module.exports = {
     },
   },
   resolver: 'jest-ts-webcompat-resolver',
-  collectCoverageFrom: ['lib/**/*.ts', '!lib/**/*.mock.ts', '!lib/**/*.test.ts', '!lib/**/*.spec.ts'],
+  collectCoverageFrom: [
+    'lib/**/*.ts',
+    '!lib/plugins/*.ts',
+    '!lib/**/*.mock.ts',
+    '!lib/**/*.test.ts',
+    '!lib/**/*.spec.ts',
+    '!**/.rollup.cache/**',
+  ],
   moduleNameMapper: {
     '^fastify-decorators$': '<rootDir>/lib/index.ts',
     '^fastify-decorators/(.*)$': '<rootDir>/lib/$1',

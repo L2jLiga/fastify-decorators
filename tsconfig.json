@@ -1,10 +1,8 @@
 {
   "compilerOptions": {
-    /* Basic Options */
-    "target": "es2018" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019' or 'ESNEXT'. */,
-    "module": "commonjs" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */,
-    "moduleResolution": "node" /* Specifies module resolution strategy: 'node' (Node) or 'classic' (TypeScript pre 1.6). */,
-
+    "target": "es2018",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
       "fastify-decorators": ["dist/fastify-decorators"],
@@ -12,11 +10,23 @@
     }
   },
   "references": [
-    {
-      "path": "./lib/tsconfig.lib.json"
-    },
-    {
-      "path": "./lib/tsconfig.spec.json"
-    }
-  ]
+    { "path": "lib/tsconfig.lib.json" },
+    { "path": "lib/tsconfig.spec.json" },
+    { "path": "examples/controllers/tsconfig.app.json" },
+    { "path": "examples/controllers/tsconfig.spec.json" },
+    { "path": "examples/esm/tsconfig.app.json" },
+    { "path": "examples/esm/tsconfig.spec.json" },
+    { "path": "examples/request-handlers/tsconfig.app.json" },
+    { "path": "examples/request-handlers/tsconfig.spec.json" },
+    { "path": "examples/swagger/tsconfig.app.json" },
+    { "path": "examples/swagger/tsconfig.spec.json" },
+    { "path": "examples/typeorm/tsconfig.app.json" },
+    { "path": "examples/typeorm/tsconfig.spec.json" },
+    { "path": "plugins/sequelize/tsconfig.lib.json" },
+    { "path": "plugins/sequelize/tsconfig.spec.json" },
+    { "path": "plugins/typeorm/tsconfig.lib.json" },
+    { "path": "plugins/typeorm/tsconfig.spec.json" }
+  ],
+  "exclude": ["node_modules", "dist"],
+  "files": []
 }

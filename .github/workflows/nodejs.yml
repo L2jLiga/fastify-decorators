@@ -29,90 +29,32 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lock-file
-      - name: Build project
-        run: yarn build
-      - name: Run tests on library
-        run: yarn test
-      - name: Upload unit-tests coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          file: coverage/library/lcov.info
-          flags: unittests
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v2
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v2
-        with:
-          node-version: 12.x
-      - name: Install dependencies
-        run: yarn install --frozen-lock-file
+        run: yarn install --frozen-lock-file --ignore-engines
       - name: Check licenses
         run: yarn license-checker
       - name: Lint project
         run: yarn lint
-
-  Examples:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        example: [controllers, request-handlers, swagger, typeorm]
-
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v2
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v2
-        with:
-          node-version: 12.x
-      - name: Install dependencies
-        run: yarn install --frozen-lock-file
-      - name: Build library
+      - name: Build projects
         run: yarn build
-      - name: Build '${{ matrix.example }}'
-        run: |
-          yarn install
-          yarn build
-        working-directory: examples/${{ matrix.example }}
-      - name: Run tests on example
+      - name: Run library tests (with ESM)
+        if: ${{ matrix.node-version == '14.x' || matrix.node-version == '15.x' }}
         run: yarn test
-        working-directory: examples/${{ matrix.example }}
+      - name: Run library tests (without ESM)
+        if: ${{ matrix.node-version != '14.x' && matrix.node-version != '15.x' }}
+        run: yarn test --ignore @fastify-decorators-examples/esm
+      - name: Upload unit-tests coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          directory: coverage/library
+          flags: unittests
       - name: Upload examples code coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
           directory: coverage/integration
           flags: integration
 
-  ESM-Support:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v2
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14.x
-      - name: Install dependencies
-        run: yarn install --frozen-lock-file
-      - name: Build library
-        run: yarn build
-      - name: Build ESM example
-        run: |
-          yarn install
-          yarn build
-        working-directory: examples/esm
-      - name: Run tests on example
-        run: yarn test
-        working-directory: examples/esm
-
   automerge:
-    needs: [lint, build, Examples, ESM-Support]
+    needs: build
     runs-on: ubuntu-latest
     if: ${{ github.actor == 'dependabot[bot]' }}
     steps:

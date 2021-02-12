@@ -1,6 +1,7 @@
 import { strictEqual } from 'assert';
 import { FastifyInstance } from 'fastify';
 import { configureControllerTest } from 'fastify-decorators/testing';
+import { beforeEach, describe, it } from 'mocha';
 import ConstructorController from '../../src/dependency-injection/constructor.controller.js';
 import GetInstanceByTokenController from '../../src/dependency-injection/get-instance-by-token.controller.js';
 import InjectController from '../../src/dependency-injection/inject.controller.js';

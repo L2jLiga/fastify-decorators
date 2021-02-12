@@ -1,4 +1,5 @@
 import { strictEqual } from 'assert';
+import { describe, it } from 'mocha';
 import { app } from '../../src/app.js';
 import { ErrorType } from '../../src/error-handling/error-type.js';
 

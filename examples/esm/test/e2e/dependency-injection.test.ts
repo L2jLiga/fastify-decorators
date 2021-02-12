@@ -1,4 +1,5 @@
 import { strictEqual } from 'assert';
+import { describe, it } from 'mocha';
 import { app } from '../../src/app.js';
 
 describe('Controllers dependency injection tests', () => {

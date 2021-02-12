@@ -3,13 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "yarn rollup -c rollup.js && tsc -p lib/tsconfig.lib.json && yarn downlevel",
-    "prebuild": "rimraf dist/",
-    "postbuild": "cp -r ./lib/package.json ./README.md ./CHANGELOG.md ./LICENSE docs ./dist/fastify-decorators && node patch-readme.cjs",
-    "downlevel": "downlevel-dts ./dist/fastify-decorators ./dist/fastify-decorators/ts3.4",
+    "build": "lerna run build",
     "lint": "eslint .",
-    "test": "jest --config lib/jest.config.cjs",
+    "test": "lerna run test",
     "license-checker": "license-checker --production --onlyAllow=\"MIT;ISC;BSD-3-Clause;BSD-2-Clause\" --excludePrivatePackages",
+    "install": "lerna bootstrap",
     "postinstall": "husky install"
   },
   "directories": {
@@ -33,7 +31,7 @@
     "@prettier/plugin-xml": "^0.13.0",
     "@rollup/plugin-typescript": "^8.1.1",
     "@types/jest": "^26.0.20",
-    "@types/node": "~10.17.50",
+    "@types/node": "~10.17.51",
     "@typescript-eslint/eslint-plugin": "^4.15.0",
     "@typescript-eslint/parser": "^4.15.0",
     "downlevel-dts": "^0.7.0",
@@ -46,6 +44,7 @@
     "jest-environment-node": "^26.6.2",
     "jest-resolve": "^26.6.2",
     "jest-ts-webcompat-resolver": "^1.0.0",
+    "lerna": "^4.0.0",
     "license-checker": "^25.0.1",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
@@ -59,5 +58,10 @@
   "engines": {
     "node": ">= 10.16.0",
     "yarn": "^1.0.0"
-  }
+  },
+  "workspaces": [
+    "lib",
+    "examples/*",
+    "plugins/*"
+  ]
 }

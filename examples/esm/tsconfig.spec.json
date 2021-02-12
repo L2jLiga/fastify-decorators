@@ -1,9 +1,16 @@
 {
   "extends": "./tsconfig.base.json",
+  "include": ["test/**/*.ts"],
+  "compilerOptions": {
+    "typeRoots": ["node_modules/@types", "__types__"],
+    "composite": true
+  },
   "references": [
+    {
+      "path": "../../lib/tsconfig.lib.json"
+    },
     {
       "path": "./tsconfig.app.json"
     }
-  ],
-  "include": ["test/**/*.ts"]
+  ]
 }
