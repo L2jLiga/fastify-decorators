@@ -21,7 +21,7 @@ export function ensureHandlers(val: { [HANDLERS]?: IHandler[] }): asserts val is
   }
 }
 
-export function hasHandlers<T>(val: T): val is T & { [HANDLERS]: IHandler[] } {
+export function hasHandlers<Constructor>(val: Constructor): val is Constructor & { [HANDLERS]: IHandler[] } {
   return HANDLERS in val;
 }
 

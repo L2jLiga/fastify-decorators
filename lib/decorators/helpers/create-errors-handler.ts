@@ -10,13 +10,13 @@ import { IErrorHandler } from '../../interfaces/controller.js';
 
 export function createErrorsHandler(
   errorHandlers: IErrorHandler[],
-  classInstance: any,
+  classInstance: Record<string, (error: Error, request: FastifyRequest, reply: FastifyReply) => void>,
 ): (error: Error, request: FastifyRequest, reply: FastifyReply) => Promise<void> {
   return async function errorHandler(error: Error, request: FastifyRequest, reply: FastifyReply): Promise<void> {
     for (const handler of errorHandlers) {
       if (handler.accepts(error)) {
         try {
-          await classInstance[handler.handlerName](error, request, reply);
+          await classInstance[handler.handlerName as string](error, request, reply);
           return;
         } catch (e) {
           error = e;

@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
+import { InjectableService } from '../interfaces/injectable-class.js';
 import { injectables } from '../registry/injectables.js';
 import { CREATOR, INITIALIZER, INJECTABLES } from '../symbols/index.js';
 import { createWithInjectedDependencies } from './helpers/inject-dependencies.js';
@@ -16,22 +17,22 @@ import { createWithInjectedDependencies } from './helpers/inject-dependencies.js
 export function Service(): ClassDecorator;
 export function Service(injectableToken: string | symbol): ClassDecorator;
 export function Service(injectableToken?: string | symbol): unknown {
-  return (target: any) => {
+  return (target: InjectableService) => {
     let instance: unknown;
 
     injectables.set(target, target);
     if (injectableToken) injectables.set(injectableToken, target);
     target[CREATOR] = {
-      register(injectablesMap = injectables, cacheResult = true) {
+      register<Type>(injectablesMap = injectables, cacheResult = true): Type {
         target[INJECTABLES] = injectablesMap;
         target.prototype[INJECTABLES] = injectablesMap;
 
-        if (instance && cacheResult) return instance;
-        instance = createWithInjectedDependencies(target, injectablesMap, cacheResult);
+        if (instance && cacheResult) return instance as Type;
+        instance = createWithInjectedDependencies<Type>(target, injectablesMap, cacheResult);
 
-        if (target[INITIALIZER]) target[INITIALIZER](instance);
+        target[INITIALIZER]?.(instance);
 
-        return instance;
+        return instance as Type;
       },
     };
   };

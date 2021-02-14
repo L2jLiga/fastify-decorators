@@ -59,7 +59,6 @@ describe('Controller: User', () => {
         region: 'Msk',
       },
     });
-    const body = response.json();
 
     deepStrictEqual(response.json(), { username: 'David' });
   });

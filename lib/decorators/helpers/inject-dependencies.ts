@@ -39,7 +39,8 @@ function injectProperties(target: unknown, injectables: Injectables, cacheResult
       throw new TypeError(`Invalid argument provided for "${className}.${String(propertyKey)}". Expected class annotated with @Service.`);
 
     Object.defineProperty(target, propertyKey, {
-      value: injectables.get(name)![CREATOR].register(injectables, cacheResult),
+      // @ts-expect-error checked above
+      value: injectables.get(name)[CREATOR].register(injectables, cacheResult),
       enumerable: true,
       configurable: true,
     });

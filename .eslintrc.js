@@ -27,5 +27,6 @@ module.exports = {
     semi: 'off',
     '@typescript-eslint/semi': ['error'],
     'max-len': ['error', 160, 2, { ignoreUrls: true, ignoreComments: true, ignoreRegExpLiterals: true, ignoreStrings: true, ignoreTemplateLiterals: true }],
+    'jest/expect-expect': 'off',
   },
 };

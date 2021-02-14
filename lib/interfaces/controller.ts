@@ -23,6 +23,6 @@ export interface IErrorHandler {
 }
 
 export interface IHook {
-  name: any;
+  name: string;
   handlerName: string | symbol;
 }

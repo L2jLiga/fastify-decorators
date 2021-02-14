@@ -6,13 +6,13 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fastify';
+import { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback, FastifyPluginOptions } from 'fastify';
 
 export type Plugins = Array<
   | FastifyPluginAsync<any>
   | FastifyPluginCallback<any>
-  | [plugin: FastifyPluginAsync<any>, options?: Record<any, any>]
-  | [plugin: FastifyPluginCallback<any>, options?: Record<any, any>]
+  | [plugin: FastifyPluginAsync<any>, options?: FastifyPluginOptions]
+  | [plugin: FastifyPluginCallback<any>, options?: FastifyPluginOptions]
 >;
 
 export function loadPlugins(instance: FastifyInstance, plugins?: Plugins): void {

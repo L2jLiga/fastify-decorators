@@ -27,6 +27,7 @@
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/plugins/sequelize/dist" />
       <excludeFolder url="file://$MODULE_DIR$/examples/esm/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/.rollup.cache" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

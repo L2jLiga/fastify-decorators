@@ -6,19 +6,19 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { FastifyInstance, FastifyRequest } from 'fastify';
+import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import type { IErrorHandler, IHandler, IHook, InjectableController } from '../../interfaces/index.js';
-import { Injectables } from '../../interfaces/injectable-class.js';
+import type { Injectables } from '../../interfaces/injectable-class.js';
 import { ControllerType } from '../../registry/controller-type.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import { hasErrorHandlers, hasHandlers, hasHooks } from '../helpers/class-properties.js';
 import { createErrorsHandler } from '../helpers/create-errors-handler.js';
 import { createWithInjectedDependencies } from '../helpers/inject-dependencies.js';
 
-const controllersCache = new WeakMap<FastifyRequest, any>();
+const controllersCache = new WeakMap<FastifyRequest, unknown>();
 
 function targetFactory(constructor: InjectableController, injectablesMap: Injectables, cacheResult: boolean) {
-  return function getTarget(request: FastifyRequest): any {
+  return function getTarget(request: FastifyRequest) {
     if (controllersCache.has(request)) return controllersCache.get(request);
     const target = createWithInjectedDependencies(constructor, injectablesMap, cacheResult);
     controllersCache.set(request, target);
@@ -71,25 +71,37 @@ export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory>
 
     if (hasHooks(constructor))
       constructor[HOOKS].forEach((hook) =>
-        instance.addHook(hook.name, (request: FastifyRequest, ...rest: unknown[]) => {
+        instance.addHook(hook.name as 'onRequest', (request: FastifyRequest, ...rest: unknown[]) => {
           return getTarget(request)[hook.handlerName](request, ...rest);
         }),
       );
   },
 };
 
-function registerHandlers(handlers: IHandler[], instance: FastifyInstance, controllerInstance: any): void {
+function registerHandlers(
+  handlers: IHandler[],
+  instance: FastifyInstance,
+  controllerInstance: Record<string, (request: FastifyRequest, reply: FastifyReply) => void>,
+): void {
   handlers.forEach((handler) => {
-    instance[handler.method](handler.url, handler.options, controllerInstance[handler.handlerMethod].bind(controllerInstance));
+    instance[handler.method](handler.url, handler.options, controllerInstance[handler.handlerMethod as string].bind(controllerInstance));
   });
 }
 
-function registerHooks(hooks: IHook[], instance: FastifyInstance, controllerInstance: any): void {
+function registerHooks(
+  hooks: IHook[],
+  instance: FastifyInstance,
+  controllerInstance: Record<string, (request: FastifyRequest, reply: FastifyReply) => void>,
+): void {
   hooks.forEach((hook) => {
-    instance.addHook(hook.name, controllerInstance[hook.handlerName].bind(controllerInstance));
+    instance.addHook(hook.name as 'onRequest', controllerInstance[hook.handlerName as string].bind(controllerInstance));
   });
 }
 
-function registerErrorHandlers(errorHandlers: IErrorHandler[], instance: FastifyInstance, classInstance: any) {
+function registerErrorHandlers(
+  errorHandlers: IErrorHandler[],
+  instance: FastifyInstance,
+  classInstance: Record<string, (error: Error, request: FastifyRequest, reply: FastifyReply) => void>,
+) {
   instance.setErrorHandler(createErrorsHandler(errorHandlers, classInstance));
 }

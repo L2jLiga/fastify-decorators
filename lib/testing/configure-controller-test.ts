@@ -24,7 +24,7 @@ declare namespace Reflect {
   function getMetadata(metadataKey: 'design:paramtypes', target: unknown): ServiceInjection['name'][] | undefined;
 }
 
-export interface ControllerTestConfig<C = any> {
+export interface ControllerTestConfig<C> {
   controller: C;
   mocks?: ServiceMock[];
   plugins?: Plugins;

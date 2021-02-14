@@ -22,7 +22,8 @@ export interface EntitySchema {
 
 export function entityMetadataMapper(instance: FastifyInstance, model: typeof Model): EntitySchema {
   const definitionId = `/models/${model.getTableName()}`;
-  if (instance.getSchema(definitionId)) return registeredSchemas.get(model)!;
+  // @ts-expect-error if definition exists in FastifyInstance then we have it in map
+  if (instance.getSchema(definitionId)) return registeredSchemas.get(model);
 
   const properties: Record<string, JSONSchema7Extended> = {};
 
@@ -89,7 +90,7 @@ function columnMetadataMapper(columnMetadata: ModelAttributeColumnOptions): JSON
   const isNullable = columnMetadata.allowNull ?? false;
   const comment = columnMetadata.comment;
   const values = columnMetadata.values;
-  const defaultValue = columnMetadata.defaultValue as any;
+  const defaultValue = columnMetadata.defaultValue as JSONSchema7Extended['default'];
   const isGenerated = columnMetadata.autoIncrement || columnMetadata.autoIncrementIdentity || typeof defaultValue === 'function';
   const maxLength = columnMetadata.validate?.max;
 

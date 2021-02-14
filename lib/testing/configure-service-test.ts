@@ -46,7 +46,11 @@ export function configureServiceTest<Service>(config: ServiceTestConfig<Service>
   return new Proxy(instance, {
     get<T>(target: T, p: keyof T | 'then' | 'catch' | 'finally') {
       if (p === 'then' || p === 'catch' || p === 'finally') {
-        if (promise == null) promise = hasAsyncInitializer(service) ? readyMap.get(service)!.then(() => target) : Promise.resolve(target);
+        if (promise == null)
+          promise = hasAsyncInitializer(service)
+            ? // @ts-expect-error if service has async initializer then it exists in readyMap
+              readyMap.get(service).then(() => target)
+            : Promise.resolve(target);
 
         return promise[p as 'then' | 'catch' | 'finally'].bind(promise);
       }
