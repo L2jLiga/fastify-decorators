@@ -3,8 +3,11 @@ bail: false
 timeout: 10000
 enable-source-maps: true
 v8-stack-trace-limit: 100
+reporter:
+  - html
+  - mocha-github-actions-reporter
 extension:
-  - 'ts'
+  - ts
 # Enable experimental TS ESM loader
 loader:
   - ts-node/esm

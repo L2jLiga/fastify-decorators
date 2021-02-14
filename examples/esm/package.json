@@ -21,6 +21,7 @@
     "@types/node": "^12.19.16",
     "cross-env": "^7.0.3",
     "mocha": "^8.3.0",
+    "mocha-github-actions-reporter": "^0.2.3",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.5"
   }

@@ -61,6 +61,9 @@
     "node": ">= 10.16.0",
     "yarn": "^1.0.0"
   },
+  "resolutions": {
+    "mocha": "^8.3.0"
+  },
   "workspaces": [
     "lib",
     "examples/*",
