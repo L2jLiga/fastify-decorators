@@ -9,9 +9,9 @@
       <sourceFolder url="file://$MODULE_DIR$/examples/typeorm/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/examples/controllers/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/examples/request-handlers/test" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/examples/typescript-3.4/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/plugins/typeorm/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/examples/esm/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/plugins/sequelize/test" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.nyc_output" />
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/coverage" />
@@ -22,7 +22,6 @@
       <excludeFolder url="file://$MODULE_DIR$/examples/swagger/dist" />
       <excludeFolder url="file://$MODULE_DIR$/examples/typeorm/db" />
       <excludeFolder url="file://$MODULE_DIR$/examples/typeorm/dist" />
-      <excludeFolder url="file://$MODULE_DIR$/examples/typescript-3.4/dist" />
       <excludeFolder url="file://$MODULE_DIR$/plugins/typeorm/dist" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />

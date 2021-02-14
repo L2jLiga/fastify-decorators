@@ -86,7 +86,7 @@ function* findModules(path: string, filter: RegExp): Iterable<string> {
 /* istanbul ignore next */
 async function loadModule(module: string): Promise<InjectableController> {
   if (typeof require !== 'undefined') {
-    /* eslint-disable @typescript-eslint/no-var-requires */
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     return require(module).__esModule ? require(module).default : require(module);
   }
 
@@ -95,10 +95,6 @@ async function loadModule(module: string): Promise<InjectableController> {
 
 function useGracefulShutdown(fastify: FastifyInstance): void {
   fastify.addHook('onClose', () =>
-    Promise.all(
-      [...servicesWithDestructors].map(([Service, property]) =>
-        getInstanceByToken<typeof Service>(Service)[property](),
-      ),
-    ),
+    Promise.all([...servicesWithDestructors].map(([Service, property]) => getInstanceByToken<typeof Service>(Service)[property]())),
   );
 }

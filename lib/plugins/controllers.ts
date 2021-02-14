@@ -40,11 +40,9 @@ export function decorateController(
 
       decorateFn(target, instance, injectablesMap);
 
-      await instance.register(
-        async (instance) =>
-          ControllerTypeStrategies[ControllerType.SINGLETON](instance, target, injectablesMap, cacheResult),
-        { prefix: route },
-      );
+      await instance.register(async (instance) => ControllerTypeStrategies[ControllerType.SINGLETON](instance, target, injectablesMap, cacheResult), {
+        prefix: route,
+      });
     };
   };
 }

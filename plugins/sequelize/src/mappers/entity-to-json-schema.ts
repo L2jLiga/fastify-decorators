@@ -6,10 +6,10 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { FastifyInstance } from 'fastify';
-import { JSONSchema7TypeName } from 'json-schema';
-import { DataType, Model, ModelAttributeColumnOptions, ModelCtor } from 'sequelize';
-import { JSONSchema7Extended } from '../types/json-schema';
+import type { FastifyInstance } from 'fastify';
+import type { JSONSchema7TypeName } from 'json-schema';
+import type { DataType, Model, ModelAttributeColumnOptions, ModelCtor } from 'sequelize';
+import type { JSONSchema7Extended } from '../types/json-schema.js';
 
 const registeredSchemas = new Map<typeof Model, EntitySchema>();
 
@@ -90,8 +90,7 @@ function columnMetadataMapper(columnMetadata: ModelAttributeColumnOptions): JSON
   const comment = columnMetadata.comment;
   const values = columnMetadata.values;
   const defaultValue = columnMetadata.defaultValue as any;
-  const isGenerated =
-    columnMetadata.autoIncrement || columnMetadata.autoIncrementIdentity || typeof defaultValue === 'function';
+  const isGenerated = columnMetadata.autoIncrement || columnMetadata.autoIncrementIdentity || typeof defaultValue === 'function';
   const maxLength = columnMetadata.validate?.max;
 
   const { type, format } = columnTypeMapper(columnMetadata.type);

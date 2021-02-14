@@ -1,11 +1,9 @@
 import type { RouteShorthandOptions } from 'fastify';
-import { IErrorHandler, IHook } from '../../interfaces/controller.js';
-import { ControllerType } from '../../registry/controller-type.js';
-import { CREATOR, ERROR_HANDLERS, HOOKS } from '../../symbols/index.js';
+import { IHook } from '../../interfaces/controller.js';
+import { CREATOR, HOOKS } from '../../symbols/index.js';
 import { ErrorHandler } from '../error-handler.js';
 import { Hook } from '../hook.js';
 import { GET } from '../request-handlers.js';
-import { ControllerTypeStrategies } from '../strategies/controller-type.js';
 import { requestDecoratorsFactory } from './request-decorators.factory.js';
 
 describe('Factory: request decorators', () => {
@@ -50,11 +48,7 @@ describe('Factory: request decorators', () => {
     // @ts-expect-error created implicitly by decorate
     Handler[CREATOR].register(instance);
 
-    expect(instance.get).toHaveBeenCalledWith(
-      '/url',
-      <RouteShorthandOptions>{ schema: { body: { type: 'string' } } },
-      expect.any(Function),
-    );
+    expect(instance.get).toHaveBeenCalledWith('/url', <RouteShorthandOptions>{ schema: { body: { type: 'string' } } }, expect.any(Function));
   });
 
   it('should parse route config', () => {
@@ -71,11 +65,7 @@ describe('Factory: request decorators', () => {
     // @ts-expect-error created implicitly by decorate
     Handler[CREATOR].register(instance);
 
-    expect(instance.get).toHaveBeenCalledWith(
-      '/url',
-      <RouteShorthandOptions>{ schema: { body: { type: 'string' } } },
-      expect.any(Function),
-    );
+    expect(instance.get).toHaveBeenCalledWith('/url', <RouteShorthandOptions>{ schema: { body: { type: 'string' } } }, expect.any(Function));
   });
 
   describe('hooks support', () => {

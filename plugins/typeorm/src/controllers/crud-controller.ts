@@ -7,15 +7,13 @@
  */
 
 import { addHandler, decorateController } from 'fastify-decorators/plugins';
-import { Connection } from 'typeorm';
-import { entityMetadataMapper } from '../mappers/entity-to-json-schema';
-import { crudHandlersConfiguration, crudHandlersFactory } from './crud-handlers-factory';
+import type { Connection, ObjectType } from 'typeorm';
+import { entityMetadataMapper } from '../mappers/entity-to-json-schema.js';
+import { crudHandlersConfiguration, crudHandlersFactory } from './crud-handlers-factory.js';
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export function CrudController<Entity extends Function>(entity: Entity, route = `/${entity.name}`): ClassDecorator {
+export function CrudController<Entity>(entity: ObjectType<Entity>, route = `/${entity.name}`): ClassDecorator {
   return decorateController(route, (target, instance) => {
-    if (!instance.hasDecorator('connection'))
-      throw new Error('"connection" not found, did you decorate FastifyInstance with it?');
+    if (!instance.hasDecorator('connection')) throw new Error('"connection" not found, did you decorate FastifyInstance with it?');
     // @ts-expect-error we just checked it above
     const connection = instance.connection as Connection;
 

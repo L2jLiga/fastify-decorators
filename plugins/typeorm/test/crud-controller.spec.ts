@@ -62,12 +62,36 @@ describe('Decorators: CrudController', () => {
               readOnly: false,
               writeOnly: false,
               nullable: false,
-              _options: {
-                generated: false,
-                hidden: false,
-              },
+              _options: { generated: false, hidden: false },
             },
           },
+        },
+        query: {
+          properties: {
+            $or: { items: { $ref: '#/definitions/query' }, type: 'array' },
+            field: {
+              properties: {
+                $between: { items: [{ type: 'string' }, { type: 'string' }], type: 'array' },
+                $eq: { type: 'string' },
+                $gt: { type: 'string' },
+                $gte: { type: 'string' },
+                $ilike: { type: 'string' },
+                $in: { items: { type: 'string' }, type: 'array' },
+                $like: { type: 'string' },
+                $lt: { type: 'string' },
+                $lte: { type: 'string' },
+                $nbetween: { items: [{ type: 'string' }, { type: 'string' }], type: 'array' },
+                $neq: { type: 'string' },
+                $nilike: { type: 'string' },
+                $nin: { items: { type: 'string' }, type: 'array' },
+                $nlike: { type: 'string' },
+                $nregex: { type: 'string' },
+                $regex: { type: 'string' },
+              },
+              type: ['string', 'number', 'object'],
+            },
+          },
+          type: 'object',
         },
       },
     });
@@ -84,15 +108,58 @@ describe('Decorators: CrudController', () => {
               readOnly: false,
               writeOnly: false,
               nullable: false,
-              _options: {
-                generated: false,
-                hidden: false,
+              _options: { generated: false, hidden: false },
+            },
+            sub: { oneOf: [{ $ref: '/models/EntitySubImpl#/definitions/entity' }, { type: 'null' }] },
+          },
+        },
+        query: {
+          properties: {
+            $or: { items: { $ref: '#/definitions/query' }, type: 'array' },
+            field: {
+              properties: {
+                $between: { items: [{ type: 'string' }, { type: 'string' }], type: 'array' },
+                $eq: { type: 'string' },
+                $gt: { type: 'string' },
+                $gte: { type: 'string' },
+                $ilike: { type: 'string' },
+                $in: { items: { type: 'string' }, type: 'array' },
+                $like: { type: 'string' },
+                $lt: { type: 'string' },
+                $lte: { type: 'string' },
+                $nbetween: { items: [{ type: 'string' }, { type: 'string' }], type: 'array' },
+                $neq: { type: 'string' },
+                $nilike: { type: 'string' },
+                $nin: { items: { type: 'string' }, type: 'array' },
+                $nlike: { type: 'string' },
+                $nregex: { type: 'string' },
+                $regex: { type: 'string' },
               },
+              type: ['string', 'number', 'object'],
             },
             sub: {
-              oneOf: [{ $ref: '/models/EntitySubImpl#/definitions/entity' }, { type: 'null' }],
+              properties: {
+                $between: { items: [{ type: ['number', 'string'] }, { type: ['number', 'string'] }], type: 'array' },
+                $eq: { type: ['number', 'string'] },
+                $gt: { type: ['number', 'string'] },
+                $gte: { type: ['number', 'string'] },
+                $ilike: { type: 'string' },
+                $in: { items: { type: ['number', 'string'] }, type: 'array' },
+                $like: { type: 'string' },
+                $lt: { type: ['number', 'string'] },
+                $lte: { type: ['number', 'string'] },
+                $nbetween: { items: [{ type: ['number', 'string'] }, { type: ['number', 'string'] }], type: 'array' },
+                $neq: { type: ['number', 'string'] },
+                $nilike: { type: 'string' },
+                $nin: { items: { type: ['number', 'string'] }, type: 'array' },
+                $nlike: { type: 'string' },
+                $nregex: { type: 'string' },
+                $regex: { type: 'string' },
+              },
+              type: ['string', 'number', 'object'],
             },
           },
+          type: 'object',
         },
       },
     });
@@ -125,13 +192,6 @@ describe('Decorators: CrudController', () => {
     const response = await app.inject('/');
 
     expect(response.statusCode).toBe(200);
-    expect(response.json()).toEqual(<EntityImpl[]>[
-      {
-        field: 'parent',
-        sub: {
-          field: 'joined',
-        },
-      },
-    ]);
+    expect(response.json()).toEqual(<EntityImpl[]>[{ field: 'parent', sub: { field: 'joined' } }]);
   });
 });

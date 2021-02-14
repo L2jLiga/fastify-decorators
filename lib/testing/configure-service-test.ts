@@ -28,10 +28,7 @@ export interface ServiceTestConfig<Service> {
  * @param config with service and mocks
  * @returns configured service & promise which resolves when async initializer done (if it exists, otherwise resolved)
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
-export function configureServiceTest<Service extends object>(
-  config: ServiceTestConfig<Service>,
-): Promise<Service> & Service {
+export function configureServiceTest<Service>(config: ServiceTestConfig<Service>): Promise<Service> & Service {
   const service: Constructor<Service> = config.service;
   const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
   if (!injectablesWithMocks.has(FastifyInstanceToken)) {
@@ -45,11 +42,11 @@ export function configureServiceTest<Service extends object>(
 
   let promise: Promise<unknown> | null = null;
 
+  // @ts-expect-error TS doesn't know that we have class instance here
   return new Proxy(instance, {
     get<T>(target: T, p: keyof T | 'then' | 'catch' | 'finally') {
       if (p === 'then' || p === 'catch' || p === 'finally') {
-        if (promise == null)
-          promise = hasAsyncInitializer(service) ? readyMap.get(service)!.then(() => target) : Promise.resolve(target);
+        if (promise == null) promise = hasAsyncInitializer(service) ? readyMap.get(service)!.then(() => target) : Promise.resolve(target);
 
         return promise[p as 'then' | 'catch' | 'finally'].bind(promise);
       }

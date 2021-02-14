@@ -32,9 +32,7 @@ export interface ControllerTestConfig<C = any> {
 
 export type FastifyInstanceWithController<C> = FastifyInstance & Pick<ControllerTestConfig<C>, 'controller'>;
 
-export async function configureControllerTest<C>(
-  config: ControllerTestConfig<Constructor<C>>,
-): Promise<FastifyInstanceWithController<C>> {
+export async function configureControllerTest<C>(config: ControllerTestConfig<Constructor<C>>): Promise<FastifyInstanceWithController<C>> {
   const instance = fastify();
   loadPlugins(instance, config.plugins);
 

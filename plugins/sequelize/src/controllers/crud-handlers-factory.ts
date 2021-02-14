@@ -6,11 +6,11 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { Model } from 'sequelize';
-import { EntitySchema } from '../mappers/entity-to-json-schema';
-import { IHandler } from 'fastify-decorators/plugins';
-import { FastifyReply, FastifyRequest } from 'fastify';
-import { modifiableProperties } from '../mappers/schema-properties';
+import type { Model } from 'sequelize';
+import type { EntitySchema } from '../mappers/entity-to-json-schema';
+import type { IHandler } from 'fastify-decorators/plugins';
+import type { FastifyReply, FastifyRequest } from 'fastify';
+import { modifiableProperties } from '../mappers/schema-properties.js';
 
 export function crudHandlersFactory(entitySchema: EntitySchema): PropertyDescriptorMap {
   return {

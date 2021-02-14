@@ -6,4 +6,5 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-export * from './controllers/crud-controller';
+export * from './controllers/crud-controller.js';
+export * from './controllers/entity-controller.js';

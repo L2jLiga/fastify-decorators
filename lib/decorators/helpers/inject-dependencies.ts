@@ -22,11 +22,7 @@ declare namespace Reflect {
   function getMetadata(metadataKey: 'design:paramtypes', target: unknown): ServiceInjection['name'][] | undefined;
 }
 
-export function createWithInjectedDependencies<C>(
-  constructor: Constructor<C>,
-  injectables: Injectables,
-  cacheResult: boolean,
-): C {
+export function createWithInjectedDependencies<C>(constructor: Constructor<C>, injectables: Injectables, cacheResult: boolean): C {
   if (typeof Reflect.getMetadata !== 'function') return new constructor();
 
   injectProperties(constructor, injectables, cacheResult, constructor.name);
@@ -40,9 +36,7 @@ function injectProperties(target: unknown, injectables: Injectables, cacheResult
   const viaInject = target[SERVICE_INJECTION];
   for (const { name, propertyKey } of viaInject) {
     if (!injectables.has(name))
-      throw new TypeError(
-        `Invalid argument provided for "${className}.${String(propertyKey)}". Expected class annotated with @Service.`,
-      );
+      throw new TypeError(`Invalid argument provided for "${className}.${String(propertyKey)}". Expected class annotated with @Service.`);
 
     Object.defineProperty(target, propertyKey, {
       value: injectables.get(name)![CREATOR].register(injectables, cacheResult),
@@ -52,19 +46,12 @@ function injectProperties(target: unknown, injectables: Injectables, cacheResult
   }
 }
 
-function getArguments<C>(
-  constructor: Constructor<C>,
-  injectables: Injectables,
-  cacheResult: boolean,
-  className: string,
-) {
+function getArguments<C>(constructor: Constructor<C>, injectables: Injectables, cacheResult: boolean, className: string) {
   const metadata = Reflect.getMetadata('design:paramtypes', constructor) || [];
   return metadata
     .map((value) => injectables.get(value))
     .map((value: InjectableService | undefined) => {
       if (value) return value[CREATOR].register(injectables, cacheResult);
-      throw new TypeError(
-        `Invalid argument provided in ${className}'s constructor. Expected class annotated with @Service.`,
-      );
+      throw new TypeError(`Invalid argument provided in ${className}'s constructor. Expected class annotated with @Service.`);
     });
 }

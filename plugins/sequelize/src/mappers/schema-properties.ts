@@ -6,12 +6,9 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { JSONSchema7Extended } from '../types/json-schema';
+import type { JSONSchema7Extended } from '../types/json-schema';
 
-export function modifiableProperties(
-  schemaId: string,
-  properties: Record<string, JSONSchema7Extended>,
-): Record<string, JSONSchema7Extended> {
+export function modifiableProperties(schemaId: string, properties: Record<string, JSONSchema7Extended>): Record<string, JSONSchema7Extended> {
   return Object.keys(properties)
     .filter((key) => !properties[key]._options?.hidden && !properties[key].readOnly)
     .reduce(

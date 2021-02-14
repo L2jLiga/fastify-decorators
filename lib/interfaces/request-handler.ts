@@ -46,15 +46,6 @@ export abstract class RequestHandler<
 }
 
 export interface RequestHook {
-  name:
-    | 'onRequest'
-    | 'preParsing'
-    | 'preValidation'
-    | 'preHandler'
-    | 'preSerialization'
-    | 'onSend'
-    | 'onResponse'
-    | 'onTimeout'
-    | 'onError';
+  name: 'onRequest' | 'preParsing' | 'preValidation' | 'preHandler' | 'preSerialization' | 'onSend' | 'onResponse' | 'onTimeout' | 'onError';
   handlerName: string | symbol;
 }

@@ -26,5 +26,6 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': ['error', { 'ts-expect-error': 'allow-with-description' }],
     semi: 'off',
     '@typescript-eslint/semi': ['error'],
+    'max-len': ['error', 160, 2, { ignoreUrls: true, ignoreComments: true, ignoreRegExpLiterals: true, ignoreStrings: true, ignoreTemplateLiterals: true }],
   },
 };

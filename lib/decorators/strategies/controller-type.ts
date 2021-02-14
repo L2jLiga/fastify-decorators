@@ -26,12 +26,7 @@ function targetFactory(constructor: InjectableController, injectablesMap: Inject
   };
 }
 
-type ControllerFactory = (
-  instance: FastifyInstance,
-  constructor: InjectableController,
-  injectablesMap: Injectables,
-  cacheResult: boolean,
-) => unknown;
+type ControllerFactory = (instance: FastifyInstance, constructor: InjectableController, injectablesMap: Injectables, cacheResult: boolean) => unknown;
 
 /**
  * Various strategies which can be applied to controller
@@ -85,11 +80,7 @@ export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory>
 
 function registerHandlers(handlers: IHandler[], instance: FastifyInstance, controllerInstance: any): void {
   handlers.forEach((handler) => {
-    instance[handler.method](
-      handler.url,
-      handler.options,
-      controllerInstance[handler.handlerMethod].bind(controllerInstance),
-    );
+    instance[handler.method](handler.url, handler.options, controllerInstance[handler.handlerMethod].bind(controllerInstance));
   });
 }
 

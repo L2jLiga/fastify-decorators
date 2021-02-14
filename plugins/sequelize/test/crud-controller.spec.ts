@@ -12,7 +12,7 @@ describe('Decorators: CrudController', () => {
   }
 
   beforeEach(async () => {
-    sequelize = new Sequelize('sqlite:memory.db:');
+    sequelize = new Sequelize('sqlite:memory.db:', { logging: false });
     await sequelize.authenticate();
     User.init<User>(
       {

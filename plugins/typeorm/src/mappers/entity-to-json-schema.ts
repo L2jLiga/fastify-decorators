@@ -6,10 +6,11 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { ColumnType, EntityMetadata, ObjectLiteral, Repository } from 'typeorm';
-import { FastifyInstance } from 'fastify';
-import { JSONSchema7Extended } from '../types/json-schema';
-import { JSONSchema7TypeName } from 'json-schema';
+import type { FastifyInstance } from 'fastify';
+import type { JSONSchema7TypeName } from 'json-schema';
+import type { ColumnType, EntityMetadata, ObjectLiteral, Repository } from 'typeorm';
+import type { JSONSchema7Extended } from '../types/json-schema.js';
+import { entitySchemaToQueryProperties } from './entity-schema-to-query-properties.js';
 
 const registeredSchemas = new Map<EntityMetadata, EntitySchema>();
 
@@ -18,12 +19,14 @@ export interface EntitySchema {
   primaryKey: string;
   properties: Record<string, JSONSchema7Extended>;
   repository: Repository<ObjectLiteral>;
+
   save(value: ObjectLiteral): Promise<ObjectLiteral>;
 }
 
 export function entityMetadataMapper(instance: FastifyInstance, metadata: EntityMetadata): EntitySchema {
   const definitionId = `/models/${metadata.name}`;
-  if (instance.getSchema(definitionId)) return registeredSchemas.get(metadata)!;
+  // @ts-expect-error if we have schema registered in FastifyInstance then we should have it in Map
+  if (instance.getSchema(definitionId)) return registeredSchemas.get(metadata);
 
   const properties: Record<string, JSONSchema7Extended> = {};
 
@@ -32,6 +35,7 @@ export function entityMetadataMapper(instance: FastifyInstance, metadata: Entity
   const entitySchema = {
     definitionId,
     primaryKey: '',
+    fields: [],
     properties,
     repository: metadata.connection.getRepository(metadata.target),
     async save(value: ObjectLiteral) {
@@ -64,6 +68,10 @@ export function entityMetadataMapper(instance: FastifyInstance, metadata: Entity
       entity: {
         type: 'object',
         properties,
+      },
+      query: {
+        type: 'object',
+        properties: entitySchemaToQueryProperties(properties),
       },
     },
   });

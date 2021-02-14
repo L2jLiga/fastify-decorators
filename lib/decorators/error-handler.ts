@@ -21,9 +21,7 @@ export function ErrorHandler<T extends ErrorConstructor>(parameter?: T | string)
     if (parameter == null) {
       constructor[ERROR_HANDLERS].push(handlerFactory(() => true, handlerName));
     } else if (typeof parameter === 'string') {
-      constructor[ERROR_HANDLERS].push(
-        handlerFactory((error?: ErrorWithCode) => error?.code === parameter, handlerName),
-      );
+      constructor[ERROR_HANDLERS].push(handlerFactory((error?: ErrorWithCode) => error?.code === parameter, handlerName));
     } else {
       constructor[ERROR_HANDLERS].push(handlerFactory((error?: Error) => error instanceof parameter, handlerName));
     }

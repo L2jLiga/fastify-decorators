@@ -7,15 +7,13 @@
  */
 
 import { addHandler, decorateController } from 'fastify-decorators/plugins';
-import { Model } from 'sequelize';
-import { entityMetadataMapper } from '../mappers/entity-to-json-schema';
-import { crudHandlersConfiguration, crudHandlersFactory } from './crud-handlers-factory';
+import type { Model } from 'sequelize';
+import { entityMetadataMapper } from '../mappers/entity-to-json-schema.js';
+import { crudHandlersConfiguration, crudHandlersFactory } from './crud-handlers-factory.js';
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function CrudController<Entity extends typeof Model>(entity: Entity, route = `/${entity.name}`): ClassDecorator {
   return decorateController(route, (target, instance) => {
-    if (!instance.hasDecorator('sequelize'))
-      throw new Error('"sequelize" not found, did you decorate FastifyInstance with it?');
+    if (!instance.hasDecorator('sequelize')) throw new Error('"sequelize" not found, did you decorate FastifyInstance with it?');
 
     const entitySchema = entityMetadataMapper(instance, entity);
 

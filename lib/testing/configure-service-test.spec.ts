@@ -173,13 +173,10 @@ describe('Testing: configure service test', () => {
             .finally(() => reject()),
         ));
 
-      it('should support finally', () =>
-        new Promise<void>((resolve) => configureServiceTest({ service: AsyncService }).finally(() => resolve())));
+      it('should support finally', () => new Promise<void>((resolve) => configureServiceTest({ service: AsyncService }).finally(() => resolve())));
 
       it('should not fail with services without initializer', () =>
-        new Promise<void>((resolve) =>
-          configureServiceTest({ service: ServiceWithoutDependencies }).finally(() => resolve()),
-        ));
+        new Promise<void>((resolve) => configureServiceTest({ service: ServiceWithoutDependencies }).finally(() => resolve())));
     });
   });
 });

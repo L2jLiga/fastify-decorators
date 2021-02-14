@@ -25,9 +25,7 @@ export function hasHandlers<T>(val: T): val is T & { [HANDLERS]: IHandler[] } {
   return HANDLERS in val;
 }
 
-export function ensureErrorHandlers(val: {
-  [ERROR_HANDLERS]?: IErrorHandler[];
-}): asserts val is { [ERROR_HANDLERS]: IErrorHandler[] } {
+export function ensureErrorHandlers(val: { [ERROR_HANDLERS]?: IErrorHandler[] }): asserts val is { [ERROR_HANDLERS]: IErrorHandler[] } {
   if (!(ERROR_HANDLERS in val)) {
     Reflect.defineProperty(val, ERROR_HANDLERS, {
       value: [],
@@ -57,9 +55,7 @@ export function hasHooks<T>(val: T): val is T & { [HOOKS]: IHook[] } {
   return HOOKS in val;
 }
 
-export function ensureServiceInjection(val: {
-  [SERVICE_INJECTION]?: ServiceInjection[];
-}): asserts val is { [SERVICE_INJECTION]: ServiceInjection[] } {
+export function ensureServiceInjection(val: { [SERVICE_INJECTION]?: ServiceInjection[] }): asserts val is { [SERVICE_INJECTION]: ServiceInjection[] } {
   if (!(SERVICE_INJECTION in val)) {
     Reflect.defineProperty(val, SERVICE_INJECTION, {
       value: [],

@@ -37,14 +37,8 @@ function getTarget(Target: any, request: FastifyRequest, ...rest: unknown[]): an
 
 export function requestDecoratorsFactory(
   method: HttpMethods,
-): (
-  routeOrConfig?: string | RouteConfig,
-  options?: RouteShorthandOptions,
-) => (target: any, propKey?: string | symbol) => void {
-  return function (
-    routeOrConfig?: string | RouteConfig,
-    options?: RouteShorthandOptions,
-  ): (target: any, propKey?: string | symbol) => void {
+): (routeOrConfig?: string | RouteConfig, options?: RouteShorthandOptions) => (target: any, propKey?: string | symbol) => void {
+  return function (routeOrConfig?: string | RouteConfig, options?: RouteShorthandOptions): (target: any, propKey?: string | symbol) => void {
     const config = parseConfig(routeOrConfig, options);
 
     return function (target: any, propKey?: string | symbol): void {
@@ -83,12 +77,7 @@ export function requestDecoratorsFactory(
   };
 }
 
-export function controllerMethodDecoratorsFactory(
-  method: HttpMethods,
-  config: ParsedRouteConfig,
-  { constructor }: any,
-  propKey: string | symbol,
-): void {
+export function controllerMethodDecoratorsFactory(method: HttpMethods, config: ParsedRouteConfig, { constructor }: any, propKey: string | symbol): void {
   ensureHandlers(constructor);
 
   constructor[HANDLERS].push({

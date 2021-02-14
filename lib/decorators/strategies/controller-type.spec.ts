@@ -53,7 +53,7 @@ describe('Strategies: controller types', () => {
       class Controller {
         static [ERROR_HANDLERS]: IErrorHandler[] = [
           {
-            accepts<T extends Error>(): boolean {
+            accepts(): boolean {
               return true;
             },
             handlerName: 'test',
@@ -149,7 +149,7 @@ describe('Strategies: controller types', () => {
       class Controller {
         static [ERROR_HANDLERS]: IErrorHandler[] = [
           {
-            accepts<T extends Error>(): boolean {
+            accepts(): boolean {
               return true;
             },
             handlerName: 'test',

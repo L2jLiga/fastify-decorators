@@ -14,7 +14,8 @@
     "sequelize": "^6.5.0"
   },
   "peerDependencies": {
-    "fastify": "^3.11.0"
+    "fastify": "^3.11.0",
+    "typescript": ">= 3.8.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
@@ -33,5 +34,8 @@
     "sqlite3": "5.0.0",
     "ts-jest": "^26.5.1",
     "typescript": "^4.1.5"
+  },
+  "engines": {
+    "node": "^12 || >= 14"
   }
 }

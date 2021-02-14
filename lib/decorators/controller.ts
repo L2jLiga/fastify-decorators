@@ -33,11 +33,7 @@ export function Controller(config?: string | ControllerConfig): unknown {
 
     injectControllerOptions(controller);
 
-    controller[CREATOR].register = async (
-      instance: FastifyInstance,
-      injectablesMap = injectables,
-      cacheResult = true,
-    ) => {
+    controller[CREATOR].register = async (instance: FastifyInstance, injectablesMap = injectables, cacheResult = true) => {
       controller[INJECTABLES] = injectablesMap;
       controller.prototype[INJECTABLES] = injectablesMap;
 
