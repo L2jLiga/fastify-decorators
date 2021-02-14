@@ -25,10 +25,6 @@ jobs:
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v1
-        with:
-          languages: javascript
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -43,8 +39,6 @@ jobs:
         uses: github/codeql-action/upload-sarif@v1
         with:
           sarif_file: eslint.sarif
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v1
       - name: Build projects (with ESM)
         if: ${{ matrix.node-version == '12.x' || matrix.node-version == '14.x' || matrix.node-version == '15.x' }}
         run: yarn build
@@ -68,8 +62,28 @@ jobs:
           directory: coverage/integration
           flags: integration
 
+  CodeQL-Analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: javascript
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2
+      - name: Install dependencies
+        run: yarn install --frozen-lock-file --ignore-engines
+      - name: Build projects (with ESM)
+        if: ${{ matrix.node-version == '12.x' || matrix.node-version == '14.x' || matrix.node-version == '15.x' }}
+        run: yarn build
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
+
   automerge:
-    needs: build
+    needs: [build, CodeQL-Analysis]
     runs-on: ubuntu-latest
     if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
