@@ -48,9 +48,13 @@ jobs:
       - name: Run library tests (with ESM)
         if: ${{ matrix.node-version == '14.x' || matrix.node-version == '15.x' }}
         run: yarn test
+        env:
+          CI: true
       - name: Run library tests (without ESM)
         if: ${{ matrix.node-version != '14.x' && matrix.node-version != '15.x' }}
         run: yarn test --ignore @fastify-decorators-examples/esm --ignore @fastify-decorators/typeorm --ignore @fastify-decorators/sequelize
+        env:
+          CI: true
       - name: Upload unit-tests coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
