@@ -34,14 +34,18 @@ jobs:
         run: yarn license-checker
       - name: Lint project
         run: yarn lint
-      - name: Build projects
+      - name: Build projects (with ESM)
+        if: ${{ matrix.node-version == '12.x' || matrix.node-version == '14.x' || matrix.node-version == '15.x' }}
         run: yarn build
+      - name: Build projects (without ESM)
+        if: ${{ matrix.node-version == '10.16' }}
+        run: yarn build --ignore @fastify-decorators-examples/esm --ignore @fastify-decorators/typeorm --ignore @fastify-decorators/sequelize
       - name: Run library tests (with ESM)
         if: ${{ matrix.node-version == '14.x' || matrix.node-version == '15.x' }}
         run: yarn test
       - name: Run library tests (without ESM)
         if: ${{ matrix.node-version != '14.x' && matrix.node-version != '15.x' }}
-        run: yarn test --ignore @fastify-decorators-examples/esm
+        run: yarn test --ignore @fastify-decorators-examples/esm --ignore @fastify-decorators/typeorm --ignore @fastify-decorators/sequelize
       - name: Upload unit-tests coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
