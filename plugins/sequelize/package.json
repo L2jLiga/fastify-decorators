@@ -1,12 +1,25 @@
 {
   "name": "@fastify-decorators/sequelize",
-  "description": "fastify-decorators plugin to work with Sequelize",
   "version": "0.0.1",
+  "description": "fastify-decorators plugin to work with Sequelize",
   "license": "MIT",
+  "type": "module",
+  "module": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "typings": "dist/src/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.lib.json",
     "test": "jest -c jest.config.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/L2jLiga/fastify-decorators.git",
+    "directory": "plugins/sequelize"
+  },
+  "author": "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)",
+  "maintainers": [
+    "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)"
+  ],
   "dependencies": {
     "@types/json-schema": "^7.0.7",
     "@types/validator": "^13.1.3",
