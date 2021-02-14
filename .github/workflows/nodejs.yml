@@ -17,6 +17,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         node-version: [10.16, 12.x, 14.x, 15.x]
@@ -24,6 +25,10 @@ jobs:
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: javascript
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -43,6 +48,8 @@ jobs:
       - name: Run library tests (with ESM)
         if: ${{ matrix.node-version == '14.x' || matrix.node-version == '15.x' }}
         run: yarn test
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
       - name: Run library tests (without ESM)
         if: ${{ matrix.node-version != '14.x' && matrix.node-version != '15.x' }}
         run: yarn test --ignore @fastify-decorators-examples/esm --ignore @fastify-decorators/typeorm --ignore @fastify-decorators/sequelize
