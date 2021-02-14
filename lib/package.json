@@ -30,7 +30,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/L2jLiga/fastify-decorators.git"
+    "url": "git+https://github.com/L2jLiga/fastify-decorators.git",
+    "directory": "lib"
   },
   "keywords": [
     "fastify",
