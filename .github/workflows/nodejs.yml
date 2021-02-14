@@ -38,7 +38,13 @@ jobs:
       - name: Check licenses
         run: yarn license-checker
       - name: Lint project
-        run: yarn lint
+        run: yarn lint -f @microsoft/eslint-formatter-sarif -o eslint.sarif
+      - name: Upload linter SARIF file
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: eslint.sarif
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
       - name: Build projects (with ESM)
         if: ${{ matrix.node-version == '12.x' || matrix.node-version == '14.x' || matrix.node-version == '15.x' }}
         run: yarn build
@@ -48,8 +54,6 @@ jobs:
       - name: Run library tests (with ESM)
         if: ${{ matrix.node-version == '14.x' || matrix.node-version == '15.x' }}
         run: yarn test
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v1
       - name: Run library tests (without ESM)
         if: ${{ matrix.node-version != '14.x' && matrix.node-version != '15.x' }}
         run: yarn test --ignore @fastify-decorators-examples/esm --ignore @fastify-decorators/typeorm --ignore @fastify-decorators/sequelize

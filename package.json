@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@betit/rollup-plugin-rename-extensions": "^0.1.0",
+    "@microsoft/eslint-formatter-sarif": "^2.1.5",
     "@prettier/plugin-xml": "^0.13.0",
     "@rollup/plugin-typescript": "^8.1.1",
     "@types/jest": "^26.0.20",
