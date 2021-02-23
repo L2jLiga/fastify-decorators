@@ -15,13 +15,7 @@ module.exports = {
     project: './tsconfig.eslint.json',
   },
   plugins: ['@typescript-eslint', 'jest'],
-  extends: [
-    'eslint:recommended',
-    'plugin:jest/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'prettier/@typescript-eslint',
-    'plugin:prettier/recommended',
-  ],
+  extends: ['eslint:recommended', 'plugin:jest/recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
   rules: {
     '@typescript-eslint/ban-ts-comment': ['error', { 'ts-expect-error': 'allow-with-description' }],
     semi: 'off',

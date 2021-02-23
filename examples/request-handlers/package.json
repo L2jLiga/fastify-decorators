@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "fastify": "^3.11.0",
+    "fastify": "^3.12.0",
     "fastify-decorators": "^3.8.0"
   },
   "devDependencies": {
