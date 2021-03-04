@@ -3587,9 +3587,9 @@ fastify-static@^4.0.0:
     send "^0.17.1"
 
 fastify-swagger@^4.3.1:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/fastify-swagger/-/fastify-swagger-4.3.2.tgz#94e0cc7134c1eb16b9c7d94542f46327ddb4786a"
-  integrity sha512-GdnLsgIwLyaG+10w9XvfdpepZQOnnkHpWqizBYldLBELtNx+txVgVWBf1RnzLgEACthG1fSq7/sR/8M+SG33Mw==
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/fastify-swagger/-/fastify-swagger-4.3.3.tgz#b3674861abe5d95119f111e16012b71ee41ae05f"
+  integrity sha512-RNC5QsNhFbuektfDPeNN7ghGGf48nHINnGgXeF619hEuCoM7rAgDCMfp9dXI7YOf97Z4lQ57gtqbM45Fn/BEnQ==
   dependencies:
     fastify-plugin "^3.0.0"
     fastify-static "^4.0.0"
