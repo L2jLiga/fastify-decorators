@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "fastify": "^3.13.0",
-    "fastify-decorators": "^3.8.0",
+    "fastify-decorators": "^3.9.0",
     "fastify-oas": "^3.0.8",
     "reflect-metadata": "^0.1.13",
     "sql.js": "^1.4.0",
