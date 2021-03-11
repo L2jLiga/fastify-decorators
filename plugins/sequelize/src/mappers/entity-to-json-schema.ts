@@ -52,7 +52,7 @@ export function entityMetadataMapper(instance: FastifyInstance, model: typeof Mo
 
   instance.addSchema({
     $id: definitionId,
-    $schema: 'http://json-schema.org/draft-07/schema#',
+    $schema: 'http://json-schema.org/schema#',
     definitions: {
       entity: {
         type: 'object',
