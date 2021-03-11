@@ -43,7 +43,7 @@ describe('Decorators: CrudController', () => {
 
     expect(schemas['/models/users']).toEqual({
       $id: '/models/users',
-      $schema: 'https://json-schema.org/draft-07/schema#',
+      $schema: 'http://json-schema.org/draft-07/schema#',
       definitions: {
         entity: {
           type: 'object',

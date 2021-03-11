@@ -51,7 +51,7 @@ describe('Decorators: CrudController', () => {
 
     expect(schemas['/models/EntitySubImpl']).toEqual({
       $id: '/models/EntitySubImpl',
-      $schema: 'https://json-schema.org/draft-07/schema#',
+      $schema: 'http://json-schema.org/draft-07/schema#',
       definitions: {
         entity: {
           type: 'object',
@@ -97,7 +97,7 @@ describe('Decorators: CrudController', () => {
     });
     expect(schemas['/models/EntityImpl']).toEqual({
       $id: '/models/EntityImpl',
-      $schema: 'https://json-schema.org/draft-07/schema#',
+      $schema: 'http://json-schema.org/draft-07/schema#',
       definitions: {
         entity: {
           type: 'object',
