@@ -231,8 +231,7 @@ describe('Service: AuthService', () => {
   it(`should reply with 'ok' if authorization success`, async () => {
     rolesService.isTechnical.and.returnValue(true);
     rolesService.isAdmin.and.returnValue(false);
-    const bearer =
-      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6W119.0Dd6yUeJ4UbCr8WyXOiK3BhqVVwJFk5c53ipJBWenmc';
+    const bearer = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6W119.0Dd6yUeJ4UbCr8WyXOiK3BhqVVwJFk5c53ipJBWenmc';
 
     const result = service.hasSufficientRole(bearer);
 
@@ -271,8 +270,7 @@ describe('Service: AuthService', () => {
   it(`should reply with 'ok' if authorization success`, async () => {
     rolesService.isTechnical.and.returnValue(true);
     rolesService.isAdmin.and.returnValue(false);
-    const bearer =
-      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6W119.0Dd6yUeJ4UbCr8WyXOiK3BhqVVwJFk5c53ipJBWenmc';
+    const bearer = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6W119.0Dd6yUeJ4UbCr8WyXOiK3BhqVVwJFk5c53ipJBWenmc';
 
     const result = service.hasSufficientRole(bearer);
 
@@ -331,5 +329,5 @@ describe('Application: authorization', () => {
 });
 ```
 
-[`reflect-metadata`]: http://npmjs.com/package/reflect-metadata
+[`reflect-metadata`]: https://npmjs.com/package/reflect-metadata
 [`jest.environment.cjs`]: ../jest.environment.cjs
