@@ -84,26 +84,3 @@ jobs:
         run: yarn build
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
-
-  automerge:
-    needs: [build, CodeQL-Analysis]
-    runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' }}
-    steps:
-      - name: Dependabot Auto Merge
-        uses: actions/github-script@v3
-        with:
-          github-token: ${{secrets.github_token}}
-          script: |
-            github.pulls.createReview({
-              owner: context.payload.repository.owner.login,
-              repo: context.payload.repository.name,
-              pull_number: context.payload.pull_request.number,
-              event: 'APPROVE'
-            })
-            github.pulls.merge({
-              owner: context.payload.repository.owner.login,
-              repo: context.payload.repository.name,
-              pull_number: context.payload.pull_request.number,
-              merge_method: 'rebase'
-            })
