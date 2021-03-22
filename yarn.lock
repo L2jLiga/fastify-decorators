@@ -5870,9 +5870,9 @@ mocha-github-actions-reporter@^0.2.3:
     "@actions/core" "1.2.6"
 
 mocha@^5.2.0, mocha@^8.3.0, mocha@^8.3.1:
-  version "8.3.1"
-  resolved "https://registry.yarnpkg.com/mocha/-/mocha-8.3.1.tgz#b9eda6da1eb8cb8d29860a9c2205de5b8a076560"
-  integrity sha512-5SBMxANWqOv5bw3Hx+HVgaWlcWcFEQDUdaUAr1AUU+qwtx6cowhn7gEDT/DwQP7uYxnvShdUOVLbTYAHOEGfDQ==
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/mocha/-/mocha-8.3.2.tgz#53406f195fa86fbdebe71f8b1c6fb23221d69fcc"
+  integrity sha512-UdmISwr/5w+uXLPKspgoV7/RXZwKRTiTjJ2/AC5ZiEztIoOYdfKb19+9jNmEInzx5pBsCyJQzarAxqIGBNYJhg==
   dependencies:
     "@ungap/promise-all-settled" "1.1.2"
     ansi-colors "4.1.1"
@@ -7472,9 +7472,9 @@ sequelize-pool@^6.0.0:
   integrity sha512-4YwEw3ZgK/tY/so+GfnSgXkdwIJJ1I32uZJztIEgZeAO6HMgj64OzySbWLgxj+tXhZCJnzRfkY9gINw8Ft8ZMg==
 
 sequelize@^6.5.0:
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-6.5.0.tgz#c968a03f6fbbcda40717f73edb39fadf27b85e96"
-  integrity sha512-owBt8fnzVy8E1OvyCyfCdVk7OOLyPVrBCMEf+CvRReC5oCyo+UqeXCtwaex9L6LM9ifZ1i3TG3sFeM5MgLK0CQ==
+  version "6.6.1"
+  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-6.6.1.tgz#57579e06b167287150e0e372e51787e6862d5a93"
+  integrity sha512-dhu25X8L084YyQ9E7iTvleb+g7t9THeI13PV1tKERNCax1W0+sObtSQw0fphMiAr/BeAP2kELyY33s4Bh5tA4Q==
   dependencies:
     debug "^4.1.1"
     dottie "^2.0.0"
