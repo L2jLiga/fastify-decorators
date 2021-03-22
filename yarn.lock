@@ -7819,9 +7819,9 @@ sprintf-js@~1.0.2:
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
 
 sql.js@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/sql.js/-/sql.js-1.4.0.tgz#f6987c3c5e5b3d329034cc7d7f81940f89835db1"
-  integrity sha512-lm9x8M6O1kXjSieP/Z8Zayh+ksHN78TYX7pSh0UR1GjSVx5Kp1r+bo+l4s44rcpb0002i25f+QC4FYtfqr3lYQ==
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/sql.js/-/sql.js-1.5.0.tgz#6625c3e41115194f6bfab80a5e53647f1378c3fb"
+  integrity sha512-Qqr6HgX/hCDpLFWdN0BNoNpYQ2c1tOl1c3HGI0cshjaFSAWszKICuLZ9CyFUvRFPpEGW8RzHzwuXWWvXVGTKBg==
 
 sqlite3@^5.0.2:
   version "5.0.2"
