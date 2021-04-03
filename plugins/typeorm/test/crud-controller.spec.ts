@@ -1,4 +1,5 @@
 import fastify from 'fastify';
+import * as fs from 'fs';
 import { join } from 'path';
 import { Connection, createConnection, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { CrudController } from '../src/controllers/crud-controller';
@@ -23,6 +24,7 @@ describe('Decorators: CrudController', () => {
   }
 
   beforeEach(async () => {
+    if (fs.existsSync(join(__dirname, 'database.db'))) fs.unlinkSync(join(__dirname, 'database.db'));
     connection = await createConnection({
       type: 'sqljs',
       autoSave: true,
