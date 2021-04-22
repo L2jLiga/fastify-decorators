@@ -84,3 +84,13 @@ jobs:
         run: yarn build
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
+
+  automerge:
+    name: 'Merge Dependabot updates'
+    if: github.event_name == 'pull_request'
+    needs: [build, CodeQL-Analysis]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: fastify/github-action-merge-dependabot@v2.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
