@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [10.16, 12.x, 14.x, 15.x]
+        node-version: [10.16, 12.x, 14.x, 15.x, 16.x]
 
     steps:
       - name: Checkout branch
