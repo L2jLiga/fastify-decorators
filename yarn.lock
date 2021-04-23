@@ -1429,9 +1429,9 @@
     picomatch "^2.2.2"
 
 "@sinclair/typebox@^0.16.1":
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.16.1.tgz#1534198931db61e5c630106909a02743376bef10"
-  integrity sha512-M2e35t7IKJYlIIvLAHYeAHAubdW5Dlb4v6lpeH630G7ebWv5nfJKQoCOMku7OngfScN936Z9y0ZD1r4NhRVWHQ==
+  version "0.16.5"
+  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.16.5.tgz#c5fea69bb29f1b2a72e4d87851d8b2461b47994f"
+  integrity sha512-0AZ9wqPcyq0ekH5yLoTelu183C7G4K0vy5ROOZl4A4KBOk1TcGk00iOmz5PhTjWQ9Bq7wAPfGclVsn7MTHzbTg==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.2"
@@ -7352,9 +7352,9 @@ rollup-pluginutils@^2.8.2:
     estree-walker "^0.6.1"
 
 rollup@^2.44.0:
-  version "2.44.0"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.44.0.tgz#8da324d1c4fd12beef9ae6e12f4068265b6d95eb"
-  integrity sha512-rGSF4pLwvuaH/x4nAS+zP6UNn5YUDWf/TeEU5IoXSZKBbKRNTCI3qMnYXKZgrC0D2KzS2baiOZt1OlqhMu5rnQ==
+  version "2.45.2"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.45.2.tgz#8fb85917c9f35605720e92328f3ccbfba6f78b48"
+  integrity sha512-kRRU7wXzFHUzBIv0GfoFFIN3m9oteY4uAsKllIpQDId5cfnkWF2J130l+27dzDju0E6MScKiV0ZM5Bw8m4blYQ==
   optionalDependencies:
     fsevents "~2.3.1"
 
