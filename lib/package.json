@@ -1,6 +1,6 @@
 {
   "name": "fastify-decorators",
-  "version": "3.9.0",
+  "version": "3.9.1",
   "description": "Framework aimed to provide useful TypeScript decorators to implement controllers, services and request handlers, built with Fastify.",
   "type": "module",
   "main": "index.cjs",
