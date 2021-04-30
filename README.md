@@ -25,11 +25,10 @@
 ## Documentation
 
 - [Getting started](#getting-started)
+- [Bootstrapping]
 - [Controllers]
 - [Request Handlers]
 - [Services and dependency injection]
-- [Hooks]
-- [Error handling]
 - [Testing]
 - [Migration guide (V3)]
 
@@ -257,7 +256,5 @@ This project licensed under [MIT License]
 [controllers]: ./docs/Controllers.md
 [request handlers]: ./docs/Request%20Handlers.md
 [services and dependency injection]: ./docs/Services%20and%20dependency%20injection.md
-[hooks]: ./docs/Hooks.md
-[error handling]: ./docs/Error%20handling.md
 [testing]: ./docs/Testing.md
 [migration guide (v3)]: ./docs/Migration%20to%20v3.md
