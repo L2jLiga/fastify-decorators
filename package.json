@@ -48,7 +48,7 @@
     "jest-ts-webcompat-resolver": "^1.0.0",
     "lerna": "^4.0.0",
     "license-checker": "^25.0.1",
-    "lint-staged": "^10.5.4",
+    "lint-staged": "^11.0.0",
     "prettier": "^2.2.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
