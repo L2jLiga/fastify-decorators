@@ -27,8 +27,13 @@ export abstract class RequestHandler<
   RawRequest extends RawRequestDefaultExpression<RawServer> = RawRequestDefaultExpression<RawServer>,
   RawReply extends RawReplyDefaultExpression<RawServer> = RawReplyDefaultExpression<RawServer>,
   RequestGeneric extends RequestGenericInterface = RequestGenericInterface,
-  ContextConfig = ContextConfigDefault
+  ContextConfig = ContextConfigDefault,
 > {
+  /**
+   * Static method to register handler by autoloader (bootstrap)
+   */
+  static readonly [CREATOR]: { register: (instance: FastifyInstance) => void };
+
   protected constructor(
     protected request: FastifyRequest<RequestGeneric, RawServer, RawRequest>,
     protected reply: FastifyReply<RawServer, RawRequest, RawReply, RequestGeneric, ContextConfig>,
@@ -38,11 +43,6 @@ export abstract class RequestHandler<
    * Main method for request handling
    */
   abstract handle(): void | Promise<unknown>;
-
-  /**
-   * Static method to register handler by autoloader (bootstrap)
-   */
-  static readonly [CREATOR]: { register: (instance: FastifyInstance) => void };
 }
 
 export interface RequestHook {

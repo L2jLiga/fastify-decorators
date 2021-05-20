@@ -8,7 +8,7 @@
     "test": "lerna run test",
     "license-checker": "license-checker --production --onlyAllow=\"MIT;ISC;BSD-3-Clause;BSD-2-Clause\" --excludePrivatePackages",
     "install": "lerna bootstrap",
-    "postinstall": "husky install"
+    "prepare": "husky install"
   },
   "directories": {
     "doc": "./docs",
@@ -23,7 +23,7 @@
   "license": "MIT",
   "type": "commonjs",
   "dependencies": {
-    "fastify": "^3.14.1",
+    "fastify": "^3.15.1",
     "fastify-plugin": "^3.0.0"
   },
   "devDependencies": {
@@ -31,15 +31,15 @@
     "@microsoft/eslint-formatter-sarif": "^2.1.5",
     "@prettier/plugin-xml": "^0.13.1",
     "@rollup/plugin-typescript": "^8.2.1",
-    "@types/jest": "^26.0.22",
-    "@types/node": "~10.17.56",
-    "@typescript-eslint/eslint-plugin": "^4.20.0",
-    "@typescript-eslint/parser": "^4.20.0",
+    "@types/jest": "^26.0.23",
+    "@types/node": "~10.17.60",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
     "downlevel-dts": "^0.7.0",
-    "eslint": "^7.23.0",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-jest": "^24.3.3",
-    "eslint-plugin-prettier": "^3.3.1",
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^24.3.6",
+    "eslint-plugin-prettier": "^3.4.0",
     "husky": "^6.0.0",
     "jest": "^26.6.3",
     "jest-environment-node": "^26.6.2",
@@ -49,20 +49,20 @@
     "lerna": "^4.0.0",
     "license-checker": "^25.0.1",
     "lint-staged": "^11.0.0",
-    "prettier": "^2.2.1",
+    "prettier": "^2.3.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rollup": "^2.44.0",
-    "ts-jest": "^26.5.4",
-    "tslib": "^2.1.0",
-    "typescript": "^4.2.3"
+    "rollup": "^2.48.0",
+    "ts-jest": "^26.5.6",
+    "tslib": "^2.2.0",
+    "typescript": "^4.2.4"
   },
   "engines": {
     "node": ">= 10.16.0",
     "yarn": "^1.0.0"
   },
   "resolutions": {
-    "mocha": "^8.3.2"
+    "mocha": "^8.4.0"
   },
   "workspaces": [
     "lib",
