@@ -47,7 +47,7 @@ describe('Decorators: CrudController', () => {
     app.decorate('connection', connection);
 
     // @ts-expect-error implicitly created property
-    Ctrl[Symbol.for('fastify-decorators.creator')].register(app, new Map(), true);
+    Ctrl[Symbol.for('fastify-decorators.creator')].register(app, '', new Map(), true);
 
     const schemas = app.getSchemas();
 
@@ -187,7 +187,7 @@ describe('Decorators: CrudController', () => {
     app.decorate('connection', connection);
 
     // @ts-expect-error implicitly created property
-    Ctrl[Symbol.for('fastify-decorators.creator')].register(app, new Map(), true);
+    Ctrl[Symbol.for('fastify-decorators.creator')].register(app, '', new Map(), true);
 
     await connection.manager.save([entitySub, entity]);
 

@@ -42,7 +42,7 @@ export async function configureControllerTest<C>(config: ControllerTestConfig<Co
   }
 
   const controller = config.controller as InjectableController;
-  const controllerInstance = await controller[CREATOR].register(instance, injectablesWithMocks, false);
+  const controllerInstance = await controller[CREATOR].register(instance, '', injectablesWithMocks, false);
   instance.decorate('controller', controllerInstance);
 
   await Promise.all(

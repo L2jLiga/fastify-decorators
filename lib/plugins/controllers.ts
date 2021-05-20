@@ -34,14 +34,14 @@ export function decorateController(
   return (target) => {
     injectControllerOptions(target);
 
-    target[CREATOR].register = async (instance: FastifyInstance, injectablesMap = injectables, cacheResult = true) => {
+    target[CREATOR].register = async (instance: FastifyInstance, prefix = '', injectablesMap = injectables, cacheResult = true) => {
       target[INJECTABLES] = injectablesMap;
       target.prototype[INJECTABLES] = injectablesMap;
 
       decorateFn(target, instance, injectablesMap);
 
       await instance.register(async (instance) => ControllerTypeStrategies[ControllerType.SINGLETON](instance, target, injectablesMap, cacheResult), {
-        prefix: route,
+        prefix: prefix + route,
       });
     };
   };

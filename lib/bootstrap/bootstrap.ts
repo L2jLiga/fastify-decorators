@@ -32,7 +32,7 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
     if ('directory' in config) (await autoLoadModules(config as AutoLoadConfig)).forEach(controllers.add, controllers);
     if ('controllers' in config) config.controllers.forEach(controllers.add, controllers);
 
-    await loadControllers({ controllers: [...controllers], skipBroken }, fastify);
+    await loadControllers({ controllers: [...controllers], skipBroken, prefix: config.prefix }, fastify);
     await Promise.all(readyMap.values());
 
     if (servicesWithDestructors.size) useGracefulShutdown(fastify);
@@ -56,7 +56,7 @@ function autoLoadModules(config: AutoLoadConfig): Promise<InjectableController[]
 
 function loadController(controller: Constructor<unknown>, fastify: FastifyInstance, config: BootstrapConfig) {
   if (verifyController(controller)) {
-    return controller[CREATOR].register(fastify);
+    return controller[CREATOR].register(fastify, config.prefix);
   } else if (!config.skipBroken) {
     throw new TypeError(`Loaded file is incorrect module and can not be bootstrapped: ${controller}`);
   }

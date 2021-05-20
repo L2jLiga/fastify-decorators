@@ -57,6 +57,18 @@ describe('Bootstrap test', () => {
     expect(res.payload).toBe('{"message":"ok"}');
   });
 
+  it('should apply global prefix for routes', async () => {
+    const instance = fastify();
+    instance.register(bootstrap, {
+      controllers: [SampleControllerMock],
+      prefix: '/api/v1',
+    });
+
+    const res = await instance.inject({ url: '/api/v1/index' });
+
+    expect(res.payload).toBe('{"message":"ok"}');
+  });
+
   it('should throw an error while bootstrap application', async () => {
     const instance = fastify();
     instance.register(bootstrap, {

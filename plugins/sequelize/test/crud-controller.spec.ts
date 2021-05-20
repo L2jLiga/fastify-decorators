@@ -37,7 +37,7 @@ describe('Decorators: CrudController', () => {
     app.decorate('sequelize', sequelize);
 
     // @ts-expect-error implicitly created property
-    Ctrl[Symbol.for('fastify-decorators.creator')].register(app, new Map(), true);
+    Ctrl[Symbol.for('fastify-decorators.creator')].register(app, '', new Map(), true);
 
     const schemas = app.getSchemas();
 
@@ -73,7 +73,7 @@ describe('Decorators: CrudController', () => {
     const user = (await User.create({ name: 'UserName' })) as User & { createdAt: Date; updatedAt: Date };
 
     // @ts-expect-error implicitly created property
-    Ctrl[Symbol.for('fastify-decorators.creator')].register(app, new Map(), true);
+    Ctrl[Symbol.for('fastify-decorators.creator')].register(app, '', new Map(), true);
 
     const response = await app.inject('/');
 

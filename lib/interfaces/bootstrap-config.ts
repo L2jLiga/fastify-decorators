@@ -30,6 +30,11 @@ export interface AutoLoadConfig extends FastifyPluginOptions {
    * @default false
    */
   skipBroken?: boolean;
+
+  /**
+   * Global prefix to be applied for all routes
+   */
+  prefix?: string;
 }
 
 export interface ControllersListConfig extends FastifyPluginOptions {
@@ -44,6 +49,11 @@ export interface ControllersListConfig extends FastifyPluginOptions {
    * @default false
    */
   skipBroken?: boolean;
+
+  /**
+   * Global prefix to be applied for all routes
+   */
+  prefix?: string;
 }
 
 export type BootstrapConfig = AutoLoadConfig | ControllersListConfig;
