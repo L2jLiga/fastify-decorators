@@ -22,7 +22,7 @@
   ],
   "dependencies": {
     "@types/json-schema": "^7.0.7",
-    "fastify-decorators": "^3.9.1",
+    "fastify-decorators": "^3.10.0",
     "typeorm": "^0.2.32"
   },
   "peerDependencies": {
