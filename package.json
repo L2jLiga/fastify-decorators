@@ -23,7 +23,7 @@
   "license": "MIT",
   "type": "commonjs",
   "dependencies": {
-    "fastify": "^3.15.1",
+    "fastify": "^3.16.2",
     "fastify-plugin": "^3.0.0"
   },
   "devDependencies": {
@@ -33,15 +33,15 @@
     "@rollup/plugin-typescript": "^8.2.1",
     "@types/jest": "^26.0.23",
     "@types/node": "~10.17.60",
-    "@typescript-eslint/eslint-plugin": "^4.24.0",
-    "@typescript-eslint/parser": "^4.24.0",
+    "@typescript-eslint/eslint-plugin": "^4.25.0",
+    "@typescript-eslint/parser": "^4.25.0",
     "downlevel-dts": "^0.7.0",
-    "eslint": "^7.26.0",
+    "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^6.0.0",
-    "jest": "^26.6.3",
+    "jest": "^27.0.1",
     "jest-environment-node": "^27.0.1",
     "jest-github-actions-reporter": "^1.0.3",
     "jest-resolve": "^27.0.1",
@@ -52,10 +52,10 @@
     "prettier": "^2.3.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rollup": "^2.48.0",
-    "ts-jest": "^26.5.6",
+    "rollup": "^2.50.2",
+    "ts-jest": "^27.0.1",
     "tslib": "^2.2.0",
-    "typescript": "^4.2.4"
+    "typescript": "^4.3.2"
   },
   "engines": {
     "node": ">= 10.16.0",
