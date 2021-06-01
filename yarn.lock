@@ -3473,9 +3473,9 @@ fastify-warning@^0.2.0:
   integrity sha512-s1EQguBw/9qtc1p/WTY4eq9WMRIACkj+HTcOIK1in4MV5aFaQC9ZCIt0dJ7pr5bIf4lPpHvAtP2ywpTNgs7hqw==
 
 fastify@^3.16.2:
-  version "3.16.2"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.16.2.tgz#be26789fe9bac588bcbd5ae3ff6d1dc06cd53f00"
-  integrity sha512-tdu0fz6wk9AbtD91AbzZGjKgEQLcIy7rT2vEzTUL/zifAMS/L7ViKY9p9k3g3yCRnIQzYzxH2RAbvYZaTbKasw==
+  version "3.17.0"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.17.0.tgz#1194c430ac3f27fc3e332e461f9521f5e4ff977a"
+  integrity sha512-Jjmqsxtnu7827KPNZWNdz2NUuFCQMojnGgflQ4D8RRatC4DAYA+fx3EDxKsbHim3tFFPLT8qig43K2yMNlUzMA==
   dependencies:
     "@fastify/ajv-compiler" "^1.0.0"
     "@fastify/proxy-addr" "^3.0.0"
