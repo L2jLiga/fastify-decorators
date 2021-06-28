@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@sinclair/typebox": "^0.16.7",
+    "@sinclair/typebox": "^0.17.1",
     "fastify": "^3.17.0",
     "fastify-decorators": "^3.10.0",
     "fastify-oas": "^3.0.8"
