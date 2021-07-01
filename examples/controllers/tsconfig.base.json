@@ -3,8 +3,8 @@
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
     /* Basic Options */
-    "target": "es2018",
-    "module": "commonjs",
+    "target": "ES2018",
+    "module": "CommonJS",
     "outDir": "./dist",
     "importHelpers": true,
 
@@ -12,7 +12,7 @@
     "strict": true,
 
     /* Module Resolution Options */
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "esModuleInterop": true,
 
     /* Experimental Options */

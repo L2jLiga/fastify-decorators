@@ -2,14 +2,14 @@
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "../dist/fastify-decorators",
-    "target": "es2018",
+    "target": "ES2018",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "strict": true,
     "declaration": true,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "lib": ["es2018"],
+    "lib": ["ES2018"],
     "esModuleInterop": true
   },
   "files": ["index.ts", "testing/index.ts"],

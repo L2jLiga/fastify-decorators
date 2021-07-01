@@ -3,7 +3,7 @@
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
     /* Basic Options */
-    "target": "es2018",
+    "target": "ES2019",
     "module": "ESNext",
     "outDir": "./dist",
     "importHelpers": true,
@@ -12,7 +12,7 @@
     "strict": true,
 
     /* Module Resolution Options */
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "esModuleInterop": true,
 
     /* Experimental Options */
