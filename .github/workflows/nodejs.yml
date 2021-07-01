@@ -26,9 +26,10 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@v2.2.0
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
       - name: Install dependencies
         run: yarn install --frozen-lock-file
       - name: Build projects (with ESM)
@@ -61,9 +62,10 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@v2.2.0
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
       - name: Install dependencies
         run: yarn install --frozen-lock-file --ignore-engines
       - name: Build projects (without ESM)
@@ -90,7 +92,9 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@v2.2.0
+        with:
+          cache: 'yarn'
       - name: Install dependencies
         run: yarn install --frozen-lock-file
       - name: Check licenses
@@ -113,7 +117,9 @@ jobs:
         with:
           languages: javascript
       - name: Setup NodeJS
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@v2.2.0
+        with:
+          cache: 'yarn'
       - name: Install dependencies
         run: yarn install --frozen-lock-file
       - name: Build projects

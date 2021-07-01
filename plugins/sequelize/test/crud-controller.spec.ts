@@ -1,5 +1,5 @@
 import fastify from 'fastify';
-import { DataTypes, Model, Sequelize } from 'sequelize';
+import { DataTypes, Model, ModelStatic, Sequelize } from 'sequelize';
 import { CrudController } from '../src/controllers/crud-controller';
 
 describe('Decorators: CrudController', () => {
@@ -14,7 +14,7 @@ describe('Decorators: CrudController', () => {
   beforeEach(async () => {
     sequelize = new Sequelize('sqlite:memory.db:', { logging: false });
     await sequelize.authenticate();
-    User.init<User>(
+    User.init<ModelStatic<User>, User>(
       {
         id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
         name: { type: new DataTypes.STRING(128), allowNull: false },
