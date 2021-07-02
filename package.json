@@ -36,7 +36,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-prettier": "^3.4.0",
-    "husky": "^6.0.0",
+    "husky": "^7.0.0",
     "jest": "^27.0.6",
     "jest-environment-node": "^27.0.6",
     "jest-github-actions-reporter": "^1.0.3",
