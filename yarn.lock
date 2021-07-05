@@ -1435,9 +1435,9 @@
     picomatch "^2.2.2"
 
 "@sinclair/typebox@^0.17.1":
-  version "0.17.1"
-  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.17.1.tgz#945392b4aaab513ec7899c48ab0040e9933b46b9"
-  integrity sha512-rva9A1kYSDDmXnu/YfBNlW1RbZVJJo8rzY+9gytOxpG9FF+lgL/8JHK6gJsXA1mFjO8DF7+55BiR7MP+zQMLCA==
+  version "0.17.4"
+  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.17.4.tgz#ccbc7ec86114bb963b5f30e4cfbd58349184bb38"
+  integrity sha512-KCm+wGleBbpuyqE6Tfx6HONkM6EzJOLqd+yQ0wCkMLVG3/7DUMcCjaxA33eRgmRjNY+NL+vpZF2HZRGYS4AUEw==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
