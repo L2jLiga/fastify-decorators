@@ -1423,13 +1423,13 @@
   dependencies:
     "@octokit/openapi-types" "^8.1.4"
 
-"@prettier/plugin-xml@^0.13.1":
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/@prettier/plugin-xml/-/plugin-xml-0.13.1.tgz#fb1c265fb8256c509da187b5a530c3eb2bf80091"
-  integrity sha512-jJbjvFEsxOT2Jhv2yydOvJbnSREJy+OECwHyZaYr05jLXlJeBrzy5YY1fDYpwTfKk1B2YqNExXI+x3Zm5yGfeA==
+"@prettier/plugin-xml@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@prettier/plugin-xml/-/plugin-xml-1.0.1.tgz#e7d5d1fbbfa83788ed28d983f99e72af28fd21f7"
+  integrity sha512-zDsZMooB65KhCAJPpt88jhbxLGSYIP9xkUB63BEgv8RAhAxjDdboXTCE2kjHWI9YAA2AJzZFclW6FhXb3pFakg==
   dependencies:
-    "@xml-tools/parser" "^1.0.2"
-    prettier ">=1.10"
+    "@xml-tools/parser" "^1.0.11"
+    prettier ">=2.3"
 
 "@rollup/plugin-typescript@^8.2.1":
   version "8.2.1"
@@ -1732,7 +1732,7 @@
   resolved "https://registry.yarnpkg.com/@vercel/ncc/-/ncc-0.28.6.tgz#073c0ce8e0269210c0a9f180fb0bf949eecc20e0"
   integrity sha512-t4BoSSuyK8BZaUE0gV18V6bkFs4st7baumtFGa50dv1tMu2GDBEBF8sUZaKBdKiL6DzJ2D2+XVCwYWWDcQOYdQ==
 
-"@xml-tools/parser@^1.0.2":
+"@xml-tools/parser@^1.0.11":
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/@xml-tools/parser/-/parser-1.0.11.tgz#a118a14099ea5c3c537e4781fad2fc195b57f8ff"
   integrity sha512-aKqQ077XnR+oQtHJlrAflaZaL7qZsulWc/i/ZEooar5JiWj1eLt0+Wg28cpa+XLney107wXqneC+oG1IZvxkTA==
@@ -6541,7 +6541,7 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier@>=1.10, prettier@^2.3.2:
+prettier@>=2.3, prettier@^2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.3.2.tgz#ef280a05ec253712e486233db5c6f23441e7342d"
   integrity sha512-lnJzDfJ66zkMy58OL5/NY5zp70S7Nz6KqcKkXYzn2tMVrNxvbqaBpg7H3qHaLxCJ5lNMsGuM8+ohS7cZrthdLQ==
