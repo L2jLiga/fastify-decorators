@@ -1424,9 +1424,9 @@
     "@octokit/openapi-types" "^8.1.4"
 
 "@prettier/plugin-xml@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@prettier/plugin-xml/-/plugin-xml-1.0.1.tgz#e7d5d1fbbfa83788ed28d983f99e72af28fd21f7"
-  integrity sha512-zDsZMooB65KhCAJPpt88jhbxLGSYIP9xkUB63BEgv8RAhAxjDdboXTCE2kjHWI9YAA2AJzZFclW6FhXb3pFakg==
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@prettier/plugin-xml/-/plugin-xml-1.0.2.tgz#d1c4dc5f13398cd17d1de313c2f49338b07e0c90"
+  integrity sha512-QNqKaa56/7trSqVuGDUzS9xw6Hx0qOklAwA7A2Mn89FPnPywyrK/GNCO71XK0AfoRNrmY0vETVpR2pWpBwfzow==
   dependencies:
     "@xml-tools/parser" "^1.0.11"
     prettier ">=2.3"
