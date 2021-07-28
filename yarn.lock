@@ -1448,10 +1448,10 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@sinclair/typebox@^0.19.2":
-  version "0.19.2"
-  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.19.2.tgz#3a526594d6f652ada78e6c00be84463ae48047e4"
-  integrity sha512-0U/RVPZQw1QxhrbKV0o281ZWI1Ve3osJnyEYnwOp3slydIQHyXumbJANJeNv9BqABDiHWlmzsxSVopPHMvt3Aw==
+"@sinclair/typebox@^0.20.1":
+  version "0.20.1"
+  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.20.1.tgz#7a4636960dc31d95d26d831f177d39d58682744e"
+  integrity sha512-uJdygXCzArkBE7sjqPljYaCKcWP3frqye46DLYJCjGgWKAKlMdMdO2g4K33uxAiRdnTAItBu6k8nQzpVLE9dxA==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
