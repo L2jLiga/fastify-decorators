@@ -133,6 +133,6 @@ jobs:
     needs: [Build-Modern, Build-Legacy, Lint-Files, CodeQL-Analysis]
     runs-on: ubuntu-latest
     steps:
-      - uses: fastify/github-action-merge-dependabot@v2.2.0
+      - uses: fastify/github-action-merge-dependabot@v2.3.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
