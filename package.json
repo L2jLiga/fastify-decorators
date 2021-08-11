@@ -27,7 +27,7 @@
     "@microsoft/eslint-formatter-sarif": "^2.1.5",
     "@prettier/plugin-xml": "^1.0.1",
     "@rollup/plugin-typescript": "^8.2.1",
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^27.0.0",
     "@types/node": "~10.17.60",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",
