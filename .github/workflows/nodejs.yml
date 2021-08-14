@@ -38,16 +38,20 @@ jobs:
         run: yarn test
         env:
           CI: true
+      - name: SonarCloud Scan
+        if: matrix.os == 'ubuntu-latest'
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.javascript.lcov.reportPaths=coverage/library/*.lcov,coverage/integration/*.lcov
       - name: Upload unit-tests coverage to Codecov
         uses: codecov/codecov-action@v2.0.2
         with:
           directory: coverage/library
           flags: unittests
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Upload examples code coverage to Codecov
         uses: codecov/codecov-action@v2.0.2
         with:
@@ -80,10 +84,14 @@ jobs:
         env:
           CI: true
       - name: SonarCloud Scan
+        if: matrix.os == 'ubuntu-latest'
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.javascript.lcov.reportPaths=coverage/library/*.lcov,coverage/integration/*.lcov
       - name: Upload unit-tests coverage to Codecov
         uses: codecov/codecov-action@v2.0.2
         with:
@@ -137,23 +145,10 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
 
-  SonarCloud-Analysis:
-    name: SonarCloud
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
   automerge:
     name: 'Merge Dependabot updates'
     if: github.event_name == 'pull_request'
-    needs: [Build-Modern, Build-Legacy, Lint-Files, CodeQL-Analysis, SonarCloud-Analysis]
+    needs: [Build-Modern, Build-Legacy, Lint-Files, CodeQL-Analysis]
     runs-on: ubuntu-latest
     steps:
       - uses: fastify/github-action-merge-dependabot@v2.4.0
