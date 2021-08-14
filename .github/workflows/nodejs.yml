@@ -43,6 +43,11 @@ jobs:
         with:
           directory: coverage/library
           flags: unittests
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Upload examples code coverage to Codecov
         uses: codecov/codecov-action@v2.0.2
         with:
@@ -74,6 +79,11 @@ jobs:
         run: yarn test --ignore @fastify-decorators-examples/esm --ignore @fastify-decorators/typeorm --ignore @fastify-decorators/sequelize
         env:
           CI: true
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Upload unit-tests coverage to Codecov
         uses: codecov/codecov-action@v2.0.2
         with:
