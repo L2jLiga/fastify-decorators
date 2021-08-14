@@ -38,16 +38,6 @@ jobs:
         run: yarn test
         env:
           CI: true
-      - name: SonarCloud Scan
-        if: matrix.os == 'ubuntu-latest'
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.javascript.lcov.reportPaths=coverage/library/lcov.info,coverage/integration/aws-lambda/lcov.info,coverage/integration/controllers/lcov.info,coverage/integration/request-handlers/lcov.info,coverage/integration/swagger/lcov.info,coverage/integration/typeorm/lcov.info
-            -Dsonar.sources=lib/
       - name: Upload unit-tests coverage to Codecov
         uses: codecov/codecov-action@v2.0.2
         with:
@@ -84,16 +74,6 @@ jobs:
         run: yarn test --ignore @fastify-decorators-examples/esm --ignore @fastify-decorators/typeorm --ignore @fastify-decorators/sequelize
         env:
           CI: true
-      - name: SonarCloud Scan
-        if: matrix.os == 'ubuntu-latest'
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.javascript.lcov.reportPaths=coverage/library/lcov.info,coverage/integration/aws-lambda/lcov.info,coverage/integration/controllers/lcov.info,coverage/integration/request-handlers/lcov.info,coverage/integration/swagger/lcov.info,coverage/integration/typeorm/lcov.info
-            -Dsonar.sources=lib/
       - name: Upload unit-tests coverage to Codecov
         uses: codecov/codecov-action@v2.0.2
         with:
