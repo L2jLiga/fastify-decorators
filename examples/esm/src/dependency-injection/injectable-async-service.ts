@@ -1,4 +1,4 @@
-import { Initializer, Service } from 'fastify-decorators';
+import { Initializer, Service } from '@fastify-decorators/simple-di';
 
 @Service()
 export class InjectableAsyncService {

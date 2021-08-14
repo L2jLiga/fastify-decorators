@@ -2,7 +2,7 @@
   "extends": "./tsconfig.base.json",
   "include": ["test/**/*.ts"],
   "compilerOptions": {
-    "typeRoots": ["node_modules/@types", "__types__"],
+    "typeRoots": ["../../node_modules/@types", "node_modules/@types", "__types__"],
     "composite": true
   },
   "references": [

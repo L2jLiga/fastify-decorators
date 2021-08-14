@@ -100,8 +100,9 @@ describe('Factory: request decorators', () => {
       );
     });
 
-    it('onSend option should relate to onSend hook fn defined', () => {
+    it('onSend option should relate to onSend hook fn defined', async () => {
       const onSendHook = jest.fn();
+
       class Handler {
         @Hook('onSend')
         onSendHook = onSendHook;
@@ -119,7 +120,7 @@ describe('Factory: request decorators', () => {
       Handler[CREATOR].register(instance);
 
       const [, { onSend }] = instance.get.mock.calls.pop();
-      onSend({});
+      await onSend({});
 
       expect(onSendHook).toHaveBeenCalledWith({});
     });
@@ -198,6 +199,7 @@ describe('Factory: request decorators', () => {
   describe('error handling support', () => {
     const typeError = jest.fn();
     const generalError = jest.fn();
+
     @GET()
     class Handler {
       @ErrorHandler(TypeError)
@@ -207,7 +209,7 @@ describe('Factory: request decorators', () => {
       general = generalError;
     }
 
-    let errorHandler: (error: Error, request: unknown) => void;
+    let errorHandler: (error: Error, request: unknown) => void | Promise<void>;
     const instance = { get: jest.fn() };
 
     beforeEach(() => {
@@ -225,7 +227,7 @@ describe('Factory: request decorators', () => {
     });
 
     it('should call TypeError handler only', async () => {
-      errorHandler(new TypeError('test'), {});
+      await errorHandler(new TypeError('test'), {});
 
       expect(typeError).toHaveBeenCalledWith(new TypeError('test'), {}, undefined);
       expect(generalError).not.toHaveBeenCalled();
@@ -235,14 +237,14 @@ describe('Factory: request decorators', () => {
       typeError.mockImplementation(() => {
         throw new Error('Unaccepted');
       });
-      errorHandler(new TypeError('test'), {});
+      await errorHandler(new TypeError('test'), {});
 
       expect(typeError).toHaveBeenCalledWith(new TypeError('test'), {}, undefined);
       expect(generalError).toHaveBeenCalledWith(new Error('Unaccepted'), {}, undefined);
     });
 
     it('should call general error handler when non TypeError received', async () => {
-      errorHandler(new Error('test'), {});
+      await errorHandler(new Error('test'), {});
 
       expect(typeError).not.toHaveBeenCalled();
       expect(generalError).toHaveBeenCalledWith(new Error('test'), {}, undefined);

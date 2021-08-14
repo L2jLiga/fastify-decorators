@@ -1,5 +1,5 @@
 import { Controller } from 'fastify-decorators';
-import { Inject } from 'fastify-decorators';
+import { Inject } from '@fastify-decorators/simple-di';
 import { InjectableAsyncService } from './injectable-async-service.js';
 import { InjectableService, injectableServiceToken } from './injectable.service.js';
 import { GET } from 'fastify-decorators';

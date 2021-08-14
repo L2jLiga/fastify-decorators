@@ -1,0 +1,49 @@
+{
+  "name": "@fastify-decorators/simple-di",
+  "version": "4.0.0",
+  "description": "fastify-decorators plugin to work with Sequelize",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./testing": "./dist/testing/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.lib.json",
+    "test": "jest -c jest.config.cjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/L2jLiga/fastify-decorators.git",
+    "directory": "plugins/simple-di"
+  },
+  "author": "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)",
+  "maintainers": [
+    "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)"
+  ],
+  "dependencies": {
+    "fastify-decorators": "^4.0.0",
+    "reflect-metadata": "^0.1.13"
+  },
+  "peerDependencies": {
+    "typescript": ">= 3.8.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "@types/node": "~12.20.28",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "fastify": "^3.22.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-jest": "^24.5.2",
+    "jest": "^27.2.5",
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.4.3"
+  },
+  "engines": {
+    "node": ">= 12.13.0"
+  }
+}

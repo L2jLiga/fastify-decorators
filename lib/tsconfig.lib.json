@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.base.json",
-  "files": ["index.ts", "testing/index.ts"],
+  "files": ["index.ts", "plugins/index.ts"],
   "include": ["**/*.ts"],
   "exclude": ["**/*.spec.ts", "**/*.mock.ts"],
   "compilerOptions": {

@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { configureControllerTest } from 'fastify-decorators/testing';
+import { configureControllerTest } from '@fastify-decorators/simple-di/testing';
 import { users } from '../../src/user/user.js';
 import UserController from '../../src/user/user.controller.js';
 

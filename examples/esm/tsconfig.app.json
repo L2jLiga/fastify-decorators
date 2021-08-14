@@ -8,6 +8,9 @@
   "references": [
     {
       "path": "../../lib/tsconfig.lib.json"
+    },
+    {
+      "path": "../../plugins/simple-di/tsconfig.lib.json"
     }
   ]
 }

@@ -10,16 +10,15 @@ import { FastifyInstance } from 'fastify';
 import { ensureErrorHandlers, ensureHandlers, ensureHooks } from '../decorators/helpers/class-properties.js';
 import { injectControllerOptions } from '../decorators/helpers/inject-controller-options.js';
 import { ControllerTypeStrategies } from '../decorators/strategies/controller-type.js';
-import { IErrorHandler, IHandler, IHook, InjectableController } from '../interfaces/index.js';
-import { Injectables } from '../interfaces/injectable-class.js';
+import { IErrorHandler, IHandler, IHook } from '../interfaces/index.js';
 import { ControllerType } from '../registry/controller-type.js';
-import { injectables } from '../registry/injectables.js';
-import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS, INJECTABLES } from '../symbols/index.js';
+import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS } from '../symbols/index.js';
+import { Registrable } from './shared-interfaces.js';
 
 /**
  * @experimental this API is not stable and can change in future
  */
-export { InjectableController, Injectables, IHandler, IHook, IErrorHandler };
+export { IHandler, IHook, IErrorHandler };
 
 /**
  * @experimental this API is not stable and can change in future
@@ -27,20 +26,14 @@ export { InjectableController, Injectables, IHandler, IHook, IErrorHandler };
  * @param route on which controller should be available
  * @param decorateFn
  */
-export function decorateController(
-  route: string,
-  decorateFn: (target: InjectableController, instance: FastifyInstance, injectablesMap: Injectables) => void,
-): ClassDecorator {
+export function decorateController(route: string, decorateFn: (target: Registrable, instance: FastifyInstance) => void): ClassDecorator {
   return (target) => {
     injectControllerOptions(target);
 
-    target[CREATOR].register = async (instance: FastifyInstance, prefix = '', injectablesMap = injectables, cacheResult = true) => {
-      target[INJECTABLES] = injectablesMap;
-      target.prototype[INJECTABLES] = injectablesMap;
+    target[CREATOR].register = async (instance: FastifyInstance, prefix = '') => {
+      decorateFn(target, instance);
 
-      decorateFn(target, instance, injectablesMap);
-
-      await instance.register(async (instance) => ControllerTypeStrategies[ControllerType.SINGLETON](instance, target, injectablesMap, cacheResult), {
+      await instance.register(async (scopedInstance) => ControllerTypeStrategies[ControllerType.SINGLETON](scopedInstance, target), {
         prefix: prefix + route,
       });
     };

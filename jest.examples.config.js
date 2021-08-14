@@ -1,7 +1,6 @@
 module.exports = {
   preset: 'ts-jest',
   rootDir: '../..',
-  testEnvironment: './jest.environment.cjs',
   collectCoverage: true,
   coverageReporters: process.env.CI ? ['text', 'lcov', 'jest-github-actions-reporter'] : ['text'],
   globals: {

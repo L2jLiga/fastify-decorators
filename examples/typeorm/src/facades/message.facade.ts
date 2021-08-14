@@ -1,4 +1,4 @@
-import { Initializer, Service } from 'fastify-decorators';
+import { Initializer, Service } from '@fastify-decorators/simple-di';
 import { Repository } from 'typeorm';
 import { Message } from '../entity/message.js';
 import { ConnectionService } from '../services/connection.service.js';

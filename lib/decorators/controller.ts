@@ -8,10 +8,9 @@
 
 import type { FastifyInstance } from 'fastify';
 import type { ControllerConfig } from '../interfaces/index.js';
-import type { InjectableClass } from '../interfaces/injectable-class.js';
+import { Registrable } from '../plugins/shared-interfaces.js';
 import { ControllerType } from '../registry/controller-type.js';
-import { injectables } from '../registry/injectables.js';
-import { CREATOR, INJECTABLES } from '../symbols/index.js';
+import { CREATOR } from '../symbols/index.js';
 import { injectControllerOptions } from './helpers/inject-controller-options.js';
 import { ControllerTypeStrategies } from './strategies/controller-type.js';
 
@@ -28,20 +27,17 @@ export function Controller(): ClassDecorator;
 export function Controller(route: string): ClassDecorator;
 export function Controller(config: ControllerConfig): ClassDecorator;
 export function Controller(config?: string | ControllerConfig): unknown {
-  return (controller: InjectableClass): void => {
+  return (controller: Registrable): void => {
     const { route, type } = makeConfig(config);
 
     injectControllerOptions(controller);
 
-    controller[CREATOR].register = async (instance: FastifyInstance, prefix = '', injectablesMap = injectables, cacheResult = true) => {
-      controller[INJECTABLES] = injectablesMap;
-      controller.prototype[INJECTABLES] = injectablesMap;
-
+    controller[CREATOR].register = async (instance: FastifyInstance, prefix = '') => {
       let controllerInstance;
 
       await instance.register(
         async (instance) => {
-          controllerInstance = ControllerTypeStrategies[type](instance, controller, injectablesMap, cacheResult);
+          controllerInstance = ControllerTypeStrategies[type](instance, controller);
         },
         { prefix: prefix + route },
       );

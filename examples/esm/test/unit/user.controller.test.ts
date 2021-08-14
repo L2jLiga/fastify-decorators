@@ -1,6 +1,6 @@
 import { deepStrictEqual, strictEqual } from 'assert';
 import { FastifyInstance } from 'fastify';
-import { configureControllerTest } from 'fastify-decorators/testing';
+import { configureControllerTest } from '@fastify-decorators/simple-di/testing';
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import UserController from '../../src/user/user.controller.js';
 import { users } from '../../src/user/user.js';

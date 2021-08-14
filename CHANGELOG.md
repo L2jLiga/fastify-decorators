@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- BREAKING: get rid of DTS downleveling
+- BREAKING: moved dependency injection functionality into separate package
 
 ## 3.10.0
 

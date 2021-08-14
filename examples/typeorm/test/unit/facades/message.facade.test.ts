@@ -1,4 +1,4 @@
-import { configureServiceTest } from 'fastify-decorators/testing';
+import { configureServiceTest } from '@fastify-decorators/simple-di/testing';
 import { MessageFacade } from '../../../src/facades/message.facade.js';
 import { ConnectionService } from '../../../src/services/connection.service.js';
 

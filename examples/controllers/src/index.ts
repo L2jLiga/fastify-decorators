@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { fastify } from 'fastify';
 import { bootstrap } from 'fastify-decorators';
 

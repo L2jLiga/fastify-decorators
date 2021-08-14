@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { configureControllerTest } from 'fastify-decorators/testing';
+import { configureControllerTest } from '@fastify-decorators/simple-di/testing';
 import { MessageController } from '../../../src/controllers/message.controller.js';
 import { MessageFacade } from '../../../src/facades/message.facade.js';
 

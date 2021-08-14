@@ -6,14 +6,14 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
+import type { Constructable } from '../interfaces/constructable.js';
 import type { IErrorHandler } from '../interfaces/index.js';
 import { ERROR_HANDLERS } from '../symbols/index.js';
 import { ensureErrorHandlers } from './helpers/class-properties.js';
-import type { Constructor } from './helpers/inject-dependencies.js';
 
 export function ErrorHandler(): PropertyDecorator;
 export function ErrorHandler(code: string): PropertyDecorator;
-export function ErrorHandler<T extends Error>(configuration: Constructor<T>): PropertyDecorator;
+export function ErrorHandler<T extends Error>(configuration: Constructable<T>): PropertyDecorator;
 export function ErrorHandler<T extends ErrorConstructor>(parameter?: T | string): PropertyDecorator {
   return function ({ constructor }: any, handlerName: string | symbol) {
     ensureErrorHandlers(constructor);

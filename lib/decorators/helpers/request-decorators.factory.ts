@@ -10,7 +10,9 @@ import type { FastifyInstance, FastifyRequest, RouteShorthandOptions } from 'fas
 import { HttpMethods } from '../../interfaces/http-methods.js';
 import { RequestHandler, RequestHook } from '../../interfaces/request-handler.js';
 import { RouteConfig } from '../../interfaces/route-config.js';
+import { hooksRegistry } from '../../plugins/life-cycle.js';
 import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
+import { transformAndWait } from '../../utils/transform-and-wait.js';
 import { ensureHandlers, hasErrorHandlers, hasHooks } from './class-properties.js';
 import { createErrorsHandler } from './create-errors-handler.js';
 
@@ -28,9 +30,10 @@ function parseConfig(config: string | RouteConfig = '/', options: RouteShorthand
 
 const requestHandlersCache = new WeakMap<FastifyRequest, RequestHandler>();
 
-function getTarget(Target: any, request: FastifyRequest, ...rest: unknown[]) {
+async function getTarget(Target: any, request: FastifyRequest, ...rest: unknown[]) {
   if (requestHandlersCache.has(request)) return requestHandlersCache.get(request);
   const target = new Target(request, ...rest);
+  await transformAndWait(hooksRegistry.afterControllerCreation, (hook) => hook(target, Target));
   requestHandlersCache.set(request, target);
   return target;
 }
@@ -52,7 +55,7 @@ export function requestDecoratorsFactory(
           if (hasHooks(target)) {
             for (const hook of target[HOOKS] as RequestHook[]) {
               const hookFn = (request: FastifyRequest, ...rest: unknown[]) => {
-                return getTarget(target, request, ...rest)[hook.handlerName](request, ...rest);
+                return getTarget(target, request, ...rest).then((t) => t[hook.handlerName](request, ...rest));
               };
 
               const option = config.options[hook.name];
@@ -62,14 +65,14 @@ export function requestDecoratorsFactory(
             }
           }
           if (hasErrorHandlers(target)) {
-            config.options.errorHandler = (error, request, ...rest) => {
-              const errorsHandler = createErrorsHandler(target[ERROR_HANDLERS], getTarget(target, request, ...rest));
+            config.options.errorHandler = async (error, request, ...rest) => {
+              const errorsHandler = createErrorsHandler(target[ERROR_HANDLERS], await getTarget(target, request, ...rest));
 
               return errorsHandler(error, request, ...rest);
             };
           }
           instance[method](config.url, config.options, function (request, ...rest) {
-            return getTarget(target, request, ...rest).handle();
+            return getTarget(target, request, ...rest).then((t) => t.handle());
           });
         },
       };

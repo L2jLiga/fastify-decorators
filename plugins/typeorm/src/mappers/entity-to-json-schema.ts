@@ -7,7 +7,7 @@
  */
 
 import type { FastifyInstance } from 'fastify';
-import type { JSONSchema7TypeName } from 'json-schema';
+import type { JSONSchema7Type, JSONSchema7TypeName } from 'json-schema';
 import type { ColumnType, EntityMetadata, ObjectLiteral, Repository } from 'typeorm';
 import type { JSONSchema7Extended } from '../types/json-schema.js';
 import { entitySchemaToQueryProperties } from './entity-schema-to-query-properties.js';
@@ -113,7 +113,7 @@ function columnMetadataMapper(columnMetadata: ColumnMetadata): JSONSchema7Extend
     ...(propertyName && { title: propertyName }),
     ...(comment && { description: comment }),
     ...(length && { maxLength: parseInt(length, 10) }),
-    ...(typeof columnMetadata.default !== 'function' && { default: columnMetadata.default }),
+    ...(typeof columnMetadata.default !== 'function' && { default: columnMetadata.default as JSONSchema7Type }),
     ...(columnMetadata.enum && { enum: columnMetadata.enum }),
     ...(['timestamp', 'date'].includes(columnMetadata.type as string) && { format: 'date-time' }),
     readOnly: isSelect && !isUpdate,

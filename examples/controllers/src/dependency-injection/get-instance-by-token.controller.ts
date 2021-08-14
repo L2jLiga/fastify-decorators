@@ -1,4 +1,5 @@
-import { Controller, GET, getInstanceByToken } from 'fastify-decorators';
+import { getInstanceByToken } from '@fastify-decorators/simple-di';
+import { Controller, GET } from 'fastify-decorators';
 import { InjectableAsyncService } from './injectable-async-service.js';
 import { InjectableService, injectableServiceToken } from './injectable.service.js';
 

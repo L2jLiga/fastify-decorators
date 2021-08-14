@@ -1,4 +1,4 @@
-import { Service } from 'fastify-decorators';
+import { Service } from '@fastify-decorators/simple-di';
 
 export const injectableServiceToken = Symbol('InjectableService');
 

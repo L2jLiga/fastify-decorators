@@ -11,31 +11,28 @@ import fp from 'fastify-plugin';
 import { readdirSync } from 'fs';
 import { join } from 'path';
 import { pathToFileURL } from 'url';
-import { servicesWithDestructors } from '../decorators/destructor.js';
-import { Constructor } from '../decorators/helpers/inject-dependencies.js';
-import { readyMap } from '../decorators/index.js';
 import type { AutoLoadConfig, ControllersListConfig } from '../interfaces/bootstrap-config.js';
-import type { BootstrapConfig, InjectableController } from '../interfaces/index.js';
-import { injectables } from '../registry/injectables.js';
-import { CREATOR, FastifyInstanceToken } from '../symbols/index.js';
-import { getInstanceByToken } from '../utils/get-instance-by-token.js';
-import { wrapInjectable } from '../utils/wrap-injectable.js';
+import { Constructable } from '../interfaces/constructable.js';
+import type { BootstrapConfig } from '../interfaces/index.js';
+import { hooksRegistry } from '../plugins/life-cycle.js';
+import { Registrable } from '../plugins/shared-interfaces.js';
+import { CREATOR } from '../symbols/index.js';
+import { transformAndWait } from '../utils/transform-and-wait.js';
 
 const defaultMask = /\.(handler|controller)\./;
 
 export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig>(
   async (fastify, config) => {
-    injectables.set(FastifyInstanceToken, wrapInjectable(fastify));
-    const controllers = new Set<Constructor<unknown>>();
+    const controllers = new Set<Constructable<unknown>>();
     const skipBroken = config.skipBroken;
 
     if ('directory' in config) (await autoLoadModules(config as AutoLoadConfig)).forEach(controllers.add, controllers);
-    if ('controllers' in config) config.controllers.forEach(controllers.add, controllers);
+    if ('controllers' in config) (config as ControllersListConfig).controllers.forEach(controllers.add, controllers);
 
-    await loadControllers({ controllers: [...controllers], skipBroken, prefix: config.prefix }, fastify);
-    await Promise.all(readyMap.values());
+    await transformAndWait(controllers, (controller) => loadController(controller, fastify, { skipBroken, prefix: config.prefix }));
+    await transformAndWait(hooksRegistry.appReady, (hook) => hook());
 
-    if (servicesWithDestructors.size) useGracefulShutdown(fastify);
+    fastify.addHook('onClose', () => transformAndWait(hooksRegistry.appDestroy, (hook) => hook()));
   },
   {
     fastify: '^3.0.0',
@@ -43,18 +40,14 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
   },
 );
 
-async function loadControllers(config: ControllersListConfig, fastify: FastifyInstance): Promise<void> {
-  await Promise.all(config.controllers.map((controller) => loadController(controller, fastify, config)));
-}
-
-function autoLoadModules(config: AutoLoadConfig): Promise<InjectableController[]> {
+function autoLoadModules(config: AutoLoadConfig): Promise<Registrable[]> {
   const flags = config.mask instanceof RegExp ? config.mask.flags.replace('g', '') : '';
   const filter = config.mask ? new RegExp(config.mask, flags) : defaultMask;
 
   return Promise.all([...findModules(config.directory, filter)].map(loadModule));
 }
 
-function loadController(controller: Constructor<unknown>, fastify: FastifyInstance, config: BootstrapConfig) {
+function loadController(controller: Constructable<unknown>, fastify: FastifyInstance, config: Pick<BootstrapConfig, 'prefix' | 'skipBroken'>) {
   if (verifyController(controller)) {
     return controller[CREATOR].register(fastify, config.prefix);
   } else if (!config.skipBroken) {
@@ -62,7 +55,7 @@ function loadController(controller: Constructor<unknown>, fastify: FastifyInstan
   }
 }
 
-function verifyController(controller: Constructor<unknown>): controller is InjectableController {
+function verifyController(controller: Constructable<unknown>): controller is Registrable {
   return controller && CREATOR in controller;
 }
 
@@ -84,17 +77,11 @@ function* findModules(path: string, filter: RegExp): Iterable<string> {
 }
 
 /* istanbul ignore next */
-async function loadModule(module: string): Promise<InjectableController> {
+async function loadModule(module: string): Promise<Registrable> {
   if (typeof require !== 'undefined') {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     return require(module).__esModule ? require(module).default : require(module);
   }
 
   return import(pathToFileURL(module).toString()).then((m) => m.default);
-}
-
-function useGracefulShutdown(fastify: FastifyInstance): void {
-  fastify.addHook('onClose', () =>
-    Promise.all([...servicesWithDestructors].map(([Service, property]) => getInstanceByToken<typeof Service>(Service)[property]())),
-  );
 }

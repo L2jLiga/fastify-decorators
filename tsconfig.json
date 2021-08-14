@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2018",
+    "target": "ES2019",
     "module": "CommonJS",
     "moduleResolution": "Node",
     "baseUrl": ".",
@@ -24,6 +24,8 @@
     { "path": "examples/typeorm/tsconfig.spec.json" },
     { "path": "plugins/sequelize/tsconfig.lib.json" },
     { "path": "plugins/sequelize/tsconfig.spec.json" },
+    { "path": "plugins/simple-di/tsconfig.lib.json" },
+    { "path": "plugins/simple-di/tsconfig.spec.json" },
     { "path": "plugins/typeorm/tsconfig.lib.json" },
     { "path": "plugins/typeorm/tsconfig.spec.json" }
   ],

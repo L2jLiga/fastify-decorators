@@ -121,7 +121,7 @@ _Usage_:
 
 ```ts
 import { FastifyInstance } from 'fastify';
-import { configureControllerTest } from 'fastify-decorators/testing';
+import { configureControllerTest } from '@fastify-decorators/simple-di/testing';
 import { AuthController } from '../src/auth.controller';
 import { AuthService } from '../src/auth.service';
 
@@ -166,7 +166,7 @@ _Example_:
 
 ```ts
 import { FastifyInstance } from 'fastify';
-import { configureControllerTest, FastifyInstanceWithController } from 'fastify-decorators/testing';
+import { configureControllerTest, FastifyInstanceWithController } from '@fastify-decorators/simple-di/testing';
 import { AuthController } from '../src/auth.controller';
 
 describe('Controller: AuthController', () => {
@@ -207,7 +207,7 @@ For those services which has no method with `@Initializer` decorator, then `conf
 _Usage_:
 
 ```ts
-import { configureServiceTest } from 'fastify-decorators/testing';
+import { configureServiceTest } from '@fastify-decorators/simple-di/testing';
 import { RolesService } from '../src/roles.service';
 import { AuthService } from '../src/auth.service';
 
@@ -246,7 +246,7 @@ If service has method with `@Initializer` decorator, then `configureServiceTest`
 You can work with service like it has no `@Initializer` unless you await it.
 
 ```ts
-import { configureServiceTest } from 'fastify-decorators/testing';
+import { configureServiceTest } from '@fastify-decorators/simple-di/testing';
 import { RolesService } from '../src/roles.service';
 import { AuthService } from '../src/auth.service';
 

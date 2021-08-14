@@ -1,6 +1,6 @@
 {
   "name": "fastify-decorators",
-  "version": "3.10.0",
+  "version": "4.0.0",
   "description": "Framework aimed to provide useful TypeScript decorators to implement controllers, services and request handlers, built with Fastify.",
   "type": "module",
   "main": "index.cjs",
@@ -11,10 +11,6 @@
     ".": {
       "import": "./index.js",
       "require": "./index.cjs"
-    },
-    "./testing": {
-      "import": "./testing/index.js",
-      "require": "./testing/index.cjs"
     },
     "./plugins": {
       "import": "./plugins/index.js",
@@ -52,7 +48,7 @@
     "email": "L2jLiga@gmail.com"
   },
   "engines": {
-    "node": ">= 10.16.0"
+    "node": ">= 12.13.0"
   },
   "dependencies": {
     "fastify-plugin": "^2.0.0 || ^3.0.0"

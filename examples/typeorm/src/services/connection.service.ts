@@ -1,4 +1,4 @@
-import { Destructor, Initializer, Service } from 'fastify-decorators';
+import { Destructor, Initializer, Service } from '@fastify-decorators/simple-di';
 import * as fs from 'fs';
 import { join } from 'path';
 import { Connection, createConnection } from 'typeorm';
@@ -23,7 +23,7 @@ export class ConnectionService {
       autoSave: true,
       location: join(process.cwd(), 'db', 'database.db'),
       entities: [Message],
-      logging: ['query', 'schema'],
+      logging: false,
       synchronize: true,
     });
   }

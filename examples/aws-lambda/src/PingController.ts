@@ -1,5 +1,6 @@
+import { Inject } from '@fastify-decorators/simple-di';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { Controller, GET, Inject } from 'fastify-decorators';
+import { Controller, GET } from 'fastify-decorators';
 import { PingService } from './PingService.js';
 
 @Controller('/ping')

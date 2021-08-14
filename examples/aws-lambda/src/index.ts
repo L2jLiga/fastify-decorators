@@ -1,7 +1,6 @@
 import awsLambdaFastify from 'aws-lambda-fastify';
 import { fastify } from 'fastify';
 import { bootstrap } from 'fastify-decorators';
-import 'reflect-metadata';
 import { PingController } from './PingController.js';
 
 export const app = fastify();

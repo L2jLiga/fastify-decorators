@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { configureControllerTest } from 'fastify-decorators/testing';
+import { configureControllerTest } from '@fastify-decorators/simple-di/testing';
 import ConstructorController from '../../src/dependency-injection/constructor.controller.js';
 import { InjectableAsyncService } from '../../src/dependency-injection/injectable-async-service.js';
 import { InjectableService, injectableServiceToken } from '../../src/dependency-injection/injectable.service.js';

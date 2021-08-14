@@ -13,7 +13,7 @@ on:
       - '*.md'
 
 jobs:
-  Build-Modern:
+  Build:
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -26,7 +26,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.4.1
+        uses: actions/setup-node@v2.4.0
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
@@ -39,48 +39,12 @@ jobs:
         env:
           CI: true
       - name: Upload unit-tests coverage to Codecov
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v2.0.3
         with:
           directory: coverage/library
           flags: unittests
       - name: Upload examples code coverage to Codecov
-        uses: codecov/codecov-action@v2.1.0
-        with:
-          directory: coverage/integration
-          flags: integration
-
-  Build-Legacy:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [10.16]
-
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.4.1
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
-      - name: Install dependencies
-        run: yarn install --frozen-lock-file --ignore-engines
-      - name: Build projects (without ESM)
-        run: yarn build --ignore @fastify-decorators-examples/esm --ignore @fastify-decorators/typeorm --ignore @fastify-decorators/sequelize
-      - name: Run library tests (without ESM)
-        run: yarn test --ignore @fastify-decorators-examples/esm --ignore @fastify-decorators/typeorm --ignore @fastify-decorators/sequelize
-        env:
-          CI: true
-      - name: Upload unit-tests coverage to Codecov
-        uses: codecov/codecov-action@v2.1.0
-        with:
-          directory: coverage/library
-          flags: unittests
-      - name: Upload examples code coverage to Codecov
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v2.0.3
         with:
           directory: coverage/integration
           flags: integration
@@ -92,7 +56,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.4.1
+        uses: actions/setup-node@v2.4.0
         with:
           cache: 'yarn'
       - name: Install dependencies
@@ -117,7 +81,7 @@ jobs:
         with:
           languages: javascript
       - name: Setup NodeJS
-        uses: actions/setup-node@v2.4.1
+        uses: actions/setup-node@v2.4.0
         with:
           cache: 'yarn'
       - name: Install dependencies
@@ -130,9 +94,9 @@ jobs:
   automerge:
     name: 'Merge Dependabot updates'
     if: github.event_name == 'pull_request'
-    needs: [Build-Modern, Build-Legacy, Lint-Files, CodeQL-Analysis]
+    needs: [Build, Lint-Files, CodeQL-Analysis]
     runs-on: ubuntu-latest
     steps:
-      - uses: fastify/github-action-merge-dependabot@v2.5.0
+      - uses: fastify/github-action-merge-dependabot@v2.4.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

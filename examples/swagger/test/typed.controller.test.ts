@@ -1,4 +1,4 @@
-import { configureControllerTest } from 'fastify-decorators/testing';
+import { configureControllerTest } from '@fastify-decorators/simple-di/testing';
 import { TypedController } from '../src/typed.controller.js';
 
 it('should return message from request', async () => {

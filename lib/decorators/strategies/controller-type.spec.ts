@@ -1,5 +1,6 @@
-import { RouteShorthandOptions } from 'fastify';
+import { FastifyInstance, RouteShorthandOptions } from 'fastify';
 import { IErrorHandler, IHandler, IHook } from '../../interfaces/controller.js';
+import { Registrable } from '../../plugins/shared-interfaces.js';
 import { ControllerType } from '../../registry/controller-type.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import { ErrorHandler } from '../error-handler.js';
@@ -15,7 +16,7 @@ describe('Strategies: controller types', () => {
 
       expect(() =>
         // @ts-expect-error classes implements only required methods -> ts show errors
-        ControllerTypeStrategies[ControllerType.SINGLETON](new Instance(), Controller, new Map(), false),
+        ControllerTypeStrategies[ControllerType.SINGLETON](new Instance(), Controller),
       ).not.toThrow();
     });
 
@@ -46,10 +47,10 @@ describe('Strategies: controller types', () => {
       }
 
       // @ts-expect-error classes implements only required methods -> ts show errors
-      ControllerTypeStrategies[ControllerType.SINGLETON](new Instance(), Controller, new Map(), false);
+      ControllerTypeStrategies[ControllerType.SINGLETON](new Instance(), Controller);
     });
 
-    it('should create controller with error handlers', () => {
+    it('should create controller with error handlers', async () => {
       class Controller {
         static [ERROR_HANDLERS]: IErrorHandler[] = [
           {
@@ -72,12 +73,12 @@ describe('Strategies: controller types', () => {
       };
 
       // @ts-expect-error classes implements only required methods -> ts show errors
-      ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller, new Map(), false);
+      await ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller);
 
       expect(instance.setErrorHandler).toHaveBeenCalled();
     });
 
-    it('should create controller with hooks', () => {
+    it('should create controller with hooks', async () => {
       class Controller {
         static [HOOKS]: IHook[] = [
           {
@@ -98,7 +99,7 @@ describe('Strategies: controller types', () => {
       };
 
       // @ts-expect-error classes implements only required methods -> ts show errors
-      ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller, new Map(), false);
+      await ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller);
 
       expect(instance.addHook).toHaveBeenCalled();
     });
@@ -112,11 +113,11 @@ describe('Strategies: controller types', () => {
 
       expect(() =>
         // @ts-expect-error classes implements only required methods -> ts show errors
-        ControllerTypeStrategies[ControllerType.REQUEST](new Instance(), Controller, new Map(), false),
+        ControllerTypeStrategies[ControllerType.REQUEST](new Instance(), Controller),
       ).not.toThrow();
     });
 
-    it('should create controller with handler', () => {
+    it('should create controller with handler', async () => {
       class Controller {
         static [HANDLERS]: IHandler[] = [
           {
@@ -137,15 +138,15 @@ describe('Strategies: controller types', () => {
         get(url: string, options: RouteShorthandOptions, handler: (req: unknown) => string) {
           expect(url).toBe('/');
           expect(options).toEqual({});
-          expect(handler({})).toEqual('Message');
+          expect(handler({})).toEqual(Promise.resolve('Message'));
         }
       }
 
       // @ts-expect-error classes implements only required methods -> ts show errors
-      ControllerTypeStrategies[ControllerType.REQUEST](new Instance(), Controller, new Map(), false);
+      await ControllerTypeStrategies[ControllerType.REQUEST](new Instance(), Controller);
     });
 
-    it('should create controller with error handlers', () => {
+    it('should create controller with error handlers', async () => {
       class Controller {
         static [ERROR_HANDLERS]: IErrorHandler[] = [
           {
@@ -168,7 +169,7 @@ describe('Strategies: controller types', () => {
       };
 
       // @ts-expect-error classes implements only required methods -> ts show errors
-      ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller, new Map(), false);
+      await ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller);
 
       expect(instance.setErrorHandler).toHaveBeenCalled();
     });
@@ -184,7 +185,7 @@ describe('Strategies: controller types', () => {
         general = generalError;
       }
 
-      let errorHandler: (error: Error, request: unknown) => void;
+      let errorHandler: (error: Error, request: unknown) => void | Promise<void>;
       const instance = {
         setErrorHandler: (_errorHandler: typeof errorHandler) => (errorHandler = _errorHandler),
       };
@@ -192,8 +193,7 @@ describe('Strategies: controller types', () => {
       beforeEach(() => {
         jest.resetAllMocks();
 
-        // @ts-expect-error classes implements only required methods -> ts show errors
-        ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller, new Map(), false);
+        return ControllerTypeStrategies[ControllerType.REQUEST](instance as unknown as FastifyInstance, Controller as Registrable);
       });
 
       it('should register error handler', () => {
@@ -201,7 +201,7 @@ describe('Strategies: controller types', () => {
       });
 
       it('should call TypeError handler only', async () => {
-        errorHandler(new TypeError('test'), {});
+        await errorHandler(new TypeError('test'), {});
 
         expect(typeError).toHaveBeenCalledWith(new TypeError('test'), {}, undefined);
         expect(generalError).not.toHaveBeenCalled();
@@ -211,14 +211,14 @@ describe('Strategies: controller types', () => {
         typeError.mockImplementation(() => {
           throw new Error('Unaccepted');
         });
-        errorHandler(new TypeError('test'), {});
+        await errorHandler(new TypeError('test'), {});
 
         expect(typeError).toHaveBeenCalledWith(new TypeError('test'), {}, undefined);
         expect(generalError).toHaveBeenCalledWith(new Error('Unaccepted'), {}, undefined);
       });
 
       it('should call general error handler when non TypeError received', async () => {
-        errorHandler(new Error('test'), {});
+        await errorHandler(new Error('test'), {});
 
         expect(typeError).not.toHaveBeenCalled();
         expect(generalError).toHaveBeenCalledWith(new Error('test'), {}, undefined);
@@ -241,8 +241,7 @@ describe('Strategies: controller types', () => {
         },
       };
 
-      // @ts-expect-error classes implements only required methods -> ts show errors
-      ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller, new Map(), false);
+      beforeAll(() => ControllerTypeStrategies[ControllerType.REQUEST](instance as FastifyInstance, Controller as Registrable));
 
       beforeEach(() => jest.resetAllMocks());
 
@@ -250,8 +249,8 @@ describe('Strategies: controller types', () => {
         expect(Object.keys(hooks)).toHaveLength(1);
       });
 
-      it('should call registered right hook', () => {
-        hooks.onRequest({});
+      it('should call registered right hook', async () => {
+        await hooks.onRequest({});
 
         expect(onRequestHook).toHaveBeenCalled();
       });
