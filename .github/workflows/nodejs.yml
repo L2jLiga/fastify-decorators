@@ -46,7 +46,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.javascript.lcov.reportPaths=coverage/library/lcov.info,coverage/integration/**/lcov.info
+            -Dsonar.javascript.lcov.reportPaths=coverage/library/lcov.info,coverage/integration/aws-lambda/lcov.info,coverage/integration/controllers/lcov.info,coverage/integration/request-handlers/lcov.info,coverage/integration/swagger/lcov.info,coverage/integration/typeorm/lcov.info
+            -Dsonar.sources=lib/
       - name: Upload unit-tests coverage to Codecov
         uses: codecov/codecov-action@v2.0.2
         with:
@@ -91,7 +92,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.javascript.lcov.reportPaths=coverage/library/lcov.info,coverage/integration/**/lcov.info
+            -Dsonar.javascript.lcov.reportPaths=coverage/library/lcov.info,coverage/integration/aws-lambda/lcov.info,coverage/integration/controllers/lcov.info,coverage/integration/request-handlers/lcov.info,coverage/integration/swagger/lcov.info,coverage/integration/typeorm/lcov.info
+            -Dsonar.sources=lib/
       - name: Upload unit-tests coverage to Codecov
         uses: codecov/codecov-action@v2.0.2
         with:
