@@ -2,7 +2,7 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "ecmaVersion": 2019,
     "sourceType": "module",
     "project": "./tsconfig.eslint.json"
   },
@@ -23,6 +23,7 @@
       2,
       { "ignoreUrls": true, "ignoreComments": true, "ignoreRegExpLiterals": true, "ignoreStrings": true, "ignoreTemplateLiterals": true }
     ],
+    "comma-dangle": ["error", "always-multiline"],
     "jest/expect-expect": "off"
   }
 }

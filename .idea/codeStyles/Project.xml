@@ -1,6 +1,7 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
     <option name="RIGHT_MARGIN" value="160" />
+    <option name="SOFT_MARGINS" value="160" />
     <HTMLCodeStyleSettings>
       <option name="HTML_SPACE_INSIDE_EMPTY_TAG" value="true" />
       <option name="HTML_QUOTE_STYLE" value="Single" />
@@ -43,6 +44,7 @@
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="JavaScript">
+      <option name="RIGHT_MARGIN" value="160" />
       <option name="SOFT_MARGINS" value="160" />
       <indentOptions>
         <option name="INDENT_SIZE" value="2" />
@@ -51,6 +53,7 @@
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="TypeScript">
+      <option name="RIGHT_MARGIN" value="160" />
       <option name="SOFT_MARGINS" value="160" />
       <indentOptions>
         <option name="INDENT_SIZE" value="2" />
