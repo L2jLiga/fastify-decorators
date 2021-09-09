@@ -435,27 +435,27 @@
     slash "^3.0.0"
     strip-ansi "^6.0.0"
 
-"@jest/environment@^27.1.0":
-  version "27.1.0"
-  resolved "https://registry.yarnpkg.com/@jest/environment/-/environment-27.1.0.tgz#c7224a67004759ec203d8fa44e8bc0db93f66c44"
-  integrity sha512-wRp50aAMY2w1U2jP1G32d6FUVBNYqmk8WaGkiIEisU48qyDV0WPtw3IBLnl7orBeggveommAkuijY+RzVnNDOQ==
+"@jest/environment@^27.1.0", "@jest/environment@^27.1.1":
+  version "27.1.1"
+  resolved "https://registry.yarnpkg.com/@jest/environment/-/environment-27.1.1.tgz#a1f7a552f7008f773988b9c0e445ede35f77bbb7"
+  integrity sha512-+y882/ZdxhyqF5RzxIrNIANjHj991WH7jifdcplzMDosDUOyCACFYUyVTBGbSTocbU+s1cesroRzkwi8hZ9SHg==
   dependencies:
-    "@jest/fake-timers" "^27.1.0"
-    "@jest/types" "^27.1.0"
+    "@jest/fake-timers" "^27.1.1"
+    "@jest/types" "^27.1.1"
     "@types/node" "*"
-    jest-mock "^27.1.0"
+    jest-mock "^27.1.1"
 
-"@jest/fake-timers@^27.1.0":
-  version "27.1.0"
-  resolved "https://registry.yarnpkg.com/@jest/fake-timers/-/fake-timers-27.1.0.tgz#c0b343d8a16af17eab2cb6862e319947c0ea2abe"
-  integrity sha512-22Zyn8il8DzpS+30jJNVbTlm7vAtnfy1aYvNeOEHloMlGy1PCYLHa4PWlSws0hvNsMM5bON6GISjkLoQUV3oMA==
+"@jest/fake-timers@^27.1.0", "@jest/fake-timers@^27.1.1":
+  version "27.1.1"
+  resolved "https://registry.yarnpkg.com/@jest/fake-timers/-/fake-timers-27.1.1.tgz#557a1c0d067d33bcda4dfae9a7d8f96a15a954b5"
+  integrity sha512-u8TJ5VlsVYTsGFatoyIae2l25pku4Bu15QCPTx2Gs5z+R//Ee3tHN85462Vc9yGVcdDvgADbqNkhOLxbEwPjMQ==
   dependencies:
-    "@jest/types" "^27.1.0"
+    "@jest/types" "^27.1.1"
     "@sinonjs/fake-timers" "^7.0.2"
     "@types/node" "*"
-    jest-message-util "^27.1.0"
-    jest-mock "^27.1.0"
-    jest-util "^27.1.0"
+    jest-message-util "^27.1.1"
+    jest-mock "^27.1.1"
+    jest-util "^27.1.1"
 
 "@jest/globals@^27.1.0":
   version "27.1.0"
@@ -4595,16 +4595,16 @@ jest-environment-jsdom@^27.1.0:
     jsdom "^16.6.0"
 
 jest-environment-node@^27.0.6, jest-environment-node@^27.1.0:
-  version "27.1.0"
-  resolved "https://registry.yarnpkg.com/jest-environment-node/-/jest-environment-node-27.1.0.tgz#feea6b765f1fd4582284d4f1007df2b0a8d15b7f"
-  integrity sha512-JIyJ8H3wVyM4YCXp7njbjs0dIT87yhGlrXCXhDKNIg1OjurXr6X38yocnnbXvvNyqVTqSI4M9l+YfPKueqL1lw==
+  version "27.1.1"
+  resolved "https://registry.yarnpkg.com/jest-environment-node/-/jest-environment-node-27.1.1.tgz#97425d4762b2aeab15892ffba08c6cbed7653e75"
+  integrity sha512-OEGeZh0PwzngNIYWYgWrvTcLygopV8OJbC9HNb0j70VBKgEIsdZkYhwcFnaURX83OHACMqf1pa9Tv5Pw5jemrg==
   dependencies:
-    "@jest/environment" "^27.1.0"
-    "@jest/fake-timers" "^27.1.0"
-    "@jest/types" "^27.1.0"
+    "@jest/environment" "^27.1.1"
+    "@jest/fake-timers" "^27.1.1"
+    "@jest/types" "^27.1.1"
     "@types/node" "*"
-    jest-mock "^27.1.0"
-    jest-util "^27.1.0"
+    jest-mock "^27.1.1"
+    jest-util "^27.1.1"
 
 jest-get-type@^27.0.6:
   version "27.0.6"
@@ -4695,12 +4695,27 @@ jest-message-util@^27.1.0:
     slash "^3.0.0"
     stack-utils "^2.0.3"
 
-jest-mock@^27.1.0:
-  version "27.1.0"
-  resolved "https://registry.yarnpkg.com/jest-mock/-/jest-mock-27.1.0.tgz#7ca6e4d09375c071661642d1c14c4711f3ab4b4f"
-  integrity sha512-iT3/Yhu7DwAg/0HvvLCqLvrTKTRMyJlrrfJYWzuLSf9RCAxBoIXN3HoymZxMnYsC3eD8ewGbUa9jUknwBenx2w==
+jest-message-util@^27.1.1:
+  version "27.1.1"
+  resolved "https://registry.yarnpkg.com/jest-message-util/-/jest-message-util-27.1.1.tgz#980110fb72fcfa711cd9a95e8f10d335207585c6"
+  integrity sha512-b697BOJV93+AVGvzLRtVZ0cTVRbd59OaWnbB2D75GRaIMc4I+Z9W0wHxbfjW01JWO+TqqW4yevT0aN7Fd0XWng==
   dependencies:
-    "@jest/types" "^27.1.0"
+    "@babel/code-frame" "^7.12.13"
+    "@jest/types" "^27.1.1"
+    "@types/stack-utils" "^2.0.0"
+    chalk "^4.0.0"
+    graceful-fs "^4.2.4"
+    micromatch "^4.0.4"
+    pretty-format "^27.1.1"
+    slash "^3.0.0"
+    stack-utils "^2.0.3"
+
+jest-mock@^27.1.0, jest-mock@^27.1.1:
+  version "27.1.1"
+  resolved "https://registry.yarnpkg.com/jest-mock/-/jest-mock-27.1.1.tgz#c7a2e81301fdcf3dab114931d23d89ec9d0c3a82"
+  integrity sha512-SClsFKuYBf+6SSi8jtAYOuPw8DDMsTElUWEae3zq7vDhH01ayVSIHUSIa8UgbDOUalCFp6gNsaikN0rbxN4dbw==
+  dependencies:
+    "@jest/types" "^27.1.1"
     "@types/node" "*"
 
 jest-pnp-resolver@^1.2.2:
