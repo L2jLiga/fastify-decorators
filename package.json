@@ -24,7 +24,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@betit/rollup-plugin-rename-extensions": "^0.1.0",
-    "@microsoft/eslint-formatter-sarif": "^2.1.5",
+    "@microsoft/eslint-formatter-sarif": "https://gitpkg.vercel.app/microsoft/sarif-sdk/src/ESLint.Formatter?v2.4.11",
     "@prettier/plugin-xml": "^1.0.1",
     "@rollup/plugin-typescript": "^8.2.1",
     "@types/jest": "^27.0.0",
