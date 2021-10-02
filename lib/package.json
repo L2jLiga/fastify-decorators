@@ -22,10 +22,9 @@
     }
   },
   "scripts": {
-    "build": "rollup -c rollup-config.js && tsc -p tsconfig.lib.json && yarn downlevel",
+    "build": "rollup -c rollup-config.js && tsc -p tsconfig.lib.json",
     "prebuild": "rimraf ../dist/",
     "postbuild": "cp -r ./package.json ../README.md ../CHANGELOG.md ../LICENSE ../docs ../dist/fastify-decorators && node ../patch-readme.cjs",
-    "downlevel": "downlevel-dts ../dist/fastify-decorators ../dist/fastify-decorators",
     "test": "jest --config jest.config.cjs"
   },
   "repository": {
