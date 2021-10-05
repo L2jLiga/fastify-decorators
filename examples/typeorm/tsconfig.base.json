@@ -4,9 +4,8 @@
 
     /* Basic Options */
     "target": "ES2019",
-    "module": "CommonJS",
+    "module": "ESNext",
     "outDir": "./dist",
-    "importHelpers": true,
 
     /* Strict Type-Checking Options */
     "strict": true,

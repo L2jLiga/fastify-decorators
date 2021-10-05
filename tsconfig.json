@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2019",
-    "module": "CommonJS",
+    "module": "ESNext",
     "moduleResolution": "Node",
     "baseUrl": ".",
     "paths": {
@@ -14,8 +14,6 @@
     { "path": "lib/tsconfig.spec.json" },
     { "path": "examples/controllers/tsconfig.app.json" },
     { "path": "examples/controllers/tsconfig.spec.json" },
-    { "path": "examples/esm/tsconfig.app.json" },
-    { "path": "examples/esm/tsconfig.spec.json" },
     { "path": "examples/request-handlers/tsconfig.app.json" },
     { "path": "examples/request-handlers/tsconfig.spec.json" },
     { "path": "examples/swagger/tsconfig.app.json" },

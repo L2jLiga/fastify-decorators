@@ -1,5 +1,6 @@
-import { FastifyInstance } from 'fastify';
 import { configureControllerTest } from '@fastify-decorators/simple-di/testing';
+import { jest } from '@jest/globals';
+import { FastifyInstance } from 'fastify';
 import { MessageController } from '../../../src/controllers/message.controller.js';
 import { MessageFacade } from '../../../src/facades/message.facade.js';
 
@@ -14,7 +15,7 @@ describe('Controller: Message Controller', () => {
       getMessageBy: jest.fn(),
       storeMessage: jest.fn(),
       deleteBy: jest.fn(),
-    };
+    } as Record<keyof MessageFacade, jest.Mock>;
 
     instance = await configureControllerTest({
       controller: MessageController,

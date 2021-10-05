@@ -1,8 +1,11 @@
 import fastify from 'fastify';
 import * as fs from 'fs';
-import { join } from 'path';
+import { dirname, join } from 'path';
 import { Connection, createConnection, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { fileURLToPath } from 'url';
 import { CrudController } from '../src/controllers/crud-controller';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe('Decorators: CrudController', () => {
   let connection: Connection;
@@ -30,7 +33,7 @@ describe('Decorators: CrudController', () => {
       autoSave: true,
       location: join(__dirname, 'database.db'),
       entities: [EntityImpl, EntitySubImpl],
-      logging: ['query', 'schema'],
+      logging: false,
       synchronize: true,
     });
   });

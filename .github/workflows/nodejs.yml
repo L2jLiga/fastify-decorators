@@ -32,12 +32,10 @@ jobs:
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install --frozen-lock-file
-      - name: Build projects (with ESM)
+      - name: Build projects
         run: yarn build
-      - name: Run library tests (with ESM)
+      - name: Run tests
         run: yarn test
-        env:
-          CI: true
       - name: Upload unit-tests coverage to Codecov
         uses: codecov/codecov-action@v2.1.0
         with:

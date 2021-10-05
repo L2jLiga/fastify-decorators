@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import type { RouteShorthandOptions } from 'fastify';
 import { IHook } from '../../interfaces/controller.js';
 import { CREATOR, HOOKS } from '../../symbols/index.js';
@@ -119,7 +120,8 @@ describe('Factory: request decorators', () => {
       // @ts-expect-error created implicitly by decorate
       Handler[CREATOR].register(instance);
 
-      const [, { onSend }] = instance.get.mock.calls.pop();
+      // TODO: fix types
+      const [, { onSend }] = instance.get.mock.calls.pop() as any[];
       await onSend({});
 
       expect(onSendHook).toHaveBeenCalledWith({});
@@ -218,7 +220,8 @@ describe('Factory: request decorators', () => {
       // @ts-expect-error created implicitly by decorate
       Handler[CREATOR].register(instance);
 
-      const [, { errorHandler: _errorHandler }] = instance.get.mock.calls.pop();
+      // TODO: fix types
+      const [, { errorHandler: _errorHandler }] = instance.get.mock.calls.pop() as any[];
       errorHandler = _errorHandler;
     });
 

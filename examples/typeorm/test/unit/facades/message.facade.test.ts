@@ -1,6 +1,7 @@
 import { configureServiceTest } from '@fastify-decorators/simple-di/testing';
 import { MessageFacade } from '../../../src/facades/message.facade.js';
 import { ConnectionService } from '../../../src/services/connection.service.js';
+import { jest } from '@jest/globals';
 
 interface MockRepository {
   find: jest.Mock;
@@ -23,7 +24,8 @@ describe('Facade: MessageFacade', () => {
       find: jest.fn(),
       findOne: jest.fn(),
       save: jest.fn(),
-    };
+    } as MockRepository;
+
     facade = configureServiceTest({
       service: MessageFacade,
       mocks: [
@@ -33,7 +35,7 @@ describe('Facade: MessageFacade', () => {
             connection: {
               getRepository: () => repository,
               close: jest.fn(),
-            },
+            } as MockConnection,
           } as Record<keyof ConnectionService, MockConnection>,
         },
       ],

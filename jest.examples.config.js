@@ -1,11 +1,13 @@
-module.exports = {
-  preset: 'ts-jest',
+export default {
+  preset: 'ts-jest/presets/default-esm',
   rootDir: '../..',
   collectCoverage: true,
-  coverageReporters: process.env.CI ? ['text', 'lcov', 'jest-github-actions-reporter'] : ['text'],
+  coverageProvider: 'v8',
+  coverageReporters: ['lcov', 'text'],
   globals: {
     'ts-jest': {
       tsconfig: './tsconfig.spec.json',
+      useESM: true,
     },
   },
   resolver: 'jest-ts-webcompat-resolver',

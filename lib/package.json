@@ -3,25 +3,20 @@
   "version": "4.0.0",
   "description": "Framework aimed to provide useful TypeScript decorators to implement controllers, services and request handlers, built with Fastify.",
   "type": "module",
-  "main": "index.cjs",
+  "main": "index.js",
   "module": "index.js",
   "types": "index.d.ts",
   "typings": "index.d.ts",
   "exports": {
-    ".": {
-      "import": "./index.js",
-      "require": "./index.cjs"
-    },
-    "./plugins": {
-      "import": "./plugins/index.js",
-      "require": "./plugins/index.cjs"
-    }
+    ".": "./index.js",
+    "./package.json": "./package.json",
+    "./plugins": "./plugins/index.js"
   },
   "scripts": {
-    "build": "rollup -c rollup-config.js && tsc -p tsconfig.lib.json",
+    "build": "tsc -p tsconfig.lib.json",
     "prebuild": "rimraf ../dist/",
-    "postbuild": "cp -r ./package.json ../README.md ../CHANGELOG.md ../LICENSE ../docs ../dist/fastify-decorators && node ../patch-readme.cjs",
-    "test": "jest --config jest.config.cjs"
+    "postbuild": "cp -r ./package.json ../README.md ../CHANGELOG.md ../LICENSE ../docs ../dist/fastify-decorators && node ../patch-readme.js",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "repository": {
     "type": "git",
@@ -55,7 +50,8 @@
   },
   "peerDependencies": {
     "@types/node": "*",
-    "fastify": "^3.0.1"
+    "fastify": "^3.0.1",
+    "typescript": "^4.0.0"
   },
   "maintainers": [
     "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)"

@@ -1,7 +1,7 @@
 import { GET, Hook, RequestHandler } from 'fastify-decorators';
 
 @GET('/hook')
-class HookHandler extends RequestHandler {
+export default class HookHandler extends RequestHandler {
   handle(): void {
     this.reply.status(204).send();
   }
@@ -11,5 +11,3 @@ class HookHandler extends RequestHandler {
     this.reply.header('X-Powered-By', 'RequestHandler');
   }
 }
-
-module.exports = HookHandler;

@@ -6,4 +6,3 @@ dist
 coverage
 # don't lint scripts/configs
 *.js
-*.cjs
