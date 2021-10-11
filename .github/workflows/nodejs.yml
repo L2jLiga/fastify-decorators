@@ -39,12 +39,12 @@ jobs:
         env:
           CI: true
       - name: Upload unit-tests coverage to Codecov
-        uses: codecov/codecov-action@v2.0.3
+        uses: codecov/codecov-action@v2.1.0
         with:
           directory: coverage/library
           flags: unittests
       - name: Upload examples code coverage to Codecov
-        uses: codecov/codecov-action@v2.0.3
+        uses: codecov/codecov-action@v2.1.0
         with:
           directory: coverage/integration
           flags: integration
