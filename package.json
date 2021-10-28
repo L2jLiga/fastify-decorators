@@ -35,6 +35,7 @@
     "eslint-plugin-jest": "^25.2.2",
     "eslint-plugin-prettier": "^4.0.0",
     "fastify": "^3.22.1",
+    "glob": "^7.2.0",
     "husky": "^7.0.4",
     "jest": "^27.3.1",
     "jest-resolve": "^27.3.1",
