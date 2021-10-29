@@ -4,7 +4,6 @@ export default {
   preset: 'ts-jest/presets/default-esm',
   rootDir: '../..',
   collectCoverage: true,
-  coverageProvider: 'v8',
   coverageReporters: ['lcov', 'text'],
   globals: {
     'ts-jest': {
