@@ -1,6 +1,6 @@
-const baseConfig = require('../../jest.examples.config');
+import baseConfig from '../../jest.examples.config.js';
 
-module.exports = {
+export default {
   ...baseConfig,
   coverageDirectory: './coverage/integration/controllers',
   testRegex: 'examples/controllers/test/.*.test.ts$',

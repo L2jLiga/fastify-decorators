@@ -44,7 +44,6 @@ function injectProperties(target: unknown, injectables: Injectables, cacheResult
 
 function getArguments<C>(constructor: Constructor<C>, injectables: Injectables, cacheResult: boolean, className: string) {
   const metadata: unknown[] = Reflect.getMetadata('design:paramtypes', constructor) || [];
-  console.log(JSON.stringify(metadata));
   return metadata
     .map((value) => injectables.get(value))
     .map((value: InjectableService | undefined) => {

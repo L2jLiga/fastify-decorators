@@ -1,7 +1,6 @@
 *                 text=auto
 
 # Source code
-*.cjs             text eol=lf linguist-language=JavaScript
 *.js              text eol=lf linguist-language=JavaScript
 *.json            text eol=lf linguist-language=JSON-With-Comments
 *.ts              text eol=lf linguist-language=TypeScript

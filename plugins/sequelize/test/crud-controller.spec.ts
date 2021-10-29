@@ -1,24 +1,24 @@
 import fastify from 'fastify';
-import { DataTypes, Model, ModelStatic, Sequelize } from 'sequelize';
+import Sequelize from 'sequelize';
 import { CrudController } from '../src/controllers/crud-controller';
 
 describe('Decorators: CrudController', () => {
-  let sequelize: Sequelize;
+  let sequelize: Sequelize.Sequelize;
 
-  class User extends Model {
+  class User extends Sequelize.Model {
     public id!: number; // Note that the `null assertion` `!` is required in strict mode.
     public name!: string;
     public preferredName!: string | null; // for nullable fields
   }
 
   beforeEach(async () => {
-    sequelize = new Sequelize('sqlite:memory.db:', { logging: false });
+    sequelize = new Sequelize.Sequelize('sqlite:memory.db:', { logging: false });
     await sequelize.authenticate();
-    User.init<ModelStatic<User>, User>(
+    User.init<Sequelize.ModelStatic<User>, User>(
       {
-        id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-        name: { type: new DataTypes.STRING(128), allowNull: false },
-        preferredName: { type: new DataTypes.STRING(128), allowNull: true },
+        id: { type: Sequelize.DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+        name: { type: new Sequelize.DataTypes.STRING(128), allowNull: false },
+        preferredName: { type: new Sequelize.DataTypes.STRING(128), allowNull: true },
       },
       { tableName: 'users', sequelize },
     );

@@ -1,11 +1,14 @@
-module.exports = {
-  preset: 'ts-jest',
+import { workersWorkaround } from './jest-dynamic-import-esm-workaround.js';
+
+export default {
+  preset: 'ts-jest/presets/default-esm',
   rootDir: '../..',
   collectCoverage: true,
-  coverageReporters: process.env.CI ? ['text', 'lcov', 'jest-github-actions-reporter'] : ['text'],
+  coverageReporters: ['lcov', 'text'],
   globals: {
     'ts-jest': {
       tsconfig: './tsconfig.spec.json',
+      useESM: true,
     },
   },
   resolver: 'jest-ts-webcompat-resolver',
@@ -15,4 +18,5 @@ module.exports = {
     '^fastify-decorators/(.*)$': '<rootDir>/lib/$1',
   },
   modulePathIgnorePatterns: ['<rootDir>/dist/fastify-decorators', '<rootDir>/node_modules/fastify-decorators'],
+  ...workersWorkaround,
 };

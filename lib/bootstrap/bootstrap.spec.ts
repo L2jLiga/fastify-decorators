@@ -1,7 +1,10 @@
 import { fastify } from 'fastify';
-import { resolve } from 'path';
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
 import { bootstrap } from './bootstrap.js';
 import SampleControllerMock from './mocks/controllers/sample.controller.mock.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe('Bootstrap test', () => {
   it('should bootstrap controller', async () => {
@@ -21,6 +24,18 @@ describe('Bootstrap test', () => {
     instance.register(bootstrap, {
       directory: resolve(__dirname, 'mocks'),
       mask: /\.handler\.mock\.ts/,
+    });
+
+    const res = await instance.inject({ url: '/index' });
+
+    expect(res.payload).toBe('{"message":"ok"}');
+  });
+
+  it('should be able to bootstrap when mask is string', async () => {
+    const instance = fastify();
+    instance.register(bootstrap, {
+      directory: resolve(__dirname, 'mocks'),
+      mask: '.handler.mock.ts',
     });
 
     const res = await instance.inject({ url: '/index' });
@@ -61,19 +76,18 @@ describe('Bootstrap test', () => {
     expect(res.payload).toBe('{"message":"ok"}');
   });
 
-  it('should throw an error while bootstrap application', async () => {
-    const instance = fastify();
-    instance.register(bootstrap, {
-      directory: resolve(__dirname, 'mocks', 'controllers'),
-      mask: /\.ts/,
-    });
-
-    await expect(instance.inject({ url: '/broken' })).rejects.toThrow();
-  });
+  it('should throw an error while bootstrap application', async () =>
+    expect(
+      fastify().register(bootstrap, {
+        directory: resolve(__dirname, 'mocks', 'controllers'),
+        mask: /\.ts/,
+      }),
+    ).rejects.toThrow('Loaded file is incorrect module and can not be bootstrapped: undefined'));
 
   it('should skip broken controller', async () => {
     const instance = fastify();
-    instance.register(bootstrap, {
+
+    await instance.register(bootstrap, {
       directory: resolve(__dirname, 'mocks', 'controllers'),
       mask: /\.ts/,
       skipBroken: true,

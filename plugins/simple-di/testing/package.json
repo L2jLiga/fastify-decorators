@@ -1,13 +1,10 @@
 {
   "type": "module",
-  "main": "./index.cjs",
+  "main": "./index.js",
   "module": "./index.js",
   "types": "./index.d.ts",
   "typings": "./index.d.ts",
   "exports": {
-    ".": {
-      "import": "./index.js",
-      "require": "./index.cjs"
-    }
+    ".": "./index.js"
   }
 }

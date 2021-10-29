@@ -6,13 +6,12 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { FastifyPluginOptions } from 'fastify';
-import { Constructable } from './constructable.js';
+import type { Constructable } from './constructable.js';
 
 /**
  * Config for application bootstrap
  */
-export interface AutoLoadConfig extends FastifyPluginOptions {
+export interface AutoLoadConfig {
   /**
    * Path to directory which contains files to load
    */
@@ -37,7 +36,7 @@ export interface AutoLoadConfig extends FastifyPluginOptions {
   prefix?: string;
 }
 
-export interface ControllersListConfig extends FastifyPluginOptions {
+export interface ControllersListConfig {
   /**
    * List of Controller classes to bootstrap
    */

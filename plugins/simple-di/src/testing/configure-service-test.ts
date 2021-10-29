@@ -46,19 +46,23 @@ export function configureServiceTest<Service>(config: ServiceTestConfig<Service>
   // @ts-expect-error TS doesn't know that we have class instance here
   return new Proxy(instance, {
     get<T>(target: T, p: keyof T | 'then' | 'catch' | 'finally') {
-      if (p === 'then' || p === 'catch' || p === 'finally') {
+      if (isPromiseLikeAccess<T>(p)) {
         if (promise == null)
           promise = hasAsyncInitializer(service)
             ? // @ts-expect-error if service has async initializer then it exists in readyMap
               readyMap.get(service).then(() => target)
             : Promise.resolve(target);
 
-        return promise[p as 'then' | 'catch' | 'finally'].bind(promise);
+        return promise[p].bind(promise);
       }
 
       return target[p];
     },
   }) as Promise<Service> & Service;
+}
+
+function isPromiseLikeAccess<T, K extends keyof T = keyof T>(p: K | 'then' | 'catch' | 'finally'): p is 'then' | 'catch' | 'finally' {
+  return p === 'then' || p === 'catch' || p === 'finally';
 }
 
 function isInjectable<Service>(service: Constructor<Service>): asserts service is InjectableService {
