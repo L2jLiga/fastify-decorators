@@ -26,9 +26,6 @@
     "fastify-decorators": "^4.0.0",
     "sequelize": "^6.8.0"
   },
-  "peerDependencies": {
-    "typescript": ">= 3.8.0"
-  },
   "devDependencies": {
     "@types/jest": "^27.0.2",
     "@types/node": "~12.20.36",

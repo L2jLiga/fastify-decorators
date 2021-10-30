@@ -1,5 +1,5 @@
 {
-  "name": "@fastify-decorators/simple-di",
+  "name": "@fastify-decorators/typedi",
   "version": "4.0.0",
   "description": "fastify-decorators plugin to work with Sequelize",
   "license": "MIT",
@@ -8,8 +8,7 @@
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.js",
-    "./testing": "./dist/testing/index.js"
+    ".": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.lib.json",
@@ -26,7 +25,8 @@
   ],
   "dependencies": {
     "fastify-decorators": "^4.0.0",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "typedi": "^0.10.0"
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
