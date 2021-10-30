@@ -2,6 +2,9 @@
 
 ### Request handlers
 
+Request handlers is special classes used to handle and proceed single request.
+For each request new instance of RequestHandler class is instantiated.
+
 Here the list of available HTTP methods decorators:
 
 **@GET**, **@HEAD**, **@PATCH**, **@POST**, **@PUT**, **@OPTIONS**, **@DELETE**
@@ -17,15 +20,17 @@ There's also one special decorator for all methods: **@ALL**
 Decorators have same signature, which consist of two overloads:
 
 _First overload_:
-| name | type | required | default | description |
-|---------|---------------------------|:--------:|:-------:|--------------------------------------------------|
-| url | `string` | no | `/` | Route url which will be passed to Fastify |
-| options | [`RouteShorthandOptions`] | no | `{}` | Config for route which will be passed to Fastify |
+
+| name    | type                      | required | default | description                                      |
+| ------- | ------------------------- | :------: | :-----: | ------------------------------------------------ |
+| url     | `string`                  |    no    |   `/`   | Route url which will be passed to Fastify        |
+| options | [`RouteShorthandOptions`] |    no    |  `{}`   | Config for route which will be passed to Fastify |
 
 _Second overload_:
-| name | type | required | default | description |
-|---------|-----------------|:--------:|:-------:|----------------------------------------------|
-| url | `RouteOptions` | no | `{}` | Route url and config to be passed to Fastify |
+
+| name | type           | required | default | description                                  |
+| ---- | -------------- | :------: | :-----: | -------------------------------------------- |
+| url  | `RouteOptions` |    no    |  `{}`   | Route url and config to be passed to Fastify |
 
 ### Request handler per class
 
@@ -37,21 +42,6 @@ import { GET, RequestHandler } from 'fastify-decorators';
 @GET('/')
 class MyRequestHandler extends RequestHandler {
   async handler() {} // concrete implementation of abstract method in RequestHandler
-}
-```
-
-### Request handler per method
-
-In controllers you can decorate every method with one of the request decorators:
-
-```ts
-import { FastifyReply, FastifyRequest } from 'fastify';
-import { Controller, GET } from 'fastify-decorators';
-
-@Controller()
-class MyController {
-  @GET()
-  async handler(request: FastifyRequest, reply: FastifyReply) {}
 }
 ```
 

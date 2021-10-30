@@ -56,62 +56,6 @@ export default class SimpleController {
 
 Read [Request Handlers] for more info.
 
-### Injecting services
-
-Controllers may depend on other services and for such cases library provides dependency injection mechanism.
-
-To inject service you will need to decorate your service with `@Service` decorator.
-
-_Example_:
-
-```ts
-import { Service } from 'fastify-decorators';
-
-@Service()
-export class MyService {}
-```
-
-After that you can inject the service into other service or controller with one of 3 ways:
-
-_getInstanceByToken_:
-
-```ts
-import { getInstanceByToken, Controller } from 'fastify-decorators';
-import { MyService } from './my-service';
-
-@Controller()
-export class MyController {
-  myService: MyService = getInstanceByToken(MyService);
-}
-```
-
-_Inject_:
-
-```ts
-import { Controller, Inject } from 'fastify-decorators';
-import { MyService } from './my-service';
-
-@Controller()
-export class MyController {
-  @Inject(MyService)
-  myService!: MyService;
-}
-```
-
-_Constructor parameters_:
-
-```ts
-import { Controller } from 'fastify-decorators';
-import { MyService } from './my-service';
-
-@Controller()
-export class MyController {
-  constructor(public myService: MyService) {}
-}
-```
-
-Read [Services and dependency injection] for more info
-
 ### Creating hooks
 
 There are also decorator which allows using [Fastify Hooks]:

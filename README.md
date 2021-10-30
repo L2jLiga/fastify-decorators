@@ -30,7 +30,6 @@
 - [Bootstrapping]
 - [Controllers]
 - [Request Handlers]
-- [Services and dependency injection]
 - [Testing]
 - [Migration guide (V4)]
 
@@ -257,6 +256,5 @@ This project licensed under [MIT License]
 [bootstrapping]: ./docs/Bootstrapping.md
 [controllers]: ./docs/Controllers.md
 [request handlers]: ./docs/Request%20Handlers.md
-[services and dependency injection]: ./docs/Services%20and%20dependency%20injection.md
 [testing]: ./docs/Testing.md
 [migration guide (v4)]: ./docs/Migration%20to%20v4.md

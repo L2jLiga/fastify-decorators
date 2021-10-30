@@ -9,15 +9,16 @@ One of the options to bootstrap app is autoload feature, it uses path and mask t
 
 _Example_:
 
-```ts
+```typescript
 import { fastify } from 'fastify';
 import { bootstrap } from 'fastify-decorators';
-import { join } from 'path';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const app = fastify();
 
 app.register(bootstrap, {
-  directory: __dirname,
+  directory: dirname(fileURLToPath(import.meta.url)),
   mask: /\.controller\./,
 });
 ```
@@ -28,12 +29,14 @@ Second option available is to specify all required controllers and/or handlers v
 
 _Example_:
 
-```ts
+```typescript
 import { fastify } from 'fastify';
 import { bootstrap } from 'fastify-decorators';
-import { join } from 'path';
 
+// With default export
 import MyController from './my-controller.js';
+
+// With named export
 import { SecondController } from './second-controller.js';
 
 const app = fastify();
@@ -42,18 +45,3 @@ app.register(bootstrap, {
   controllers: [MyController, SecondController],
 });
 ```
-
-#### Limitations:
-
-- It's not possible to use `getInstanceByToken` for getting `FastifyInstance` in static fields or decorators options:
-
-  ```ts
-  import { Controller, FastifyInstanceToken, getInstanceByToken } from 'fastify-decorators';
-
-  @Controller()
-  class InstanceController {
-    // Will throw an error when bootstrap via controllers list
-    // This happens because "FastifyInstance" not available before "bootstrap" call but required when controller imported
-    static instance = getInstanceByToken(FastifyInstanceToken);
-  }
-  ```
