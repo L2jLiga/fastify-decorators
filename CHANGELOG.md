@@ -7,12 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 4.0.0
 
+### Added
+
+- Initialization hooks for plugin ecosystem
+- Plugin for integration with [TypeDI](https://npmjs.com/package/typedi)
+
 ### Changed
 
 - BREAKING: minimal supported Node.js version is v12.13.1
 - BREAKING: moved dependency injection functionality into separate package
 - BREAKING: removed CommonJS build
-- BREAKING: minimal TypeScript version supported is 4.0
+- BREAKING: minimal TypeScript version officially supported is 4.0
 
 ## 3.10.0
 

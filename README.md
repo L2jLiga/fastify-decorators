@@ -20,7 +20,9 @@
   - **High performance** - Framework adds as less overhead to Fastify as it can
 - **Highly customizable** - Create your controllers, services and their methods as you wish
 - **100% TypeScript** - Written in [TypeScript](https://www.typescriptlang.org/) and comes with all the required typings
-- **Built-in DI** - Provides simple Dependency Injection interface to bind your entries
+- **Plugins** - Library provides APIs to extend its functionality
+  - [**Simple DI**](./plugins/simple-di) - Provides simple Dependency Injection interface to bind your services
+  - [**TypeDI**](./plugins/typedi) - Provides integration with [TypeDI](https://npmjs.com/package/typedi)
 
 ## Documentation
 
@@ -30,7 +32,7 @@
 - [Request Handlers]
 - [Services and dependency injection]
 - [Testing]
-- [Migration guide (V3)]
+- [Migration guide (V4)]
 
 ## IDE Support
 
@@ -257,4 +259,4 @@ This project licensed under [MIT License]
 [request handlers]: ./docs/Request%20Handlers.md
 [services and dependency injection]: ./docs/Services%20and%20dependency%20injection.md
 [testing]: ./docs/Testing.md
-[migration guide (v3)]: ./docs/Migration%20to%20v3.md
+[migration guide (v4)]: ./docs/Migration%20to%20v4.md
