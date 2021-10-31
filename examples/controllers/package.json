@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "fastify": "^3.22.1",
-    "fastify-decorators": "^4.0.0",
-    "@fastify-decorators/simple-di": "^4.0.0"
+    "fastify-decorators": "^4.0.0-next.0",
+    "@fastify-decorators/simple-di": "^4.0.0-next.0"
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",

@@ -23,7 +23,7 @@
   "dependencies": {
     "@types/json-schema": "^7.0.9",
     "@types/validator": "^13.6.5",
-    "fastify-decorators": "^4.0.0",
+    "fastify-decorators": "^4.0.0-next.0",
     "sequelize": "^6.8.0"
   },
   "devDependencies": {
