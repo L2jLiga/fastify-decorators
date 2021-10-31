@@ -11,6 +11,9 @@ import { InjectableService } from '../interfaces/injectable-class.js';
 import { injectables } from '../registry/injectables.js';
 import { INITIALIZER, INJECTABLES } from '../symbols.js';
 import { createWithInjectedDependencies } from './helpers/inject-dependencies.js';
+import { patchMethods } from './helpers/patch-methods.js';
+
+createInitializationHook('beforeControllerCreation', (target) => patchMethods(target));
 
 createInitializationHook('afterControllerCreation', (instance, Registrable) =>
   Object.assign(instance, createWithInjectedDependencies(Registrable, injectables, true)),
