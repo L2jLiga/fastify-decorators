@@ -23,15 +23,16 @@ const defaultMask = /\.(handler|controller)\./;
 
 export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig>(
   async (fastify, config) => {
-    const controllers = new Set<Constructable<unknown>>();
+    await transformAndWait(hooksRegistry.appInit, (hook) => hook(fastify));
 
+    const controllers = new Set<Constructable<unknown>>();
     if ('directory' in config) for await (const controller of autoLoadModules(config)) controllers.add(controller);
     if ('controllers' in config) config.controllers.forEach(controllers.add, controllers);
 
     await transformAndWait(controllers, loadController.bind(fastify, config));
-    await transformAndWait(hooksRegistry.appReady, (hook) => hook());
+    await transformAndWait(hooksRegistry.appReady, (hook) => hook(fastify));
 
-    fastify.addHook('onClose', () => transformAndWait(hooksRegistry.appDestroy, (hook) => hook()));
+    fastify.addHook('onClose', () => transformAndWait(hooksRegistry.appDestroy, (hook) => hook(fastify)));
   },
   {
     fastify: '^3.0.0',

@@ -9,3 +9,5 @@
 export * from './controllers.js';
 export * from './life-cycle.js';
 export * from './shared-interfaces.js';
+
+export * from '../decorators/helpers/class-properties.js';
