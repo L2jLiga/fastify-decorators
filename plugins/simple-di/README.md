@@ -1,5 +1,9 @@
 <h1 style="text-align: center">@fastify-decorators/simple-di</h1>
 
+[![npm version](https://badge.fury.io/js/@fastify-decorators/simple-di.svg?colorB=brightgreen)](https://www.npmjs.com/package/@fastify-decorators/simple-di)
+[![npm](https://img.shields.io/npm/dm/@fastify-decorators/simple-di.svg?colorB=brightgreen)](https://www.npmjs.com/package/@fastify-decorators/simple-di)
+[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
+
 ## Dependency injection
 
 Dependency injection (DI) is widely used mechanism to autowire controller/service dependency.
