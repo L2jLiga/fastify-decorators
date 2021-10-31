@@ -1,6 +1,6 @@
 <h1 style="text-align: center">@fastify-decorators/typedi</h1>
 
-[![npm version](https://badge.fury.io/js/@fastify-decorators/typedi.svg?colorB=brightgreen)](https://www.npmjs.com/package/@fastify-decorators/typedi)
+[![npm version](https://badge.fury.io/js/@fastify-decorators%2Ftypedi.svg)](https://badge.fury.io/js/@fastify-decorators%2Ftypedi)
 [![npm](https://img.shields.io/npm/dm/@fastify-decorators/typedi.svg?colorB=brightgreen)](https://www.npmjs.com/package/@fastify-decorators/typedi)
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
