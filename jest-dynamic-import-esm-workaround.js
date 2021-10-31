@@ -17,6 +17,5 @@ export const workersWorkaround = isIssueAffectCurrentVersion
       runInBand: false,
       maxConcurrency: testsCount,
       maxWorkers: testsCount,
-      testTimeout: 30_000,
     }
   : {};
