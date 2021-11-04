@@ -12,7 +12,7 @@ import type { ServiceMock } from './service-mock.js';
 
 export class MocksManager {
   static create(injectables: Injectables, mocks: ServiceMock[] = []): Injectables {
-    const mocksMap: Injectables = new Map(injectables.entries());
+    const mocksMap: Injectables = new Map(injectables);
 
     for (const { provide, useValue } of mocks) {
       mocksMap.set(provide, wrapInjectable(useValue));

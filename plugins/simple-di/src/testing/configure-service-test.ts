@@ -31,12 +31,13 @@ export interface ServiceTestConfig<Service> {
  */
 export function configureServiceTest<Service>(config: ServiceTestConfig<Service>): Promise<Service> & Service {
   const service: Constructor<Service> = config.service;
-  const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
-  if (!injectablesWithMocks.has(FastifyInstanceToken)) {
-    const fastifyInstance = fastify();
-    loadPlugins(fastifyInstance, config.plugins);
-    injectablesWithMocks.set(FastifyInstanceToken, wrapInjectable(fastifyInstance));
-  }
+
+  const withInstance = new Map(injectables);
+  const fastifyInstance = fastify();
+  loadPlugins(fastifyInstance, config.plugins);
+  withInstance.set(FastifyInstanceToken, wrapInjectable(fastifyInstance));
+
+  const injectablesWithMocks = MocksManager.create(withInstance, config.mocks);
 
   isInjectable(service);
   const instance = service[CREATOR].register<Service>(injectablesWithMocks, false);

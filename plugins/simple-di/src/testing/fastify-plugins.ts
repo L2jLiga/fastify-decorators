@@ -8,7 +8,7 @@
 
 import { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback, FastifyPluginOptions } from 'fastify';
 
-export type Plugins = Array<
+export type Plugins = Iterable<
   | FastifyPluginAsync<any>
   | FastifyPluginCallback<any>
   | [plugin: FastifyPluginAsync<any>, options?: FastifyPluginOptions]

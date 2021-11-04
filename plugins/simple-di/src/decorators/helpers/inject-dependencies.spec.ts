@@ -1,13 +1,10 @@
+import 'reflect-metadata';
+
 import { InjectableService } from '../../interfaces/injectable-class.js';
 import { CREATOR } from 'fastify-decorators/plugins';
 import { INJECTABLES } from '../../symbols.js';
 import { Inject } from '../inject.js';
 import { createWithInjectedDependencies } from './inject-dependencies.js';
-
-// eslint-disable-next-line @typescript-eslint/no-namespace
-declare namespace Reflect {
-  function getMetadata(metadataKey: string, target: unknown): unknown[];
-}
 
 describe('Helpers: inject dependencies', () => {
   class Service {

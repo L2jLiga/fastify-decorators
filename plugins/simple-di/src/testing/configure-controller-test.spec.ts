@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fastify';
 import { Controller, GET } from 'fastify-decorators';
 import fastifyPlugin from 'fastify-plugin';

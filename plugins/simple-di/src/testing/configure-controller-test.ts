@@ -9,8 +9,7 @@
 import { fastify, FastifyInstance } from 'fastify';
 import { CREATOR, Registrable } from 'fastify-decorators/plugins';
 import { hasServiceInjection } from '../decorators/helpers/ensure-service-injection.js';
-import { Constructor, createWithInjectedDependencies, ServiceInjection } from '../decorators/helpers/inject-dependencies.js';
-import { patchMethods } from '../decorators/helpers/patch-methods.js';
+import { Constructor, createWithInjectedDependencies } from '../decorators/helpers/inject-dependencies.js';
 import { readyMap } from '../decorators/initializer.js';
 import { injectables } from '../registry/injectables.js';
 import { FastifyInstanceToken, SERVICE_INJECTION } from '../symbols.js';
@@ -18,11 +17,6 @@ import { wrapInjectable } from '../utils/wrap-injectable.js';
 import { loadPlugins, Plugins } from './fastify-plugins.js';
 import { MocksManager } from './mocks-manager.js';
 import type { ServiceMock } from './service-mock.js';
-
-// eslint-disable-next-line @typescript-eslint/no-namespace
-declare namespace Reflect {
-  function getMetadata(metadataKey: 'design:paramtypes', target: unknown): ServiceInjection['name'][] | undefined;
-}
 
 export interface ControllerTestConfig<C> {
   controller: C;
@@ -42,7 +36,6 @@ export async function configureControllerTest<C>(config: ControllerTestConfig<Co
   }
 
   const controller = config.controller as Registrable;
-  patchMethods(controller);
   const controllerInstance = await controller[CREATOR].register(instance, '');
   Object.assign(controllerInstance, createWithInjectedDependencies(controller, injectablesWithMocks, false));
   instance.decorate('controller', controllerInstance);

@@ -10,7 +10,7 @@ const { major, minor } = nodeVersionRegex.exec(process.version).groups;
 
 const isIssueAffectCurrentVersion = Number.parseInt(major) * 100 + Number.parseInt(minor) < 1611;
 
-const testsCount = glob.sync('**/*.{spec,test}.ts').length;
+const testsCount = glob.sync('{src,test}/**/*.{spec,test}.ts').length;
 
 export const workersWorkaround = isIssueAffectCurrentVersion
   ? {

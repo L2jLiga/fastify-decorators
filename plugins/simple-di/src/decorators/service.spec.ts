@@ -1,7 +1,10 @@
+import 'reflect-metadata';
+
 import { CREATOR } from 'fastify-decorators/plugins';
 import { INITIALIZER } from '../symbols.js';
 import { getInstanceByToken } from '../utils/get-instance-by-token.js';
 import { Service } from './service.js';
+import { jest } from '@jest/globals';
 
 describe('Decorators: @Service', () => {
   it('should add CREATOR static property to class', () => {

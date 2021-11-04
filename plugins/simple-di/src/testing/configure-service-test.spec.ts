@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fastify';
 import fastifyPlugin from 'fastify-plugin';
 import { Initializer } from '../decorators/initializer.js';
@@ -6,6 +8,7 @@ import { Service } from '../decorators/service.js';
 import { FastifyInstanceToken } from '../symbols.js';
 import { configureServiceTest } from './configure-service-test.js';
 import { ServiceMock } from './service-mock.js';
+import { jest } from '@jest/globals';
 
 describe('Testing: configure service test', () => {
   afterEach(() => jest.clearAllMocks());
