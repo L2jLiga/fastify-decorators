@@ -15,4 +15,4 @@ export { Inject } from './decorators/inject.js';
 export { Initializer } from './decorators/initializer.js';
 export { Destructor } from './decorators/destructor.js';
 
-export { FastifyInstanceToken } from './symbols.js';
+export { FastifyInstanceToken, FastifyRequestToken, FastifyReplyToken } from './symbols.js';

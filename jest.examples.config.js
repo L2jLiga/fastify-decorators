@@ -19,4 +19,5 @@ export default {
   },
   modulePathIgnorePatterns: ['<rootDir>/dist/fastify-decorators', '<rootDir>/node_modules/fastify-decorators'],
   ...workersWorkaround,
+  testTimeout: 60_000,
 };
