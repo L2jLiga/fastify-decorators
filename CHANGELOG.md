@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Initialization hooks for plugin ecosystem
+- Option to inject Request/Reply into services
 - Plugin for integration with [TypeDI](https://npmjs.com/package/typedi)
 
 ### Changed
