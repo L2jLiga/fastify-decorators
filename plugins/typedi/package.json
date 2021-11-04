@@ -1,6 +1,6 @@
 {
   "name": "@fastify-decorators/typedi",
-  "version": "4.0.0-next.0",
+  "version": "4.0.0-next.1",
   "description": "fastify-decorators plugin to work with Sequelize",
   "license": "MIT",
   "type": "module",
@@ -27,7 +27,7 @@
     "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)"
   ],
   "dependencies": {
-    "fastify-decorators": "^4.0.0-next.0",
+    "fastify-decorators": "^4.0.0-next.1",
     "reflect-metadata": "^0.1.13",
     "typedi": "^0.10.0"
   },
