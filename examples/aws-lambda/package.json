@@ -19,7 +19,7 @@
   "devDependencies": {
     "@types/jest": "^27.0.2",
     "@types/node": "~12.20.36",
-    "@vercel/ncc": "^0.31.1",
+    "@vercel/ncc": "^0.32.0",
     "jest": "^27.3.1",
     "jest-ts-webcompat-resolver": "^1.0.0",
     "ts-jest": "^27.0.7",
