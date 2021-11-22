@@ -750,10 +750,10 @@
     "@xml-tools/parser" "^1.0.11"
     prettier ">=2.3"
 
-"@sinclair/typebox@^0.20.5":
-  version "0.20.5"
-  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.20.5.tgz#d5828bbb8237876d7937dd229e3dac71d1220771"
-  integrity sha512-WNiVFcS1rdz5KyEutpl3Wmp/AwSQHBUFTyJz7KqMLkpLhOXCj1dnvMytBM6uMS5OTwhwwq877T7EC4vDGrX5Eg==
+"@sinclair/typebox@^0.21.2":
+  version "0.21.2"
+  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.21.2.tgz#d23a42adafc482f4893994e22916b0b54e18c23d"
+  integrity sha512-YeGOsWyjmGS26VxfvxbDgO7In4em8riCI5hEe/NnjM72ifoLQNUeHxwFNufXVIcaaPEK4fCV+fYoLKgmpPKjsA==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
