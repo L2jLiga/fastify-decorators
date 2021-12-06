@@ -4112,6 +4112,11 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
+pg-connection-string@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/pg-connection-string/-/pg-connection-string-2.5.0.tgz#538cadd0f7e603fc09a12590f3b8a452c2c0cf34"
+  integrity sha512-r5o/V/ORTA6TmUnyWZR9nCj1klXCO2CEKNRlVuJptZe85QuhFayC7WeMic7ndayT5IRIR0S0xFxFi2ousartlQ==
+
 picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
@@ -4548,9 +4553,9 @@ sequelize-pool@^6.0.0:
   integrity sha512-4YwEw3ZgK/tY/so+GfnSgXkdwIJJ1I32uZJztIEgZeAO6HMgj64OzySbWLgxj+tXhZCJnzRfkY9gINw8Ft8ZMg==
 
 sequelize@^6.8.0:
-  version "6.9.0"
-  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-6.9.0.tgz#bac253fab04beb3c7de5de9e41e359d9666aab9d"
-  integrity sha512-tFROh9T9GgyY6aTV2+aGdfVNvrppuTOo1EFln9AtV8wXJTOOr7Nan7pZum5oLy87CGWl0YeHzAwg99tz04OqNA==
+  version "6.11.0"
+  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-6.11.0.tgz#11620b02ab2ca02af59ec652dd22bef7ccd348af"
+  integrity sha512-+j3N5lr+FR1eicMRGR3bRsGOl9HMY0UGb2PyB2i1yZ64XBgsz3xejMH0UD45LcUitj40soDGIa9CyvZG0dfzKg==
   dependencies:
     debug "^4.1.1"
     dottie "^2.0.0"
@@ -4558,12 +4563,13 @@ sequelize@^6.8.0:
     lodash "^4.17.20"
     moment "^2.26.0"
     moment-timezone "^0.5.31"
+    pg-connection-string "^2.5.0"
     retry-as-promised "^3.2.0"
     semver "^7.3.2"
     sequelize-pool "^6.0.0"
     toposort-class "^1.0.1"
     uuid "^8.1.0"
-    validator "^13.6.0"
+    validator "^13.7.0"
     wkx "^0.5.0"
 
 set-blocking@~2.0.0:
@@ -5282,7 +5288,7 @@ validate-npm-package-name@^3.0.0:
   dependencies:
     builtins "^1.0.3"
 
-validator@^13.6.0:
+validator@^13.7.0:
   version "13.7.0"
   resolved "https://registry.yarnpkg.com/validator/-/validator-13.7.0.tgz#4f9658ba13ba8f3d82ee881d3516489ea85c0857"
   integrity sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==
