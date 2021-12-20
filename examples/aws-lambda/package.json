@@ -11,7 +11,7 @@
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
-    "aws-lambda-fastify": "^1.7.1",
+    "aws-lambda-fastify": "^2.0.1",
     "fastify": "^3.22.1",
     "fastify-decorators": "^4.0.0-next.1",
     "@fastify-decorators/simple-di": "^4.0.0-next.1"
