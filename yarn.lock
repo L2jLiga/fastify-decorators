@@ -2265,9 +2265,9 @@ fastify-warning@^0.2.0:
   integrity sha512-s1EQguBw/9qtc1p/WTY4eq9WMRIACkj+HTcOIK1in4MV5aFaQC9ZCIt0dJ7pr5bIf4lPpHvAtP2ywpTNgs7hqw==
 
 fastify@^3.22.1:
-  version "3.25.0"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.25.0.tgz#04b682fa738c6468bc36efba9f1e943609502111"
-  integrity sha512-GblpjS7yuJ9jpkz1guHTyzlVQn9NYvGrMkDLtoxctEt7n1d6MSwA9i3p10HjNiY+zVurPf3YdOqXsJmVgAR3cg==
+  version "3.25.1"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.25.1.tgz#19da62b06b76f2b985e45d177471caafb40155bf"
+  integrity sha512-hQtjVCbYC6TtYmkA+SQjmE+4D0gYDrfdnISuCx5j0X+8C6SIRMD5Kx+v9JqTh7yKwYCtUcb82GVMASlY/NDpoA==
   dependencies:
     "@fastify/ajv-compiler" "^1.0.0"
     abstract-logging "^2.0.0"
@@ -2275,7 +2275,7 @@ fastify@^3.22.1:
     fast-json-stringify "^2.5.2"
     fastify-error "^0.3.0"
     fastify-warning "^0.2.0"
-    find-my-way "^4.1.0"
+    find-my-way "^4.5.0"
     flatstr "^1.0.12"
     light-my-request "^4.2.0"
     pino "^6.13.0"
@@ -2318,10 +2318,10 @@ fill-range@^7.0.1:
   dependencies:
     to-regex-range "^5.0.1"
 
-find-my-way@^4.1.0:
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/find-my-way/-/find-my-way-4.3.3.tgz#2ab3880a03bcaa8594548d66b0cd1c5a6e98dd44"
-  integrity sha512-5E4bRdaATB1MewjOCBjx4xvD205a4t2ripCnXB+YFhYEJ0NABtrcC7XLXLq0TPoFe/WYGUFqys3Qk3HCOGeNcw==
+find-my-way@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/find-my-way/-/find-my-way-4.5.0.tgz#885ceb7a60b9be529a11dbfed02c8cf0ab7eedb7"
+  integrity sha512-kVEY1lW/zXETKEEwRboCWPySygBFVNJpdY7lRnFllDdYxQD6cwcaT3Ddh8P7v824jRN3cld+8+zRbnFBxeVUxA==
   dependencies:
     fast-decode-uri-component "^1.0.1"
     fast-deep-equal "^3.1.3"
