@@ -3053,10 +3053,10 @@ jest-get-type@^27.4.0:
   resolved "https://registry.yarnpkg.com/jest-get-type/-/jest-get-type-27.4.0.tgz#7503d2663fffa431638337b3998d39c5e928e9b5"
   integrity sha512-tk9o+ld5TWq41DkK14L4wox4s2D9MtTpKaAVzXfr5CUKm5ZK2ExcaFE0qls2W71zE/6R2TxxrK9w2r6svAFDBQ==
 
-jest-haste-map@^27.4.5:
-  version "27.4.5"
-  resolved "https://registry.yarnpkg.com/jest-haste-map/-/jest-haste-map-27.4.5.tgz#c2921224a59223f91e03ec15703905978ef0cc1a"
-  integrity sha512-oJm1b5qhhPs78K24EDGifWS0dELYxnoBiDhatT/FThgB9yxqUm5F6li3Pv+Q+apMBmmPNzOBnZ7ZxWMB1Leq1Q==
+jest-haste-map@^27.4.5, jest-haste-map@^27.4.6:
+  version "27.4.6"
+  resolved "https://registry.yarnpkg.com/jest-haste-map/-/jest-haste-map-27.4.6.tgz#c60b5233a34ca0520f325b7e2cc0a0140ad0862a"
+  integrity sha512-0tNpgxg7BKurZeFkIOvGCkbmOHbLFf4LUQOxrQSMjvrQaQe3l6E8x6jYC1NuWkGo5WDdbr8FEzUxV2+LWNawKQ==
   dependencies:
     "@jest/types" "^27.4.2"
     "@types/graceful-fs" "^4.1.2"
@@ -3067,7 +3067,7 @@ jest-haste-map@^27.4.5:
     jest-regex-util "^27.4.0"
     jest-serializer "^27.4.0"
     jest-util "^27.4.2"
-    jest-worker "^27.4.5"
+    jest-worker "^27.4.6"
     micromatch "^4.0.4"
     walker "^1.0.7"
   optionalDependencies:
@@ -3158,17 +3158,17 @@ jest-resolve-dependencies@^27.4.5:
     jest-snapshot "^27.4.5"
 
 jest-resolve@^27.3.1, jest-resolve@^27.4.5:
-  version "27.4.5"
-  resolved "https://registry.yarnpkg.com/jest-resolve/-/jest-resolve-27.4.5.tgz#8dc44f5065fb8d58944c20f932cb7b9fe9760cca"
-  integrity sha512-xU3z1BuOz/hUhVUL+918KqUgK+skqOuUsAi7A+iwoUldK6/+PW+utK8l8cxIWT9AW7IAhGNXjSAh1UYmjULZZw==
+  version "27.4.6"
+  resolved "https://registry.yarnpkg.com/jest-resolve/-/jest-resolve-27.4.6.tgz#2ec3110655e86d5bfcfa992e404e22f96b0b5977"
+  integrity sha512-SFfITVApqtirbITKFAO7jOVN45UgFzcRdQanOFzjnbd+CACDoyeX7206JyU92l4cRr73+Qy/TlW51+4vHGt+zw==
   dependencies:
     "@jest/types" "^27.4.2"
     chalk "^4.0.0"
     graceful-fs "^4.2.4"
-    jest-haste-map "^27.4.5"
+    jest-haste-map "^27.4.6"
     jest-pnp-resolver "^1.2.2"
     jest-util "^27.4.2"
-    jest-validate "^27.4.2"
+    jest-validate "^27.4.6"
     resolve "^1.20.0"
     resolve.exports "^1.1.0"
     slash "^3.0.0"
@@ -3288,17 +3288,17 @@ jest-util@^27.0.0, jest-util@^27.4.2:
     graceful-fs "^4.2.4"
     picomatch "^2.2.3"
 
-jest-validate@^27.4.2:
-  version "27.4.2"
-  resolved "https://registry.yarnpkg.com/jest-validate/-/jest-validate-27.4.2.tgz#eecfcc1b1c9429aa007da08a2bae4e32a81bbbc3"
-  integrity sha512-hWYsSUej+Fs8ZhOm5vhWzwSLmVaPAxRy+Mr+z5MzeaHm9AxUpXdoVMEW4R86y5gOobVfBsMFLk4Rb+QkiEpx1A==
+jest-validate@^27.4.2, jest-validate@^27.4.6:
+  version "27.4.6"
+  resolved "https://registry.yarnpkg.com/jest-validate/-/jest-validate-27.4.6.tgz#efc000acc4697b6cf4fa68c7f3f324c92d0c4f1f"
+  integrity sha512-872mEmCPVlBqbA5dToC57vA3yJaMRfIdpCoD3cyHWJOMx+SJwLNw0I71EkWs41oza/Er9Zno9XuTkRYCPDUJXQ==
   dependencies:
     "@jest/types" "^27.4.2"
     camelcase "^6.2.0"
     chalk "^4.0.0"
     jest-get-type "^27.4.0"
     leven "^3.1.0"
-    pretty-format "^27.4.2"
+    pretty-format "^27.4.6"
 
 jest-watcher@^27.4.2:
   version "27.4.2"
@@ -3317,6 +3317,15 @@ jest-worker@^27.4.5:
   version "27.4.5"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-27.4.5.tgz#d696e3e46ae0f24cff3fa7195ffba22889262242"
   integrity sha512-f2s8kEdy15cv9r7q4KkzGXvlY0JTcmCbMHZBfSQDwW77REr45IDWwd0lksDFeVHH2jJ5pqb90T77XscrjeGzzg==
+  dependencies:
+    "@types/node" "*"
+    merge-stream "^2.0.0"
+    supports-color "^8.0.0"
+
+jest-worker@^27.4.6:
+  version "27.4.6"
+  resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-27.4.6.tgz#5d2d93db419566cb680752ca0792780e71b3273e"
+  integrity sha512-gHWJF/6Xi5CTG5QCvROr6GcmpIqNYpDJyc8A1h/DyXqH1tD6SnRCM0d3U5msV31D2LB/U+E0M+W4oyvKV44oNw==
   dependencies:
     "@types/node" "*"
     merge-stream "^2.0.0"
@@ -4216,6 +4225,15 @@ pretty-format@^27.0.0, pretty-format@^27.4.2:
   integrity sha512-p0wNtJ9oLuvgOQDEIZ9zQjZffK7KtyR6Si0jnXULIDwrlNF8Cuir3AZP0hHv0jmKuNN/edOnbMjnzd4uTcmWiw==
   dependencies:
     "@jest/types" "^27.4.2"
+    ansi-regex "^5.0.1"
+    ansi-styles "^5.0.0"
+    react-is "^17.0.1"
+
+pretty-format@^27.4.6:
+  version "27.4.6"
+  resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-27.4.6.tgz#1b784d2f53c68db31797b2348fa39b49e31846b7"
+  integrity sha512-NblstegA1y/RJW2VyML+3LlpFjzx62cUrtBIKIWDXEDkjNeleA7Od7nrzcs/VLQvAeV4CgSYhrN39DRN88Qi/g==
+  dependencies:
     ansi-regex "^5.0.1"
     ansi-styles "^5.0.0"
     react-is "^17.0.1"
