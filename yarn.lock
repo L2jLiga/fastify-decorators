@@ -934,9 +934,9 @@
     prettier ">=2.3"
 
 "@sinclair/typebox@^0.23.1":
-  version "0.23.1"
-  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.23.1.tgz#14a945aa26a41a875a219db00b293c0bbe4fb804"
-  integrity sha512-XsmyWfps86gFmZhK97HDesbCe/pR+8qf/VveZaADI6oCk0cHGq6WeKdUHM/a8NeSetv/vpUf19ubwU34C2PVWw==
+  version "0.23.3"
+  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.23.3.tgz#83e127d1c5f9d79d76004a1b36f7b483f5056918"
+  integrity sha512-zIjVOx3n08kLSAE6o4BhOUtgkpvbrZmR6B+lJLl/tP78GB7KpLrOK15FC9sKaWZHLtnObIDAQV5kihLbisgYYw==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
