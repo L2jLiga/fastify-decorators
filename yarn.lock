@@ -1445,9 +1445,9 @@ avvio@^7.1.2:
     queue-microtask "^1.1.2"
 
 aws-lambda-fastify@^2.0.1:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/aws-lambda-fastify/-/aws-lambda-fastify-2.0.2.tgz#e2a10d58d2b35f67c6831e4f2b2dd3998f05bd10"
-  integrity sha512-fq2jd2bVL2YUhyoL7FgXFAjn+uZv82i205r206PIGq/1/I7DxDsSWyuL+JxwkFKl1TfGWMppOJxqPjwXTQyCzw==
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/aws-lambda-fastify/-/aws-lambda-fastify-2.1.0.tgz#26c566dec3e1bd2baa01c7dd31e76a8e69d3f7e5"
+  integrity sha512-vY4bfWb8Jn7aKMCFanjlONaqfJOvX5I+l/f0NP6nr5ASO1LgvNB6hJZt3tAK7n8V1oRFs5tXQpIQpk4WhwEgKw==
 
 aws-sign2@~0.7.0:
   version "0.7.0"
