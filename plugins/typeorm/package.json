@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
-    "@types/node": "~14.18.10",
+    "@types/node": "~17.0.16",
     "fastify": "^3.27.1",
     "fastify-oas": "^3.0.8",
     "fastify-swagger": "^4.14.0",
