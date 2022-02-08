@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { ObjectLiteral, Repository, SelectQueryBuilder, WhereExpression } from 'typeorm';
+import type { ObjectLiteral, Repository, SelectQueryBuilder, WhereExpressionBuilder } from 'typeorm';
 import { Brackets } from 'typeorm';
 import operations from './operations.js';
 
@@ -27,7 +27,7 @@ export interface WhereQuery {
 type WhereOperator = 'andWhere' | 'orWhere' | 'where';
 type WhereFn<E> = SelectQueryBuilder<E>['where'] | SelectQueryBuilder<E>['andWhere'] | SelectQueryBuilder<E>['orWhere'];
 
-export const whereBuilder = <E>(_query: SelectQueryBuilder<E> | WhereExpression, _where: WhereQuery): void => {
+export const whereBuilder = <E>(_query: SelectQueryBuilder<E> | WhereExpressionBuilder, _where: WhereQuery): void => {
   let isWhereUsed: string | null = null;
   const getWhere = (prefix: 'and' | 'or' = 'and'): WhereOperator => (isWhereUsed ? (`${prefix}Where` as 'andWhere' | 'orWhere') : (isWhereUsed = 'where'));
   const andWhere = ((where: string, params: ObjectLiteral) => _query[getWhere()](where, params)) as WhereFn<E>;

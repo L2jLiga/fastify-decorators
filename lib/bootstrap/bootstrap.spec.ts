@@ -1,6 +1,6 @@
 import { fastify } from 'fastify';
-import { dirname, resolve } from 'path';
-import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { bootstrap } from './bootstrap.js';
 import SampleControllerMock from './mocks/controllers/sample.controller.mock.js';
 

@@ -63,7 +63,7 @@ _database.service.ts_:
 
 ```ts
 import { Initializer, Service } from '@fastify-decorators/simple-di';
-import { join } from 'path';
+import { join } from 'node:path';
 import { createConnection, Connection } from 'typeorm';
 import { Message } from '../entity/message';
 

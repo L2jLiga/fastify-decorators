@@ -1,11 +1,15 @@
 import fastify from 'fastify';
-import * as fs from 'fs';
-import { dirname, join } from 'path';
-import { Connection, createConnection, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
-import { fileURLToPath } from 'url';
-import { CrudController } from '../src/controllers/crud-controller';
+import * as fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import type { Connection } from 'typeorm';
+import { PrimaryColumn } from 'typeorm/decorator/columns/PrimaryColumn.js';
+import { Entity } from 'typeorm/decorator/entity/Entity.js';
+import { JoinColumn } from 'typeorm/decorator/relations/JoinColumn.js';
+import { OneToOne } from 'typeorm/decorator/relations/OneToOne.js';
+import { createConnection } from 'typeorm/globals.js';
+import { CrudController } from '../src/index.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const DATABASE_FILE = new URL('database.db', import.meta.url);
 
 describe('Decorators: CrudController', () => {
   let connection: Connection;
@@ -27,11 +31,11 @@ describe('Decorators: CrudController', () => {
   }
 
   beforeEach(async () => {
-    if (fs.existsSync(join(__dirname, 'database.db'))) fs.unlinkSync(join(__dirname, 'database.db'));
+    if (fs.existsSync(DATABASE_FILE)) fs.unlinkSync(DATABASE_FILE);
     connection = await createConnection({
       type: 'sqljs',
       autoSave: true,
-      location: join(__dirname, 'database.db'),
+      location: fileURLToPath(DATABASE_FILE),
       entities: [EntityImpl, EntitySubImpl],
       logging: false,
       synchronize: true,

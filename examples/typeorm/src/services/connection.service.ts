@@ -1,7 +1,8 @@
 import { Destructor, Initializer, Service } from '@fastify-decorators/simple-di';
-import * as fs from 'fs';
-import { join } from 'path';
-import { Connection, createConnection } from 'typeorm';
+import * as fs from 'node:fs';
+import { join } from 'node:path';
+import type { Connection } from 'typeorm';
+import { createConnection } from 'typeorm/globals.js';
 import { Message } from '../entity/message.js';
 
 @Service()

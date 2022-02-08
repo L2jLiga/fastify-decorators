@@ -20,9 +20,9 @@ This plugin provides support for integration with [TypeDI](https://npmjs.com/pac
    import { useContainer } from '@fastify-decorators/typedi';
    import { fastify } from 'fastify';
    import { bootstrap } from 'fastify-decorators';
-   import { dirname } from 'path';
+   import { dirname } from 'node:path';
    import { Container } from 'typedi';
-   import { fileURLToPath } from 'url';
+   import { fileURLToPath } from 'node:url';
 
    useContainer(Container);
 

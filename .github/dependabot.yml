@@ -4,7 +4,7 @@ updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: 'daily'
+      interval: 'monthly'
     commit-message:
       prefix: 'chore: '
 
@@ -12,7 +12,15 @@ updates:
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
-      interval: 'daily'
+      interval: 'monthly'
+    commit-message:
+      prefix: 'chore: '
+
+  # Github Actions
+  - package-ecosystem: 'github-actions'
+    directory: '/examples/aws-lambda'
+    schedule:
+      interval: 'monthly'
     commit-message:
       prefix: 'chore: '
 
@@ -20,27 +28,71 @@ updates:
   - package-ecosystem: 'npm'
     directory: '/examples/controllers'
     schedule:
-      interval: 'daily'
+      interval: 'monthly'
+    commit-message:
+      prefix: 'chore: '
+
+  - package-ecosystem: 'npm'
+    directory: '/examples/inject-requests-in-services'
+    schedule:
+      interval: 'monthly'
     commit-message:
       prefix: 'chore: '
 
   - package-ecosystem: 'npm'
     directory: '/examples/request-handlers'
     schedule:
-      interval: 'daily'
+      interval: 'monthly'
     commit-message:
       prefix: 'chore: '
 
   - package-ecosystem: 'npm'
     directory: '/examples/swagger'
     schedule:
-      interval: 'daily'
+      interval: 'monthly'
+    commit-message:
+      prefix: 'chore: '
+
+  - package-ecosystem: 'npm'
+    directory: '/examples/typedi'
+    schedule:
+      interval: 'monthly'
     commit-message:
       prefix: 'chore: '
 
   - package-ecosystem: 'npm'
     directory: '/examples/typeorm'
     schedule:
-      interval: 'daily'
+      interval: 'monthly'
+    commit-message:
+      prefix: 'chore: '
+
+  # Plugins
+
+  - package-ecosystem: 'npm'
+    directory: '/plugins/sequelize'
+    schedule:
+      interval: 'monthly'
+    commit-message:
+      prefix: 'chore: '
+
+  - package-ecosystem: 'npm'
+    directory: '/plugins/simple-di'
+    schedule:
+      interval: 'monthly'
+    commit-message:
+      prefix: 'chore: '
+
+  - package-ecosystem: 'npm'
+    directory: '/plugins/typedi'
+    schedule:
+      interval: 'monthly'
+    commit-message:
+      prefix: 'chore: '
+
+  - package-ecosystem: 'npm'
+    directory: '/plugins/typeorm'
+    schedule:
+      interval: 'monthly'
     commit-message:
       prefix: 'chore: '

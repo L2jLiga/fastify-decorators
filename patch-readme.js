@@ -6,9 +6,9 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath, URL } from 'url';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath, URL } from 'node:url';
 
 /* __dirname polyfill */
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

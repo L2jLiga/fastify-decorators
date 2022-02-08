@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { Model } from 'sequelize';
+import type { Model, CreationAttributes } from 'sequelize';
 import type { EntitySchema } from '../mappers/entity-to-json-schema';
 import type { IHandler } from 'fastify-decorators/plugins';
 import type { FastifyReply, FastifyRequest } from 'fastify';
@@ -20,7 +20,7 @@ export function crudHandlersFactory(entitySchema: EntitySchema): PropertyDescrip
       },
     },
     create: {
-      value(request: FastifyRequest<{ Body: typeof Model }>) {
+      value(request: FastifyRequest<{ Body: CreationAttributes<Model> }>) {
         return entitySchema.model.create(request.body);
       },
     },

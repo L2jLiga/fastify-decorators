@@ -1,9 +1,9 @@
 import { useContainer } from '@fastify-decorators/typedi';
 import { fastify } from 'fastify';
 import { bootstrap } from 'fastify-decorators';
-import { dirname } from 'path';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { Container } from 'typedi';
-import { fileURLToPath } from 'url';
 
 useContainer(Container);
 

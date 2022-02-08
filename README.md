@@ -111,7 +111,7 @@ _index.ts_:
 
 ```ts
 import { bootstrap } from 'fastify-decorators';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 
 // Require the framework and instantiate it
 const instance = require('fastify')();
@@ -161,7 +161,7 @@ _index.ts_:
 
 ```ts
 import { bootstrap } from 'fastify-decorators';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 
 // Require the framework and instantiate it
 const instance = require('fastify')();

@@ -43,7 +43,7 @@
     "email": "L2jLiga@gmail.com"
   },
   "engines": {
-    "node": ">= 12.13.0"
+    "node": "^14.15.0 || ^16.13.0 || >= 17.0.0"
   },
   "dependencies": {
     "fastify-plugin": "^2.0.0 || ^3.0.0"

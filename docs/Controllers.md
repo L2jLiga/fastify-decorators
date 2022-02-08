@@ -79,8 +79,8 @@ export default class SimpleController {
 `@ErrorHandler` may accept error code or type to handle or be empty which means will handle all errors. Let's take a look on example:
 
 ```ts
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import { Controller, GET, ErrorHandler } from 'fastify-decorators';
 
 class TokenNotFoundError extends Error {}

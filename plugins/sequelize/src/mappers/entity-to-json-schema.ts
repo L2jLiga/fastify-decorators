@@ -8,7 +8,7 @@
 
 import type { FastifyInstance } from 'fastify';
 import type { JSONSchema7TypeName } from 'json-schema';
-import type { DataType, Model, ModelAttributeColumnOptions, ModelCtor } from 'sequelize';
+import type { DataType, Model, ModelAttributeColumnOptions, ModelStatic } from 'sequelize';
 import type { JSONSchema7Extended } from '../types/json-schema.js';
 
 const registeredSchemas = new Map<typeof Model, EntitySchema>();
@@ -17,7 +17,7 @@ export interface EntitySchema {
   definitionId: string;
   primaryKey: string;
   properties: Record<string, JSONSchema7Extended>;
-  model: ModelCtor<Model>;
+  model: ModelStatic<Model>;
 }
 
 export function entityMetadataMapper(instance: FastifyInstance, model: typeof Model): EntitySchema {

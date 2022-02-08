@@ -8,14 +8,13 @@
 
 import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
-import { opendirSync } from 'fs';
-import { join } from 'path';
-import { pathToFileURL } from 'url';
+import { opendirSync } from 'node:fs';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import type { AutoLoadConfig } from '../interfaces/bootstrap-config.js';
 import { Constructable } from '../interfaces/constructable.js';
 import type { BootstrapConfig } from '../interfaces/index.js';
-import { hooksRegistry } from '../plugins/life-cycle.js';
-import { Registrable } from '../plugins/shared-interfaces.js';
+import { hooksRegistry, Registrable } from '../plugins/index.js';
 import { CREATOR } from '../symbols/index.js';
 import { transformAndWait } from '../utils/transform-and-wait.js';
 
