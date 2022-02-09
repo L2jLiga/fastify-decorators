@@ -4,13 +4,23 @@ import { fileURLToPath } from 'node:url';
 import { bootstrap } from './bootstrap.js';
 import SampleControllerMock from './mocks/controllers/sample.controller.mock.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
 describe('Bootstrap test', () => {
-  it('should bootstrap controller', async () => {
+  it('should autoload controller when path given', async () => {
     const instance = fastify();
     instance.register(bootstrap, {
-      directory: resolve(__dirname, 'mocks'),
+      directory: resolve(dirname(fileURLToPath(import.meta.url)), 'mocks'),
+      mask: /\.controller\.mock\.ts/,
+    });
+
+    const res = await instance.inject({ url: '/index' });
+
+    expect(res.payload).toBe('{"message":"ok"}');
+  });
+
+  it('should autoload controller when URL given', async () => {
+    const instance = fastify();
+    instance.register(bootstrap, {
+      directory: new URL('mocks', import.meta.url),
       mask: /\.controller\.mock\.ts/,
     });
 
@@ -22,7 +32,7 @@ describe('Bootstrap test', () => {
   it('should bootstrap request handler', async () => {
     const instance = fastify();
     instance.register(bootstrap, {
-      directory: resolve(__dirname, 'mocks'),
+      directory: new URL('mocks', import.meta.url),
       mask: /\.handler\.mock\.ts/,
     });
 
@@ -34,7 +44,7 @@ describe('Bootstrap test', () => {
   it('should be able to bootstrap when mask is string', async () => {
     const instance = fastify();
     instance.register(bootstrap, {
-      directory: resolve(__dirname, 'mocks'),
+      directory: new URL('mocks', import.meta.url),
       mask: '.handler.mock.ts',
     });
 
@@ -46,7 +56,7 @@ describe('Bootstrap test', () => {
   it('should not bootstrap server when try to bootstrap controllers/handlers with same routes', async () => {
     const instance = fastify();
     instance.register(bootstrap, {
-      directory: resolve(__dirname, 'mocks'),
+      directory: new URL('mocks', import.meta.url),
       mask: /\.mock\.ts/,
     });
 
@@ -79,7 +89,7 @@ describe('Bootstrap test', () => {
   it('should throw an error while bootstrap application', async () =>
     expect(
       fastify().register(bootstrap, {
-        directory: resolve(__dirname, 'mocks', 'controllers'),
+        directory: new URL('mocks/controllers', import.meta.url),
         mask: /\.ts/,
       }),
     ).rejects.toThrow('Loaded file is incorrect module and can not be bootstrapped: undefined'));
@@ -88,7 +98,7 @@ describe('Bootstrap test', () => {
     const instance = fastify();
 
     await instance.register(bootstrap, {
-      directory: resolve(__dirname, 'mocks', 'controllers'),
+      directory: new URL('mocks/controllers', import.meta.url),
       mask: /\.ts/,
       skipBroken: true,
     });

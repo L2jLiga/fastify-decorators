@@ -111,7 +111,6 @@ _index.ts_:
 
 ```ts
 import { bootstrap } from 'fastify-decorators';
-import { resolve } from 'node:path';
 
 // Require the framework and instantiate it
 const instance = require('fastify')();
@@ -119,7 +118,7 @@ const instance = require('fastify')();
 // Register handlers auto-bootstrap
 instance.register(bootstrap, {
   // Specify directory with our handler
-  directory: resolve(__dirname, `handlers`),
+  directory: new URL(`handlers`, import.meta.url),
 
   // Specify mask to match only our handler
   mask: /\.handler\./,
@@ -161,7 +160,6 @@ _index.ts_:
 
 ```ts
 import { bootstrap } from 'fastify-decorators';
-import { resolve } from 'node:path';
 
 // Require the framework and instantiate it
 const instance = require('fastify')();
@@ -169,7 +167,7 @@ const instance = require('fastify')();
 // Register handlers auto-bootstrap
 instance.register(bootstrap, {
   // Specify directory with our controllers
-  directory: resolve(__dirname, `controllers`),
+  directory: new URL(`controllers`, import.meta.url),
 
   // Specify mask to match only our controllers
   mask: /\.controller\./,

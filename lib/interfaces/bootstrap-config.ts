@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
+import type { PathLike } from 'node:fs';
 import type { Constructable } from './constructable.js';
 
 /**
@@ -15,7 +16,7 @@ export interface AutoLoadConfig {
   /**
    * Path to directory which contains files to load
    */
-  directory: string;
+  directory: PathLike;
 
   /**
    * Mask used to filter files to load

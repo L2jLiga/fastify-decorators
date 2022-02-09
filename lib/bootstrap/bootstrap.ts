@@ -8,8 +8,7 @@
 
 import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
-import { opendirSync } from 'node:fs';
-import { join } from 'node:path';
+import { opendirSync, PathLike } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import type { AutoLoadConfig } from '../interfaces/bootstrap-config.js';
 import { Constructable } from '../interfaces/constructable.js';
@@ -46,20 +45,21 @@ function autoLoadModules(config: AutoLoadConfig): AsyncIterable<Constructable<un
   return readModulesRecursively(config.directory, filter);
 }
 
-async function* readModulesRecursively(path: string, filter: RegExp): AsyncIterable<Constructable<unknown>> {
+async function* readModulesRecursively(path: PathLike, filter: RegExp): AsyncIterable<Constructable<unknown>> {
   const dir = opendirSync(path);
+  const parentUrl = pathToFileURL(dir.path);
+  parentUrl.pathname += '/';
 
   try {
     while (true) {
       const dirent = await dir.read();
       if (dirent == null) return;
 
-      const fullFilePath = join(path, dirent.name);
-
+      const fullFilePath = new URL(dirent.name, parentUrl);
       if (dirent.isDirectory()) {
         yield* readModulesRecursively(fullFilePath, filter);
       } else if (filter.test(dirent.name)) {
-        yield import(pathToFileURL(fullFilePath).toString()).then((m) => m.default);
+        yield import(fullFilePath.toString()).then((m) => m.default);
       }
     }
   } finally {
