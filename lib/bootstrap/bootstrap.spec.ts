@@ -28,6 +28,30 @@ describe('Bootstrap test', () => {
     expect(res.payload).toBe('{"message":"ok"}');
   });
 
+  it('should autoload controller when import.meta.url given', async () => {
+    const instance = await import('fastify').then((m) => m.fastify());
+    instance.register(bootstrap, {
+      directory: import.meta.url,
+      mask: /\.controller\.mock\.ts/,
+    });
+
+    const res = await instance.inject({ url: '/index' });
+
+    expect(res.payload).toBe('{"message":"ok"}');
+  });
+
+  it('should autoload controller when file URL given', async () => {
+    const instance = await import('fastify').then((m) => m.fastify());
+    instance.register(bootstrap, {
+      directory: new URL(import.meta.url),
+      mask: /\.controller\.mock\.ts/,
+    });
+
+    const res = await instance.inject({ url: '/index' });
+
+    expect(res.payload).toBe('{"message":"ok"}');
+  });
+
   it('should bootstrap request handler', async () => {
     const instance = await import('fastify').then((m) => m.fastify());
     instance.register(bootstrap, {

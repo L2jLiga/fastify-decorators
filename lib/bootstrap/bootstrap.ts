@@ -8,8 +8,7 @@
 
 import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
-import { opendirSync, PathLike } from 'node:fs';
-import { pathToFileURL } from 'node:url';
+import { opendirSync, lstatSync, PathLike } from 'node:fs';
 import type { AutoLoadConfig } from '../interfaces/bootstrap-config.js';
 import { Constructable } from '../interfaces/constructable.js';
 import type { BootstrapConfig } from '../interfaces/index.js';
@@ -42,12 +41,19 @@ function autoLoadModules(config: AutoLoadConfig): AsyncIterable<Constructable<un
   const flags = config.mask instanceof RegExp ? config.mask.flags.replace('g', '') : '';
   const filter = config.mask ? new RegExp(config.mask, flags) : defaultMask;
 
-  return readModulesRecursively(config.directory, filter);
+  return readModulesRecursively(parsePath(config.directory), filter);
 }
 
-async function* readModulesRecursively(path: PathLike, filter: RegExp): AsyncIterable<Constructable<unknown>> {
-  const dir = opendirSync(path);
-  const parentUrl = pathToFileURL(dir.path);
+function parsePath(directory: PathLike): URL {
+  const urlLike = directory.toString('utf8');
+  const url = urlLike.startsWith('file://') ? new URL(urlLike) : new URL('file://' + urlLike);
+
+  if (lstatSync(url).isFile()) url.pathname += './..';
+  return url;
+}
+
+async function* readModulesRecursively(parentUrl: URL, filter: RegExp): AsyncIterable<Constructable<unknown>> {
+  const dir = opendirSync(parentUrl);
   parentUrl.pathname += '/';
 
   try {

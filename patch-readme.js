@@ -7,16 +7,11 @@
  */
 
 import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath, URL } from 'node:url';
-
-/* __dirname polyfill */
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /* paths to all required files */
-const packageDist = path.join(__dirname, 'dist', 'fastify-decorators');
-const packageJsonPath = path.join(packageDist, 'package.json');
-const readmePath = path.join(packageDist, 'README.md');
+const packageDist = new URL('dist/fastify-decorators/', import.meta.url);
+const packageJsonPath = new URL('package.json', packageDist);
+const readmePath = new URL('README.md', packageDist);
 
 /* urls for patches */
 const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
