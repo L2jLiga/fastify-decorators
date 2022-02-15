@@ -7,6 +7,7 @@
  */
 
 import type { FastifyPluginOptions } from 'fastify';
+import type { PathLike } from 'fs';
 import { Constructor } from '../decorators/helpers/inject-dependencies.js';
 
 /**
@@ -16,7 +17,7 @@ export interface AutoLoadConfig extends FastifyPluginOptions {
   /**
    * Path to directory which contains files to load
    */
-  directory: string;
+  directory: PathLike;
 
   /**
    * Mask used to filter files to load

@@ -1,5 +1,6 @@
 import { fastify, FastifyInstance } from 'fastify';
-import { resolve } from 'path';
+import { resolve, sep } from 'path';
+import { pathToFileURL, URL } from 'url';
 import { servicesWithDestructors } from '../decorators/destructor.js';
 import { injectables } from '../registry/injectables.js';
 import { wrapInjectable } from '../utils/wrap-injectable.js';
@@ -12,10 +13,22 @@ describe('Bootstrap test', () => {
     injectables.clear();
   });
 
-  it('should bootstrap controller', async () => {
+  it('should autoload controller when path given', async () => {
     const instance = fastify();
     instance.register(bootstrap, {
       directory: resolve(__dirname, 'mocks'),
+      mask: /\.controller\.mock\.ts/,
+    });
+
+    const res = await instance.inject({ url: '/index' });
+
+    expect(res.payload).toBe('{"message":"ok"}');
+  });
+
+  it('should autoload controller when URL given', async () => {
+    const instance = fastify();
+    instance.register(bootstrap, {
+      directory: new URL('mocks', pathToFileURL(__dirname + sep)),
       mask: /\.controller\.mock\.ts/,
     });
 

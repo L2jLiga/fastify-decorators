@@ -8,9 +8,9 @@
 
 import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
-import { readdirSync } from 'fs';
-import { join } from 'path';
-import { pathToFileURL } from 'url';
+import { PathLike, readdirSync } from 'fs';
+import { sep } from 'path';
+import { fileURLToPath, pathToFileURL, URL } from 'url';
 import { servicesWithDestructors } from '../decorators/destructor.js';
 import { Constructor } from '../decorators/helpers/inject-dependencies.js';
 import { readyMap } from '../decorators/index.js';
@@ -66,15 +66,19 @@ function verifyController(controller: Constructor<unknown>): controller is Injec
   return controller && CREATOR in controller;
 }
 
-function* findModules(path: string, filter: RegExp): Iterable<string> {
-  const directoriesToRead = new Set<string>([path]);
+function* findModules(path: PathLike, filter: RegExp): Iterable<URL> {
+  const directoriesToRead = new Set<URL>();
+  if (typeof path === 'string') directoriesToRead.add(pathToFileURL(path + sep));
+  else if (path instanceof Buffer) directoriesToRead.add(pathToFileURL(path.toString('utf-8') + sep));
+  else directoriesToRead.add(path);
 
   for (const dirPath of directoriesToRead) {
     // TODO: can be replaced with for await (const filePath of fs.opendir) in Node.js >= 12.12
     for (const filePath of readdirSync(dirPath, { withFileTypes: true })) {
-      const fullFilePath = join(dirPath, filePath.name);
+      const fullFilePath = new URL(`./${filePath.name}`, dirPath.href + '/');
 
       if (filePath.isDirectory()) {
+        fullFilePath.href += '/';
         directoriesToRead.add(fullFilePath);
       } else if (filter.test(filePath.name)) {
         yield fullFilePath;
@@ -84,13 +88,14 @@ function* findModules(path: string, filter: RegExp): Iterable<string> {
 }
 
 /* istanbul ignore next */
-async function loadModule(module: string): Promise<InjectableController> {
+async function loadModule(moduleUrl: URL): Promise<InjectableController> {
   if (typeof require !== 'undefined') {
+    const module = fileURLToPath(moduleUrl);
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     return require(module).__esModule ? require(module).default : require(module);
   }
 
-  return import(pathToFileURL(module).toString()).then((m) => m.default);
+  return import(moduleUrl.toString()).then((m) => m.default);
 }
 
 function useGracefulShutdown(fastify: FastifyInstance): void {
