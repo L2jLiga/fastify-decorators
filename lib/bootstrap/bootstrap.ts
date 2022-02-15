@@ -8,7 +8,7 @@
 
 import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
-import { PathLike, readdirSync } from 'fs';
+import { lstatSync, PathLike, readdirSync } from 'fs';
 import { sep } from 'path';
 import { fileURLToPath, pathToFileURL, URL } from 'url';
 import { servicesWithDestructors } from '../decorators/destructor.js';
@@ -43,34 +43,26 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
   },
 );
 
-async function loadControllers(config: ControllersListConfig, fastify: FastifyInstance): Promise<void> {
-  await Promise.all(config.controllers.map((controller) => loadController(controller, fastify, config)));
-}
-
 function autoLoadModules(config: AutoLoadConfig): Promise<InjectableController[]> {
   const flags = config.mask instanceof RegExp ? config.mask.flags.replace('g', '') : '';
   const filter = config.mask ? new RegExp(config.mask, flags) : defaultMask;
 
-  return Promise.all([...findModules(config.directory, filter)].map(loadModule));
+  return Promise.all([...findModules(parseDirectory(config.directory), filter)].map(loadModule));
 }
 
-function loadController(controller: Constructor<unknown>, fastify: FastifyInstance, config: BootstrapConfig) {
-  if (verifyController(controller)) {
-    return controller[CREATOR].register(fastify, config.prefix);
-  } else if (!config.skipBroken) {
-    throw new TypeError(`Loaded file is incorrect module and can not be bootstrapped: ${controller}`);
-  }
+function parseDirectory(directory: PathLike): URL {
+  if (typeof directory === 'string') return pathToFileURL(directory + sep);
+  else if (directory instanceof Buffer) return pathToFileURL(directory.toString('utf-8') + sep);
+
+  if (lstatSync(directory).isFile()) directory.pathname += './..';
+  return directory;
 }
 
-function verifyController(controller: Constructor<unknown>): controller is InjectableController {
-  return controller && CREATOR in controller;
-}
-
-function* findModules(path: PathLike, filter: RegExp): Iterable<URL> {
+function* findModules(rootDirUrl: URL, filter: RegExp): Iterable<URL> {
   const directoriesToRead = new Set<URL>();
-  if (typeof path === 'string') directoriesToRead.add(pathToFileURL(path + sep));
-  else if (path instanceof Buffer) directoriesToRead.add(pathToFileURL(path.toString('utf-8') + sep));
-  else directoriesToRead.add(path);
+  if (typeof rootDirUrl === 'string') directoriesToRead.add(pathToFileURL(rootDirUrl + sep));
+  else if (rootDirUrl instanceof Buffer) directoriesToRead.add(pathToFileURL(rootDirUrl.toString('utf-8') + sep));
+  else directoriesToRead.add(rootDirUrl);
 
   for (const dirPath of directoriesToRead) {
     // TODO: can be replaced with for await (const filePath of fs.opendir) in Node.js >= 12.12
@@ -96,6 +88,22 @@ async function loadModule(moduleUrl: URL): Promise<InjectableController> {
   }
 
   return import(moduleUrl.toString()).then((m) => m.default);
+}
+
+async function loadControllers(config: ControllersListConfig, fastify: FastifyInstance): Promise<void> {
+  await Promise.all(config.controllers.map((controller) => loadController(controller, fastify, config)));
+}
+
+function loadController(controller: Constructor<unknown>, fastify: FastifyInstance, config: BootstrapConfig) {
+  if (verifyController(controller)) {
+    return controller[CREATOR].register(fastify, config.prefix);
+  } else if (!config.skipBroken) {
+    throw new TypeError(`Loaded file is incorrect module and can not be bootstrapped: ${controller}`);
+  }
+}
+
+function verifyController(controller: Constructor<unknown>): controller is InjectableController {
+  return controller && CREATOR in controller;
 }
 
 function useGracefulShutdown(fastify: FastifyInstance): void {
