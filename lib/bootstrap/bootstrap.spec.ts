@@ -37,10 +37,25 @@ describe('Bootstrap test', () => {
     expect(res.payload).toBe('{"message":"ok"}');
   });
 
-  it('should autoload controller when import.meta.url given', async () => {
+  it('should autoload controller when URL to file given', async () => {
     const instance = fastify();
 
     const importMetaUrlLike = pathToFileURL(__filename);
+
+    instance.register(bootstrap, {
+      directory: importMetaUrlLike,
+      mask: /\.controller\.mock\.ts/,
+    });
+
+    const res = await instance.inject({ url: '/index' });
+
+    expect(res.payload).toBe('{"message":"ok"}');
+  });
+
+  it('should autoload controller when import.meta.url given', async () => {
+    const instance = fastify();
+
+    const importMetaUrlLike = pathToFileURL(__filename).toString();
 
     instance.register(bootstrap, {
       directory: importMetaUrlLike,

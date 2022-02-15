@@ -9,8 +9,7 @@
 import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 import { lstatSync, PathLike, readdirSync } from 'fs';
-import { sep } from 'path';
-import { fileURLToPath, pathToFileURL, URL } from 'url';
+import { fileURLToPath, URL } from 'url';
 import { servicesWithDestructors } from '../decorators/destructor.js';
 import { Constructor } from '../decorators/helpers/inject-dependencies.js';
 import { readyMap } from '../decorators/index.js';
@@ -51,18 +50,15 @@ function autoLoadModules(config: AutoLoadConfig): Promise<InjectableController[]
 }
 
 function parseDirectory(directory: PathLike): URL {
-  if (typeof directory === 'string') return pathToFileURL(directory + sep);
-  else if (directory instanceof Buffer) return pathToFileURL(directory.toString('utf-8') + sep);
+  const urlLike = directory.toString('utf8');
+  const url = urlLike.startsWith('file://') ? new URL(urlLike) : new URL('file://' + urlLike);
 
-  if (lstatSync(directory).isFile()) directory.pathname += './..';
-  return directory;
+  if (lstatSync(url).isFile()) url.pathname += './..';
+  return url;
 }
 
 function* findModules(rootDirUrl: URL, filter: RegExp): Iterable<URL> {
-  const directoriesToRead = new Set<URL>();
-  if (typeof rootDirUrl === 'string') directoriesToRead.add(pathToFileURL(rootDirUrl + sep));
-  else if (rootDirUrl instanceof Buffer) directoriesToRead.add(pathToFileURL(rootDirUrl.toString('utf-8') + sep));
-  else directoriesToRead.add(rootDirUrl);
+  const directoriesToRead = new Set<URL>([rootDirUrl]);
 
   for (const dirPath of directoriesToRead) {
     // TODO: can be replaced with for await (const filePath of fs.opendir) in Node.js >= 12.12
