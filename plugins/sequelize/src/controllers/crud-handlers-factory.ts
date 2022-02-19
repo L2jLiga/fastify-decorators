@@ -6,10 +6,10 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { Model, CreationAttributes } from 'sequelize';
-import type { EntitySchema } from '../mappers/entity-to-json-schema';
-import type { IHandler } from 'fastify-decorators/plugins';
 import type { FastifyReply, FastifyRequest } from 'fastify';
+import type { IHandler } from 'fastify-decorators/plugins';
+import type { CreationAttributes, Model } from 'sequelize';
+import type { EntitySchema } from '../mappers/entity-to-json-schema';
 import { modifiableProperties } from '../mappers/schema-properties.js';
 
 export function crudHandlersFactory(entitySchema: EntitySchema): PropertyDescriptorMap {
@@ -88,7 +88,7 @@ export function crudHandlersConfiguration(entitySchema: EntitySchema): IHandler[
           params: {
             type: 'object',
             properties: {
-              id: { type: ['string', 'number'] },
+              id: { anyOf: [{ type: 'number' }, { type: 'string' }] },
             },
           },
           response: {
@@ -106,7 +106,7 @@ export function crudHandlersConfiguration(entitySchema: EntitySchema): IHandler[
           params: {
             type: 'object',
             properties: {
-              id: { type: ['string', 'number'] },
+              id: { anyOf: [{ type: 'number' }, { type: 'string' }] },
             },
           },
           body: {
@@ -128,7 +128,7 @@ export function crudHandlersConfiguration(entitySchema: EntitySchema): IHandler[
           params: {
             type: 'object',
             properties: {
-              id: { type: ['string', 'number'] },
+              id: { anyOf: [{ type: 'number' }, { type: 'string' }] },
             },
           },
           response: {

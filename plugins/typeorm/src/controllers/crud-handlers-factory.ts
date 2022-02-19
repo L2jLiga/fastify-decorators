@@ -86,7 +86,7 @@ export function crudHandlersConfiguration(entitySchema: EntitySchema): IHandler[
           params: {
             type: 'object',
             properties: {
-              id: { type: ['string', 'number'] },
+              id: { oneOf: [{ type: 'number' }, { type: 'string' }] },
             },
           },
           response: {
@@ -104,7 +104,7 @@ export function crudHandlersConfiguration(entitySchema: EntitySchema): IHandler[
           params: {
             type: 'object',
             properties: {
-              id: { type: ['string', 'number'] },
+              id: { oneOf: [{ type: 'number' }, { type: 'string' }] },
             },
           },
           body: {
@@ -126,7 +126,7 @@ export function crudHandlersConfiguration(entitySchema: EntitySchema): IHandler[
           params: {
             type: 'object',
             properties: {
-              id: { type: ['string', 'number'] },
+              id: { oneOf: [{ type: 'number' }, { type: 'string' }] },
             },
           },
           response: {

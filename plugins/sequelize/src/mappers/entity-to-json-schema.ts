@@ -91,7 +91,6 @@ function columnMetadataMapper(columnMetadata: ModelAttributeColumnOptions): JSON
   const comment = columnMetadata.comment;
   const values = columnMetadata.values;
   const defaultValue = columnMetadata.defaultValue as JSONSchema7Extended['default'];
-  const isGenerated = columnMetadata.autoIncrement || columnMetadata.autoIncrementIdentity || typeof defaultValue === 'function';
   const maxLength = columnMetadata.validate?.max;
 
   const { type, format } = columnTypeMapper(columnMetadata.type);
@@ -103,10 +102,5 @@ function columnMetadataMapper(columnMetadata: ModelAttributeColumnOptions): JSON
     ...(values && { enum: [...values] }),
     ...(format && { format }),
     nullable: isNullable,
-
-    // custom schema options
-    _options: {
-      generated: isGenerated,
-    },
   };
 }

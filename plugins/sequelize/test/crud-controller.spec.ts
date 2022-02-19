@@ -48,11 +48,11 @@ describe('Decorators: CrudController', () => {
         entity: {
           type: 'object',
           properties: {
-            createdAt: { type: 'string', format: 'date-time', nullable: false, _options: { generated: false } },
-            id: { type: 'integer', nullable: false, _options: { generated: true } },
-            name: { type: 'string', nullable: false, _options: { generated: false } },
-            preferredName: { type: 'string', nullable: true, _options: { generated: false } },
-            updatedAt: { type: 'string', format: 'date-time', nullable: false, _options: { generated: false } },
+            createdAt: { type: 'string', format: 'date-time', nullable: false },
+            id: { type: 'integer', nullable: false },
+            name: { type: 'string', nullable: false },
+            preferredName: { type: 'string', nullable: true },
+            updatedAt: { type: 'string', format: 'date-time', nullable: false },
           },
         },
       },

@@ -106,7 +106,7 @@ function referencedColumnMetadataMapper({ name }: EntityMetadata): JSONSchema7Ex
 }
 
 function columnMetadataMapper(columnMetadata: ColumnMetadata): JSONSchema7Extended {
-  const { length, comment, propertyName, isNullable, isSelect, isUpdate, isGenerated } = columnMetadata;
+  const { length, comment, propertyName, isNullable, isSelect, isUpdate } = columnMetadata;
 
   return {
     type: columnTypeMapper(columnMetadata.type),
@@ -119,11 +119,5 @@ function columnMetadataMapper(columnMetadata: ColumnMetadata): JSONSchema7Extend
     readOnly: isSelect && !isUpdate,
     writeOnly: !isSelect && isUpdate,
     nullable: isNullable,
-
-    // custom schema options
-    _options: {
-      generated: typeof columnMetadata.default === 'function' || isGenerated,
-      hidden: !isSelect,
-    },
   };
 }

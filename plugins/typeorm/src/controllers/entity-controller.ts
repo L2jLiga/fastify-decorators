@@ -42,26 +42,25 @@ export const baseSchema = (schemaId: string, properties: Record<string, JSONSche
   find: {
     querystring: {
       $select: {
-        type: ['string', 'array'],
-        items: {
-          type: 'string',
-        },
+        oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }],
       },
       $sort: {
-        type: ['string', 'array', 'object'],
-        enum: sortingEnum,
-        items: {
-          type: 'string',
-        },
-        properties: Object.keys(properties)
-          .filter((key) => !properties[key].writeOnly && !properties[key]._options?.hidden)
-          .reduce(
-            (acc, key) => ({
-              ...acc,
-              [key]: { type: 'string', enum: sortingEnum },
-            }),
-            {},
-          ),
+        oneOf: [
+          { type: 'string', enum: sortingEnum },
+          { type: 'array', items: { type: 'string' } },
+          {
+            type: 'object',
+            properties: Object.keys(properties)
+              .filter((key) => !properties[key].writeOnly && !properties[key]._options?.hidden)
+              .reduce(
+                (acc, key) => ({
+                  ...acc,
+                  [key]: { type: 'string', enum: sortingEnum },
+                }),
+                {},
+              ),
+          },
+        ],
       },
       $limit: { type: 'number' },
       $skip: { type: 'number' },
@@ -86,7 +85,7 @@ export const baseSchema = (schemaId: string, properties: Record<string, JSONSche
   },
   findOne: {
     params: {
-      id: { type: ['number', 'string'] },
+      id: { oneOf: [{ type: 'number' }, { type: 'string' }] },
     },
     querystring: {
       $results: { type: 'boolean' },
@@ -100,20 +99,17 @@ export const baseSchema = (schemaId: string, properties: Record<string, JSONSche
       $results: { type: 'boolean' },
     },
     body: {
-      type: ['array', 'object'],
-      items: { $ref: `${schemaId}#/definitions/entity` },
-
-      if: { type: 'object' },
-      then: { $ref: `${schemaId}#/definitions/entity` },
+      oneOf: [
+        { type: 'array', items: { $ref: `${schemaId}#/definitions/entity` } },
+        { type: 'object', $ref: `${schemaId}#/definitions/entity` },
+      ],
     },
     response: {
       // Not possible to support a few types. The issue: https://github.com/fastify/fast-json-stringify/issues/193
       200: {
         type: 'array',
         items: {
-          type: ['number', 'object'],
-          if: { type: 'object' },
-          then: { $ref: `${schemaId}#/definitions/entity` },
+          oneOf: [{ type: 'number' }, { type: 'object', $ref: `${schemaId}#/definitions/entity` }],
         },
       },
     },
@@ -130,7 +126,7 @@ export const baseSchema = (schemaId: string, properties: Record<string, JSONSche
   },
   patchOne: {
     params: {
-      id: { type: ['number', 'string'] },
+      id: { oneOf: [{ type: 'number' }, { type: 'string' }] },
     },
     querystring: {
       $results: { type: 'boolean' },
@@ -154,7 +150,7 @@ export const baseSchema = (schemaId: string, properties: Record<string, JSONSche
   },
   updateOne: {
     params: {
-      id: { type: ['number', 'string'] },
+      id: { oneOf: [{ type: 'number' }, { type: 'string' }] },
     },
     querystring: {
       $results: { type: 'boolean' },
@@ -174,7 +170,7 @@ export const baseSchema = (schemaId: string, properties: Record<string, JSONSche
   },
   removeOne: {
     params: {
-      id: { type: ['number', 'string'] },
+      id: { oneOf: [{ type: 'number' }, { type: 'string' }] },
     },
     querystring: {
       $results: { type: 'boolean' },

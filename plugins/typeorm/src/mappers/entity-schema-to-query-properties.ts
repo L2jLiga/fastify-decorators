@@ -16,10 +16,16 @@ export function entitySchemaToQueryProperties(properties: Record<string, JSONSch
       (acc, [key, property]) => ({
         ...acc,
         [key]: {
-          type: ['string', 'number', 'object'],
-          properties: queryProperties(
-            property.type && ['string', 'number'].includes(property.type.toString()) ? (property.type as 'string' | 'number') : ['number', 'string'],
-          ),
+          oneOf: [
+            { type: 'string' },
+            { type: 'number' },
+            {
+              type: 'object',
+              properties: queryProperties(
+                property.type && ['string', 'number'].includes(property.type.toString()) ? (property.type as 'string' | 'number') : ['number', 'string'],
+              ),
+            },
+          ],
         },
       }),
       {
@@ -32,22 +38,24 @@ export function entitySchemaToQueryProperties(properties: Record<string, JSONSch
 }
 
 function queryProperties(type: 'number' | 'string' | ['number', 'string']): Record<string, JSONSchema7> {
+  const typeDef: JSONSchema7 = Array.isArray(type) ? { anyOf: [{ type: 'number' }, { type: 'string' }] } : { type };
+
   return {
-    $eq: { type },
-    $neq: { type },
-    $gt: { type },
-    $gte: { type },
-    $lt: { type },
-    $lte: { type },
+    $eq: typeDef,
+    $neq: typeDef,
+    $gt: typeDef,
+    $gte: typeDef,
+    $lt: typeDef,
+    $lte: typeDef,
     $like: { type: 'string' },
     $nlike: { type: 'string' },
     $ilike: { type: 'string' },
     $nilike: { type: 'string' },
     $regex: { type: 'string' },
     $nregex: { type: 'string' },
-    $in: { type: 'array', items: { type } },
-    $nin: { type: 'array', items: { type } },
-    $between: { type: 'array', items: [{ type }, { type }] },
-    $nbetween: { type: 'array', items: [{ type }, { type }] },
+    $in: { type: 'array', items: typeDef },
+    $nin: { type: 'array', items: typeDef },
+    $between: { type: 'array', items: [typeDef, typeDef] },
+    $nbetween: { type: 'array', items: [typeDef, typeDef] },
   };
 }

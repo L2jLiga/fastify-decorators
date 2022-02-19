@@ -7,21 +7,21 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "build": "ncc build src/index.ts -o dist || cross-env NODE_OPTIONS=--openssl-legacy-provider ncc build src/index.ts -o dist",
+    "build": "ncc build src/index.ts -o dist",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
     "aws-lambda-fastify": "^2.1.0",
-    "fastify": "^3.27.1",
+    "fastify": "^4.0.0-alpha.1",
     "fastify-decorators": "^4.0.0-next.1",
     "@fastify-decorators/simple-di": "^4.0.0-next.1"
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
-    "@types/node": "~14.18.10",
-    "@vercel/ncc": "^0.33.1",
+    "@types/node": "~14.18.12",
+    "@vercel/ncc": "^0.33.3",
     "cross-env": "^7.0.3",
-    "jest": "^27.5.0",
+    "jest": "^27.5.1",
     "jest-ts-webcompat-resolver": "^1.0.0",
     "ts-jest": "^27.1.3",
     "tslib": "^2.3.1",
