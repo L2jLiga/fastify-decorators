@@ -6,6 +6,14 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-export const transformAndWait = async <Item>(collection: Iterable<Item>, mapFn: (arg: Item) => unknown | Promise<unknown>): Promise<void> => {
-  await Promise.all([...collection].map(mapFn));
+export const transformAndWait = async <Item>(
+  collection: Iterable<Item> | AsyncIterable<Item>,
+  mapFn: (arg: Item) => unknown | Promise<unknown>,
+): Promise<void> => {
+  const items: Item[] = [];
+  for await (const item of collection) {
+    items.push(item);
+  }
+
+  await Promise.all(items.map(mapFn));
 };

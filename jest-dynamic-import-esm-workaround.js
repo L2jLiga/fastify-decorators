@@ -14,7 +14,6 @@ const testsCount = glob.sync('{src,test}/**/*.{spec,test}.ts').length;
 
 export const workersWorkaround = isIssueAffectCurrentVersion
   ? {
-      runInBand: false,
       maxConcurrency: testsCount,
       maxWorkers: testsCount,
     }

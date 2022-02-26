@@ -33,7 +33,7 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@types/jest": "^27.4.0",
+    "@types/jest": "^27.4.1",
     "@types/node": "~14.18.12",
     "fastify": "^4.0.0-alpha.1",
     "jest": "^27.5.1",

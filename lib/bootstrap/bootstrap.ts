@@ -22,11 +22,9 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
   async (fastify, config) => {
     await transformAndWait(hooksRegistry.appInit, (hook) => hook(fastify));
 
-    const controllers = new Set<Constructable<unknown>>();
-    if ('directory' in config) for await (const controller of autoLoadModules(config)) controllers.add(controller);
-    if ('controllers' in config) config.controllers.forEach(controllers.add, controllers);
+    if ('directory' in config) await transformAndWait(autoLoadModules(config), loadController.bind(fastify, config));
+    if ('controllers' in config) await transformAndWait(config.controllers, loadController.bind(fastify, config));
 
-    await transformAndWait(controllers, loadController.bind(fastify, config));
     await transformAndWait(hooksRegistry.appReady, (hook) => hook(fastify));
 
     fastify.addHook('onClose', () => transformAndWait(hooksRegistry.appDestroy, (hook) => hook(fastify)));
@@ -74,13 +72,13 @@ async function* readModulesRecursively(parentUrl: URL, filter: RegExp): AsyncIte
 }
 
 function loadController(this: FastifyInstance, config: BootstrapConfig, controller: Constructable<unknown>) {
-  if (verifyController(controller)) {
+  if (isValidController(controller)) {
     return controller[CREATOR].register(this, config.prefix);
   } else if (!config.skipBroken) {
     throw new TypeError(`Loaded file is incorrect module and can not be bootstrapped: ${controller}`);
   }
 }
 
-function verifyController(controller: Constructable<unknown>): controller is Registrable {
+function isValidController(controller: Constructable<unknown>): controller is Registrable {
   return controller && CREATOR in controller;
 }

@@ -18,7 +18,7 @@
     "typedi": "^0.10.0"
   },
   "devDependencies": {
-    "@types/jest": "^27.4.0",
+    "@types/jest": "^27.4.1",
     "@types/node": "~14.18.12",
     "jest": "^27.5.1",
     "jest-ts-webcompat-resolver": "^1.0.0",
