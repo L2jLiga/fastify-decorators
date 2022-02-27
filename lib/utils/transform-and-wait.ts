@@ -10,10 +10,7 @@ export const transformAndWait = async <Item>(
   collection: Iterable<Item> | AsyncIterable<Item>,
   mapFn: (arg: Item) => unknown | Promise<unknown>,
 ): Promise<void> => {
-  const items: Item[] = [];
   for await (const item of collection) {
-    items.push(item);
+    await mapFn(item);
   }
-
-  await Promise.all(items.map(mapFn));
 };
