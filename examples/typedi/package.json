@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
-    "@types/node": "~14.18.12",
+    "@types/node": "~17.0.21",
     "jest": "^27.5.1",
     "jest-ts-webcompat-resolver": "^1.0.0",
     "ts-jest": "^27.1.3",
