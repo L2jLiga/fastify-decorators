@@ -23,7 +23,7 @@
   "dependencies": {
     "@types/json-schema": "^7.0.9",
     "fastify-decorators": "^4.0.0-next.1",
-    "typeorm": "^0.2.44"
+    "typeorm": "^0.3.4"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
