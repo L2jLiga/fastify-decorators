@@ -14,7 +14,7 @@
     "fastify": "^4.0.0-alpha.1",
     "fastify-decorators": "^4.0.0-next.1",
     "@fastify-decorators/simple-di": "^4.0.0-next.1",
-    "fastify-swagger": "^4.16.0",
+    "fastify-swagger": "^5.1.0",
     "sql.js": "^1.6.2",
     "typeorm": "^0.2.44"
   },
