@@ -2220,10 +2220,10 @@ fast-uri@^1.0.1:
   resolved "https://registry.yarnpkg.com/fast-uri/-/fast-uri-1.0.1.tgz#dd637f093bccf17ebea58a70c178ee8a70b5aa45"
   integrity sha512-dbO/+ny6lX4tt7pvfPMTiHfQVR5igYKFa5BJ2a21TWuOgd2ySp5DYswsEGuMcJZLL3/eJ/MQJ5KNcXyNUvDt8w==
 
-fastify-error@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/fastify-error/-/fastify-error-0.3.1.tgz#8eb993e15e3cf57f0357fc452af9290f1c1278d2"
-  integrity sha512-oCfpcsDndgnDVgiI7bwFKAun2dO+4h84vBlkWsWnz/OUK9Reff5UFoFl241xTiLeHWX/vU9zkDVXqYUxjOwHcQ==
+fastify-error@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/fastify-error/-/fastify-error-1.0.0.tgz#696eaf420e5e57dba73f954c1cdba1394128fe36"
+  integrity sha512-RauR3BH7vy5QXra5kZpOt7KxR7G344LmKX+uRY+QrXjfZXa2RT9PE9svAdyTruxZCCgFcnnSu6dASRFMXx6z8A==
 
 "fastify-plugin@^2.0.0 || ^3.0.0", fastify-plugin@^3.0.0:
   version "3.0.1"
@@ -2255,15 +2255,15 @@ fastify-swagger@^5.1.0:
     openapi-types "^10.0.0"
 
 fastify@^4.0.0-alpha.1:
-  version "4.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.0.0-alpha.1.tgz#f08b09a1c28a9a29870afcc90b0c7866f15ea4cc"
-  integrity sha512-B7+M8Y03F4ptuhe6eKjpkzOI53ott9kt+ZCgImS4cSe1WAdPW+USHJystFF7QHl3ui7bQcQ9RTecFeSQYnnWuw==
+  version "4.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.0.0-alpha.3.tgz#47fec3e3b6af9256a3871d5e1cdae9a5d2b20337"
+  integrity sha512-egrqVegJZMd1zTCJKUBGDbCX3N7cCDjLd8sTyvRXXWTzSRgX6m+IRFQyGDPetC/KbG5d18M70VDzHgzlwwoKdA==
   dependencies:
     "@fastify/ajv-compiler" "^3.1.0"
     "@fastify/fast-json-stringify-compiler" "^1.0.0"
     abstract-logging "^2.0.1"
     avvio "^8.1.0"
-    fastify-error "^0.3.1"
+    fastify-error "^1.0.0"
     find-my-way "^5.1.0"
     light-my-request "^4.7.0"
     pino "^7.5.1"
