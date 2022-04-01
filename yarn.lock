@@ -760,13 +760,13 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@prettier/plugin-xml@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@prettier/plugin-xml/-/plugin-xml-1.2.0.tgz#8bc75e3f715338e2f72efae5cd3a370f4d3ad23f"
-  integrity sha512-bFvVAZKs59XNmntYjyefn3K4TBykS6E+d6ZW8IcylAs88ZO+TzLhp0dPpi0VKfPzq1Nb+kpDnPRTiwb4zY6NgA==
+"@prettier/plugin-xml@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@prettier/plugin-xml/-/plugin-xml-2.0.1.tgz#947d80d2e3bca798ee37130302c99ddd0ce863b6"
+  integrity sha512-zJ2+/J5ujo23oHwaiuo3DEnxnRWSw/52IP7to+XmHiTC/qG17w2ld6FbDfVrsnO2PTPp0HFotPtZFlbrPJnaqA==
   dependencies:
     "@xml-tools/parser" "^1.0.11"
-    prettier ">=2.3"
+    prettier ">=2.4.0"
 
 "@sinclair/typebox@^0.23.4":
   version "0.23.4"
@@ -4133,7 +4133,7 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier@>=2.3, prettier@^2.5.1:
+prettier@>=2.4.0, prettier@^2.5.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.6.1.tgz#d472797e0d7461605c1609808e27b80c0f9cfe17"
   integrity sha512-8UVbTBYGwN37Bs9LERmxCPjdvPxlEowx2urIL6urHzdb3SDq4B/Z6xLFCblrSnE4iKWcS6ziJ3aOYrc1kz/E2A==
