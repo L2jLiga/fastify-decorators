@@ -7,17 +7,17 @@
  */
 
 import { addHandler, decorateController } from 'fastify-decorators/plugins';
-import type { Connection, ObjectType } from 'typeorm';
+import type { DataSource, ObjectType } from 'typeorm';
 import { entityMetadataMapper } from '../mappers/entity-to-json-schema.js';
 import { crudHandlersConfiguration, crudHandlersFactory } from './crud-handlers-factory.js';
 
 export function CrudController<Entity>(entity: ObjectType<Entity>, route = `/${entity.name}`): ClassDecorator {
   return decorateController(route, (target, instance) => {
-    if (!instance.hasDecorator('connection')) throw new Error('"connection" not found, did you decorate FastifyInstance with it?');
+    if (!instance.hasDecorator('dataSource')) throw new Error('"dataSource" not found, did you decorate FastifyInstance with it?');
     // @ts-expect-error we just checked it above
-    const connection = instance.connection as Connection;
+    const dataSource = instance.dataSource as DataSource;
 
-    const entitySchema = entityMetadataMapper(instance, connection.getMetadata(entity));
+    const entitySchema = entityMetadataMapper(instance, dataSource.getMetadata(entity));
 
     Object.defineProperties(target.prototype, crudHandlersFactory(entitySchema));
 

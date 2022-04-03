@@ -8,7 +8,7 @@
 
 import type { FastifySchema } from 'fastify';
 import { addHandler, decorateController } from 'fastify-decorators/plugins';
-import type { Connection, ObjectType } from 'typeorm';
+import type { DataSource, ObjectType } from 'typeorm';
 import { entityMetadataMapper } from '../mappers/entity-to-json-schema';
 import { mergeRef, modifiableProperties, multiAffectedResponse, singleAffectedResponse } from '../mappers/schema-properties';
 import type { JSONSchema7Extended } from '../types/json-schema';
@@ -17,7 +17,7 @@ import { entityHandlersFactory } from './entity-handlers-factory';
 export function EntityController<Entity>(entity: ObjectType<Entity>): ClassDecorator {
   return decorateController('/', (target, instance) => {
     // @ts-expect-error we should have an TypeORM connection inside instance
-    const connection = instance.connection as Connection;
+    const connection = instance.dataSource as DataSource;
 
     const entitySchema = entityMetadataMapper(instance, connection.getMetadata(entity));
 

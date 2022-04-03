@@ -86,9 +86,9 @@ _Note_: if you struggle which `target` please refer to table below:
 
 | Node version | target |
 | ------------ | ------ |
-| 10.x         | es2018 |
-| 12.x         | es2019 |
 | 14.x         | es2020 |
+| 16.x         | es2021 |
+| 18.x         | es2022 |
 
 `fastify-decorators` itself use `"target": "es2018"` to support NodeJS 10+ (see [Node.js ES2018 Support]).
 

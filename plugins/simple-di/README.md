@@ -64,23 +64,23 @@ _database.service.ts_:
 ```ts
 import { Initializer, Service } from '@fastify-decorators/simple-di';
 import { join } from 'node:path';
-import { createConnection, Connection } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { Message } from '../entity/message';
 
 @Service()
 export class ConnectionService {
-  connection!: Connection;
+  dataSource = new DataSource({
+    type: 'sqljs',
+    autoSave: true,
+    location: join(process.cwd(), 'db', 'database.db'),
+    entities: [Message],
+    logging: ['query', 'schema'],
+    synchronize: true,
+  });
 
   @Initializer()
   async init(): Promise<void> {
-    this._connection = await createConnection({
-      type: 'sqljs',
-      autoSave: true,
-      location: join(process.cwd(), 'db', 'database.db'),
-      entities: [Message],
-      logging: ['query', 'schema'],
-      synchronize: true,
-    });
+    await this.dataSource.init();
   }
 }
 ```
@@ -91,7 +91,7 @@ Services may depend on other async services for their init, for such reasons `@I
 import { Initializer, Service } from '@fastify-decorators/simple-di';
 import { Message } from '../entity/message';
 import { ConnectionService } from '../services/connection.service';
-import { Repository } from 'typeorm';
+import type { Repository } from 'typeorm';
 
 @Service()
 export class MessageFacade {
@@ -100,9 +100,9 @@ export class MessageFacade {
 
   @Initializer([ConnectionService])
   async init(): Promise<void> {
-    // because we added ConnectionService as a dependency, we are sure it was properly initialized if it reaches
+    // because we added DataSourceProvider as a dependency, we are sure it was properly initialized if it reaches
     // this point
-    this.repository = this.connectionService.connection.getRepository(Message);
+    this.repository = this.connectionService.dataSource.getRepository(Message);
   }
 
   async getMessages(): Promise<Message[]> {
@@ -118,20 +118,20 @@ If you need to have stuff executed before service destroyed (e.g. close database
 ```ts
 import { Initializer, Destructor, Service } from '@fastify-decorators/simple-di';
 import { Message } from '../entity/message';
-import { createConnection, Connection } from 'typeorm';
+import { DataSource } from 'typeorm';
 
 @Service()
 export class ConnectionService {
-  connection!: Connection;
+  dataSource = new DataSource();
 
   @Initializer()
   async init(): Promise<void> {
-    this.connection = await createConnection();
+    await this.dataSource.initialize();
   }
 
   @Destructor()
   async destroy(): Promise<void> {
-    await this.connection.close();
+    await this.dataSource.destroy();
   }
 }
 ```

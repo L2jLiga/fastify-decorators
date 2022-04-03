@@ -30,6 +30,9 @@
       <excludeFolder url="file://$MODULE_DIR$/lib/.rollup.cache" />
       <excludeFolder url="file://$MODULE_DIR$/examples/aws-lambda/dist" />
       <excludeFolder url="file://$MODULE_DIR$/plugins/simple-di/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/examples/typedi/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/examples/injecting-requests-in-services/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/plugins/typedi/dist" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

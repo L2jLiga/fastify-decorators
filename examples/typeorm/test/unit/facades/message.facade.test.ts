@@ -1,6 +1,6 @@
 import { configureServiceTest } from '@fastify-decorators/simple-di/testing';
 import { MessageFacade } from '../../../src/facades/message.facade.js';
-import { ConnectionService } from '../../../src/services/connection.service.js';
+import { DataSourceProvider } from '../../../src/services/dataSourceProvider.js';
 import { jest } from '@jest/globals';
 
 interface MockRepository {
@@ -30,13 +30,13 @@ describe('Facade: MessageFacade', () => {
       service: MessageFacade,
       mocks: [
         {
-          provide: ConnectionService,
+          provide: DataSourceProvider,
           useValue: {
-            connection: {
+            dataSource: {
               getRepository: () => repository,
               close: jest.fn(),
             } as MockConnection,
-          } as Record<keyof ConnectionService, MockConnection>,
+          } as Record<keyof DataSourceProvider, MockConnection>,
         },
       ],
     });
@@ -53,7 +53,7 @@ describe('Facade: MessageFacade', () => {
   });
 
   it('should return message by id', async () => {
-    repository.findOne.mockImplementation((id: number) => Promise.resolve({ id, author: 'Me', text: 'yep' }));
+    repository.findOne.mockImplementation(({ where: { id } }: { where: { id: number } }) => Promise.resolve({ id, author: 'Me', text: 'yep' }));
 
     const result = await facade.getMessageBy(55);
 

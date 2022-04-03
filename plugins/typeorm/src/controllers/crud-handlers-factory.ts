@@ -26,13 +26,13 @@ export function crudHandlersFactory(entitySchema: EntitySchema): PropertyDescrip
     },
     getOne: {
       value(request: FastifyRequest<{ Params: { id: string | number } }>) {
-        return entitySchema.repository.findOneOrFail(request.params.id);
+        return entitySchema.repository.findOneOrFail({ where: { [entitySchema.primaryKey]: request.params.id } });
       },
     },
     updateOne: {
       async value(request: FastifyRequest<{ Params: { id: string | number }; Body: ObjectLiteral }>) {
         await entitySchema.repository.update(request.params.id, request.body);
-        return entitySchema.repository.findOne(request.params.id);
+        return entitySchema.repository.findOne({ where: { [entitySchema.primaryKey]: request.params.id } });
       },
     },
     removeOne: {

@@ -1,18 +1,13 @@
 import fastify from 'fastify';
 import * as fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import type { Connection } from 'typeorm';
-import { PrimaryColumn } from 'typeorm/decorator/columns/PrimaryColumn.js';
-import { Entity } from 'typeorm/decorator/entity/Entity.js';
-import { JoinColumn } from 'typeorm/decorator/relations/JoinColumn.js';
-import { OneToOne } from 'typeorm/decorator/relations/OneToOne.js';
-import { createConnection } from 'typeorm/globals.js';
+import { DataSource, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { CrudController } from '../src/index.js';
 
 const DATABASE_FILE = new URL('database.db', import.meta.url);
 
 describe('Decorators: CrudController', () => {
-  let connection: Connection;
+  let dataSource: DataSource;
 
   @Entity()
   class EntitySubImpl {
@@ -32,18 +27,18 @@ describe('Decorators: CrudController', () => {
 
   beforeEach(async () => {
     if (fs.existsSync(DATABASE_FILE)) fs.unlinkSync(DATABASE_FILE);
-    connection = await createConnection({
+    dataSource = await new DataSource({
       type: 'sqljs',
       autoSave: true,
       location: fileURLToPath(DATABASE_FILE),
       entities: [EntityImpl, EntitySubImpl],
       logging: false,
       synchronize: true,
-    });
+    }).initialize();
   });
   afterEach(async () => {
-    await connection.dropDatabase();
-    await connection.close();
+    await dataSource.dropDatabase();
+    await dataSource.destroy();
   });
 
   it(`should register schemas for controller entity and all related entities`, async () => {
@@ -51,7 +46,7 @@ describe('Decorators: CrudController', () => {
     class Ctrl {}
 
     const app = fastify();
-    app.decorate('connection', connection);
+    app.decorate('dataSource', dataSource);
 
     // @ts-expect-error implicitly created property
     Ctrl[Symbol.for('fastify-decorators.creator')].register(app, '', new Map(), true);
@@ -213,12 +208,12 @@ describe('Decorators: CrudController', () => {
     class Ctrl {}
 
     const app = fastify();
-    app.decorate('connection', connection);
+    app.decorate('dataSource', dataSource);
 
     // @ts-expect-error implicitly created property
     Ctrl[Symbol.for('fastify-decorators.creator')].register(app, '', new Map(), true);
 
-    await connection.manager.save([entitySub, entity]);
+    await dataSource.manager.save([entitySub, entity]);
 
     const response = await app.inject('/');
 

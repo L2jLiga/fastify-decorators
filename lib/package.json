@@ -16,7 +16,7 @@
     "build": "tsc -p tsconfig.lib.json",
     "prebuild": "rimraf ../dist/",
     "postbuild": "cp -r ./package.json ../README.md ../CHANGELOG.md ../LICENSE ../docs ../dist/fastify-decorators && node ../patch-readme.js",
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
+    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest"
   },
   "repository": {
     "type": "git",
