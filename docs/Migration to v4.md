@@ -1,6 +1,6 @@
 # Migration from v3.x to v4.x
 
-This guide describes how to migrate from `fastify-decorators` v2 to v3.
+This guide describes how to migrate from `fastify-decorators` v3 to v4.
 
 _Note_: migration guide from v2.x to v3.x is [here](https://github.com/L2jLiga/fastify-decorators/blob/v3/docs/Migration%20to%20v3.md).
 
