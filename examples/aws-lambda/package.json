@@ -13,8 +13,8 @@
   "dependencies": {
     "aws-lambda-fastify": "^2.1.2",
     "fastify": "^4.0.0-rc.1",
-    "fastify-decorators": "^4.0.0-next.1",
-    "@fastify-decorators/simple-di": "^4.0.0-next.1"
+    "fastify-decorators": "^4.0.0-next.2",
+    "@fastify-decorators/simple-di": "^4.0.0-next.2"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
