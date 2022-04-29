@@ -30,7 +30,7 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
     fastify.addHook('onClose', () => transformAndWait(hooksRegistry.appDestroy, (hook) => hook(fastify)));
   },
   {
-    fastify: '^3.0.0 || ^4.0.0-alpha.0 || ^4.0.0',
+    fastify: '^3.0.0 || ^4.0.0-alpha.0 || ^4.0.0-rc.0 || ^4.0.0',
     name: 'fastifyDecorators',
   },
 );
