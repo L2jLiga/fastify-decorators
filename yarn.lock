@@ -530,7 +530,7 @@
     slash "^3.0.0"
     write-file-atomic "^4.0.1"
 
-"@jest/types@^28.0.0", "@jest/types@^28.0.2":
+"@jest/types@^28.0.2":
   version "28.0.2"
   resolved "https://registry.yarnpkg.com/@jest/types/-/types-28.0.2.tgz#70b9538c1863fb060b2f438ca008b5563d00c5b4"
   integrity sha512-hi3jUdm9iht7I2yrV5C4s3ucCJHUP8Eh3W6rQ1s4n/Qw9rQgsda4eqCt+r3BKRi7klVmZfQlMx1nGlzNMP2d8A==
@@ -3194,19 +3194,7 @@ jest-ts-webcompat-resolver@^1.0.0:
   resolved "https://registry.yarnpkg.com/jest-ts-webcompat-resolver/-/jest-ts-webcompat-resolver-1.0.0.tgz#a554eb77446e1a8d2aabb810d6302bffaa00095c"
   integrity sha512-BFoaU7LeYqZNnTYEr6iMRf87xdCQntNc/Wk8YpzDBcuz+CIZ0JsTtzuMAMnKiEgTRTC1wRWLUo2RlVjVijBcHQ==
 
-jest-util@^28.0.0:
-  version "28.0.0"
-  resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-28.0.0.tgz#c4c24f04e6d89209265198bd9fffe65cca1d1058"
-  integrity sha512-wSZjUR74ZR076RfyWdZ0tI3+U87QmK+RCB5igUKRUhinclf4O9om6UNBy0u9YfT6shKhno3l/eiQVmRp/AEfeA==
-  dependencies:
-    "@jest/types" "^28.0.0"
-    "@types/node" "*"
-    chalk "^4.0.0"
-    ci-info "^3.2.0"
-    graceful-fs "^4.2.9"
-    picomatch "^2.2.3"
-
-jest-util@^28.0.2:
+jest-util@^28.0.0, jest-util@^28.0.2:
   version "28.0.2"
   resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-28.0.2.tgz#8e22cdd6e0549e0a393055f0e2da7eacc334b143"
   integrity sha512-EVdpIRCC8lzqhp9A0u0aAKlsFIzufK6xKxNK7awsnebTdOP4hpyQW5o6Ox2qPl8gbeUKYF+POLyItaND53kpGA==
@@ -4945,9 +4933,9 @@ treeify@^1.1.0:
   integrity sha512-1m4RA7xVAJrSGrrXGs0L3YTwyvBs2S8PbRHaLZAkFw7JR8oIFwYtysxlBZhYIa7xSyiYJKZ3iGrrk55cGA3i9A==
 
 ts-jest@^28.0.0-next.2:
-  version "28.0.0-next.2"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-28.0.0-next.2.tgz#9fc04466785cb31023832650dfa1c17bcb1f4797"
-  integrity sha512-+2HEBjvDY+ywdthydk3dLV6LXFex8JqIZls+zUYz+p5bpPzPzSpQDc4RcRgoniFsY9ZLyZQsxgZmP8ulyeHoGg==
+  version "28.0.0-next.3"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-28.0.0-next.3.tgz#df236176c74923fc76a289317106937a7a072d58"
+  integrity sha512-R1mD18XKfd2Cb1qpjXfB3FfJ+yX8G75czuSnDu3hAcccPumeC3FKwAM6dGMvt5Yl0RSGw+bUQskp4zDma3Gdgg==
   dependencies:
     bs-logger "0.x"
     fast-json-stable-stringify "2.x"
