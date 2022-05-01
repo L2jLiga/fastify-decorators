@@ -2259,7 +2259,7 @@ fastify-static@^4.0.0:
     readable-stream "^3.4.0"
     send "^0.17.1"
 
-fastify-swagger@^5.1.1:
+"fastify-swagger-deprecated@npm:fastify-swagger@5.1.1":
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/fastify-swagger/-/fastify-swagger-5.1.1.tgz#9aae3f7edb629c98e534841c3c0a1347f9321cd1"
   integrity sha512-7DA0zS8CCV5r+gbLgWdeeKEwLrVbbOxLMJVUfOl1H9+wSildSLD8hok2TLX7s3c28wOjF8+iZRxsz/hBDzfdIw==
@@ -2270,6 +2270,14 @@ fastify-swagger@^5.1.1:
     json-schema-resolver "^1.3.0"
     openapi-types "^10.0.0"
     rfdc "^1.3.0"
+
+fastify-swagger@^5.1.1:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/fastify-swagger/-/fastify-swagger-5.2.0.tgz#680cae4352b68b7e064aaaeb36fa1de60ff26dc7"
+  integrity sha512-yKct50Mev9YIrhd2FRO4AChcJM9JwTBCziIjA4C+AI+hV2ystaIklgHVEwHoyqlaeQ+B4gZ1Z5rgOE87i4llLg==
+  dependencies:
+    fastify-swagger-deprecated "npm:fastify-swagger@5.1.1"
+    process-warning "^1.0.0"
 
 fastify@^4.0.0-rc.1:
   version "4.0.0-rc.1"
