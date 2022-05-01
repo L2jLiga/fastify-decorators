@@ -1,14 +1,12 @@
+import fastifySwagger from '@fastify/swagger';
 import { fastify } from 'fastify';
 import { bootstrap } from 'fastify-decorators';
-import fastifySwagger from 'fastify-swagger';
 import fastifyStatic from 'fastify-static';
 import { hostname, port } from './config.js';
 import { TypedController } from './typed.controller.js';
 
 export const app = fastify();
 
-// @ts-expect-error fastify v4 not officially supported by fastify-swagger (yet)
-fastifySwagger[Symbol.for('plugin-meta')].fastify = '^4.0.0-alpha.0';
 // @ts-expect-error fastify v4 not officially supported by fastify-static (yet)
 fastifyStatic[Symbol.for('plugin-meta')].fastify = '^4.0.0-alpha.0';
 

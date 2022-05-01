@@ -1,8 +1,9 @@
+import 'reflect-metadata';
+
+import fastifySwagger from '@fastify/swagger';
 import { fastify } from 'fastify';
 import { bootstrap } from 'fastify-decorators';
 import fastifyStatic from 'fastify-static';
-import fastifySwagger from 'fastify-swagger';
-import 'reflect-metadata';
 import { hostname, port } from './config.js';
 import { MessageController } from './controllers/message.controller.js';
 

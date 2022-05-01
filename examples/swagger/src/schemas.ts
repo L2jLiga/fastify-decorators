@@ -1,4 +1,4 @@
-/// <reference types="fastify-swagger" />
+/// <reference types="@fastify/swagger" />
 import { Static, Type } from '@sinclair/typebox';
 import { FastifySchema } from 'fastify';
 

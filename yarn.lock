@@ -316,6 +316,18 @@
   dependencies:
     fast-json-stringify "^3.0.0"
 
+"@fastify/swagger@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@fastify/swagger/-/swagger-6.0.0.tgz#3de2bce61791f2fab83fbcbd28b844127253ff62"
+  integrity sha512-t8Bjxf3zY3B6YwASah/pUS4Xbq+Wa5Ol4ho0Y5HhQRR/fHPlF4xDxPExXVoT9rn7/NzjCwFkVo79kKUpds8hwA==
+  dependencies:
+    fastify-plugin "^3.0.0"
+    fastify-static "^4.0.0"
+    js-yaml "^4.0.0"
+    json-schema-resolver "^1.3.0"
+    openapi-types "^10.0.0"
+    rfdc "^1.3.0"
+
 "@gar/promisify@^1.0.1":
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
@@ -2258,18 +2270,6 @@ fastify-static@^4.0.0:
     p-limit "^3.1.0"
     readable-stream "^3.4.0"
     send "^0.17.1"
-
-fastify-swagger@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/fastify-swagger/-/fastify-swagger-5.1.1.tgz#9aae3f7edb629c98e534841c3c0a1347f9321cd1"
-  integrity sha512-7DA0zS8CCV5r+gbLgWdeeKEwLrVbbOxLMJVUfOl1H9+wSildSLD8hok2TLX7s3c28wOjF8+iZRxsz/hBDzfdIw==
-  dependencies:
-    fastify-plugin "^3.0.0"
-    fastify-static "^4.0.0"
-    js-yaml "^4.0.0"
-    json-schema-resolver "^1.3.0"
-    openapi-types "^10.0.0"
-    rfdc "^1.3.0"
 
 fastify@^4.0.0-rc.1:
   version "4.0.0-rc.1"
