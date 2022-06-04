@@ -11,7 +11,7 @@ export class DataSourceProvider {
   }
 
   private _dataSource = new DataSource({
-    type: 'better-sqlite3',
+    type: 'sqlite',
     database: join(process.cwd(), 'db', 'database.db'),
     entities: [Message],
     logging: false,
