@@ -12,7 +12,7 @@ export class DataSourceProvider {
 
   private _dataSource = new DataSource({
     type: 'sqlite',
-    database: join(process.cwd(), 'db', 'database.db'),
+    database: ':memory:',
     entities: [Message],
     logging: false,
     synchronize: true,
