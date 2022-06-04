@@ -1,7 +1,7 @@
 import { hostname, port } from './config.js';
 import { app } from './index.js';
 
-app.listen(port, hostname, (error, address) => {
+app.listen({ port, host: hostname }, (error, address) => {
   if (error != null) {
     console.error(error);
     process.exit(-1);

@@ -6,7 +6,6 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-export * from './controllers.js';
 export * from './life-cycle.js';
 export * from './shared-interfaces.js';
 

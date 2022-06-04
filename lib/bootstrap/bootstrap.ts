@@ -8,13 +8,14 @@
 
 import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
-import { opendirSync, lstatSync, PathLike } from 'node:fs';
+import { lstatSync, opendirSync, PathLike } from 'node:fs';
 import type { AutoLoadConfig } from '../interfaces/bootstrap-config.js';
 import { Constructable } from '../interfaces/constructable.js';
 import type { BootstrapConfig } from '../interfaces/index.js';
-import { hooksRegistry, Registrable } from '../plugins/index.js';
+import { hooksRegistry } from '../plugins/index.js';
 import { CREATOR } from '../symbols/index.js';
 import { transformAndWait } from '../utils/transform-and-wait.js';
+import { isValidRegistrable } from '../utils/validators.js';
 
 const defaultMask = /\.(handler|controller)\./;
 
@@ -22,8 +23,8 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
   async (fastify, config) => {
     await transformAndWait(hooksRegistry.appInit, (hook) => hook(fastify));
 
-    if ('directory' in config) await transformAndWait(autoLoadModules(config), loadController.bind(fastify, config));
-    if ('controllers' in config) await transformAndWait(config.controllers, loadController.bind(fastify, config));
+    if ('directory' in config) await transformAndWait(autoLoadModules(config), loadRegistrable.bind(fastify, config));
+    if ('controllers' in config) await transformAndWait(config.controllers, loadRegistrable.bind(fastify, config));
 
     await transformAndWait(hooksRegistry.appReady, (hook) => hook(fastify));
 
@@ -71,14 +72,10 @@ async function* readModulesRecursively(parentUrl: URL, filter: RegExp): AsyncIte
   }
 }
 
-function loadController(this: FastifyInstance, config: BootstrapConfig, controller: Constructable<unknown>) {
-  if (isValidController(controller)) {
-    return controller[CREATOR].register(this, config.prefix);
+function loadRegistrable<T>(this: FastifyInstance, config: BootstrapConfig, constructable: Constructable<T>): Promise<void> | void {
+  if (isValidRegistrable(constructable)) {
+    return constructable[CREATOR].register(this, config.prefix);
   } else if (!config.skipBroken) {
-    throw new TypeError(`Loaded file is incorrect module and can not be bootstrapped: ${controller}`);
+    throw new TypeError(`Loaded file is incorrect module and can not be bootstrapped: ${constructable}`);
   }
-}
-
-function isValidController(controller: Constructable<unknown>): controller is Registrable {
-  return controller && CREATOR in controller;
 }

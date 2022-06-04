@@ -1,7 +1,7 @@
+import fastifyStatic from '@fastify/static';
 import fastifySwagger from '@fastify/swagger';
 import { fastify } from 'fastify';
 import { bootstrap } from 'fastify-decorators';
-import fastifyStatic from 'fastify-static';
 import { hostname, port } from './config.js';
 import { TypedController } from './typed.controller.js';
 

@@ -109,7 +109,7 @@ describe('Factory: request decorators', () => {
         onSendHook = onSendHook;
       }
 
-      const instance = { get: jest.fn() };
+      const instance = { get: jest.fn<(_: string, options: { onSend: typeof onSendHook }) => void>() };
       const decorate = factory({
         url: '/url',
         options: <RouteShorthandOptions>{ schema: { body: { type: 'string' } } },
@@ -120,8 +120,7 @@ describe('Factory: request decorators', () => {
       // @ts-expect-error created implicitly by decorate
       Handler[CREATOR].register(instance);
 
-      // TODO: fix types
-      const [, { onSend }] = instance.get.mock.calls.pop() as any[];
+      const [, { onSend }] = instance.get.mock.calls.pop() as [string, { onSend: typeof onSendHook }];
       await onSend({});
 
       expect(onSendHook).toHaveBeenCalledWith({});

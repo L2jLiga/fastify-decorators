@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { Registrable } from '../../plugins/shared-interfaces.js';
+import { Registrable } from '../../plugins/index.js';
 import { CREATOR } from '../../symbols/index.js';
 
 export function injectControllerOptions(controller: unknown): asserts controller is Registrable {

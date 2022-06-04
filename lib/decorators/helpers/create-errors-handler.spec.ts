@@ -1,4 +1,4 @@
-import { IErrorHandler } from '../../interfaces/controller.js';
+import { IErrorHandler } from '../../interfaces/index.js';
 import { createErrorsHandler } from './create-errors-handler.js';
 
 describe('Helpers: create errors handler', () => {
@@ -18,7 +18,7 @@ describe('Helpers: create errors handler', () => {
 
     const handler = createErrorsHandler([errorHandlerDescription], instance);
 
-    // @ts-expect-error set request and reply to nulls, this should not happens IRL
+    // @ts-expect-error set request and reply to nulls, this should not happen IRL
     return expect(handler(expectedError, null, null)).resolves.toBeUndefined();
   });
 

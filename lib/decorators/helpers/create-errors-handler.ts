@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import { IErrorHandler } from '../../interfaces/controller.js';
+import { IErrorHandler } from '../../interfaces/index.js';
 
 export function createErrorsHandler(
   errorHandlers: IErrorHandler[],

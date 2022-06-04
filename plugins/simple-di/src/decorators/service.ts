@@ -16,7 +16,7 @@ import { patchMethods } from './helpers/patch-methods.js';
 createInitializationHook('beforeControllerCreation', (target) => patchMethods(target));
 
 createInitializationHook('afterControllerCreation', (instance, Registrable) =>
-  Object.assign(instance, createWithInjectedDependencies(Registrable, injectables, true)),
+  Object.assign(instance as any, createWithInjectedDependencies(Registrable, injectables, true)),
 );
 
 /**

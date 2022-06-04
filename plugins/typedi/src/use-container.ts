@@ -20,6 +20,6 @@ export function useContainer(Container: typeof TypeDIContainer) {
   });
 
   createInitializationHook('afterControllerCreation', (instance, targetConstructor) => {
-    Object.assign(instance, Container.get(targetConstructor));
+    Object.assign(instance as any, Container.get(targetConstructor));
   });
 }

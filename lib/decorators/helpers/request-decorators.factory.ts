@@ -7,10 +7,8 @@
  */
 
 import type { FastifyInstance, FastifyRequest, RouteShorthandOptions } from 'fastify';
-import { HttpMethods } from '../../interfaces/http-methods.js';
-import { RequestHandler, RequestHook } from '../../interfaces/request-handler.js';
-import { RouteConfig } from '../../interfaces/route-config.js';
-import { hooksRegistry } from '../../plugins/life-cycle.js';
+import { HttpMethods, RequestHandler, RequestHook, RouteConfig } from '../../interfaces/index.js';
+import { hooksRegistry } from '../../plugins/index.js';
 import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import { transformAndWait } from '../../utils/transform-and-wait.js';
 import { ensureHandlers, hasErrorHandlers, hasHooks } from './class-properties.js';

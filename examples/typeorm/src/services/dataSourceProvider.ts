@@ -11,9 +11,8 @@ export class DataSourceProvider {
   }
 
   private _dataSource = new DataSource({
-    type: 'sqljs',
-    autoSave: true,
-    location: join(process.cwd(), 'db', 'database.db'),
+    type: 'better-sqlite3',
+    database: join(process.cwd(), 'db', 'database.db'),
     entities: [Message],
     logging: false,
     synchronize: true,

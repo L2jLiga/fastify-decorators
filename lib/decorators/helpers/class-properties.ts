@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { IErrorHandler, IHandler, IHook } from '../../interfaces/controller.js';
+import { IErrorHandler, IHandler, IHook } from '../../interfaces/index.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 
 export function ensureHandlers(val: { [HANDLERS]?: IHandler[] }): asserts val is { [HANDLERS]: IHandler[] } {
@@ -20,7 +20,7 @@ export function ensureHandlers(val: { [HANDLERS]?: IHandler[] }): asserts val is
   }
 }
 
-export function hasHandlers<Constructor>(val: Constructor): val is Constructor & { [HANDLERS]: IHandler[] } {
+export function hasHandlers<Class>(val: Class): val is Class & { [HANDLERS]: IHandler[] } {
   return HANDLERS in val;
 }
 
@@ -35,7 +35,7 @@ export function ensureErrorHandlers(val: { [ERROR_HANDLERS]?: IErrorHandler[] })
   }
 }
 
-export function hasErrorHandlers<T>(val: T): val is T & { [ERROR_HANDLERS]: IErrorHandler[] } {
+export function hasErrorHandlers<Class>(val: Class): val is Class & { [ERROR_HANDLERS]: IErrorHandler[] } {
   return ERROR_HANDLERS in val;
 }
 
@@ -50,6 +50,6 @@ export function ensureHooks(val: { [HOOKS]?: IHook[] }): asserts val is { [HOOKS
   }
 }
 
-export function hasHooks<T>(val: T): val is T & { [HOOKS]: IHook[] } {
+export function hasHooks<Class>(val: Class): val is Class & { [HOOKS]: IHook[] } {
   return HOOKS in val;
 }

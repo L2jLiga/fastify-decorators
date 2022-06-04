@@ -11,20 +11,20 @@
     "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest"
   },
   "dependencies": {
-    "aws-lambda-fastify": "^2.1.2",
-    "fastify": "^4.0.0-rc.1",
+    "aws-lambda-fastify": "^2.1.6",
+    "fastify": "^4.0.0-rc.4",
     "fastify-decorators": "^4.0.0-next.2",
     "@fastify-decorators/simple-di": "^4.0.0-next.2"
   },
   "devDependencies": {
-    "@types/jest": "^27.4.1",
-    "@types/node": "~14.18.15",
-    "@vercel/ncc": "^0.33.4",
+    "@types/jest": "^28.1.0",
+    "@types/node": "~14.18.20",
+    "@vercel/ncc": "^0.34.0",
     "cross-env": "^7.0.3",
-    "jest": "^28.0.2",
+    "jest": "^28.1.0",
     "jest-ts-webcompat-resolver": "^1.0.0",
-    "ts-jest": "^28.0.0-next.2",
+    "ts-jest": "^28.0.4",
     "tslib": "^2.4.0",
-    "typescript": "^4.6.4"
+    "typescript": "^4.7.3"
   }
 }
