@@ -72,9 +72,9 @@ jobs:
         run: |
           yarn rimraf examples/fastify-4
       - name: Build projects (without ESM)
-        run: yarn build --ignore @fastify-decorators-examples/esm
+        run: yarn build
       - name: Run library tests (without ESM)
-        run: yarn test --ignore @fastify-decorators-examples/esm
+        run: yarn test
         env:
           CI: true
       - name: Upload unit-tests coverage to Codecov
@@ -112,9 +112,9 @@ jobs:
           yarn rimraf examples/esm
           yarn rimraf examples/fastify-4
       - name: Build projects (without ESM)
-        run: yarn build --ignore @fastify-decorators-examples/esm
+        run: yarn build
       - name: Run library tests (without ESM)
-        run: yarn test --ignore @fastify-decorators-examples/esm
+        run: yarn test
         env:
           CI: true
       - name: Upload unit-tests coverage to Codecov
