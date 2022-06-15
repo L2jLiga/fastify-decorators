@@ -66,7 +66,6 @@ module.exports = {
   // Jest does not support ESM modules well, so you will need to define mappings to CJS modules
   moduleNameMapper: {
     '^fastify-decorators/testing$': 'fastify-decorators/testing/index.cjs',
-    '^fastify-decorators/plugins$': 'fastify-decorators/plugins/index.cjs',
     '^fastify-decorators$': 'fastify-decorators/index.cjs',
   },
 };

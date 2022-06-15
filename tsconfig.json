@@ -21,11 +21,7 @@
     { "path": "examples/swagger/tsconfig.app.json" },
     { "path": "examples/swagger/tsconfig.spec.json" },
     { "path": "examples/typeorm/tsconfig.app.json" },
-    { "path": "examples/typeorm/tsconfig.spec.json" },
-    { "path": "plugins/sequelize/tsconfig.lib.json" },
-    { "path": "plugins/sequelize/tsconfig.spec.json" },
-    { "path": "plugins/typeorm/tsconfig.lib.json" },
-    { "path": "plugins/typeorm/tsconfig.spec.json" }
+    { "path": "examples/typeorm/tsconfig.spec.json" }
   ],
   "exclude": ["node_modules", "dist"],
   "files": []
