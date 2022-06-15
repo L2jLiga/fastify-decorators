@@ -66,12 +66,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
+      - name: Drop ESM only package
+        run: yarn rimraf examples/esm
       - name: Install dependencies
         run: yarn install --frozen-lock-file --ignore-engines
       - name: Build projects (without ESM)
-        run: yarn build --ignore @fastify-decorators-examples/esm --ignore @fastify-decorators/typeorm --ignore @fastify-decorators/sequelize
+        run: yarn build --ignore @fastify-decorators-examples/esm
       - name: Run library tests (without ESM)
-        run: yarn test --ignore @fastify-decorators-examples/esm --ignore @fastify-decorators/typeorm --ignore @fastify-decorators/sequelize
+        run: yarn test --ignore @fastify-decorators-examples/esm
         env:
           CI: true
       - name: Upload unit-tests coverage to Codecov
