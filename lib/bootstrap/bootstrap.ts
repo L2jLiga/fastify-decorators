@@ -37,7 +37,7 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
     if (servicesWithDestructors.size) useGracefulShutdown(fastify);
   },
   {
-    fastify: '^3.0.0',
+    fastify: '^3.0.0 || ^4.0.0',
     name: 'fastifyDecorators',
   },
 );

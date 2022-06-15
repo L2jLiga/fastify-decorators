@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [12.x, 14.x, 16.x, 18.x]
+        node-version: [14.x, 16.x, 18.x]
 
     steps:
       - name: Checkout branch
@@ -36,6 +36,45 @@ jobs:
         run: yarn build
       - name: Run library tests (with ESM)
         run: yarn test
+        env:
+          CI: true
+      - name: Upload unit-tests coverage to Codecov
+        uses: codecov/codecov-action@v3.1.0
+        with:
+          directory: coverage/library
+          flags: unittests
+      - name: Upload examples code coverage to Codecov
+        uses: codecov/codecov-action@v3.1.0
+        with:
+          directory: coverage/integration
+          flags: integration
+
+  Build-Outdated:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [12.x]
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install --frozen-lock-file --ignore-engines
+      - name: Drop not supported
+        run: |
+          yarn rimraf examples/fastify-4
+      - name: Build projects (without ESM)
+        run: yarn build --ignore @fastify-decorators-examples/esm
+      - name: Run library tests (without ESM)
+        run: yarn test --ignore @fastify-decorators-examples/esm
         env:
           CI: true
       - name: Upload unit-tests coverage to Codecov
@@ -66,10 +105,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
-      - name: Drop ESM only package
-        run: yarn rimraf examples/esm
       - name: Install dependencies
         run: yarn install --frozen-lock-file --ignore-engines
+      - name: Drop not supported
+        run: |
+          yarn rimraf examples/esm
+          yarn rimraf examples/fastify-4
       - name: Build projects (without ESM)
         run: yarn build --ignore @fastify-decorators-examples/esm
       - name: Run library tests (without ESM)

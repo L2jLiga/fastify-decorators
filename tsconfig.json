@@ -16,6 +16,8 @@
     { "path": "examples/controllers/tsconfig.spec.json" },
     { "path": "examples/esm/tsconfig.app.json" },
     { "path": "examples/esm/tsconfig.spec.json" },
+    { "path": "examples/fastify-v4/tsconfig.app.json" },
+    { "path": "examples/fastify-v4/tsconfig.spec.json" },
     { "path": "examples/request-handlers/tsconfig.app.json" },
     { "path": "examples/request-handlers/tsconfig.spec.json" },
     { "path": "examples/swagger/tsconfig.app.json" },
