@@ -26,8 +26,8 @@ export function createWithInjectedDependencies<C>(constructor: Constructor<C>, i
   /**
    * Step 1: Patch constructor and prototype with Injectables (issue #752)
    */
-  injectProperties(constructor, injectables, cacheResult, constructor.name);
-  injectProperties(constructor.prototype, injectables, cacheResult, constructor.name);
+  injectProperties(constructor, constructor, injectables, cacheResult, constructor.name);
+  injectProperties(constructor.prototype, constructor.prototype, injectables, cacheResult, constructor.name);
 
   /**
    * Step 2: Create instance
@@ -36,14 +36,19 @@ export function createWithInjectedDependencies<C>(constructor: Constructor<C>, i
     typeof Reflect.getMetadata === 'function' ? new constructor(...getArguments(constructor, injectables, cacheResult, constructor.name)) : new constructor();
 
   /**
-   * Step 3: Return instance with dependencies injected
+   * Step 3: Inject dependencies into instance (issue #750)
+   */
+  injectProperties(instance, constructor.prototype, injectables, cacheResult, constructor.name);
+
+  /**
+   * Step 4: Return instance with dependencies injected
    */
   return instance;
 }
 
-function injectProperties(target: unknown, injectables: Injectables, cacheResult: boolean, className: string) {
-  if (!hasServiceInjection(target)) return;
-  const viaInject = target[SERVICE_INJECTION];
+function injectProperties(target: unknown, source: unknown, injectables: Injectables, cacheResult: boolean, className: string) {
+  if (!hasServiceInjection(source)) return;
+  const viaInject = source[SERVICE_INJECTION];
   for (const { name, propertyKey } of viaInject) {
     if (!injectables.has(name))
       throw new TypeError(`Invalid argument provided for "${className}.${String(propertyKey)}". Expected class annotated with @Service.`);
