@@ -23,12 +23,22 @@ declare namespace Reflect {
 }
 
 export function createWithInjectedDependencies<C>(constructor: Constructor<C>, injectables: Injectables, cacheResult: boolean): C {
-  if (typeof Reflect.getMetadata !== 'function') return new constructor();
-
+  /**
+   * Step 1: Patch constructor and prototype with Injectables (issue #752)
+   */
   injectProperties(constructor, injectables, cacheResult, constructor.name);
   injectProperties(constructor.prototype, injectables, cacheResult, constructor.name);
 
-  return new constructor(...getArguments(constructor, injectables, cacheResult, constructor.name));
+  /**
+   * Step 2: Create instance
+   */
+  const instance =
+    typeof Reflect.getMetadata === 'function' ? new constructor(...getArguments(constructor, injectables, cacheResult, constructor.name)) : new constructor();
+
+  /**
+   * Step 3: Return instance with dependencies injected
+   */
+  return instance;
 }
 
 function injectProperties(target: unknown, injectables: Injectables, cacheResult: boolean, className: string) {
