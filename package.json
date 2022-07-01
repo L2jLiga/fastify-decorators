@@ -37,7 +37,7 @@
     "glob": "^8.0.3",
     "husky": "^8.0.1",
     "jest": "^28.1.0",
-    "jest-resolve": "^28.1.0",
+    "jest-resolve": "^28.1.1",
     "jest-ts-webcompat-resolver": "^1.0.0",
     "license-checker": "^25.0.1",
     "lint-staged": "^13.0.0",
