@@ -682,10 +682,15 @@
     "@xml-tools/parser" "^1.0.11"
     prettier ">=2.4.0"
 
-"@sinclair/typebox@^0.23.3", "@sinclair/typebox@^0.23.5":
+"@sinclair/typebox@^0.23.3":
   version "0.23.5"
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.23.5.tgz#93f7b9f4e3285a7a9ade7557d9a8d36809cbc47d"
   integrity sha512-AFBVi/iT4g20DHoujvMH1aEDn8fGJh4xsRGCP6d8RpLPMqsNPvW01Jcn0QysXTsg++/xj25NmJsGyH9xug/wKg==
+
+"@sinclair/typebox@^0.24.2":
+  version "0.24.2"
+  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.24.2.tgz#29f290d20a144ee47106206309eceb1488166d41"
+  integrity sha512-EpdWGQtmnZbXMioI90e+JSL0DnYINu8OX4ruVEXhoXAbgUgSmkpz5FWTiLai1sfg8AfpX8XDCLF50gzlEcBv2A==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
