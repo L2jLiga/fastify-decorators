@@ -32,7 +32,7 @@
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-jest": "^26.4.6",
-    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "fastify": "^4.0.0-rc.4",
     "glob": "^8.0.3",
     "husky": "^8.0.1",
