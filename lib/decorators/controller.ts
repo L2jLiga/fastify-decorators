@@ -10,8 +10,7 @@ import type { FastifyInstance } from 'fastify';
 import type { ControllerConfig } from '../interfaces/index.js';
 import type { InjectableClass } from '../interfaces/injectable-class.js';
 import { ControllerType } from '../registry/controller-type.js';
-import { injectables } from '../registry/injectables.js';
-import { CREATOR, INJECTABLES } from '../symbols/index.js';
+import { CLASS_LOADER, CREATOR } from '../symbols/index.js';
 import { injectControllerOptions } from './helpers/inject-controller-options.js';
 import { ControllerTypeStrategies } from './strategies/controller-type.js';
 
@@ -33,15 +32,12 @@ export function Controller(config?: string | ControllerConfig): unknown {
 
     injectControllerOptions(controller);
 
-    controller[CREATOR].register = async (instance: FastifyInstance, prefix = '', injectablesMap = injectables, cacheResult = true) => {
-      controller[INJECTABLES] = injectablesMap;
-      controller.prototype[INJECTABLES] = injectablesMap;
-
+    controller[CREATOR].register = async (instance: FastifyInstance, prefix = '', classLoader = instance[CLASS_LOADER]) => {
       let controllerInstance;
 
       await instance.register(
         async (instance) => {
-          controllerInstance = ControllerTypeStrategies[type](instance, controller, injectablesMap, cacheResult);
+          controllerInstance = ControllerTypeStrategies[type](instance, controller, classLoader);
         },
         { prefix: prefix + route },
       );

@@ -7,6 +7,7 @@
  */
 
 import { fastify } from 'fastify';
+import { classLoaderFactory } from '../decorators/helpers/inject-dependencies.js';
 import type { Constructor } from '../decorators/helpers/inject-dependencies.js';
 import { readyMap } from '../decorators/index.js';
 import type { InjectableService } from '../interfaces/injectable-class.js';
@@ -38,7 +39,8 @@ export function configureServiceTest<Service>(config: ServiceTestConfig<Service>
   }
 
   isInjectable(service);
-  const instance = service[CREATOR].register<Service>(injectablesWithMocks, false);
+  const classLoader = classLoaderFactory(injectablesWithMocks, false);
+  const instance = service[CREATOR].register<Service>(classLoader);
 
   let promise: Promise<unknown> | null = null;
 

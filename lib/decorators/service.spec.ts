@@ -1,8 +1,13 @@
+import { injectables } from '../registry/injectables.js';
 import { CREATOR, INITIALIZER } from '../symbols/index.js';
 import { getInstanceByToken } from '../utils/get-instance-by-token.js';
+import { classLoaderFactory } from './helpers/inject-dependencies.js';
 import { Service } from './service.js';
 
 describe('Decorators: @Service', () => {
+  beforeEach(() => injectables.clear());
+  afterEach(() => injectables.clear());
+
   it('should add CREATOR static property to class', () => {
     @Service()
     class Srv {}
@@ -12,16 +17,20 @@ describe('Decorators: @Service', () => {
   });
 
   it('should create service', () => {
+    const classLoader = classLoaderFactory(injectables, true);
+
     @Service()
     class Srv {}
 
     // @ts-expect-error TypeScript does not know about patches within decorator
-    const instance = Srv[CREATOR].register();
+    const instance = Srv[CREATOR].register(classLoader);
 
     expect(instance).toBeDefined();
   });
 
   it('should call initializer when instantiate service', () => {
+    const classLoader = classLoaderFactory(injectables, true);
+
     @Service()
     class Srv {
       static [INITIALIZER] = jest.fn((srv: unknown) => {
@@ -30,21 +39,23 @@ describe('Decorators: @Service', () => {
     }
 
     // @ts-expect-error TypeScript does not know about patches within decorator
-    Srv[CREATOR].register();
+    Srv[CREATOR].register(classLoader);
 
     expect(Srv[INITIALIZER]).toHaveBeenCalled();
   });
 
   it('should return same instance if service created multiple times', () => {
+    const classLoader = classLoaderFactory(injectables, true);
+
     @Service()
     class Srv {}
 
     // @ts-expect-error TypeScript does not know about patches within decorator
-    const instance1 = Srv[CREATOR].register();
+    const instance1 = Srv[CREATOR].register(classLoader);
     // @ts-expect-error TypeScript does not know about patches within decorator
-    const instance2 = Srv[CREATOR].register();
+    const instance2 = Srv[CREATOR].register(classLoader);
     // @ts-expect-error TypeScript does not know about patches within decorator
-    const instance3 = Srv[CREATOR].register();
+    const instance3 = Srv[CREATOR].register(classLoader);
 
     expect(instance1).toBe(instance2);
     expect(instance1).toBe(instance3);

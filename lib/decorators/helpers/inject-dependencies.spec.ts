@@ -1,7 +1,7 @@
 import { InjectableService } from '../../interfaces/injectable-class.js';
-import { CREATOR, INJECTABLES } from '../../symbols/index.js';
+import { CREATOR } from '../../symbols/index.js';
 import { Inject } from '../inject.js';
-import { createWithInjectedDependencies } from './inject-dependencies.js';
+import { classLoaderFactory } from './inject-dependencies.js';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Reflect {
@@ -10,7 +10,6 @@ declare namespace Reflect {
 
 describe('Helpers: inject dependencies', () => {
   class Service {
-    static [INJECTABLES] = new Map();
     static [CREATOR] = {
       register() {
         return new Service();
@@ -27,7 +26,7 @@ describe('Helpers: inject dependencies', () => {
         constructor(public field: Service) {}
       }
 
-      const instance = createWithInjectedDependencies(A, new Map(), false);
+      const instance = classLoaderFactory(new Map(), false)(A);
 
       expect(instance.field).toBeUndefined();
     });
@@ -42,9 +41,7 @@ describe('Helpers: inject dependencies', () => {
         constructor(public field: Service) {}
       }
 
-      expect(() => createWithInjectedDependencies(A, new Map([]), false)).toThrow(
-        `Invalid argument provided in A's constructor. Expected class annotated with @Service.`,
-      );
+      expect(() => classLoaderFactory(new Map([]), false)(A)).toThrow(`Invalid argument provided in A's constructor. Expected class annotated with @Service.`);
     });
 
     it('should inject service', () => {
@@ -57,7 +54,7 @@ describe('Helpers: inject dependencies', () => {
         constructor(public field: Service) {}
       }
 
-      const instance = createWithInjectedDependencies(A, new Map([[Service, Service as InjectableService]]), false);
+      const instance = classLoaderFactory(new Map([[Service, Service as InjectableService]]), false)(A);
 
       expect(instance.field).toBeInstanceOf(Service);
     });
@@ -70,7 +67,7 @@ describe('Helpers: inject dependencies', () => {
         public field!: Service;
       }
 
-      const instance = createWithInjectedDependencies(A, new Map([[Service, Service as InjectableService]]), false);
+      const instance = classLoaderFactory(new Map([[Service, Service as InjectableService]]), false)(A);
 
       expect(instance.field).toBeInstanceOf(Service);
     });
@@ -81,9 +78,7 @@ describe('Helpers: inject dependencies', () => {
         public field!: Service;
       }
 
-      expect(() => createWithInjectedDependencies(A, new Map(), false)).toThrow(
-        `Invalid argument provided for "A.field". Expected class annotated with @Service.`,
-      );
+      expect(() => classLoaderFactory(new Map(), false)(A)).toThrow(`Invalid argument provided for "A.field". Expected class annotated with @Service.`);
     });
   });
 });

@@ -152,6 +152,7 @@ describe('Bootstrap test', () => {
         handler();
       },
     } as FastifyInstance;
+    instance.decorate = () => instance;
 
     await bootstrap(instance, { controllers: [] });
 

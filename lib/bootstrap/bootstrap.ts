@@ -11,16 +11,22 @@ import fp from 'fastify-plugin';
 import { lstatSync, PathLike, readdirSync } from 'fs';
 import { fileURLToPath, URL } from 'url';
 import { servicesWithDestructors } from '../decorators/destructor.js';
-import { Constructor } from '../decorators/helpers/inject-dependencies.js';
+import { classLoaderFactory, Constructor } from '../decorators/helpers/inject-dependencies.js';
 import { readyMap } from '../decorators/index.js';
-import type { AutoLoadConfig, ControllersListConfig } from '../interfaces/bootstrap-config.js';
+import type { AutoLoadConfig, ClassLoader, ControllersListConfig } from '../interfaces/bootstrap-config.js';
 import type { BootstrapConfig, InjectableController } from '../interfaces/index.js';
 import { injectables } from '../registry/injectables.js';
-import { CREATOR, FastifyInstanceToken } from '../symbols/index.js';
+import { CLASS_LOADER, CREATOR, FastifyInstanceToken } from '../symbols/index.js';
 import { getInstanceByToken } from '../utils/get-instance-by-token.js';
 import { wrapInjectable } from '../utils/wrap-injectable.js';
 
 const defaultMask = /\.(handler|controller)\./;
+
+declare module 'fastify' {
+  interface FastifyInstance {
+    [CLASS_LOADER]: ClassLoader;
+  }
+}
 
 export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig>(
   async (fastify, config) => {
@@ -30,6 +36,9 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
 
     if ('directory' in config) (await autoLoadModules(config as AutoLoadConfig)).forEach(controllers.add, controllers);
     if ('controllers' in config) config.controllers.forEach(controllers.add, controllers);
+
+    const classLoader: ClassLoader = config.classLoader ?? classLoaderFactory(injectables, true);
+    fastify.decorate(CLASS_LOADER, classLoader);
 
     await loadControllers({ controllers: [...controllers], skipBroken, prefix: config.prefix }, fastify);
     await Promise.all(readyMap.values());

@@ -1,8 +1,10 @@
-import { RouteShorthandOptions } from 'fastify';
+import { FastifyInstance, RouteShorthandOptions } from 'fastify';
 import { IErrorHandler, IHandler, IHook } from '../../interfaces/controller.js';
+import { InjectableController } from '../../interfaces/index.js';
 import { ControllerType } from '../../registry/controller-type.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import { ErrorHandler } from '../error-handler.js';
+import { classLoaderFactory } from '../helpers/inject-dependencies.js';
 import { Hook } from '../hook.js';
 import { ControllerTypeStrategies } from './controller-type.js';
 
@@ -11,11 +13,10 @@ describe('Strategies: controller types', () => {
     it('should do nothing with empty controller', () => {
       class Controller {}
 
-      class Instance {}
+      const instance = {} as FastifyInstance;
 
       expect(() =>
-        // @ts-expect-error classes implements only required methods -> ts show errors
-        ControllerTypeStrategies[ControllerType.SINGLETON](new Instance(), Controller, new Map(), false),
+        ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller as InjectableController, classLoaderFactory(new Map(), false)),
       ).not.toThrow();
     });
 
@@ -37,16 +38,15 @@ describe('Strategies: controller types', () => {
         }
       }
 
-      class Instance {
+      const instance = {
         get(url: string, options: RouteShorthandOptions, handler: () => string) {
           expect(url).toBe('/');
           expect(options).toEqual({});
           expect(handler()).toBe('Message');
-        }
-      }
+        },
+      } as FastifyInstance;
 
-      // @ts-expect-error classes implements only required methods -> ts show errors
-      ControllerTypeStrategies[ControllerType.SINGLETON](new Instance(), Controller, new Map(), false);
+      ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false));
     });
 
     it('should create controller with error handlers', () => {
@@ -69,10 +69,9 @@ describe('Strategies: controller types', () => {
 
       const instance = {
         setErrorHandler: jest.fn(),
-      };
+      } as unknown as FastifyInstance;
 
-      // @ts-expect-error classes implements only required methods -> ts show errors
-      ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller, new Map(), false);
+      ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false));
 
       expect(instance.setErrorHandler).toHaveBeenCalled();
     });
@@ -95,10 +94,9 @@ describe('Strategies: controller types', () => {
 
       const instance = {
         addHook: jest.fn(),
-      };
+      } as unknown as FastifyInstance;
 
-      // @ts-expect-error classes implements only required methods -> ts show errors
-      ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller, new Map(), false);
+      ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false));
 
       expect(instance.addHook).toHaveBeenCalled();
     });
@@ -111,8 +109,11 @@ describe('Strategies: controller types', () => {
       class Instance {}
 
       expect(() =>
-        // @ts-expect-error classes implements only required methods -> ts show errors
-        ControllerTypeStrategies[ControllerType.REQUEST](new Instance(), Controller, new Map(), false),
+        ControllerTypeStrategies[ControllerType.REQUEST](
+          new Instance() as FastifyInstance,
+          Controller as InjectableController,
+          classLoaderFactory(new Map(), false),
+        ),
       ).not.toThrow();
     });
 
@@ -133,16 +134,15 @@ describe('Strategies: controller types', () => {
         }
       }
 
-      class Instance {
+      const instance = {
         get(url: string, options: RouteShorthandOptions, handler: (req: unknown) => string) {
           expect(url).toBe('/');
           expect(options).toEqual({});
           expect(handler({})).toEqual('Message');
-        }
-      }
+        },
+      } as FastifyInstance;
 
-      // @ts-expect-error classes implements only required methods -> ts show errors
-      ControllerTypeStrategies[ControllerType.REQUEST](new Instance(), Controller, new Map(), false);
+      ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false));
     });
 
     it('should create controller with error handlers', () => {
@@ -165,10 +165,9 @@ describe('Strategies: controller types', () => {
 
       const instance = {
         setErrorHandler: jest.fn(),
-      };
+      } as unknown as FastifyInstance;
 
-      // @ts-expect-error classes implements only required methods -> ts show errors
-      ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller, new Map(), false);
+      ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false));
 
       expect(instance.setErrorHandler).toHaveBeenCalled();
     });
@@ -187,13 +186,12 @@ describe('Strategies: controller types', () => {
       let errorHandler: (error: Error, request: unknown) => void;
       const instance = {
         setErrorHandler: (_errorHandler: typeof errorHandler) => (errorHandler = _errorHandler),
-      };
+      } as unknown as FastifyInstance;
 
       beforeEach(() => {
         jest.resetAllMocks();
 
-        // @ts-expect-error classes implements only required methods -> ts show errors
-        ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller, new Map(), false);
+        ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false));
       });
 
       it('should register error handler', () => {
@@ -239,10 +237,9 @@ describe('Strategies: controller types', () => {
         addHook(type: string, handler: jest.Mock) {
           hooks[type] = handler;
         },
-      };
+      } as FastifyInstance;
 
-      // @ts-expect-error classes implements only required methods -> ts show errors
-      ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller, new Map(), false);
+      ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false));
 
       beforeEach(() => jest.resetAllMocks());
 
