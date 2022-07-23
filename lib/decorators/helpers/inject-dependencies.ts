@@ -23,8 +23,8 @@ declare namespace Reflect {
   function getMetadata(metadataKey: 'design:paramtypes', target: unknown): ServiceInjection['name'][] | undefined;
 }
 
+const instances = new Map<Constructor<unknown>, unknown>();
 export function classLoaderFactory(injectables: Injectables, cacheResult: boolean): ClassLoader {
-  const instances = new Map<Constructor<unknown>, unknown>();
   return function createWithInjectedDependencies<C>(constructor: Constructor<C>): C {
     if (cacheResult && instances.has(constructor)) return instances.get(constructor) as C;
 
