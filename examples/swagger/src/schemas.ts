@@ -1,6 +1,5 @@
-/// <reference types="fastify-oas" />
 import { Static, Type } from '@sinclair/typebox';
-import { FastifySchema, RouteSchema } from 'fastify';
+import { FastifySchema } from 'fastify';
 
 const body = Type.Object({
   message: Type.String(),
@@ -10,7 +9,7 @@ const response = Type.Object({
 });
 
 export type TBody = Static<typeof body>;
-export const schema: FastifySchema & RouteSchema = {
+export const schema: FastifySchema & { tags: string[] } = {
   tags: ['Typed Controller', 'Swagger example'],
   body,
   response: {
