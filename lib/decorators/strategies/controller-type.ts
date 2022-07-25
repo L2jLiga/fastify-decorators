@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import type { FastifyInstance, FastifyReply, FastifyRequest, FastifySchema } from 'fastify';
 import { ClassLoader } from '../../interfaces/bootstrap-config.js';
 import type { IErrorHandler, IHandler, IHook, InjectableController } from '../../interfaces/index.js';
 import { ControllerType } from '../../registry/controller-type.js';
@@ -25,7 +25,7 @@ function targetFactory(constructor: InjectableController, classLoader: ClassLoad
   };
 }
 
-type ControllerFactory = (instance: FastifyInstance, constructor: InjectableController, classLoader: ClassLoader) => unknown;
+type ControllerFactory = (instance: FastifyInstance, constructor: InjectableController, classLoader: ClassLoader, tags: string[]) => unknown;
 
 /**
  * Various strategies which can be applied to controller
@@ -39,24 +39,24 @@ type ControllerFactory = (instance: FastifyInstance, constructor: InjectableCont
  * By default controllers use SINGLETON strategy
  */
 export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory> = {
-  [ControllerType.SINGLETON](instance, constructor, classLoader) {
+  [ControllerType.SINGLETON](instance, constructor, classLoader, tags) {
     const controllerInstance = classLoader(constructor);
 
-    if (hasHandlers(constructor)) registerHandlers(constructor[HANDLERS], instance, controllerInstance);
+    if (hasHandlers(constructor)) registerHandlers(constructor[HANDLERS], instance, controllerInstance, tags);
     if (hasErrorHandlers(constructor)) registerErrorHandlers(constructor[ERROR_HANDLERS], instance, controllerInstance);
     if (hasHooks(constructor)) registerHooks(constructor[HOOKS], instance, controllerInstance);
 
     return controllerInstance;
   },
 
-  [ControllerType.REQUEST](instance, constructor, classLoader) {
+  [ControllerType.REQUEST](instance, constructor, classLoader, tags) {
     const getTarget = targetFactory(constructor, classLoader);
 
     if (hasHandlers(constructor))
       constructor[HANDLERS].forEach((handler) => {
         const { url, method, handlerMethod, options } = handler;
 
-        instance[method](url, options, function (request, ...args) {
+        instance[method](url, { schema: { tags, ...options?.schema } as FastifySchema, ...options }, function (request, ...args) {
           return getTarget(request)[handlerMethod](request, ...args);
         });
       });
@@ -81,9 +81,14 @@ function registerHandlers(
   handlers: IHandler[],
   instance: FastifyInstance,
   controllerInstance: Record<string, (request: FastifyRequest, reply: FastifyReply) => void>,
+  tags: string[],
 ): void {
   handlers.forEach((handler) => {
-    instance[handler.method](handler.url, handler.options, controllerInstance[handler.handlerMethod as string].bind(controllerInstance));
+    instance[handler.method](
+      handler.url,
+      { schema: { tags, ...handler.options?.schema } as FastifySchema, ...handler.options },
+      controllerInstance[handler.handlerMethod as string].bind(controllerInstance),
+    );
   });
 }
 

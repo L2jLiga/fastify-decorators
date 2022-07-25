@@ -32,7 +32,7 @@ describe('Helpers: inject dependencies', () => {
     });
 
     it('should throw error when service is missing in injectables map', () => {
-      Reflect.getMetadata = (key, target) => {
+      Reflect.getMetadata = (_key, target) => {
         if (target === A) return [Service];
         else return [];
       };
@@ -45,7 +45,7 @@ describe('Helpers: inject dependencies', () => {
     });
 
     it('should inject service', () => {
-      Reflect.getMetadata = (key, target) => {
+      Reflect.getMetadata = (_key, target) => {
         if (target === A) return [Service];
         else return [];
       };

@@ -21,4 +21,12 @@ export interface ControllerConfig {
    * Controller type
    */
   type?: ControllerType;
+
+  /**
+   * List of tags to group endpoints in swagger
+   *
+   * by default this list is empty, adding tags here will add same tags to all methods inside controller.
+   * In case if method has own set of tags they will have higher priority instead of controller tags
+   */
+  tags?: string[];
 }
