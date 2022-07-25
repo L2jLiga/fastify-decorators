@@ -152,9 +152,18 @@ describe('Bootstrap test', () => {
         handler();
       },
     } as FastifyInstance;
+    instance.decorate = () => instance;
 
     await bootstrap(instance, { controllers: [] });
 
     expect(foo.bar).toHaveBeenCalled();
+  });
+
+  it('should support custom class loader', async () => {
+    const classLoader = jest.fn().mockImplementation((c) => new c());
+
+    await bootstrap(fastify(), { controllers: [SampleControllerMock], classLoader: classLoader });
+
+    expect(classLoader).toHaveBeenCalledWith(SampleControllerMock);
   });
 });

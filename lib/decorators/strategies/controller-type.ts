@@ -7,26 +7,25 @@
  */
 
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { ClassLoader } from '../../interfaces/bootstrap-config.js';
 import type { IErrorHandler, IHandler, IHook, InjectableController } from '../../interfaces/index.js';
-import type { Injectables } from '../../interfaces/injectable-class.js';
 import { ControllerType } from '../../registry/controller-type.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import { hasErrorHandlers, hasHandlers, hasHooks } from '../helpers/class-properties.js';
 import { createErrorsHandler } from '../helpers/create-errors-handler.js';
-import { createWithInjectedDependencies } from '../helpers/inject-dependencies.js';
 
 const controllersCache = new WeakMap<FastifyRequest, unknown>();
 
-function targetFactory(constructor: InjectableController, injectablesMap: Injectables, cacheResult: boolean) {
+function targetFactory(constructor: InjectableController, classLoader: ClassLoader) {
   return function getTarget(request: FastifyRequest) {
     if (controllersCache.has(request)) return controllersCache.get(request);
-    const target = createWithInjectedDependencies(constructor, injectablesMap, cacheResult);
+    const target = classLoader(constructor);
     controllersCache.set(request, target);
     return target;
   };
 }
 
-type ControllerFactory = (instance: FastifyInstance, constructor: InjectableController, injectablesMap: Injectables, cacheResult: boolean) => unknown;
+type ControllerFactory = (instance: FastifyInstance, constructor: InjectableController, classLoader: ClassLoader) => unknown;
 
 /**
  * Various strategies which can be applied to controller
@@ -40,8 +39,8 @@ type ControllerFactory = (instance: FastifyInstance, constructor: InjectableCont
  * By default controllers use SINGLETON strategy
  */
 export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory> = {
-  [ControllerType.SINGLETON](instance, constructor, injectablesMap, cacheResult) {
-    const controllerInstance = createWithInjectedDependencies(constructor, injectablesMap, cacheResult);
+  [ControllerType.SINGLETON](instance, constructor, classLoader) {
+    const controllerInstance = classLoader(constructor);
 
     if (hasHandlers(constructor)) registerHandlers(constructor[HANDLERS], instance, controllerInstance);
     if (hasErrorHandlers(constructor)) registerErrorHandlers(constructor[ERROR_HANDLERS], instance, controllerInstance);
@@ -50,8 +49,8 @@ export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory>
     return controllerInstance;
   },
 
-  [ControllerType.REQUEST](instance, constructor, injectablesMap, cacheResult) {
-    const getTarget = targetFactory(constructor, injectablesMap, cacheResult);
+  [ControllerType.REQUEST](instance, constructor, classLoader) {
+    const getTarget = targetFactory(constructor, classLoader);
 
     if (hasHandlers(constructor))
       constructor[HANDLERS].forEach((handler) => {

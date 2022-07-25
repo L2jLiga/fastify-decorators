@@ -6,10 +6,10 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
+import { ClassLoader } from '../interfaces/bootstrap-config.js';
 import { InjectableService } from '../interfaces/injectable-class.js';
 import { injectables } from '../registry/injectables.js';
-import { CREATOR, INITIALIZER, INJECTABLES } from '../symbols/index.js';
-import { createWithInjectedDependencies } from './helpers/inject-dependencies.js';
+import { CREATOR, INITIALIZER } from '../symbols/index.js';
 
 /**
  * Decorator for making classes injectable
@@ -23,12 +23,8 @@ export function Service(injectableToken?: string | symbol): unknown {
     injectables.set(target, target);
     if (injectableToken) injectables.set(injectableToken, target);
     target[CREATOR] = {
-      register<Type>(injectablesMap = injectables, cacheResult = true): Type {
-        target[INJECTABLES] = injectablesMap;
-        target.prototype[INJECTABLES] = injectablesMap;
-
-        if (instance && cacheResult) return instance as Type;
-        instance = createWithInjectedDependencies<Type>(target, injectablesMap, cacheResult);
+      register<Type>(classLoader: ClassLoader): Type {
+        instance = classLoader<Type>(target);
 
         target[INITIALIZER]?.(instance);
 

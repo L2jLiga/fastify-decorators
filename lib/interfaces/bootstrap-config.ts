@@ -10,6 +10,8 @@ import type { FastifyPluginOptions } from 'fastify';
 import type { PathLike } from 'fs';
 import { Constructor } from '../decorators/helpers/inject-dependencies.js';
 
+export type ClassLoader = <C>(constructor: Constructor<C>) => C;
+
 /**
  * Config for application bootstrap
  */
@@ -33,6 +35,12 @@ export interface AutoLoadConfig extends FastifyPluginOptions {
   skipBroken?: boolean;
 
   /**
+   * Defines method to create class instance
+   * @param constructor
+   */
+  classLoader?: ClassLoader;
+
+  /**
    * Global prefix to be applied for all routes
    */
   prefix?: string;
@@ -50,6 +58,12 @@ export interface ControllersListConfig extends FastifyPluginOptions {
    * @default false
    */
   skipBroken?: boolean;
+
+  /**
+   * Defines method to create class instance
+   * @param constructor
+   */
+  classLoader?: ClassLoader;
 
   /**
    * Global prefix to be applied for all routes

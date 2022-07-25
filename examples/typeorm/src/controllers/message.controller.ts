@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest, FastifySchema, RouteSchema } from 'fastify';
+import { FastifyReply, FastifyRequest, FastifySchema } from 'fastify';
 import { Controller, DELETE, GET, POST } from 'fastify-decorators';
 import { Message, MessageInput } from '../entity/message.js';
 import { MessageFacade } from '../facades/message.facade.js';
@@ -11,7 +11,7 @@ export class MessageController {
   @GET({
     url: '/',
     options: {
-      schema: <RouteSchema & FastifySchema>{
+      schema: <FastifySchema>{
         tags: ['messageController'],
         response: { 200: { type: 'array', items: messageSchema } },
       },
@@ -24,7 +24,7 @@ export class MessageController {
   @POST({
     url: '/',
     options: {
-      schema: <RouteSchema & FastifySchema>{
+      schema: <FastifySchema>{
         tags: ['messageController'],
         body: messageInputSchema,
         response: { 200: messageSchema },
@@ -38,7 +38,7 @@ export class MessageController {
   @GET({
     url: '/:id',
     options: {
-      schema: <RouteSchema & FastifySchema>{
+      schema: <FastifySchema>{
         tags: ['messageController'],
         params: { type: 'object', properties: { id: { type: 'number' } } },
         response: { 200: messageSchema },
@@ -55,7 +55,7 @@ export class MessageController {
   @DELETE({
     url: '/:id',
     options: {
-      schema: <RouteSchema & FastifySchema>{
+      schema: <FastifySchema>{
         tags: ['messageController'],
         params: { type: 'object', properties: { id: { type: 'number' } } },
       },

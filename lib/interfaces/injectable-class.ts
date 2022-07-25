@@ -7,13 +7,14 @@
  */
 
 import type { FastifyInstance } from 'fastify';
-import type { CREATOR, INITIALIZER, INJECTABLES } from '../symbols/index.js';
+import type { CREATOR, INITIALIZER } from '../symbols/index.js';
+import { ClassLoader } from './bootstrap-config.js';
 
 export type Injectables = Map<string | symbol | unknown, InjectableService>;
 
 export interface InjectableService extends InjectableClass, Object {
   [CREATOR]: {
-    register<Type>(injectables?: Injectables, cacheResult?: boolean): Type;
+    register<Type>(classLoader?: ClassLoader): Type;
   };
 
   [INITIALIZER]?<Type>(self: Type): void;
@@ -21,13 +22,11 @@ export interface InjectableService extends InjectableClass, Object {
 
 export interface InjectableController extends InjectableClass {
   [CREATOR]: {
-    register(instance?: FastifyInstance, prefix?: string, injectables?: Injectables, cacheResult?: boolean): Promise<void>;
+    register(instance?: FastifyInstance, prefix?: string, classLoader?: ClassLoader): Promise<void>;
   };
 }
 
 export interface InjectableClass {
-  [INJECTABLES]: Injectables;
-
   new (): any;
 
   new (...args: unknown[]): any;
