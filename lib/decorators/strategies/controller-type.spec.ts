@@ -16,7 +16,7 @@ describe('Strategies: controller types', () => {
       const instance = {} as FastifyInstance;
 
       expect(() =>
-        ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller as InjectableController, classLoaderFactory(new Map(), false)),
+        ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller as InjectableController, classLoaderFactory(new Map(), false), []),
       ).not.toThrow();
     });
 
@@ -41,12 +41,16 @@ describe('Strategies: controller types', () => {
       const instance = {
         get(url: string, options: RouteShorthandOptions, handler: () => string) {
           expect(url).toBe('/');
-          expect(options).toEqual({});
+          expect(options).toEqual({
+            schema: {
+              tags: [],
+            },
+          });
           expect(handler()).toBe('Message');
         },
       } as FastifyInstance;
 
-      ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false));
+      ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), []);
     });
 
     it('should create controller with error handlers', () => {
@@ -71,7 +75,7 @@ describe('Strategies: controller types', () => {
         setErrorHandler: jest.fn(),
       } as unknown as FastifyInstance;
 
-      ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false));
+      ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), []);
 
       expect(instance.setErrorHandler).toHaveBeenCalled();
     });
@@ -96,7 +100,7 @@ describe('Strategies: controller types', () => {
         addHook: jest.fn(),
       } as unknown as FastifyInstance;
 
-      ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false));
+      ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), []);
 
       expect(instance.addHook).toHaveBeenCalled();
     });
@@ -113,6 +117,7 @@ describe('Strategies: controller types', () => {
           new Instance() as FastifyInstance,
           Controller as InjectableController,
           classLoaderFactory(new Map(), false),
+          [],
         ),
       ).not.toThrow();
     });
@@ -137,12 +142,16 @@ describe('Strategies: controller types', () => {
       const instance = {
         get(url: string, options: RouteShorthandOptions, handler: (req: unknown) => string) {
           expect(url).toBe('/');
-          expect(options).toEqual({});
+          expect(options).toEqual({
+            schema: {
+              tags: [],
+            },
+          });
           expect(handler({})).toEqual('Message');
         },
       } as FastifyInstance;
 
-      ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false));
+      ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), []);
     });
 
     it('should create controller with error handlers', () => {
@@ -167,7 +176,7 @@ describe('Strategies: controller types', () => {
         setErrorHandler: jest.fn(),
       } as unknown as FastifyInstance;
 
-      ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false));
+      ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), []);
 
       expect(instance.setErrorHandler).toHaveBeenCalled();
     });
@@ -191,7 +200,7 @@ describe('Strategies: controller types', () => {
       beforeEach(() => {
         jest.resetAllMocks();
 
-        ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false));
+        ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), []);
       });
 
       it('should register error handler', () => {
@@ -239,7 +248,7 @@ describe('Strategies: controller types', () => {
         },
       } as FastifyInstance;
 
-      ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false));
+      ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), []);
 
       beforeEach(() => jest.resetAllMocks());
 
