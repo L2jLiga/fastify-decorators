@@ -61,6 +61,10 @@ describe('Strategies: controller types', () => {
               handlerMethod: 'test',
             },
           ];
+
+          test() {
+            return;
+          }
         }
 
         const instance = {
@@ -92,6 +96,10 @@ describe('Strategies: controller types', () => {
               handlerMethod: 'test',
             },
           ];
+
+          test() {
+            return;
+          }
         }
 
         const instance = {
