@@ -63,7 +63,7 @@ export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory>
 
         instance[method](
           url,
-          tags.length > 0 ? { schema: { tags: tags.map((tag) => tag.name), ...options?.schema } as FastifySchema, ...options } : options,
+          tags.length > 0 ? { schema: { tags: tags.map((tag) => tag.name), ...options.schema } as FastifySchema, ...options } : options,
           function (request, ...args) {
             return getTarget(request)[handlerMethod](request, ...args);
           },
@@ -95,7 +95,7 @@ function registerHandlers(
   handlers.forEach((handler) => {
     instance[handler.method](
       handler.url,
-      tags.length > 0 ? { schema: { tags: tags.map((it) => it.name), ...handler.options?.schema } as FastifySchema, ...handler.options } : handler.options,
+      tags.length > 0 ? { schema: { tags: tags.map((it) => it.name), ...handler.options.schema } as FastifySchema, ...handler.options } : handler.options,
       controllerInstance[handler.handlerMethod as string].bind(controllerInstance),
     );
   });
