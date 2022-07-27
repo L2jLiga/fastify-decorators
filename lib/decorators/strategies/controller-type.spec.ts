@@ -61,18 +61,11 @@ describe('Strategies: controller types', () => {
               handlerMethod: 'test',
             },
           ];
-          payload = 'Message';
-
-          test() {
-            return this.payload;
-          }
         }
 
         const instance = {
-          get(url: string, options: RouteShorthandOptions, handler: (request: unknown) => string) {
-            expect(url).toBe('/');
+          get(_url: string, options: RouteShorthandOptions) {
             expect(options).toEqual({ schema: { tags: ['user'] } });
-            expect(handler({})).toBe('Message');
           },
           addHook(_name: 'onReady', hookFn: () => void) {
             hookFn();
@@ -99,18 +92,11 @@ describe('Strategies: controller types', () => {
               handlerMethod: 'test',
             },
           ];
-          payload = 'Message';
-
-          test() {
-            return this.payload;
-          }
         }
 
         const instance = {
-          get(url: string, options: RouteShorthandOptions, handler: (request: unknown) => string) {
-            expect(url).toBe('/');
+          get(_url: string, options: RouteShorthandOptions) {
             expect(options).toEqual({ schema: { tags: ['demo'] } });
-            expect(handler({})).toBe('Message');
           },
           addHook(_name: 'onReady', hookFn: () => void) {
             hookFn();
