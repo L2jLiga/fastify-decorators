@@ -140,6 +140,45 @@ describe('Strategies: controller types', () => {
 
       expect(swagger).toEqual({ tags: [{ name: 'user', description: 'User description' }] });
     });
+
+    it('should keep tags defined in handler over tags from controller', () => {
+      const swagger: { tags?: TagObject[] } = {};
+
+      class Controller {
+        static [HANDLERS]: IHandler[] = [
+          {
+            url: '/',
+            method: 'get',
+            options: { schema: { tags: ['demo'] } } as RouteShorthandOptions,
+            handlerMethod: 'test',
+          },
+        ];
+
+        payload = 'Message';
+
+        test() {
+          return this.payload;
+        }
+      }
+
+      const instance = {
+        get(url: string, options: RouteShorthandOptions, handler: () => string) {
+          expect(url).toBe('/');
+          expect(options).toEqual({ schema: { tags: ['demo'] } });
+          expect(handler()).toBe('Message');
+        },
+        addHook(_name: 'onReady', hookFn: () => void) {
+          hookFn();
+        },
+        oas: () => swagger,
+      } as FastifyInstance & { oas(): { tags?: TagObject[] } };
+
+      ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), [
+        { name: 'user', description: 'User description' },
+      ]);
+
+      expect(swagger).toEqual({ tags: [{ name: 'user', description: 'User description' }] });
+    });
   });
 
   describe('Per request strategy', () => {
@@ -209,6 +248,44 @@ describe('Strategies: controller types', () => {
         get(url: string, options: RouteShorthandOptions, handler: (request: unknown) => string) {
           expect(url).toBe('/');
           expect(options).toEqual({ schema: { tags: ['user'] } });
+          expect(handler({})).toBe('Message');
+        },
+        addHook(_name: 'onReady', hookFn: () => void) {
+          hookFn();
+        },
+        oas: () => swagger,
+      } as FastifyInstance & { oas(): { tags?: TagObject[] } };
+
+      ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), [
+        { name: 'user', description: 'User description' },
+      ]);
+
+      expect(swagger).toEqual({ tags: [{ name: 'user', description: 'User description' }] });
+    });
+
+    it('should keep tags defined in handler over tags from controller', () => {
+      const swagger: { tags?: TagObject[] } = {};
+
+      class Controller {
+        static [HANDLERS]: IHandler[] = [
+          {
+            url: '/',
+            method: 'get',
+            options: { schema: { tags: ['demo'] } } as RouteShorthandOptions,
+            handlerMethod: 'test',
+          },
+        ];
+        payload = 'Message';
+
+        test() {
+          return this.payload;
+        }
+      }
+
+      const instance = {
+        get(url: string, options: RouteShorthandOptions, handler: (request: unknown) => string) {
+          expect(url).toBe('/');
+          expect(options).toEqual({ schema: { tags: ['demo'] } });
           expect(handler({})).toBe('Message');
         },
         addHook(_name: 'onReady', hookFn: () => void) {
