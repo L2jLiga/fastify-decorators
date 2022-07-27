@@ -2,111 +2,66 @@ import { FastifyInstance } from 'fastify';
 import { injectTagsIntoSwagger, TagObject } from './swagger-helper.js';
 
 describe('Decorators / helpers / Swagger helper', () => {
-  it('should inject tags into swagger object when it contains tags object', () =>
+  const callInjection = (swaggerDefinitionProvider: Record<string, unknown>, tags: TagObject[]) =>
     new Promise<void>((resolve, reject) => {
-      const swaggerDefinition = { tags: [{ name: 'Test' }] } as { tags?: TagObject[] };
       const instance = {
         async addHook(hookName: string, Fn: () => Promise<void> | void) {
           if (hookName !== 'onReady') reject('Expect onReady hook to be added');
           await Fn();
 
-          expect(swaggerDefinition.tags).toEqual([{ name: 'Test' }, { name: 'User', description: 'User description' }]);
-
           resolve();
         },
-        swagger: () => swaggerDefinition,
+        ...swaggerDefinitionProvider,
       } as unknown as FastifyInstance;
 
-      injectTagsIntoSwagger(instance, [{ name: 'User', description: 'User description' }]);
-    }));
+      injectTagsIntoSwagger(instance, tags);
+    });
 
-  it('should create tags object and inject tags into swagger object when it does not contains tags object', () =>
-    new Promise<void>((resolve, reject) => {
-      const swaggerDefinition = {} as { tags?: TagObject[] };
-      const instance = {
-        async addHook(hookName: string, Fn: () => Promise<void> | void) {
-          if (hookName !== 'onReady') reject('Expect onReady hook to be added');
-          await Fn();
+  it('should inject tags into swagger object when it contains tags object', async () => {
+    const swaggerDefinition = { tags: [{ name: 'Test' }] } as { tags?: TagObject[] };
 
-          expect(swaggerDefinition.tags).toEqual([{ name: 'User', description: 'User description' }]);
+    await callInjection({ swagger: () => swaggerDefinition }, [{ name: 'User', description: 'User description' }]);
 
-          resolve();
-        },
-        swagger: () => swaggerDefinition,
-      } as unknown as FastifyInstance;
+    expect(swaggerDefinition.tags).toEqual([{ name: 'Test' }, { name: 'User', description: 'User description' }]);
+  });
 
-      injectTagsIntoSwagger(instance, [{ name: 'User', description: 'User description' }]);
-    }));
+  it('should create tags object and inject tags into swagger object when it does not contains tags object', async () => {
+    const swaggerDefinition = {} as { tags?: TagObject[] };
 
-  it('should inject tags into oas object when it contains tags object', () =>
-    new Promise<void>((resolve, reject) => {
-      const swaggerDefinition = { tags: [{ name: 'Test' }] } as { tags?: TagObject[] };
-      const instance = {
-        async addHook(hookName: string, Fn: () => Promise<void> | void) {
-          if (hookName !== 'onReady') reject('Expect onReady hook to be added');
-          await Fn();
+    await callInjection({ swagger: () => swaggerDefinition }, [{ name: 'User', description: 'User description' }]);
 
-          expect(swaggerDefinition.tags).toEqual([{ name: 'Test' }, { name: 'User', description: 'User description' }]);
+    expect(swaggerDefinition.tags).toEqual([{ name: 'User', description: 'User description' }]);
+  });
 
-          resolve();
-        },
-        oas: () => swaggerDefinition,
-      } as unknown as FastifyInstance;
+  it('should inject tags into oas object when it contains tags object', async () => {
+    const swaggerDefinition = { tags: [{ name: 'Test' }] } as { tags?: TagObject[] };
 
-      injectTagsIntoSwagger(instance, [{ name: 'User', description: 'User description' }]);
-    }));
+    await callInjection({ oas: () => swaggerDefinition }, [{ name: 'User', description: 'User description' }]);
 
-  it('should create tags object and inject tags into oas object when it does not contains tags object', () =>
-    new Promise<void>((resolve, reject) => {
-      const swaggerDefinition = {} as { tags?: TagObject[] };
-      const instance = {
-        async addHook(hookName: string, Fn: () => Promise<void> | void) {
-          if (hookName !== 'onReady') reject('Expect onReady hook to be added');
-          await Fn();
+    expect(swaggerDefinition.tags).toEqual([{ name: 'Test' }, { name: 'User', description: 'User description' }]);
+  });
 
-          expect(swaggerDefinition.tags).toEqual([{ name: 'User', description: 'User description' }]);
+  it('should create tags object and inject tags into oas object when it does not contains tags object', async () => {
+    const swaggerDefinition = {} as { tags?: TagObject[] };
 
-          resolve();
-        },
-        oas: () => swaggerDefinition,
-      } as unknown as FastifyInstance;
+    await callInjection({ oas: () => swaggerDefinition }, [{ name: 'User', description: 'User description' }]);
 
-      injectTagsIntoSwagger(instance, [{ name: 'User', description: 'User description' }]);
-    }));
+    expect(swaggerDefinition.tags).toEqual([{ name: 'User', description: 'User description' }]);
+  });
 
-  it('should inject tags into openapiDocument object when it contains tags object', () =>
-    new Promise<void>((resolve, reject) => {
-      const swaggerDefinition = { tags: [{ name: 'Test' }] } as { tags?: TagObject[] };
-      const instance = {
-        async addHook(hookName: string, Fn: () => Promise<void> | void) {
-          if (hookName !== 'onReady') reject('Expect onReady hook to be added');
-          await Fn();
+  it('should inject tags into openapiDocument object when it contains tags object', async () => {
+    const swaggerDefinition = { tags: [{ name: 'Test' }] } as { tags?: TagObject[] };
 
-          expect(swaggerDefinition.tags).toEqual([{ name: 'Test' }, { name: 'User', description: 'User description' }]);
+    await callInjection({ openapiDocument: swaggerDefinition }, [{ name: 'User', description: 'User description' }]);
 
-          resolve();
-        },
-        openapiDocument: swaggerDefinition,
-      } as unknown as FastifyInstance;
+    expect(swaggerDefinition.tags).toEqual([{ name: 'Test' }, { name: 'User', description: 'User description' }]);
+  });
 
-      injectTagsIntoSwagger(instance, [{ name: 'User', description: 'User description' }]);
-    }));
+  it('should create tags object and inject tags into openapiDocument object when it does not contains tags object', async () => {
+    const swaggerDefinition = {} as { tags?: TagObject[] };
 
-  it('should create tags object and inject tags into openapiDocument object when it does not contains tags object', () =>
-    new Promise<void>((resolve, reject) => {
-      const swaggerDefinition = {} as { tags?: TagObject[] };
-      const instance = {
-        async addHook(hookName: string, Fn: () => Promise<void> | void) {
-          if (hookName !== 'onReady') reject('Expect onReady hook to be added');
-          await Fn();
+    await callInjection({ openapiDocument: swaggerDefinition }, [{ name: 'User', description: 'User description' }]);
 
-          expect(swaggerDefinition.tags).toEqual([{ name: 'User', description: 'User description' }]);
-
-          resolve();
-        },
-        openapiDocument: swaggerDefinition,
-      } as unknown as FastifyInstance;
-
-      injectTagsIntoSwagger(instance, [{ name: 'User', description: 'User description' }]);
-    }));
+    expect(swaggerDefinition.tags).toEqual([{ name: 'User', description: 'User description' }]);
+  });
 });
