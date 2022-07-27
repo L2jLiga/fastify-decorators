@@ -16,6 +16,7 @@ export interface TagObject {
  * @param tags to add to OpenAPI/Swagger doc
  */
 export function injectTagsIntoSwagger(instance: FastifyInstance, tags: TagObject[]): void {
+  if (tags.length === 0) return;
   instance.addHook('onReady', async () => {
     const swaggerConfig = getSwaggerConfig(instance);
     if (!swaggerConfig) return;
