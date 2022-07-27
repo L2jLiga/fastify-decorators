@@ -5,6 +5,7 @@ import { ControllerType } from '../../registry/controller-type.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import { ErrorHandler } from '../error-handler.js';
 import { classLoaderFactory } from '../helpers/inject-dependencies.js';
+import { TagObject } from '../helpers/swagger-helper.js';
 import { Hook } from '../hook.js';
 import { ControllerTypeStrategies } from './controller-type.js';
 
@@ -41,11 +42,7 @@ describe('Strategies: controller types', () => {
       const instance = {
         get(url: string, options: RouteShorthandOptions, handler: () => string) {
           expect(url).toBe('/');
-          expect(options).toEqual({
-            schema: {
-              tags: [],
-            },
-          });
+          expect(options).toEqual({});
           expect(handler()).toBe('Message');
         },
       } as FastifyInstance;
@@ -104,6 +101,45 @@ describe('Strategies: controller types', () => {
 
       expect(instance.addHook).toHaveBeenCalled();
     });
+
+    it('should inject tags into handlers and swagger configuration', () => {
+      const swagger: { tags?: TagObject[] } = {};
+
+      class Controller {
+        static [HANDLERS]: IHandler[] = [
+          {
+            url: '/',
+            method: 'get',
+            options: {},
+            handlerMethod: 'test',
+          },
+        ];
+
+        payload = 'Message';
+
+        test() {
+          return this.payload;
+        }
+      }
+
+      const instance = {
+        get(url: string, options: RouteShorthandOptions, handler: () => string) {
+          expect(url).toBe('/');
+          expect(options).toEqual({ schema: { tags: ['user'] } });
+          expect(handler()).toBe('Message');
+        },
+        addHook(name: 'onReady', hookFn: () => void) {
+          hookFn();
+        },
+        swagger: () => swagger,
+      } as FastifyInstance & { swagger(): { tags?: TagObject[] } };
+
+      ControllerTypeStrategies[ControllerType.SINGLETON](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), [
+        { name: 'user', description: 'User description' },
+      ]);
+
+      expect(swagger).toEqual({ tags: [{ name: 'user', description: 'User description' }] });
+    });
   });
 
   describe('Per request strategy', () => {
@@ -142,16 +178,50 @@ describe('Strategies: controller types', () => {
       const instance = {
         get(url: string, options: RouteShorthandOptions, handler: (req: unknown) => string) {
           expect(url).toBe('/');
-          expect(options).toEqual({
-            schema: {
-              tags: [],
-            },
-          });
+          expect(options).toEqual({});
           expect(handler({})).toEqual('Message');
         },
       } as FastifyInstance;
 
       ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), []);
+    });
+
+    it('should inject tags into handlers and swagger configuration', () => {
+      const swagger: { tags?: TagObject[] } = {};
+
+      class Controller {
+        static [HANDLERS]: IHandler[] = [
+          {
+            url: '/',
+            method: 'get',
+            options: {},
+            handlerMethod: 'test',
+          },
+        ];
+        payload = 'Message';
+
+        test() {
+          return this.payload;
+        }
+      }
+
+      const instance = {
+        get(url: string, options: RouteShorthandOptions, handler: (request: unknown) => string) {
+          expect(url).toBe('/');
+          expect(options).toEqual({ schema: { tags: ['user'] } });
+          expect(handler({})).toBe('Message');
+        },
+        addHook(name: 'onReady', hookFn: () => void) {
+          hookFn();
+        },
+        swagger: () => swagger,
+      } as FastifyInstance & { swagger(): { tags?: TagObject[] } };
+
+      ControllerTypeStrategies[ControllerType.REQUEST](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), [
+        { name: 'user', description: 'User description' },
+      ]);
+
+      expect(swagger).toEqual({ tags: [{ name: 'user', description: 'User description' }] });
     });
 
     it('should create controller with error handlers', () => {

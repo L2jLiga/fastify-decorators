@@ -13,6 +13,7 @@ import { ControllerType } from '../../registry/controller-type.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import { hasErrorHandlers, hasHandlers, hasHooks } from '../helpers/class-properties.js';
 import { createErrorsHandler } from '../helpers/create-errors-handler.js';
+import { injectTagsIntoSwagger, TagObject } from '../helpers/swagger-helper.js';
 
 const controllersCache = new WeakMap<FastifyRequest, unknown>();
 
@@ -25,7 +26,7 @@ function targetFactory(constructor: InjectableController, classLoader: ClassLoad
   };
 }
 
-type ControllerFactory = (instance: FastifyInstance, constructor: InjectableController, classLoader: ClassLoader, tags: string[]) => unknown;
+type ControllerFactory = (instance: FastifyInstance, constructor: InjectableController, classLoader: ClassLoader, tags: TagObject[]) => unknown;
 
 /**
  * Various strategies which can be applied to controller
@@ -40,6 +41,8 @@ type ControllerFactory = (instance: FastifyInstance, constructor: InjectableCont
  */
 export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory> = {
   [ControllerType.SINGLETON](instance, constructor, classLoader, tags) {
+    if (tags.length > 0) injectTagsIntoSwagger(instance, tags);
+
     const controllerInstance = classLoader(constructor);
 
     if (hasHandlers(constructor)) registerHandlers(constructor[HANDLERS], instance, controllerInstance, tags);
@@ -50,15 +53,21 @@ export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory>
   },
 
   [ControllerType.REQUEST](instance, constructor, classLoader, tags) {
+    if (tags.length > 0) injectTagsIntoSwagger(instance, tags);
+
     const getTarget = targetFactory(constructor, classLoader);
 
     if (hasHandlers(constructor))
       constructor[HANDLERS].forEach((handler) => {
         const { url, method, handlerMethod, options } = handler;
 
-        instance[method](url, { schema: { tags, ...options?.schema } as FastifySchema, ...options }, function (request, ...args) {
-          return getTarget(request)[handlerMethod](request, ...args);
-        });
+        instance[method](
+          url,
+          tags.length > 0 ? { schema: { tags: tags.map((tag) => tag.name), ...options?.schema } as FastifySchema, ...options } : options,
+          function (request, ...args) {
+            return getTarget(request)[handlerMethod](request, ...args);
+          },
+        );
       });
 
     if (hasErrorHandlers(constructor))
@@ -81,12 +90,12 @@ function registerHandlers(
   handlers: IHandler[],
   instance: FastifyInstance,
   controllerInstance: Record<string, (request: FastifyRequest, reply: FastifyReply) => void>,
-  tags: string[],
+  tags: TagObject[],
 ): void {
   handlers.forEach((handler) => {
     instance[handler.method](
       handler.url,
-      { schema: { tags, ...handler.options?.schema } as FastifySchema, ...handler.options },
+      tags.length > 0 ? { schema: { tags: tags.map((it) => it.name), ...handler.options?.schema } as FastifySchema, ...handler.options } : handler.options,
       controllerInstance[handler.handlerMethod as string].bind(controllerInstance),
     );
   });
