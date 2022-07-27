@@ -17,25 +17,15 @@ export interface TagObject {
  */
 export function injectTagsIntoSwagger(instance: FastifyInstance, tags: TagObject[]): void {
   instance.addHook('onReady', async () => {
-    // fastify-swagger and @fastify/swagger
-    if ('swagger' in instance) {
-      const swagger = (instance as unknown as { swagger: any }).swagger();
-      swagger.tags = swagger.tags || [];
-      swagger.tags.push(...tags);
-    }
-
-    // fastify-oas
-    if ('oas' in instance) {
-      const swagger = (instance as any).oas();
-      swagger.tags = swagger.tags || [];
-      swagger.tags.push(...tags);
-    }
-
-    // @eropple/fastify-openapi3
-    if ('openapiDocument' in instance) {
-      const openapiDocument = (instance as any).openapiDocument;
-      openapiDocument.tags = openapiDocument.tags || [];
-      openapiDocument.tags.push(...tags);
-    }
+    const swaggerConfig = getSwaggerConfig(instance);
+    if (!swaggerConfig) return;
+    swaggerConfig.tags = swaggerConfig.tags || [];
+    swaggerConfig.tags.push(...tags);
   });
+}
+
+function getSwaggerConfig(instance: FastifyInstance): { tags?: TagObject[] } | undefined {
+  if ('swagger' in instance) return (instance as unknown as { swagger(): { tags?: TagObject[] } }).swagger();
+  if ('oas' in instance) return (instance as unknown as { oas(): { tags?: TagObject[] } }).oas();
+  if ('openapiDocument' in instance) return (instance as unknown as { openapiDocument: { tags?: TagObject[] } }).openapiDocument;
 }
