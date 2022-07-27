@@ -128,7 +128,7 @@ describe('Strategies: controller types', () => {
           expect(options).toEqual({ schema: { tags: ['user'] } });
           expect(handler()).toBe('Message');
         },
-        addHook(name: 'onReady', hookFn: () => void) {
+        addHook(_name: 'onReady', hookFn: () => void) {
           hookFn();
         },
         swagger: () => swagger,
@@ -211,7 +211,7 @@ describe('Strategies: controller types', () => {
           expect(options).toEqual({ schema: { tags: ['user'] } });
           expect(handler({})).toBe('Message');
         },
-        addHook(name: 'onReady', hookFn: () => void) {
+        addHook(_name: 'onReady', hookFn: () => void) {
           hookFn();
         },
         swagger: () => swagger,
