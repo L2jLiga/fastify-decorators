@@ -70,7 +70,6 @@ function* findModules(rootDirUrl: URL, filter: RegExp): Iterable<URL> {
   const directoriesToRead = new Set<URL>([rootDirUrl]);
 
   for (const dirPath of directoriesToRead) {
-    // TODO: can be replaced with for await (const filePath of fs.opendir) in Node.js >= 12.12
     for (const filePath of readdirSync(dirPath, { withFileTypes: true })) {
       const fullFilePath = new URL(`./${filePath.name}`, dirPath.href + '/');
 

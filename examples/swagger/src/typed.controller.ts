@@ -2,7 +2,10 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { Controller, POST } from 'fastify-decorators';
 import { schema, TBody } from './schemas.js';
 
-@Controller('/typed')
+@Controller({
+  route: '/typed',
+  tags: [{ name: 'Typed', description: 'Typed controller' }],
+})
 export class TypedController {
   @POST('/', { schema })
   public helloWorld(request: FastifyRequest<{ Body: TBody }>, reply: FastifyReply): void {

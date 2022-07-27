@@ -14,10 +14,10 @@ import { CLASS_LOADER, CREATOR } from '../symbols/index.js';
 import { injectControllerOptions } from './helpers/inject-controller-options.js';
 import { ControllerTypeStrategies } from './strategies/controller-type.js';
 
-function makeConfig(config?: string | ControllerConfig): ControllerConfig & { type: ControllerType } {
+function makeConfig(config?: string | ControllerConfig): Required<ControllerConfig> {
   if (typeof config === 'string') config = { route: config };
 
-  return { type: ControllerType.SINGLETON, route: '/', ...config };
+  return { type: ControllerType.SINGLETON, route: '/', tags: [], ...config };
 }
 
 /**
@@ -28,7 +28,7 @@ export function Controller(route: string): ClassDecorator;
 export function Controller(config: ControllerConfig): ClassDecorator;
 export function Controller(config?: string | ControllerConfig): unknown {
   return (controller: InjectableClass): void => {
-    const { route, type } = makeConfig(config);
+    const { route, type, tags } = makeConfig(config);
 
     injectControllerOptions(controller);
 
@@ -37,7 +37,7 @@ export function Controller(config?: string | ControllerConfig): unknown {
 
       await instance.register(
         async (instance) => {
-          controllerInstance = ControllerTypeStrategies[type](instance, controller, classLoader);
+          controllerInstance = ControllerTypeStrategies[type](instance, controller, classLoader, tags);
         },
         { prefix: prefix + route },
       );
