@@ -31,7 +31,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-jest": "^26.5.3",
+    "eslint-plugin-jest": "^26.7.0",
     "eslint-plugin-prettier": "^4.2.1",
     "fastify": "^4.0.0-rc.4",
     "glob": "^8.0.3",
