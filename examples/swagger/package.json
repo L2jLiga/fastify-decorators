@@ -14,7 +14,7 @@
     "@fastify/swagger": "^7.4.1",
     "@fastify-decorators/simple-di": "^4.0.0-next.2",
     "@sinclair/typebox": "^0.24.22",
-    "fastify": "^4.0.0-rc.4",
+    "fastify": "^4.3.0",
     "fastify-decorators": "^4.0.0-next.2"
   },
   "devDependencies": {
