@@ -11,7 +11,7 @@
     "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest"
   },
   "dependencies": {
-    "@fastify/swagger": "^7.4.1",
+    "@fastify/swagger": "^7.5.0",
     "@fastify-decorators/simple-di": "^4.0.0-next.2",
     "@sinclair/typebox": "^0.24.34",
     "fastify": "^4.5.3",
