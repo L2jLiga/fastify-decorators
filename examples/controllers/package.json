@@ -22,6 +22,6 @@
     "jest": "^28.1.3",
     "jest-ts-webcompat-resolver": "^1.0.0",
     "ts-jest": "^28.0.4",
-    "typescript": "^4.7.4"
+    "typescript": "^4.8.2"
   }
 }
