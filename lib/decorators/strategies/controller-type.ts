@@ -96,7 +96,7 @@ function registerHandlers(
     instance[handler.method](
       handler.url,
       tags.length > 0 ? { ...handler.options, schema: { tags: tags.map((it) => it.name), ...handler.options.schema } as FastifySchema } : handler.options,
-      controllerInstance[handler.handlerMethod as string].bind(controllerInstance),
+      (...args) => controllerInstance[handler.handlerMethod as string](...args),
     );
   });
 }
