@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fastify';
+import { fastify, FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fastify';
 import fastifyPlugin from 'fastify-plugin';
 import { Controller, GET, Initializer, Inject, Service } from '../decorators/index.js';
 import { FastifyInstanceToken } from '../symbols/index.js';
@@ -90,6 +90,18 @@ describe('Testing: configure controller test', () => {
     const result = await instance.inject('/index');
 
     expect(result.statusCode).toBe(200);
+    expect(result.json()).toEqual({ version: instance.version });
+  });
+
+  it('should inject custom fastify instance', async () => {
+    const instance = fastify();
+    instance.decorate('CUSTOM_PROPERTY', 'CUSTOM_VALUE');
+    const instanceWithController = await configureControllerTest({
+      controller: WithFastifyInstance,
+      instance,
+    });
+
+    expect(instanceWithController).toBe(instance);
   });
 
   it('should not override mocked injection of fastify instance', async () => {

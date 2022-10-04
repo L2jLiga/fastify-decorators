@@ -26,6 +26,7 @@ declare namespace Reflect {
 
 export interface ControllerTestConfig<C> {
   controller: C;
+  instance?: FastifyInstance;
   mocks?: ServiceMock[];
   plugins?: Plugins;
 }
@@ -33,7 +34,7 @@ export interface ControllerTestConfig<C> {
 export type FastifyInstanceWithController<C> = FastifyInstance & Pick<ControllerTestConfig<C>, 'controller'>;
 
 export async function configureControllerTest<C>(config: ControllerTestConfig<Constructor<C>>): Promise<FastifyInstanceWithController<C>> {
-  const instance = fastify();
+  const instance = config.instance ?? fastify();
   loadPlugins(instance, config.plugins);
 
   const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
