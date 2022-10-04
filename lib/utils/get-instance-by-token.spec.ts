@@ -1,11 +1,15 @@
 import { InjectableService } from '../interfaces/injectable-class.js';
 import { injectables } from '../registry/injectables.js';
-import { CREATOR } from '../symbols/index.js';
+import { CREATOR, FASTIFY_REPLY, FASTIFY_REQUEST, FastifyReplyToken, FastifyRequestToken } from '../symbols/index.js';
 import { getInstanceByToken } from './get-instance-by-token.js';
 import { wrapInjectable } from './wrap-injectable.js';
 
 describe('Get instance by token', function () {
-  beforeEach(() => injectables.clear());
+  beforeEach(() => {
+    injectables.clear();
+    injectables.set(FastifyRequestToken, wrapInjectable(FASTIFY_REQUEST));
+    injectables.set(FastifyReplyToken, wrapInjectable(FASTIFY_REPLY));
+  });
 
   it('should throw exception when injectable not found by token', () => {
     const token = 'pseudoToken';

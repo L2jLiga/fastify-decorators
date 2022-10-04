@@ -28,6 +28,10 @@
       <excludeFolder url="file://$MODULE_DIR$/plugins/sequelize/dist" />
       <excludeFolder url="file://$MODULE_DIR$/examples/esm/dist" />
       <excludeFolder url="file://$MODULE_DIR$/lib/.rollup.cache" />
+      <excludeFolder url="file://$MODULE_DIR$/.husky/_" />
+      <excludeFolder url="file://$MODULE_DIR$/examples/aws-lambda/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/examples/fastify-v4/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/examples/injecting-requests-in-services/dist" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

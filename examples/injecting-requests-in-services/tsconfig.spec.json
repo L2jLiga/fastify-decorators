@@ -1,14 +1,15 @@
 {
   "extends": "./tsconfig.base.json",
-  "files": ["src/index.ts"],
-  "include": ["src/**/*.ts"],
+  "include": ["test/**/*.ts"],
   "compilerOptions": {
-    "composite": true,
-    "rootDir": "src"
+    "composite": true
   },
   "references": [
     {
       "path": "../../lib/tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
     }
   ]
 }

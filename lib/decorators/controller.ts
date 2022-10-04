@@ -12,6 +12,7 @@ import type { InjectableClass } from '../interfaces/injectable-class.js';
 import { ControllerType } from '../registry/controller-type.js';
 import { CLASS_LOADER, CREATOR } from '../symbols/index.js';
 import { injectControllerOptions } from './helpers/inject-controller-options.js';
+import { patchMethods } from './helpers/patch-methods.js';
 import { ControllerTypeStrategies } from './strategies/controller-type.js';
 
 function makeConfig(config?: string | ControllerConfig): Required<ControllerConfig> {
@@ -31,6 +32,7 @@ export function Controller(config?: string | ControllerConfig): unknown {
     const { route, type, tags } = makeConfig(config);
 
     injectControllerOptions(controller);
+    patchMethods(controller);
 
     controller[CREATOR].register = async (instance: FastifyInstance, prefix = '', classLoader = instance[CLASS_LOADER]) => {
       let controllerInstance;

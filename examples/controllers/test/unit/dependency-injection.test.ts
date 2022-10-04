@@ -38,6 +38,13 @@ describe('Controllers dependency injection tests', () => {
       expect(initialState.statusCode).toEqual(200);
       expect(initialState.body).toEqual('Message');
     });
+
+    it('should be able to inject request/reply in service and use', async () => {
+      const initialState = await app.inject('/dependency-injection/using-constructor/method');
+
+      expect(initialState.statusCode).toEqual(200);
+      expect(initialState.body).toEqual('GET');
+    });
   });
 
   describe('Controller with @Inject decorator', () => {

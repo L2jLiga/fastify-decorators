@@ -22,7 +22,7 @@ export { Hook } from './decorators/hook.js';
 export { ErrorHandler } from './decorators/error-handler.js';
 
 export { getInstanceByToken } from './utils/get-instance-by-token.js';
-export { FastifyInstanceToken } from './symbols/index.js';
+export { FastifyInstanceToken, FastifyRequestToken, FastifyReplyToken } from './symbols/index.js';
 
 export { ALL } from './decorators/request-handlers.js';
 export { DELETE } from './decorators/request-handlers.js';
