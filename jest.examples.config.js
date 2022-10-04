@@ -17,5 +17,5 @@ module.exports = {
     '^fastify-decorators/(.*)$': '<rootDir>/lib/$1',
   },
   modulePathIgnorePatterns: ['<rootDir>/dist/fastify-decorators', '<rootDir>/node_modules/fastify-decorators'],
-  testTimeout: 60_000,
+  testTimeout: 60000,
 };
