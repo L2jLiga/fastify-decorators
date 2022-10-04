@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "fastify": "^3.18.1",
-    "fastify-decorators": "^3.13.1"
+    "fastify-decorators": "^3.14.0"
   },
   "devDependencies": {
     "@types/jest": "^27.0.0",
