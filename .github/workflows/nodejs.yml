@@ -39,12 +39,12 @@ jobs:
         env:
           CI: true
       - name: Upload unit-tests coverage to Codecov
-        uses: codecov/codecov-action@v3.1.0
+        uses: codecov/codecov-action@v3.1.1
         with:
           directory: coverage/library
           flags: unittests
       - name: Upload examples code coverage to Codecov
-        uses: codecov/codecov-action@v3.1.0
+        uses: codecov/codecov-action@v3.1.1
         with:
           directory: coverage/integration
           flags: integration
@@ -78,12 +78,12 @@ jobs:
         env:
           CI: true
       - name: Upload unit-tests coverage to Codecov
-        uses: codecov/codecov-action@v3.1.0
+        uses: codecov/codecov-action@v3.1.1
         with:
           directory: coverage/library
           flags: unittests
       - name: Upload examples code coverage to Codecov
-        uses: codecov/codecov-action@v3.1.0
+        uses: codecov/codecov-action@v3.1.1
         with:
           directory: coverage/integration
           flags: integration
@@ -118,12 +118,12 @@ jobs:
         env:
           CI: true
       - name: Upload unit-tests coverage to Codecov
-        uses: codecov/codecov-action@v3.1.0
+        uses: codecov/codecov-action@v3.1.1
         with:
           directory: coverage/library
           flags: unittests
       - name: Upload examples code coverage to Codecov
-        uses: codecov/codecov-action@v3.1.0
+        uses: codecov/codecov-action@v3.1.1
         with:
           directory: coverage/integration
           flags: integration
@@ -179,6 +179,6 @@ jobs:
       pull-requests: write
       contents: write
     steps:
-      - uses: fastify/github-action-merge-dependabot@v3.2.0
+      - uses: fastify/github-action-merge-dependabot@v3.3.2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
