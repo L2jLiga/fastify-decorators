@@ -5,6 +5,7 @@ export default {
   rootDir: '../..',
   collectCoverage: true,
   coverageReporters: ['lcov', 'text'],
+  coverageProvider: 'v8',
   transform: {
     '^.+\\.tsx?$': [
       'ts-jest',
