@@ -15,7 +15,7 @@ export function ErrorHandler(): PropertyDecorator;
 export function ErrorHandler(code: string): PropertyDecorator;
 export function ErrorHandler<T extends Error>(configuration: Constructable<T>): PropertyDecorator;
 export function ErrorHandler<T extends ErrorConstructor>(parameter?: T | string): PropertyDecorator {
-  return function <T>({ constructor }: { constructor: T }, handlerName: string | symbol) {
+  return function ({ constructor }: { constructor: any }, handlerName: string | symbol) {
     ensureErrorHandlers(constructor);
 
     if (parameter == null) {

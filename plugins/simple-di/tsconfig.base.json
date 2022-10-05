@@ -6,9 +6,6 @@
     "moduleResolution": "Node",
     "lib": ["ES2020"],
 
-    "baseUrl": ".",
-    "rootDir": "./src",
-    "outDir": "./dist",
     "paths": {
       "fastify-decorators": ["../../dist/fastify-decorators"],
       "fastify-decorators/*": ["../../dist/fastify-decorators/*"]
