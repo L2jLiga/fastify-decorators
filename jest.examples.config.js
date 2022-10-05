@@ -3,9 +3,13 @@ import { workersWorkaround } from './jest-dynamic-import-esm-workaround.js';
 export default {
   preset: 'ts-jest/presets/default-esm',
   rootDir: '../..',
+
   collectCoverage: true,
   coverageReporters: ['lcov', 'text'],
   coverageProvider: 'v8',
+
+  reporters: ['default', 'jest-junit'],
+
   transform: {
     '^.+\\.tsx?$': [
       'ts-jest',

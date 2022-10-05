@@ -42,5 +42,9 @@
   },
   "engines": {
     "node": "^14.15.0 || ^16.13.0 || >= 17.0.0"
+  },
+  "jest-junit": {
+    "outputDirectory": "../../test-results",
+    "outputName": "simple-di-plugin.xml"
   }
 }

@@ -1,6 +1,7 @@
 # Coverage tools
 .nyc_output
 coverage
+test-results
 
 # npm and built files
 dist

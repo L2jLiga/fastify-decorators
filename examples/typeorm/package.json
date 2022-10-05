@@ -25,5 +25,9 @@
     "jest-ts-webcompat-resolver": "^1.0.0",
     "ts-jest": "^29.0.3",
     "typescript": "^4.8.4"
+  },
+  "jest-junit": {
+    "outputDirectory": "../../test-results",
+    "outputName": "typeorm.xml"
   }
 }

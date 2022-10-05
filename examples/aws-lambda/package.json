@@ -26,5 +26,9 @@
     "ts-jest": "^29.0.3",
     "tslib": "^2.4.0",
     "typescript": "^4.8.4"
+  },
+  "jest-junit": {
+    "outputDirectory": "../../test-results",
+    "outputName": "aws-lambda.xml"
   }
 }
