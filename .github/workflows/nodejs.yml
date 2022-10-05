@@ -94,6 +94,20 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
 
+  Qodana-Analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Install dependencies
+        run: yarn install --frozen-lock-file
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@v2022.2.2
+      - uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: ${{ runner.temp }}/qodana/results/qodana.sarif.json
+
   automerge:
     name: 'Merge Dependabot updates'
     if: github.event_name == 'pull_request'
