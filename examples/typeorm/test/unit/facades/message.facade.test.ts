@@ -1,12 +1,14 @@
 import { configureServiceTest } from '@fastify-decorators/simple-di/testing';
+import { Repository } from 'typeorm';
+import { Message } from '../../../src/entity/message.js';
 import { MessageFacade } from '../../../src/facades/message.facade.js';
-import { DataSourceProvider } from '../../../src/services/dataSourceProvider.js';
+import { DataSourceProvider } from '../../../src/services/data-source.provider.js';
 import { jest } from '@jest/globals';
 
 interface MockRepository {
-  find: jest.Mock;
-  findOne: jest.Mock;
-  save: jest.Mock;
+  find: jest.Mock<Repository<Message>['find']>;
+  findOne: jest.Mock<Repository<Message>['findOne']>;
+  save: jest.Mock<Repository<Message>['save']>;
 }
 
 interface MockConnection {

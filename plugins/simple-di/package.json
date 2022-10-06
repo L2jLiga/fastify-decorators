@@ -33,14 +33,18 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@types/jest": "^29.0.0",
-    "@types/node": "~14.18.20",
-    "fastify": "^4.5.3",
-    "jest": "^28.1.3",
-    "ts-jest": "^28.0.4",
-    "typescript": "^4.7.4"
+    "@types/jest": "^29.1.1",
+    "@types/node": "~14.18.31",
+    "fastify": "^4.7.0",
+    "jest": "^29.1.2",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.8.4"
   },
   "engines": {
     "node": "^14.15.0 || ^16.13.0 || >= 17.0.0"
+  },
+  "jest-junit": {
+    "outputDirectory": "../../test-results",
+    "outputName": "simple-di-plugin.xml"
   }
 }

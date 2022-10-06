@@ -4,7 +4,11 @@
   "include": ["src/**/*.ts"],
   "exclude": ["**/*.spec.ts", "**/*.mock.ts"],
   "compilerOptions": {
-    "composite": true
+    "composite": true,
+
+    "baseUrl": ".",
+    "rootDir": "./src",
+    "outDir": "./dist"
   },
   "references": [
     {

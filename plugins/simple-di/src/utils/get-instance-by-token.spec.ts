@@ -14,7 +14,7 @@ describe('Get instance by token', function () {
 
   it('should throw exception when injectable not found by token', () => {
     const token = 'pseudoToken';
-    expect(() => getInstanceByToken(token)).toThrowError('Injectable not found for token "pseudoToken"');
+    expect(() => getInstanceByToken(token)).toThrow('Injectable not found for token "pseudoToken"');
   });
 
   it('should return instance from injectables', () => {

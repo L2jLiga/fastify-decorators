@@ -5,14 +5,11 @@
     "module": "ESNext" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */,
     "moduleResolution": "Node" /* Specifies module resolution strategy: 'node' (Node) or 'classic' (TypeScript pre 1.6). */,
 
-    "baseUrl": ".",
     "paths": {
       "fastify-decorators": ["../../dist/fastify-decorators"],
       "fastify-decorators/*": ["../../dist/fastify-decorators/*"]
     },
 
-    "rootDir": "./src",
-    "outDir": "./dist",
     "strict": true,
     "declaration": true,
     "inlineSourceMap": true,

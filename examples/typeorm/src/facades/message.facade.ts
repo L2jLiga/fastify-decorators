@@ -1,7 +1,7 @@
 import { Initializer, Service } from '@fastify-decorators/simple-di';
 import type { Repository } from 'typeorm';
 import { Message } from '../entity/message.js';
-import { DataSourceProvider } from '../services/dataSourceProvider.js';
+import { DataSourceProvider } from '../services/data-source.provider.js';
 
 @Service()
 export class MessageFacade {
