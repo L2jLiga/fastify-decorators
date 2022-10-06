@@ -22,6 +22,10 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
         node-version: [14.x, 16.x, 18.x]
 
+    permissions:
+      checks: write
+      pull-requests: write
+
     steps:
       - name: Checkout branch
         uses: actions/checkout@v3
