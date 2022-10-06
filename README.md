@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
 [![Node.js CI](https://github.com/L2jLiga/fastify-decorators/workflows/Node.js%20CI/badge.svg)](https://github.com/L2jLiga/fastify-decorators/actions?query=workflow%3A%22Node.js+CI%22)
-[![codecov](https://codecov.io/gh/L2jLiga/fastify-decorators/branch/v3/graph/badge.svg)](https://codecov.io/gh/L2jLiga/fastify-decorators)
+[![codecov](https://codecov.io/gh/L2jLiga/fastify-decorators/branch/v4/graph/badge.svg)](https://codecov.io/gh/L2jLiga/fastify-decorators)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/L2jLiga/fastify-decorators.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/L2jLiga/fastify-decorators/context:javascript)
 
 > **Framework aimed to provide useful TypeScript decorators to implement controllers, services and request handlers, built with [Fastify].**
