@@ -38,7 +38,7 @@ jobs:
         run: yarn test
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
+        if: matrix.os == 'ubuntu-latest'
         with:
           junit_files: 'test-results/*.xml'
       - name: Upload unit-tests coverage to Codecov
