@@ -11,8 +11,6 @@
 
 > **Framework aimed to provide useful TypeScript decorators to implement controllers, services and request handlers, built with [Fastify].**
 
-**NOTE**: fastify-decorators was developed with fastify `^3.0.0` and may not work with other versions.
-
 ## Benefits
 
 - **Fastify compatible** - Built with [Fastify] and supports all its features and plugins
@@ -32,6 +30,16 @@
 - [Request Handlers]
 - [Testing]
 - [Migration guide (V4)]
+
+## Fastify versions support
+
+| Fastify Decorators |  Fastify  |
+| :----------------: | :-------: |
+|        1.x         |    2.x    |
+|        2.x         |    2.x    |
+|      < 3.12.x      |    3.x    |
+|     >= 3.12.x      | 3.x & 4.x |
+|        4.x         |    4.x    |
 
 ## IDE Support
 
