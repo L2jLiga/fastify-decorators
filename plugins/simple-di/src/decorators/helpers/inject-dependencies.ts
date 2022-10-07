@@ -19,16 +19,32 @@ export interface ServiceInjection {
   propertyKey: string | symbol;
 }
 
-export function createWithInjectedDependencies<C>(constructor: Constructor<C>, injectables: Injectables, cacheResult: boolean): C {
-  injectProperties(constructor, injectables, cacheResult, constructor.name);
-  injectProperties(constructor.prototype, injectables, cacheResult, constructor.name);
+export function createWithInjectedDependencies<C>(Constructable: Constructor<C>, injectables: Injectables, cacheResult: boolean): C {
+  /**
+   * Step 1: Patch constructor and prototype with Injectables (issue #752)
+   */
+  injectProperties(Constructable, Constructable, injectables, cacheResult, Constructable.name);
+  injectProperties(Constructable.prototype, Constructable.prototype, injectables, cacheResult, Constructable.name);
 
-  return new constructor(...getArguments(constructor, injectables, cacheResult, constructor.name));
+  /**
+   * Step 2: Create instance
+   */
+  const instance = new Constructable(...getArguments(Constructable, injectables, cacheResult, Constructable.name));
+
+  /**
+   * Step 3: Inject dependencies into instance (issue #750)
+   */
+  injectProperties(instance, Constructable.prototype, injectables, cacheResult, Constructable.name);
+
+  /**
+   * Step 4: Return instance with dependencies injected
+   */
+  return instance;
 }
 
-function injectProperties(target: unknown, injectables: Injectables, cacheResult: boolean, className: string) {
-  if (!hasServiceInjection(target)) return;
-  const viaInject = target[SERVICE_INJECTION];
+function injectProperties(target: unknown, source: unknown, injectables: Injectables, cacheResult: boolean, className: string) {
+  if (!hasServiceInjection(source)) return;
+  const viaInject = source[SERVICE_INJECTION];
   for (const { name, propertyKey } of viaInject) {
     if (!injectables.has(name))
       throw new TypeError(`Invalid argument provided for "${className}.${String(propertyKey)}". Expected class annotated with @Service.`);
