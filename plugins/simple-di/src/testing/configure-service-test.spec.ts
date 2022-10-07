@@ -78,6 +78,16 @@ describe('Testing: configure service test', () => {
     expect(typeof service.getVersion()).toBe('string');
   });
 
+  it('should use custom fastify instance', () => {
+    const instance = { version: 'CUSTOM VERSION' } as FastifyInstance;
+    const service = configureServiceTest({
+      service: WithFastifyInstance,
+      instance,
+    });
+
+    expect(service.getVersion()).toBe(instance.version);
+  });
+
   it('should be able to load plugins onto fastify instance', async () => {
     interface Ops {
       key: null;

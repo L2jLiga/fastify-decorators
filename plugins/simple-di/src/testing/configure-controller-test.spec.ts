@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fastify';
+import { fastify, FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fastify';
 import { Controller, GET } from 'fastify-decorators';
 import fastifyPlugin from 'fastify-plugin';
 import { Initializer } from '../decorators/initializer.js';
@@ -95,6 +95,16 @@ describe('Testing: configure controller test', () => {
     const result = await instance.inject('/index');
 
     expect(result.statusCode).toBe(200);
+  });
+
+  it('should inject custom fastify instance', async () => {
+    const instance = fastify();
+    const instanceWithController = await configureControllerTest({
+      controller: WithFastifyInstance,
+      instance,
+    });
+
+    expect(instanceWithController).toBe(instance);
   });
 
   it('should not override mocked injection of fastify instance', async () => {

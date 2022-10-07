@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { fastify } from 'fastify';
+import { fastify, FastifyInstance } from 'fastify';
 import { Constructable, CREATOR } from 'fastify-decorators/plugins';
 import { readyMap } from '../decorators/initializer.js';
 import type { InjectableService } from '../interfaces/injectable-class.js';
@@ -19,6 +19,7 @@ import type { ServiceMock } from './service-mock.js';
 
 export interface ServiceTestConfig<Service> {
   service: Constructable<Service>;
+  instance?: FastifyInstance;
   mocks?: ServiceMock[];
   plugins?: Plugins;
 }
@@ -32,7 +33,7 @@ export function configureServiceTest<Service>(config: ServiceTestConfig<Service>
   const service: Constructable<Service> = config.service;
 
   const withInstance = new Map(injectables);
-  const fastifyInstance = fastify();
+  const fastifyInstance = config.instance ?? fastify();
   loadPlugins(fastifyInstance, config.plugins);
   withInstance.set(FastifyInstanceToken, wrapInjectable(fastifyInstance));
 
