@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import type { FastifyInstance, FastifyReply, FastifyRequest, FastifySchema } from 'fastify';
 import type { IErrorHandler, IHandler, IHook } from '../../interfaces/index.js';
 import { hooksRegistry } from '../../plugins/life-cycle.js';
 import { Registrable } from '../../plugins/shared-interfaces.js';
@@ -15,6 +15,7 @@ import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import { transformAndWait } from '../../utils/transform-and-wait.js';
 import { hasErrorHandlers, hasHandlers, hasHooks } from '../helpers/class-properties.js';
 import { createErrorsHandler } from '../helpers/create-errors-handler.js';
+import { injectTagsIntoSwagger, TagObject } from '../helpers/swagger-helper.js';
 
 const controllersCache = new WeakMap<FastifyRequest, unknown>();
 
@@ -28,7 +29,7 @@ function targetFactory(constructor: Registrable) {
   };
 }
 
-type ControllerFactory = (instance: FastifyInstance, constructor: Registrable) => unknown;
+type ControllerFactory = (instance: FastifyInstance, constructor: Registrable, tags: TagObject[]) => unknown;
 
 /**
  * Various strategies which can be applied to controller
@@ -45,19 +46,23 @@ type ControllerFactory = (instance: FastifyInstance, constructor: Registrable) =
  * @see ControllerConfig
  */
 export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory> = {
-  [ControllerType.SINGLETON]: async (instance, constructor) => {
+  [ControllerType.SINGLETON]: async (instance, constructor, tags) => {
+    if (tags.length > 0) injectTagsIntoSwagger(instance, tags);
+
     await transformAndWait(hooksRegistry.beforeControllerCreation, (hook) => hook(constructor));
     const controllerInstance = new constructor();
     await transformAndWait(hooksRegistry.afterControllerCreation, (hook) => hook(controllerInstance, constructor));
 
-    if (hasHandlers(constructor)) registerHandlers(constructor[HANDLERS], instance, controllerInstance);
+    if (hasHandlers(constructor)) registerHandlers(constructor[HANDLERS], instance, controllerInstance, tags);
     if (hasErrorHandlers(constructor)) registerErrorHandlers(constructor[ERROR_HANDLERS], instance, controllerInstance);
     if (hasHooks(constructor)) registerHooks(constructor[HOOKS], instance, controllerInstance);
 
     return controllerInstance;
   },
 
-  [ControllerType.REQUEST]: async (instance, constructor) => {
+  [ControllerType.REQUEST]: async (instance, constructor, tags) => {
+    if (tags.length > 0) injectTagsIntoSwagger(instance, tags);
+
     await transformAndWait(hooksRegistry.beforeControllerCreation, (hook) => hook(constructor));
     const factory = targetFactory(constructor);
 
@@ -65,10 +70,14 @@ export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory>
       constructor[HANDLERS].forEach((handler) => {
         const { url, method, handlerMethod, options } = handler;
 
-        instance[method](url, options, async function (request, ...args) {
-          const controllerInstance = await factory(request);
-          return controllerInstance[handlerMethod](request, ...args);
-        });
+        instance[method](
+          url,
+          tags.length > 0 ? { ...options, schema: { tags: tags.map((tag) => tag.name), ...options.schema } as FastifySchema } : options,
+          async function (request, ...args) {
+            const controllerInstance = await factory(request);
+            return controllerInstance[handlerMethod](request, ...args);
+          },
+        );
       });
 
     if (hasErrorHandlers(constructor))
@@ -93,9 +102,14 @@ function registerHandlers(
   handlers: IHandler[],
   instance: FastifyInstance,
   controllerInstance: Record<string, (request: FastifyRequest, reply: FastifyReply) => void>,
+  tags: TagObject[],
 ): void {
   handlers.forEach((handler) => {
-    instance[handler.method](handler.url, handler.options, (...args) => controllerInstance[handler.handlerMethod as string](...args));
+    instance[handler.method](
+      handler.url,
+      tags.length > 0 ? { ...handler.options, schema: { tags: tags.map((it) => it.name), ...handler.options.schema } as FastifySchema } : handler.options,
+      (...args) => controllerInstance[handler.handlerMethod as string](...args),
+    );
   });
 }
 
