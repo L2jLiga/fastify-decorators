@@ -7,9 +7,9 @@
  */
 
 import { fastify, FastifyInstance } from 'fastify';
-import { CREATOR, Registrable } from 'fastify-decorators/plugins';
+import { Constructable, CREATOR, Registrable } from 'fastify-decorators/plugins';
 import { hasServiceInjection } from '../decorators/helpers/ensure-service-injection.js';
-import { Constructor, createWithInjectedDependencies } from '../decorators/helpers/inject-dependencies.js';
+import { createWithInjectedDependencies } from '../decorators/helpers/inject-dependencies.js';
 import { readyMap } from '../decorators/initializer.js';
 import { injectables } from '../registry/injectables.js';
 import { FastifyInstanceToken, SERVICE_INJECTION } from '../symbols.js';
@@ -26,7 +26,7 @@ export interface ControllerTestConfig<C> {
 
 export type FastifyInstanceWithController<C> = FastifyInstance & Pick<ControllerTestConfig<C>, 'controller'>;
 
-export async function configureControllerTest<C>(config: ControllerTestConfig<Constructor<C>>): Promise<FastifyInstanceWithController<C>> {
+export async function configureControllerTest<C>(config: ControllerTestConfig<Constructable<C>>): Promise<FastifyInstanceWithController<C>> {
   const instance = fastify();
   loadPlugins(instance, config.plugins);
 

@@ -6,20 +6,18 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { CREATOR } from 'fastify-decorators/plugins';
+import { Constructable, CREATOR } from 'fastify-decorators/plugins';
 import { Injectables, InjectableService } from '../../interfaces/injectable-class.js';
 import { SERVICE_INJECTION } from '../../symbols.js';
 
 import { hasServiceInjection } from './ensure-service-injection.js';
-
-export type Constructor<T> = { new (): T } | { new (...args: any): T };
 
 export interface ServiceInjection {
   name: string | symbol | unknown;
   propertyKey: string | symbol;
 }
 
-export function createWithInjectedDependencies<C>(Constructable: Constructor<C>, injectables: Injectables, cacheResult: boolean): C {
+export function createWithInjectedDependencies<C>(Constructable: Constructable<C>, injectables: Injectables, cacheResult: boolean): C {
   /**
    * Step 1: Patch constructor and prototype with Injectables (issue #752)
    */
@@ -58,7 +56,7 @@ function injectProperties(target: unknown, source: unknown, injectables: Injecta
   }
 }
 
-function getArguments<C>(constructor: Constructor<C>, injectables: Injectables, cacheResult: boolean, className: string) {
+function getArguments<C>(constructor: Constructable<C>, injectables: Injectables, cacheResult: boolean, className: string) {
   const metadata: unknown[] = Reflect.getMetadata('design:paramtypes', constructor) || [];
   return metadata
     .map((value) => injectables.get(value))

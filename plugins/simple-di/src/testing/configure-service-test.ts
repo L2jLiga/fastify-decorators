@@ -7,8 +7,7 @@
  */
 
 import { fastify } from 'fastify';
-import { CREATOR } from 'fastify-decorators/plugins';
-import type { Constructor } from '../decorators/helpers/inject-dependencies.js';
+import { Constructable, CREATOR } from 'fastify-decorators/plugins';
 import { readyMap } from '../decorators/initializer.js';
 import type { InjectableService } from '../interfaces/injectable-class.js';
 import { injectables } from '../registry/injectables.js';
@@ -19,7 +18,7 @@ import { MocksManager } from './mocks-manager.js';
 import type { ServiceMock } from './service-mock.js';
 
 export interface ServiceTestConfig<Service> {
-  service: Constructor<Service>;
+  service: Constructable<Service>;
   mocks?: ServiceMock[];
   plugins?: Plugins;
 }
@@ -30,7 +29,7 @@ export interface ServiceTestConfig<Service> {
  * @returns configured service & promise which resolves when async initializer done (if it exists, otherwise resolved)
  */
 export function configureServiceTest<Service>(config: ServiceTestConfig<Service>): Promise<Service> & Service {
-  const service: Constructor<Service> = config.service;
+  const service: Constructable<Service> = config.service;
 
   const withInstance = new Map(injectables);
   const fastifyInstance = fastify();
@@ -66,7 +65,7 @@ function isPromiseLikeAccess<T, K extends keyof T = keyof T>(p: K | 'then' | 'ca
   return p === 'then' || p === 'catch' || p === 'finally';
 }
 
-function isInjectable<Service>(service: Constructor<Service>): asserts service is InjectableService {
+function isInjectable<Service>(service: Constructable<Service>): asserts service is InjectableService {
   if (!(Symbol.for('fastify-decorators.creator') in service)) {
     throw new Error('Provided service does not annotated with @Service!');
   }

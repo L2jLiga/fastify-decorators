@@ -6,8 +6,8 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { Constructable } from '../interfaces/constructable.js';
 import type { IErrorHandler } from '../interfaces/index.js';
+import type { Constructable } from '../plugins/index.js';
 import { ERROR_HANDLERS } from '../symbols/index.js';
 import { ensureErrorHandlers } from './helpers/class-properties.js';
 

@@ -43,3 +43,25 @@ app.register(bootstrap, {
   controllers: [MyController, SecondController],
 });
 ```
+
+### Using custom class loader
+
+By default, fastify-decorators uses own DI mechanism for getting controller instances.
+This mechanism depends on `reflect-metadata` and provide basic abilities like constructor injection and injection to class fields via decorators.
+
+You can read more about built-in DI at [Services and dependency injection](Services%20and%20dependency%20injection.md)
+
+In case when built-in DI does not suitable it's possible to write own custom loader for classes and pass it via `classLoader` option.
+Signature is `(clazz: Constructor<C>) => C`.
+
+```typescript
+import 'reflect-metadata';
+import { Container } from 'typedi';
+
+app.register(bootstrap, {
+  // ...other options...
+  classLoader(clazz) {
+    return Container.get(clazz);
+  },
+});
+```

@@ -6,12 +6,11 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { CREATOR } from 'fastify-decorators/plugins';
-import type { Constructor } from '../decorators/helpers/inject-dependencies.js';
+import { Constructable, CREATOR } from 'fastify-decorators/plugins';
 import type { InjectableService } from '../interfaces/injectable-class.js';
 import { injectables } from '../registry/injectables.js';
 
-export function getInstanceByToken<Type>(token: string | symbol | Constructor<Type>): Type {
+export function getInstanceByToken<Type>(token: string | symbol | Constructable<Type>): Type {
   const injectable: InjectableService | undefined = injectables.get(token);
   verifyInjectable(token, injectable);
 
@@ -19,7 +18,7 @@ export function getInstanceByToken<Type>(token: string | symbol | Constructor<Ty
 }
 
 function verifyInjectable<Type>(
-  token: string | symbol | Constructor<Type>,
+  token: string | symbol | Constructable<Type>,
   injectable: InjectableService | undefined,
 ): asserts injectable is InjectableService {
   if (!injectable) throw new Error(`Injectable not found for token "${token.toString()}"`);

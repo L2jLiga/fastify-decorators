@@ -6,12 +6,11 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { hasErrorHandlers, hasHandlers, hasHooks } from 'fastify-decorators/plugins';
+import { Constructable, hasErrorHandlers, hasHandlers, hasHooks } from 'fastify-decorators/plugins';
 import { FASTIFY_REPLY, FASTIFY_REQUEST, SERVICE_INJECTION } from '../../symbols.js';
 import { hasServiceInjection } from './ensure-service-injection.js';
-import { Constructor } from './inject-dependencies.js';
 
-export function patchMethods<C>(constructor: Constructor<C>): void {
+export function patchMethods<C>(constructor: Constructable<C>): void {
   if (hasHandlers(constructor)) patchHandlers(constructor);
   if (hasErrorHandlers(constructor)) patchErrorsHandlers(constructor);
   if (hasHooks(constructor)) patchHooks(constructor);

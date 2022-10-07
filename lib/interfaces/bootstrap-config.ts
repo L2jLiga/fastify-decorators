@@ -7,7 +7,7 @@
  */
 
 import type { PathLike } from 'node:fs';
-import type { Constructable } from './constructable.js';
+import { Constructable } from '../plugins/index.js';
 
 /**
  * Config for application bootstrap
