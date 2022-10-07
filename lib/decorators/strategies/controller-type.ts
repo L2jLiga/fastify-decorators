@@ -36,10 +36,13 @@ type ControllerFactory = (instance: FastifyInstance, constructor: Registrable) =
  * @usageNotes
  *
  * There are few available strategies:
- *   SINGLETON strategy creates one instance of controller which will handle all requests
- *   REQUEST strategy will create new instance for each request/hook
+ * - *SINGLETON* strategy creates one instance of controller which will handle all requests
+ * - *REQUEST* strategy will create new instance for each request/hook
  *
- * By default controllers use SINGLETON strategy
+ * By default, controllers use *SINGLETON* strategy
+ *
+ * @see Controller
+ * @see ControllerConfig
  */
 export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory> = {
   [ControllerType.SINGLETON]: async (instance, constructor) => {
@@ -92,17 +95,17 @@ function registerHandlers(
   controllerInstance: Record<string, (request: FastifyRequest, reply: FastifyReply) => void>,
 ): void {
   handlers.forEach((handler) => {
-    instance[handler.method](handler.url, handler.options, controllerInstance[handler.handlerMethod as string].bind(controllerInstance));
+    instance[handler.method](handler.url, handler.options, (...args) => controllerInstance[handler.handlerMethod as string](...args));
   });
 }
 
 function registerHooks(
   hooks: IHook[],
   instance: FastifyInstance,
-  controllerInstance: Record<string, (request: FastifyRequest, reply: FastifyReply) => void>,
+  controllerInstance: Record<string, (request: FastifyRequest, reply: FastifyReply, done: unknown) => void>,
 ): void {
   hooks.forEach((hook) => {
-    instance.addHook(hook.name as 'onRequest', controllerInstance[hook.handlerName as string].bind(controllerInstance));
+    instance.addHook(hook.name as 'onRequest', (...args) => controllerInstance[hook.handlerName as string](...args));
   });
 }
 
