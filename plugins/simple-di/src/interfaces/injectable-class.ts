@@ -7,7 +7,7 @@
  */
 
 import { Constructable, CREATOR } from 'fastify-decorators/plugins';
-import { INITIALIZER, INJECTABLES } from '../symbols.js';
+import { INITIALIZER } from '../symbols.js';
 
 export type Injectables = Map<string | symbol | unknown, InjectableService>;
 
@@ -15,7 +15,5 @@ export interface InjectableService extends Object, Constructable<any> {
   [CREATOR]: {
     register<Type>(injectables?: Injectables, cacheResult?: boolean): Type;
   };
-  [INJECTABLES]: Injectables;
-
   [INITIALIZER]?<Type>(self: Type): void;
 }

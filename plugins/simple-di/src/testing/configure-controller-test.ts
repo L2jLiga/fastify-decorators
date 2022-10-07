@@ -9,7 +9,7 @@
 import { fastify, FastifyInstance } from 'fastify';
 import { Constructable, CREATOR, Registrable } from 'fastify-decorators/plugins';
 import { hasServiceInjection } from '../decorators/helpers/ensure-service-injection.js';
-import { createWithInjectedDependencies } from '../decorators/helpers/inject-dependencies.js';
+import { injectDependenciesIntoInstance, patchConstructable } from '../decorators/helpers/inject-dependencies.js';
 import { readyMap } from '../decorators/initializer.js';
 import { injectables } from '../registry/injectables.js';
 import { FastifyInstanceToken, SERVICE_INJECTION } from '../symbols.js';
@@ -37,7 +37,8 @@ export async function configureControllerTest<C>(config: ControllerTestConfig<Co
 
   const controller = config.controller as Registrable;
   const controllerInstance = await controller[CREATOR].register(instance, '');
-  Object.assign(controllerInstance as any, createWithInjectedDependencies(controller, injectablesWithMocks, false));
+  patchConstructable(controller, injectablesWithMocks, false);
+  injectDependenciesIntoInstance(controllerInstance, controller, injectablesWithMocks, false);
   instance.decorate('controller', controllerInstance);
 
   await Promise.all(

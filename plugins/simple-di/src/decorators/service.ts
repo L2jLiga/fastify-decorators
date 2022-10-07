@@ -9,15 +9,18 @@
 import { createInitializationHook, CREATOR } from 'fastify-decorators/plugins';
 import { InjectableService } from '../interfaces/injectable-class.js';
 import { injectables } from '../registry/injectables.js';
-import { INITIALIZER, INJECTABLES } from '../symbols.js';
-import { createWithInjectedDependencies } from './helpers/inject-dependencies.js';
+import { INITIALIZER } from '../symbols.js';
+import { createWithConstructorDependencies, injectDependenciesIntoInstance, patchConstructable } from './helpers/inject-dependencies.js';
 import { patchMethods } from './helpers/patch-methods.js';
 
+/**
+ * Set of hooks to patch controllers in order to support DI
+ */
 createInitializationHook('beforeControllerCreation', (target) => patchMethods(target));
-
-createInitializationHook('afterControllerCreation', (instance, Registrable) =>
-  Object.assign(instance as any, createWithInjectedDependencies(Registrable, injectables, true)),
-);
+createInitializationHook('beforeControllerCreation', (target) => patchConstructable(target, injectables, true));
+createInitializationHook('afterControllerCreation', (instance, Registrable) => {
+  injectDependenciesIntoInstance(instance, Registrable, injectables, true);
+});
 
 /**
  * Decorator for making classes injectable
@@ -32,11 +35,10 @@ export function Service(injectableToken?: string | symbol): unknown {
     if (injectableToken) injectables.set(injectableToken, target);
     target[CREATOR] = {
       register<Type>(injectablesMap = injectables, cacheResult = true): Type {
-        target[INJECTABLES] = injectablesMap;
-        target.prototype[INJECTABLES] = injectablesMap;
-
         if (instance && cacheResult) return instance as Type;
-        instance = createWithInjectedDependencies<Type>(target, injectablesMap, cacheResult);
+        patchConstructable(target, injectablesMap, cacheResult);
+        instance = createWithConstructorDependencies<Type>(target, injectablesMap, cacheResult);
+        injectDependenciesIntoInstance(instance, target, injectablesMap, cacheResult);
 
         target[INITIALIZER]?.(instance);
 
