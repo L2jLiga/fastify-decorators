@@ -50,6 +50,8 @@ function createProxy(target: any, request: unknown, reply: unknown): any {
       if (p === FASTIFY_REQUEST || value === FASTIFY_REQUEST) return request;
       if (p === FASTIFY_REPLY || value === FASTIFY_REPLY) return reply;
 
+      if (typeof value !== 'object' || value === null) return value;
+
       if (hasServiceInjection(value)) {
         return new Proxy(value, {
           get(injectedService, prop) {
