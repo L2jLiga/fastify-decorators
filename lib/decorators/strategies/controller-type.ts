@@ -23,7 +23,7 @@ function targetFactory(constructor: Registrable) {
   return async function getTarget(request: FastifyRequest) {
     if (controllersCache.has(request)) return controllersCache.get(request);
     const target = new constructor();
-    await transformAndWait(hooksRegistry.afterControllerCreation, (hook) => hook(target, constructor));
+    await transformAndWait(hooksRegistry.afterControllerCreation, (hook) => hook(request.server, constructor, target));
     controllersCache.set(request, target);
     return target;
   };
@@ -49,9 +49,9 @@ export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory>
   [ControllerType.SINGLETON]: async (instance, constructor, tags) => {
     if (tags.length > 0) injectTagsIntoSwagger(instance, tags);
 
-    await transformAndWait(hooksRegistry.beforeControllerCreation, (hook) => hook(constructor));
+    await transformAndWait(hooksRegistry.beforeControllerCreation, (hook) => hook(instance, constructor));
     const controllerInstance = new constructor();
-    await transformAndWait(hooksRegistry.afterControllerCreation, (hook) => hook(controllerInstance, constructor));
+    await transformAndWait(hooksRegistry.afterControllerCreation, (hook) => hook(instance, constructor, controllerInstance));
 
     if (hasHandlers(constructor)) registerHandlers(constructor[HANDLERS], instance, controllerInstance, tags);
     if (hasErrorHandlers(constructor)) registerErrorHandlers(constructor[ERROR_HANDLERS], instance, controllerInstance);
@@ -63,7 +63,7 @@ export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory>
   [ControllerType.REQUEST]: async (instance, constructor, tags) => {
     if (tags.length > 0) injectTagsIntoSwagger(instance, tags);
 
-    await transformAndWait(hooksRegistry.beforeControllerCreation, (hook) => hook(constructor));
+    await transformAndWait(hooksRegistry.beforeControllerCreation, (hook) => hook(instance, constructor));
     const factory = targetFactory(constructor);
 
     if (hasHandlers(constructor))

@@ -1,3 +1,4 @@
+import { FastifyInstance } from 'fastify';
 import { hooksRegistry, Registrable } from 'fastify-decorators/plugins';
 import { Container } from 'typedi';
 import { useContainer } from './index.js';
@@ -20,7 +21,7 @@ describe('Use container', () => {
 
     class Test {}
 
-    hooksRegistry.beforeControllerCreation[0](Test as Registrable);
+    hooksRegistry.beforeControllerCreation[0]({} as FastifyInstance, Test as Registrable);
 
     expect(Container.get(Test)).toBeInstanceOf(Test);
   });

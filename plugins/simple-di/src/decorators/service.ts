@@ -16,10 +16,10 @@ import { patchMethods } from './helpers/patch-methods.js';
 /**
  * Set of hooks to patch controllers in order to support DI
  */
-createInitializationHook('beforeControllerCreation', (target) => patchMethods(target));
-createInitializationHook('beforeControllerCreation', (target) => patchConstructable(target, injectables, true));
-createInitializationHook('afterControllerCreation', (instance, Registrable) => {
-  injectDependenciesIntoInstance(instance, Registrable, injectables, true);
+createInitializationHook('beforeControllerCreation', (fastifyInstance, target) => patchMethods(target));
+createInitializationHook('beforeControllerCreation', (fastifyInstance, target) => patchConstructable(target, injectables, true));
+createInitializationHook('afterControllerCreation', (fastifyInstance, target, instance) => {
+  injectDependenciesIntoInstance(instance, target, injectables, true);
 });
 
 /**

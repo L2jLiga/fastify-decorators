@@ -10,16 +10,16 @@ import { createInitializationHook } from 'fastify-decorators/plugins';
 import type { Container as TypeDIContainer, ServiceOptions } from 'typedi';
 
 export function useContainer(Container: typeof TypeDIContainer) {
-  createInitializationHook('beforeControllerCreation', (targetConstructor) => {
+  createInitializationHook('beforeControllerCreation', (fastifyInstance, target) => {
     const controllerMetadata: ServiceOptions = {
-      id: targetConstructor,
-      type: targetConstructor,
+      id: target,
+      type: target,
     };
 
     Container.set(controllerMetadata);
   });
 
-  createInitializationHook('afterControllerCreation', (instance, targetConstructor) => {
-    Object.assign(instance as any, Container.get(targetConstructor));
+  createInitializationHook('afterControllerCreation', (fastifyInstance, target, instance) => {
+    Object.assign(instance as any, Container.get(target));
   });
 }

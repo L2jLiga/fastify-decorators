@@ -31,7 +31,7 @@ const requestHandlersCache = new WeakMap<FastifyRequest, RequestHandler>();
 async function getTarget(Target: any, request: FastifyRequest, ...rest: unknown[]) {
   if (requestHandlersCache.has(request)) return requestHandlersCache.get(request);
   const target = new Target(request, ...rest);
-  await transformAndWait(hooksRegistry.afterControllerCreation, (hook) => hook(target, Target));
+  await transformAndWait(hooksRegistry.afterControllerCreation, (hook) => hook(request.server, Target, target));
   requestHandlersCache.set(request, target);
   return target;
 }

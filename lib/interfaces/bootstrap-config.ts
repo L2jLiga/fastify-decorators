@@ -10,23 +10,11 @@ import type { PathLike } from 'node:fs';
 import { Constructable } from '../plugins/index.js';
 
 /**
- * Config for application bootstrap
+ * Common configuration part
  */
-export interface AutoLoadConfig {
+export interface CommonConfig {
   /**
-   * Path to directory which contains files to load
-   */
-  directory: PathLike;
-
-  /**
-   * Mask used to filter files to load
-   * @default /\.(handler|controller)\./
-   */
-  mask?: string | RegExp;
-
-  /**
-   * By default application will fails to bootstrap if one or more of loaded files does not contain valid controller or handler
-   * This option allows to change this behavior
+   * Indicates whether bootstrap should fail on invalid controllers/request handlers
    * @default false
    */
   skipBroken?: boolean;
@@ -37,23 +25,36 @@ export interface AutoLoadConfig {
   prefix?: string;
 }
 
-export interface ControllersListConfig {
+/**
+ * Controllers and request handlers autoload configuration
+ *
+ * Accepts directory and mask to load
+ * In order to work properly controllers/request handlers must be default exported
+ */
+export interface AutoLoadConfig extends CommonConfig {
+  /**
+   * Path to directory which contains files to load
+   * If not specified then autoload will not be used
+   *
+   * @default not specified
+   */
+  directory: PathLike;
+
+  /**
+   * Mask used to filter files to load
+   * @default /\.(handler|controller)\./
+   */
+  mask?: string | RegExp;
+}
+
+/**
+ * Configuration contains explicitly passed controllers/request handlers to load
+ */
+export interface ControllersListConfig extends CommonConfig {
   /**
    * List of Controller classes to bootstrap
    */
   controllers: Constructable<unknown>[];
-
-  /**
-   * By default application will fails to bootstrap if one or more of loaded files does not contain valid controller or handler
-   * This option allows to change this behavior
-   * @default false
-   */
-  skipBroken?: boolean;
-
-  /**
-   * Global prefix to be applied for all routes
-   */
-  prefix?: string;
 }
 
 export type BootstrapConfig = AutoLoadConfig | ControllersListConfig;
