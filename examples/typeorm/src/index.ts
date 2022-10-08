@@ -7,7 +7,7 @@ import { bootstrap } from 'fastify-decorators';
 import { hostname, port } from './config.js';
 import { MessageController } from './controllers/message.controller.js';
 
-export const app = fastify();
+export const app = fastify({ pluginTimeout: 90_000 });
 
 // @ts-expect-error fastify v4 not officially supported by fastify-swagger (yet)
 fastifySwagger[Symbol.for('plugin-meta')].fastify = '^4.0.0-alpha.0';
