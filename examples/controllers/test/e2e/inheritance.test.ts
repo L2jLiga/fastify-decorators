@@ -1,36 +1,43 @@
+import { AddressInfo } from 'net';
 import { app } from '../../src/index.js';
+import { fetch } from 'undici';
 
 describe('Controllers inheritance test', () => {
+  beforeAll(() => app.listen());
+  afterAll(() => app.close());
+
+  const getAppOrigin = () => `http://localhost:${(app.server.address() as AddressInfo).port}`;
+
   for (const prefix of ['abstract', 'parent'])
     describe(`${prefix}`, () => {
       it('should reply on ping request to inherited controller', async () => {
-        const response = await app.inject(`/${prefix}/inherited/ping`);
+        const response = await fetch(`${getAppOrigin()}/${prefix}/inherited/ping`);
 
-        expect(response.payload).toBe('pong!');
+        expect(await response.text()).toBe('pong!');
       });
 
       it('should inherit parent routes when controller has own methods', async () => {
-        const response = await app.inject(`/${prefix}/own-methods/ping`);
+        const response = await fetch(`${getAppOrigin()}/${prefix}/own-methods/ping`);
 
-        expect(response.payload).toBe('pong!');
+        expect(await response.text()).toBe('pong!');
       });
 
       it('should reply on ping-ping request with message from inherited controller', async () => {
-        const response = await app.inject(`/${prefix}/inherited/ping-ping`);
+        const response = await fetch(`${getAppOrigin()}/${prefix}/inherited/ping-ping`);
 
-        expect(response.payload).toBe('Inherited');
+        expect(await response.text()).toBe('Inherited');
       });
 
       it('should reply on own methods from inherited controller', async () => {
-        const response = await app.inject(`/${prefix}/own-methods/pong`);
+        const response = await fetch(`${getAppOrigin()}/${prefix}/own-methods/pong`);
 
-        expect(response.payload).toBe('PING!');
+        expect(await response.text()).toBe('PING!');
       });
 
       it('should not affect other derivatives', async () => {
-        const response = await app.inject(`/${prefix}/inherited/pong`);
+        const response = await fetch(`${getAppOrigin()}/${prefix}/inherited/pong`);
 
-        expect(response.statusCode).toBe(404);
+        expect(response.status).toBe(404);
       });
     });
 });

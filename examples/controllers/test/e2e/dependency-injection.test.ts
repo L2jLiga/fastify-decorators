@@ -1,5 +1,6 @@
 import { AddressInfo } from 'net';
 import { app } from '../../src/index.js';
+import { fetch } from 'undici';
 
 describe('Controllers dependency injection tests', () => {
   beforeAll(() => app.listen());

@@ -1,96 +1,39 @@
+import { AddressInfo } from 'net';
 import { app } from '../../src/index.js';
 import { ErrorType } from '../../src/error-handling/error-type.js';
+import { fetch } from 'undici';
 
 describe('Controllers error handling tests', () => {
-  describe('Stateful controller error handling support', () => {
-    it('should trigger generic error handler', async () => {
-      const initialState = await app.inject({
-        url: '/stateful/error-handling',
-        query: {
-          errorType: ErrorType.GENERIC.toString(),
-        },
+  beforeAll(() => app.listen());
+  afterAll(() => app.close());
+
+  const getAppOrigin = () => `http://localhost:${(app.server.address() as AddressInfo).port}`;
+
+  for (const type of ['Stateful', 'Stateless']) {
+    describe(`${type} controller error handling support`, () => {
+      it('should trigger generic error handler', async () => {
+        const response = await fetch(`${getAppOrigin()}/${type.toLowerCase()}/error-handling?errorType=${ErrorType.GENERIC}`);
+
+        expect(response.status).toEqual(500);
       });
 
-      expect(initialState.statusCode).toEqual(500);
-    });
+      it('should trigger syntax error handler', async () => {
+        const response = await fetch(`${getAppOrigin()}/${type.toLowerCase()}/error-handling?errorType=${ErrorType.SYNTAX}`);
 
-    it('should trigger syntax error handler', async () => {
-      const initialState = await app.inject({
-        url: '/stateful/error-handling',
-        query: {
-          errorType: ErrorType.SYNTAX.toString(),
-        },
+        expect(response.status).toEqual(501);
       });
 
-      expect(initialState.statusCode).toEqual(501);
-    });
+      it('should trigger type error handler', async () => {
+        const response = await fetch(`${getAppOrigin()}/${type.toLowerCase()}/error-handling?errorType=${ErrorType.TYPE}`);
 
-    it('should trigger type error handler', async () => {
-      const initialState = await app.inject({
-        url: '/stateful/error-handling',
-        query: {
-          errorType: ErrorType.TYPE.toString(),
-        },
+        expect(response.status).toEqual(502);
       });
 
-      expect(initialState.statusCode).toEqual(502);
-    });
+      it('should trigger custom error handler', async () => {
+        const response = await fetch(`${getAppOrigin()}/${type.toLowerCase()}/error-handling?errorType=${ErrorType.CUSTOM}`);
 
-    it('should trigger custom error handler', async () => {
-      const initialState = await app.inject({
-        url: '/stateful/error-handling',
-        query: {
-          errorType: ErrorType.CUSTOM.toString(),
-        },
+        expect(response.status).toEqual(503);
       });
-
-      expect(initialState.statusCode).toEqual(503);
     });
-  });
-
-  describe('Stateless controller error handling support', () => {
-    it('should trigger generic error handler', async () => {
-      const initialState = await app.inject({
-        url: '/stateless/error-handling',
-        query: {
-          errorType: ErrorType.GENERIC.toString(),
-        },
-      });
-
-      expect(initialState.statusCode).toEqual(500);
-    });
-
-    it('should trigger syntax error handler', async () => {
-      const initialState = await app.inject({
-        url: '/stateless/error-handling',
-        query: {
-          errorType: ErrorType.SYNTAX.toString(),
-        },
-      });
-
-      expect(initialState.statusCode).toEqual(501);
-    });
-
-    it('should trigger type error handler', async () => {
-      const initialState = await app.inject({
-        url: '/stateless/error-handling',
-        query: {
-          errorType: ErrorType.TYPE.toString(),
-        },
-      });
-
-      expect(initialState.statusCode).toEqual(502);
-    });
-
-    it('should trigger custom error handler', async () => {
-      const initialState = await app.inject({
-        url: '/stateless/error-handling',
-        query: {
-          errorType: ErrorType.CUSTOM.toString(),
-        },
-      });
-
-      expect(initialState.statusCode).toEqual(503);
-    });
-  });
+  }
 });

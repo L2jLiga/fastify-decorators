@@ -1,23 +1,38 @@
+import { AddressInfo } from 'net';
+import { fetch } from 'undici';
 import { app } from '../../src/index.js';
 
 describe('States controllers tests', () => {
-  it('Stateful controller should save state', async () => {
-    const initialState = await app.inject('/stateful');
-    const setStateReq = await app.inject({ method: 'POST', url: '/stateful', payload: { newState: true } });
-    const newState = await app.inject('/stateful');
+  beforeAll(() => app.listen());
+  afterAll(() => app.close());
 
-    expect(initialState.json()).toEqual({});
-    expect(setStateReq.statusCode).toEqual(201);
-    expect(newState.json()).toEqual({ newState: true });
+  const getAppOrigin = () => `http://localhost:${(app.server.address() as AddressInfo).port}`;
+
+  it('Stateful controller should save state', async () => {
+    const initialState = await fetch(`${getAppOrigin()}/stateful`);
+    const setStateReq = await fetch(`${getAppOrigin()}/stateful`, {
+      method: 'POST',
+      body: JSON.stringify({ newState: true }),
+      headers: { 'content-type': 'application/json' },
+    });
+    const newState = await fetch(`${getAppOrigin()}/stateful`);
+
+    expect(await initialState.json()).toEqual({});
+    expect(setStateReq.status).toEqual(201);
+    expect(await newState.json()).toEqual({ newState: true });
   });
 
   it('Stateless controller should not save state', async () => {
-    const initialState = await app.inject('/stateless');
-    const setStateReq = await app.inject({ method: 'POST', url: '/stateless', payload: { newState: true } });
-    const newState = await app.inject('/stateless');
+    const initialState = await fetch(`${getAppOrigin()}/stateless`);
+    const setStateReq = await fetch(`${getAppOrigin()}/stateless`, {
+      method: 'POST',
+      body: JSON.stringify({ newState: true }),
+      headers: { 'content-type': 'application/json' },
+    });
+    const newState = await fetch(`${getAppOrigin()}/stateless`);
 
-    expect(initialState.json()).toEqual({});
-    expect(setStateReq.statusCode).toEqual(201);
-    expect(newState.json()).toEqual({});
+    expect(await initialState.json()).toEqual({});
+    expect(setStateReq.status).toEqual(201);
+    expect(await newState.json()).toEqual({});
   });
 });

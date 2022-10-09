@@ -1,15 +1,16 @@
+import { AddressInfo } from 'net';
 import { app } from '../../src/index.js';
+import { fetch } from 'undici';
 
 describe('Controllers hooks tests', () => {
-  it('Stateful controller should support hooks', async () => {
-    const initialState = await app.inject('/stateful/hooks');
+  beforeAll(() => app.listen());
+  afterAll(() => app.close());
 
-    expect(initialState.headers['x-powered-by']).toEqual('Tell me who');
-  });
+  for (const type of ['Stateful', 'Stateless']) {
+    it(`${type} controller should support hooks`, async () => {
+      const response = await fetch(`http://localhost:${(app.server.address() as AddressInfo).port}/${type.toLowerCase()}/hooks`);
 
-  it('Stateless controller should support hooks', async () => {
-    const initialState = await app.inject('/stateless/hooks');
-
-    expect(initialState.headers['x-powered-by']).toEqual('Tell me who');
-  });
+      expect(response.headers.get('x-powered-by')).toEqual('Tell me who');
+    });
+  }
 });
