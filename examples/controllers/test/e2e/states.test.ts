@@ -1,6 +1,8 @@
 import { AddressInfo } from 'net';
-import { fetch } from 'undici';
+import Undici from 'undici';
 import { app } from '../../src/index.js';
+
+const fetch = Undici.fetch;
 
 describe('States controllers tests', () => {
   beforeAll(() => app.listen());

@@ -1,7 +1,9 @@
 import { AddressInfo } from 'net';
-import { fetch } from 'undici';
+import Undici from 'undici';
 import { app } from '../../src/index.js';
 import { users } from '../../src/user/user.js';
+
+const fetch = Undici.fetch;
 
 describe('User feature', () => {
   beforeAll(() => app.listen());

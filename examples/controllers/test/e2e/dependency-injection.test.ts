@@ -1,6 +1,8 @@
 import { AddressInfo } from 'net';
+import Undici from 'undici';
 import { app } from '../../src/index.js';
-import { fetch } from 'undici';
+
+const fetch = Undici.fetch;
 
 describe('Controllers dependency injection tests', () => {
   beforeAll(() => app.listen());

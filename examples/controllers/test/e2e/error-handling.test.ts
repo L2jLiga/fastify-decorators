@@ -1,7 +1,9 @@
 import { AddressInfo } from 'net';
-import { app } from '../../src/index.js';
+import Undici from 'undici';
 import { ErrorType } from '../../src/error-handling/error-type.js';
-import { fetch } from 'undici';
+import { app } from '../../src/index.js';
+
+const fetch = Undici.fetch;
 
 describe('Controllers error handling tests', () => {
   beforeAll(() => app.listen());
