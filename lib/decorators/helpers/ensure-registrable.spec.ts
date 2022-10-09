@@ -1,11 +1,11 @@
 import { CREATOR } from '../../symbols/index.js';
-import { injectControllerOptions } from './inject-controller-options.js';
+import { ensureRegistrable } from './ensure-registrable.js';
 
 describe('Helper: inject controller options', () => {
   it('should inject default options into object if they are not exists', () => {
     class Controller {}
 
-    injectControllerOptions(Controller);
+    ensureRegistrable(Controller);
 
     // @ts-expect-error TypeScript does not know about patches within decorator
     expect(Controller[CREATOR]).toEqual({});
@@ -18,7 +18,7 @@ describe('Helper: inject controller options', () => {
       static [CREATOR] = controllerOptions;
     }
 
-    injectControllerOptions(Controller);
+    ensureRegistrable(Controller);
 
     expect(Controller[CREATOR]).toBe(controllerOptions);
   });
@@ -26,6 +26,6 @@ describe('Helper: inject controller options', () => {
   it('should throw when trying to apply it to non function-like objects', () => {
     const Controller = {};
 
-    expect(() => injectControllerOptions(Controller)).toThrow();
+    expect(() => ensureRegistrable(Controller)).toThrow();
   });
 });

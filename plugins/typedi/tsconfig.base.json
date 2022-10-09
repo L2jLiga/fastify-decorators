@@ -10,10 +10,14 @@
       "fastify-decorators/*": ["../../dist/fastify-decorators/*"]
     },
 
+    "esModuleInterop": true,
+
     "strict": true,
+
     "declaration": true,
     "inlineSourceMap": true,
     "inlineSources": true,
+
     "lib": ["ES2020"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true

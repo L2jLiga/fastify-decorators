@@ -17,21 +17,21 @@ export function patchMethods<C>(constructor: Constructable<C>): void {
 }
 
 function patchHandlers(constructor: any): void {
-  constructor[Symbol.for('fastify-decorators.handlers')].forEach((it: { handlerMethod: string | symbol }) => {
+  for (const it of constructor[Symbol.for('fastify-decorators.handlers')]) {
     patchMethod(constructor, it.handlerMethod);
-  });
+  }
 }
 
 function patchErrorsHandlers(constructor: any): void {
-  constructor[Symbol.for('fastify-decorators.error-handlers')].forEach((it: { handlerName: string | symbol }) => {
+  for (const it of constructor[Symbol.for('fastify-decorators.error-handlers')]) {
     patchMethod(constructor, it.handlerName);
-  });
+  }
 }
 
 function patchHooks(constructor: any): void {
-  constructor[Symbol.for('fastify-decorators.hooks')].forEach((it: { handlerName: string | symbol }) => {
+  for (const it of constructor[Symbol.for('fastify-decorators.hooks')]) {
     patchMethod(constructor, it.handlerName);
-  });
+  }
 }
 
 function patchMethod(constructor: any, methodName: string | symbol): void {

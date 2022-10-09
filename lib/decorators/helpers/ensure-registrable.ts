@@ -9,10 +9,10 @@
 import { Registrable } from '../../plugins/index.js';
 import { CREATOR } from '../../symbols/index.js';
 
-export function injectControllerOptions(controller: unknown): asserts controller is Registrable {
-  if (controller instanceof Function) {
-    if (!(CREATOR in controller)) {
-      Object.defineProperty(controller, CREATOR, { value: {} });
+export function ensureRegistrable(target: unknown): asserts target is Registrable {
+  if (target instanceof Function) {
+    if (!(CREATOR in target)) {
+      Object.defineProperty(target, CREATOR, { value: {} });
     }
 
     return;

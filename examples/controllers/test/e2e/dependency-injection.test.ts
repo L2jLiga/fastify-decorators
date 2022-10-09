@@ -1,65 +1,71 @@
+import { AddressInfo } from 'net';
 import { app } from '../../src/index.js';
 
 describe('Controllers dependency injection tests', () => {
+  beforeAll(() => app.listen());
+  afterAll(() => app.close());
+
+  const getAppOrigin = () => `http://localhost:${(app.server.address() as AddressInfo).port}`;
+
   describe('Controller with constructor', () => {
     it('should work with sync service', async () => {
-      const initialState = await app.inject('/dependency-injection/using-constructor/sync');
+      const response = await fetch(`${getAppOrigin()}/dependency-injection/using-constructor/sync`);
 
-      expect(initialState.statusCode).toEqual(200);
-      expect(initialState.body).toEqual('Message');
+      expect(response.status).toEqual(200);
+      expect(await response.text()).toEqual('Message');
     });
 
     it('should work with async service', async () => {
-      const initialState = await app.inject('/dependency-injection/using-constructor/async');
+      const response = await fetch(`${getAppOrigin()}/dependency-injection/using-constructor/async`);
 
-      expect(initialState.statusCode).toEqual(200);
-      expect(initialState.body).toEqual('Message');
+      expect(response.status).toEqual(200);
+      expect(await response.text()).toEqual('Message');
     });
   });
 
   describe('Controller with @Inject decorator', () => {
     it('should work with sync service', async () => {
-      const initialState = await app.inject('/dependency-injection/inject/sync');
+      const response = await fetch(`${getAppOrigin()}/dependency-injection/inject/sync`);
 
-      expect(initialState.statusCode).toEqual(200);
-      expect(initialState.body).toEqual('Message');
+      expect(response.status).toEqual(200);
+      expect(await response.text()).toEqual('Message');
     });
 
     it('should work with service injected by token', async () => {
-      const initialState = await app.inject('/dependency-injection/inject/sync/v2');
+      const response = await fetch(`${getAppOrigin()}/dependency-injection/inject/sync/v2`);
 
-      expect(initialState.statusCode).toEqual(200);
-      expect(initialState.body).toEqual('Message');
+      expect(response.status).toEqual(200);
+      expect(await response.text()).toEqual('Message');
     });
 
     it('should work with async service', async () => {
-      const initialState = await app.inject('/dependency-injection/inject/async');
+      const response = await fetch(`${getAppOrigin()}/dependency-injection/inject/async`);
 
-      expect(initialState.statusCode).toEqual(200);
-      expect(initialState.body).toEqual('Message');
+      expect(response.status).toEqual(200);
+      expect(await response.text()).toEqual('Message');
     });
   });
 
   describe('Controller with getInstanceByToken call', () => {
     it('should work with sync service', async () => {
-      const initialState = await app.inject('/dependency-injection/get-instance-by-token/sync');
+      const response = await fetch(`${getAppOrigin()}/dependency-injection/get-instance-by-token/sync`);
 
-      expect(initialState.statusCode).toEqual(200);
-      expect(initialState.body).toEqual('Message');
+      expect(response.status).toEqual(200);
+      expect(await response.text()).toEqual('Message');
     });
 
     it('should work with service injected by token', async () => {
-      const initialState = await app.inject('/dependency-injection/get-instance-by-token/sync/v2');
+      const response = await fetch(`${getAppOrigin()}/dependency-injection/get-instance-by-token/sync/v2`);
 
-      expect(initialState.statusCode).toEqual(200);
-      expect(initialState.body).toEqual('Message');
+      expect(response.status).toEqual(200);
+      expect(await response.text()).toEqual('Message');
     });
 
     it('should work with async service', async () => {
-      const initialState = await app.inject('/dependency-injection/get-instance-by-token/async');
+      const response = await fetch(`${getAppOrigin()}/dependency-injection/get-instance-by-token/async`);
 
-      expect(initialState.statusCode).toEqual(200);
-      expect(initialState.body).toEqual('Message');
+      expect(response.status).toEqual(200);
+      expect(await response.text()).toEqual('Message');
     });
   });
 });

@@ -10,3 +10,4 @@ export * from './life-cycle.js';
 export * from './shared-interfaces.js';
 
 export * from '../decorators/helpers/class-properties.js';
+export { Container } from '../decorators/helpers/container.js';

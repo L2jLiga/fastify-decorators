@@ -1,9 +1,10 @@
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { IErrorHandler } from '../../interfaces/index.js';
 import { createErrorsHandler } from './create-errors-handler.js';
 
 describe('Helpers: create errors handler', () => {
   it('should create error handler which will catch errors specified', () => {
-    const expectedError = new Error('Smth went wrong');
+    const expectedError = new Error('Something went wrong');
     const errorHandlerDescription: IErrorHandler = {
       accepts(): boolean {
         return true;
@@ -18,12 +19,11 @@ describe('Helpers: create errors handler', () => {
 
     const handler = createErrorsHandler([errorHandlerDescription], instance);
 
-    // @ts-expect-error set request and reply to nulls, this should not happen IRL
-    return expect(handler(expectedError, null, null)).resolves.toBeUndefined();
+    return expect(handler(expectedError, {} as FastifyRequest, {} as FastifyReply)).resolves.toBeUndefined();
   });
 
   it('should throw error when no handlers match', () => {
-    const expectedError = new Error('Smth went wrong');
+    const expectedError = new Error('Something went wrong');
     const errorHandlerDescription: IErrorHandler = {
       accepts(): boolean {
         return false;
@@ -34,12 +34,11 @@ describe('Helpers: create errors handler', () => {
 
     const handler = createErrorsHandler([errorHandlerDescription], instance);
 
-    // @ts-expect-error set request and reply to nulls, this should not happens IRL
-    return expect(handler(expectedError, null, null)).rejects.toEqual(expectedError);
+    return expect(handler(expectedError, {} as FastifyRequest, {} as FastifyReply)).rejects.toEqual(expectedError);
   });
 
   it('should throw to next error handler when previous throws', () => {
-    const expectedError = new Error('Smth went wrong');
+    const expectedError = new Error('Something went wrong');
     const errorHandlers: IErrorHandler[] = [
       {
         accepts(): boolean {
@@ -66,7 +65,6 @@ describe('Helpers: create errors handler', () => {
 
     const handler = createErrorsHandler(errorHandlers, instance);
 
-    // @ts-expect-error set request and reply to nulls, this should not happens IRL
-    return expect(handler(expectedError, null, null)).resolves.toBeUndefined();
+    return expect(handler(expectedError, {} as FastifyRequest, {} as FastifyReply)).resolves.toBeUndefined();
   });
 });

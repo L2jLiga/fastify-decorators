@@ -8,10 +8,10 @@
 
 import type { FastifyInstance } from 'fastify';
 import type { ControllerConfig } from '../interfaces/index.js';
-import { Registrable } from '../plugins/shared-interfaces.js';
+import { Constructable, Registrable } from '../plugins/shared-interfaces.js';
 import { ControllerType } from '../registry/controller-type.js';
 import { CREATOR } from '../symbols/index.js';
-import { injectControllerOptions } from './helpers/inject-controller-options.js';
+import { ensureRegistrable } from './helpers/ensure-registrable.js';
 import { ControllerTypeStrategies } from './strategies/controller-type.js';
 
 function makeConfig(config?: string | ControllerConfig): Required<ControllerConfig> {
@@ -27,10 +27,10 @@ export function Controller(): ClassDecorator;
 export function Controller(route: string): ClassDecorator;
 export function Controller(config: ControllerConfig): ClassDecorator;
 export function Controller(config?: string | ControllerConfig): unknown {
-  return (controller: Registrable): void => {
+  return (controller: Constructable): void => {
     const { route, type, tags } = makeConfig(config);
 
-    injectControllerOptions(controller);
+    ensureRegistrable(controller);
 
     controller[CREATOR].register = async (instance: FastifyInstance, prefix = '') => {
       let controllerInstance;

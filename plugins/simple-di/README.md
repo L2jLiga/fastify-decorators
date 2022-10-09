@@ -47,7 +47,7 @@ import { Service } from '@fastify-decorators/simple-di';
 @Service()
 export class MyService {
   calculate() {
-    doSmth();
+    doSomething();
   }
 }
 ```
@@ -152,7 +152,7 @@ export class SampleController {
 
   @GET()
   async index() {
-    return this.service.doSmth();
+    return this.service.doSomething();
   }
 }
 ```
@@ -173,7 +173,7 @@ export class SampleController {
 
   @GET()
   async index() {
-    return this.service.doSmth();
+    return this.service.doSomething();
   }
 }
 ```
@@ -193,7 +193,7 @@ export class SampleController {
 
   @GET()
   async index() {
-    return this.service.doSmth();
+    return this.service.doSomething();
   }
 }
 ```

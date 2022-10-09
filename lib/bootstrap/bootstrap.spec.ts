@@ -5,115 +5,115 @@ import SampleControllerMock from './mocks/controllers/sample.controller.mock.js'
 
 describe('Bootstrap test', () => {
   it('should autoload controller when path given', async () => {
-    const instance = await import('fastify').then((m) => m.fastify());
-    instance.register(bootstrap, {
+    const fastifyInstance = await import('fastify').then((m) => m.fastify());
+    fastifyInstance.register(bootstrap, {
       directory: resolve(dirname(fileURLToPath(import.meta.url)), 'mocks'),
       mask: /\.controller\.mock\.ts/,
     });
 
-    const res = await instance.inject({ url: '/index' });
+    const response = await fastifyInstance.inject({ url: '/index' });
 
-    expect(res.payload).toBe('{"message":"ok"}');
+    expect(response.json()).toEqual({ message: 'ok' });
   });
 
   it('should autoload controller when URL given', async () => {
-    const instance = await import('fastify').then((m) => m.fastify());
-    instance.register(bootstrap, {
+    const fastifyInstance = await import('fastify').then((m) => m.fastify());
+    fastifyInstance.register(bootstrap, {
       directory: new URL('mocks', import.meta.url),
       mask: /\.controller\.mock\.ts/,
     });
 
-    const res = await instance.inject({ url: '/index' });
+    const response = await fastifyInstance.inject({ url: '/index' });
 
-    expect(res.payload).toBe('{"message":"ok"}');
+    expect(response.json()).toEqual({ message: 'ok' });
   });
 
   it('should autoload controller when import.meta.url given', async () => {
-    const instance = await import('fastify').then((m) => m.fastify());
-    instance.register(bootstrap, {
+    const fastifyInstance = await import('fastify').then((m) => m.fastify());
+    fastifyInstance.register(bootstrap, {
       directory: import.meta.url,
       mask: /\.controller\.mock\.ts/,
     });
 
-    const res = await instance.inject({ url: '/index' });
+    const response = await fastifyInstance.inject({ url: '/index' });
 
-    expect(res.payload).toBe('{"message":"ok"}');
+    expect(response.json()).toEqual({ message: 'ok' });
   });
 
   it('should autoload controller when file URL given', async () => {
-    const instance = await import('fastify').then((m) => m.fastify());
-    instance.register(bootstrap, {
+    const fastifyInstance = await import('fastify').then((m) => m.fastify());
+    fastifyInstance.register(bootstrap, {
       directory: new URL(import.meta.url),
       mask: /\.controller\.mock\.ts/,
     });
 
-    const res = await instance.inject({ url: '/index' });
+    const response = await fastifyInstance.inject({ url: '/index' });
 
-    expect(res.payload).toBe('{"message":"ok"}');
+    expect(response.json()).toEqual({ message: 'ok' });
   });
 
   it('should bootstrap request handler', async () => {
-    const instance = await import('fastify').then((m) => m.fastify());
-    instance.register(bootstrap, {
+    const fastifyInstance = await import('fastify').then((m) => m.fastify());
+    fastifyInstance.register(bootstrap, {
       directory: new URL('mocks', import.meta.url),
       mask: /\.handler\.mock\.ts/,
     });
 
-    const res = await instance.inject({ url: '/index' });
+    const response = await fastifyInstance.inject({ url: '/index' });
 
-    expect(res.payload).toBe('{"message":"ok"}');
+    expect(response.json()).toEqual({ message: 'ok' });
   });
 
   it('should be able to bootstrap when mask is string', async () => {
-    const instance = await import('fastify').then((m) => m.fastify());
-    instance.register(bootstrap, {
+    const fastifyInstance = await import('fastify').then((m) => m.fastify());
+    fastifyInstance.register(bootstrap, {
       directory: new URL('mocks', import.meta.url),
       mask: '.handler.mock.ts',
     });
 
-    const res = await instance.inject({ url: '/index' });
+    const response = await fastifyInstance.inject({ url: '/index' });
 
-    expect(res.payload).toBe('{"message":"ok"}');
+    expect(response.json()).toEqual({ message: 'ok' });
   });
 
   it('should not bootstrap server when try to bootstrap controllers/handlers with same routes', async () => {
-    const instance = await import('fastify').then((m) => m.fastify());
-    instance.register(bootstrap, {
+    const fastifyInstance = await import('fastify').then((m) => m.fastify());
+    fastifyInstance.register(bootstrap, {
       directory: new URL('mocks', import.meta.url),
       mask: /\.mock\.ts/,
     });
 
-    await expect(instance.inject({ url: '/index' })).rejects.toThrow();
+    await expect(fastifyInstance.inject({ url: '/index' })).rejects.toThrow();
   });
 
   it('should load specified controllers', async () => {
-    const instance = await import('fastify').then((m) => m.fastify());
-    instance.register(bootstrap, {
+    const fastifyInstance = await import('fastify').then((m) => m.fastify());
+    fastifyInstance.register(bootstrap, {
       controllers: [SampleControllerMock],
     });
 
-    const res = await instance.inject({ url: '/index' });
+    const response = await fastifyInstance.inject({ url: '/index' });
 
-    expect(res.payload).toBe('{"message":"ok"}');
+    expect(response.json()).toEqual({ message: 'ok' });
   });
 
   it('should apply global prefix for routes', async () => {
-    const instance = await import('fastify').then((m) => m.fastify());
-    instance.register(bootstrap, {
+    const fastifyInstance = await import('fastify').then((m) => m.fastify());
+    fastifyInstance.register(bootstrap, {
       controllers: [SampleControllerMock],
       prefix: '/api/v1',
     });
 
-    const res = await instance.inject({ url: '/api/v1/index' });
+    const response = await fastifyInstance.inject({ url: '/api/v1/index' });
 
-    expect(res.payload).toBe('{"message":"ok"}');
+    expect(response.json()).toEqual({ message: 'ok' });
   });
 
   it('should throw an error while bootstrap application', async () => {
-    const instance = await import('fastify').then((m) => m.fastify());
+    const fastifyInstance = await import('fastify').then((m) => m.fastify());
 
     await expect(
-      instance.register(bootstrap, {
+      fastifyInstance.register(bootstrap, {
         directory: new URL('mocks/controllers', import.meta.url),
         mask: /\.ts/,
       }),
@@ -121,18 +121,18 @@ describe('Bootstrap test', () => {
   });
 
   it('should skip broken controller', async () => {
-    const instance = await import('fastify').then((m) => m.fastify());
+    const fastifyInstance = await import('fastify').then((m) => m.fastify());
 
-    await instance.register(bootstrap, {
+    await fastifyInstance.register(bootstrap, {
       directory: new URL('mocks/controllers', import.meta.url),
       mask: /\.ts/,
       skipBroken: true,
     });
 
-    const res1 = await instance.inject({ url: '/index' });
-    const res2 = await instance.inject({ url: '/broken' });
+    const response1 = await fastifyInstance.inject({ url: '/index' });
+    const response2 = await fastifyInstance.inject({ url: '/broken' });
 
-    expect(res1.payload).toBe('{"message":"ok"}');
-    expect(res2.statusCode).toBe(404);
+    expect(response1.json()).toEqual({ message: 'ok' });
+    expect(response2.statusCode).toBe(404);
   });
 });

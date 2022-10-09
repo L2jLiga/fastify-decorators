@@ -1,26 +1,18 @@
 import { getInstanceByToken } from '@fastify-decorators/simple-di';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { Controller, GET } from 'fastify-decorators';
+import { BaseEndpoints } from './base-endpoints.js';
 import { InjectableAsyncService } from './injectable-async-service.js';
 import { InjectableService, injectableServiceToken } from './injectable.service.js';
 
 @Controller('/dependency-injection/get-instance-by-token')
-export default class GetInstanceByTokenController {
-  private _injectableAsyncService = getInstanceByToken<InjectableAsyncService>(InjectableAsyncService);
-  private _injectableService = getInstanceByToken<InjectableService>(InjectableService);
+export default class GetInstanceByTokenController extends BaseEndpoints {
+  protected _injectableAsyncService = getInstanceByToken<InjectableAsyncService>(InjectableAsyncService);
+  protected _injectableService = getInstanceByToken<InjectableService>(InjectableService);
   private _injectableByTokenService = getInstanceByToken<InjectableService>(injectableServiceToken);
 
-  @GET('/sync')
-  async getSync(): Promise<string> {
-    return this._injectableService.getMessage();
-  }
-
   @GET('/sync/v2')
-  async getSyncV2(): Promise<string> {
-    return this._injectableByTokenService.getMessage();
-  }
-
-  @GET('/async')
-  async getAsync(): Promise<string> {
-    return this._injectableAsyncService.getMessage();
+  getSyncV2(request: FastifyRequest, reply: FastifyReply): void {
+    reply.send(this._injectableByTokenService.getMessage());
   }
 }

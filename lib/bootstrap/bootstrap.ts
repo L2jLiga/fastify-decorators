@@ -19,15 +19,15 @@ import { isValidRegistrable } from '../utils/validators.js';
 const defaultMask = /\.(handler|controller)\./;
 
 export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig>(
-  async (fastify, config) => {
-    await transformAndWait(hooksRegistry.appInit, (hook) => hook(fastify));
+  async (fastifyInstance, config) => {
+    await transformAndWait(hooksRegistry.appInit, (hook) => hook(fastifyInstance));
 
-    if ('directory' in config) await transformAndWait(autoLoadModules(config), loadRegistrable.bind(fastify, config));
-    if ('controllers' in config) await transformAndWait(config.controllers, loadRegistrable.bind(fastify, config));
+    if ('directory' in config) await transformAndWait(autoLoadModules(config), loadRegistrable.bind(fastifyInstance, config));
+    if ('controllers' in config) await transformAndWait(config.controllers, loadRegistrable.bind(fastifyInstance, config));
 
-    await transformAndWait(hooksRegistry.appReady, (hook) => hook(fastify));
+    await transformAndWait(hooksRegistry.appReady, (hook) => hook(fastifyInstance));
 
-    fastify.addHook('onClose', () => transformAndWait(hooksRegistry.appDestroy, (hook) => hook(fastify)));
+    fastifyInstance.addHook('onClose', () => transformAndWait(hooksRegistry.appDestroy, (hook) => hook(fastifyInstance)));
   },
   {
     fastify: '^3.0.0 || ^4.0.0-alpha.0 || ^4.0.0-rc.0 || ^4.0.0',
@@ -37,9 +37,9 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
 
 function autoLoadModules(config: AutoLoadConfig): AsyncIterable<Constructable<unknown>> {
   const flags = config.mask instanceof RegExp ? config.mask.flags.replace('g', '') : '';
-  const filter = config.mask ? new RegExp(config.mask, flags) : defaultMask;
+  const mask = config.mask ? new RegExp(config.mask, flags) : defaultMask;
 
-  return readModulesRecursively(parsePath(config.directory), filter);
+  return readModulesRecursively(parsePath(config.directory), mask);
 }
 
 function parsePath(directory: PathLike): URL {
@@ -50,7 +50,7 @@ function parsePath(directory: PathLike): URL {
   return url;
 }
 
-async function* readModulesRecursively(parentUrl: URL, filter: RegExp): AsyncIterable<Constructable<unknown>> {
+async function* readModulesRecursively(parentUrl: URL, mask: RegExp): AsyncIterable<Constructable<unknown>> {
   const dir = opendirSync(parentUrl);
   parentUrl.pathname += '/';
 
@@ -61,8 +61,8 @@ async function* readModulesRecursively(parentUrl: URL, filter: RegExp): AsyncIte
 
       const fullFilePath = new URL(dirent.name, parentUrl);
       if (dirent.isDirectory()) {
-        yield* readModulesRecursively(fullFilePath, filter);
-      } else if (filter.test(dirent.name)) {
+        yield* readModulesRecursively(fullFilePath, mask);
+      } else if (mask.test(dirent.name)) {
         yield import(fullFilePath.toString()).then((m) => m.default);
       }
     }

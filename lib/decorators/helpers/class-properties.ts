@@ -8,11 +8,12 @@
 
 import { IErrorHandler, IHandler, IHook } from '../../interfaces/index.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
+import { Container } from './container.js';
 
-export function ensureHandlers(val: { [HANDLERS]?: IHandler[] }): asserts val is { [HANDLERS]: IHandler[] } {
-  if (!(HANDLERS in val)) {
-    Reflect.defineProperty(val, HANDLERS, {
-      value: [],
+export function ensureHandlers(target: { [HANDLERS]?: Container<IHandler> }): asserts target is { [HANDLERS]: Container<IHandler> } {
+  if (!Object.prototype.hasOwnProperty.call(target, HANDLERS)) {
+    Reflect.defineProperty(target, HANDLERS, {
+      value: new Container(target[HANDLERS] as Container<IHandler>),
       enumerable: false,
       configurable: false,
       writable: false,
@@ -20,14 +21,14 @@ export function ensureHandlers(val: { [HANDLERS]?: IHandler[] }): asserts val is
   }
 }
 
-export function hasHandlers<Class>(val: Class): val is Class & { [HANDLERS]: IHandler[] } {
-  return HANDLERS in val;
+export function hasHandlers<Class>(target: Class): target is Class & { [HANDLERS]: Container<IHandler> } {
+  return HANDLERS in target;
 }
 
-export function ensureErrorHandlers(val: { [ERROR_HANDLERS]?: IErrorHandler[] }): asserts val is { [ERROR_HANDLERS]: IErrorHandler[] } {
-  if (!(ERROR_HANDLERS in val)) {
-    Reflect.defineProperty(val, ERROR_HANDLERS, {
-      value: [],
+export function ensureErrorHandlers(target: { [ERROR_HANDLERS]?: Container<IErrorHandler> }): asserts target is { [ERROR_HANDLERS]: Container<IErrorHandler> } {
+  if (!Object.prototype.hasOwnProperty.call(target, ERROR_HANDLERS)) {
+    Reflect.defineProperty(target, ERROR_HANDLERS, {
+      value: new Container(target[ERROR_HANDLERS] as Container<IErrorHandler>),
       enumerable: false,
       configurable: false,
       writable: false,
@@ -35,14 +36,14 @@ export function ensureErrorHandlers(val: { [ERROR_HANDLERS]?: IErrorHandler[] })
   }
 }
 
-export function hasErrorHandlers<Class>(val: Class): val is Class & { [ERROR_HANDLERS]: IErrorHandler[] } {
-  return ERROR_HANDLERS in val;
+export function hasErrorHandlers<Class>(target: Class): target is Class & { [ERROR_HANDLERS]: Container<IErrorHandler> } {
+  return ERROR_HANDLERS in target;
 }
 
-export function ensureHooks(val: { [HOOKS]?: IHook[] }): asserts val is { [HOOKS]: IHook[] } {
-  if (!(HOOKS in val)) {
-    Reflect.defineProperty(val, HOOKS, {
-      value: [],
+export function ensureHooks(target: { [HOOKS]?: Container<IHook> }): asserts target is { [HOOKS]: Container<IHook> } {
+  if (!Object.prototype.hasOwnProperty.call(target, HOOKS)) {
+    Reflect.defineProperty(target, HOOKS, {
+      value: new Container(target[HOOKS] as Container<IHook>),
       enumerable: false,
       configurable: false,
       writable: false,
@@ -50,6 +51,6 @@ export function ensureHooks(val: { [HOOKS]?: IHook[] }): asserts val is { [HOOKS
   }
 }
 
-export function hasHooks<Class>(val: Class): val is Class & { [HOOKS]: IHook[] } {
-  return HOOKS in val;
+export function hasHooks<Class>(target: Class): target is Class & { [HOOKS]: Container<IHook> } {
+  return HOOKS in target;
 }
