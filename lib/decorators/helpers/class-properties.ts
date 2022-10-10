@@ -9,11 +9,12 @@
 import { IErrorHandler, IHandler, IHook } from '../../interfaces/controller.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS, SERVICE_INJECTION } from '../../symbols/index.js';
 import { ServiceInjection } from './inject-dependencies.js';
+import { Container } from './container.js';
 
-export function ensureHandlers(val: { [HANDLERS]?: IHandler[] }): asserts val is { [HANDLERS]: IHandler[] } {
-  if (!(HANDLERS in val)) {
-    Reflect.defineProperty(val, HANDLERS, {
-      value: [],
+export function ensureHandlers(target: { [HANDLERS]?: Container<IHandler> }): asserts target is { [HANDLERS]: Container<IHandler> } {
+  if (!Object.prototype.hasOwnProperty.call(target, HANDLERS)) {
+    Reflect.defineProperty(target, HANDLERS, {
+      value: new Container(target[HANDLERS]),
       enumerable: false,
       configurable: false,
       writable: false,
@@ -21,14 +22,14 @@ export function ensureHandlers(val: { [HANDLERS]?: IHandler[] }): asserts val is
   }
 }
 
-export function hasHandlers<Constructor>(val: Constructor): val is Constructor & { [HANDLERS]: IHandler[] } {
-  return HANDLERS in val;
+export function hasHandlers<Constructor>(target: Constructor): target is Constructor & { [HANDLERS]: Container<IHandler> } {
+  return HANDLERS in target;
 }
 
-export function ensureErrorHandlers(val: { [ERROR_HANDLERS]?: IErrorHandler[] }): asserts val is { [ERROR_HANDLERS]: IErrorHandler[] } {
-  if (!(ERROR_HANDLERS in val)) {
-    Reflect.defineProperty(val, ERROR_HANDLERS, {
-      value: [],
+export function ensureErrorHandlers(target: { [ERROR_HANDLERS]?: Container<IErrorHandler> }): asserts target is { [ERROR_HANDLERS]: Container<IErrorHandler> } {
+  if (!Object.prototype.hasOwnProperty.call(target, ERROR_HANDLERS)) {
+    Reflect.defineProperty(target, ERROR_HANDLERS, {
+      value: new Container(target[ERROR_HANDLERS]),
       enumerable: false,
       configurable: false,
       writable: false,
@@ -36,14 +37,14 @@ export function ensureErrorHandlers(val: { [ERROR_HANDLERS]?: IErrorHandler[] })
   }
 }
 
-export function hasErrorHandlers<T>(val: T): val is T & { [ERROR_HANDLERS]: IErrorHandler[] } {
-  return ERROR_HANDLERS in val;
+export function hasErrorHandlers<T>(target: T): target is T & { [ERROR_HANDLERS]: Container<IErrorHandler> } {
+  return ERROR_HANDLERS in target;
 }
 
-export function ensureHooks(val: { [HOOKS]?: IHook[] }): asserts val is { [HOOKS]: IHook[] } {
-  if (!(HOOKS in val)) {
-    Reflect.defineProperty(val, HOOKS, {
-      value: [],
+export function ensureHooks(target: { [HOOKS]?: Container<IHook> }): asserts target is { [HOOKS]: Container<IHook> } {
+  if (!Object.prototype.hasOwnProperty.call(target, HOOKS)) {
+    Reflect.defineProperty(target, HOOKS, {
+      value: new Container(target[HOOKS]),
       enumerable: false,
       configurable: false,
       writable: false,
@@ -51,14 +52,16 @@ export function ensureHooks(val: { [HOOKS]?: IHook[] }): asserts val is { [HOOKS
   }
 }
 
-export function hasHooks<T>(val: T): val is T & { [HOOKS]: IHook[] } {
-  return HOOKS in val;
+export function hasHooks<T>(target: T): target is T & { [HOOKS]: Container<IHook> } {
+  return HOOKS in target;
 }
 
-export function ensureServiceInjection(val: { [SERVICE_INJECTION]?: ServiceInjection[] }): asserts val is { [SERVICE_INJECTION]: ServiceInjection[] } {
-  if (!(SERVICE_INJECTION in val)) {
-    Reflect.defineProperty(val, SERVICE_INJECTION, {
-      value: [],
+export function ensureServiceInjection(target: {
+  [SERVICE_INJECTION]?: Container<ServiceInjection>;
+}): asserts target is { [SERVICE_INJECTION]: Container<ServiceInjection> } {
+  if (!Object.prototype.hasOwnProperty.call(target, SERVICE_INJECTION)) {
+    Reflect.defineProperty(target, SERVICE_INJECTION, {
+      value: new Container(target[SERVICE_INJECTION]),
       enumerable: false,
       configurable: false,
       writable: false,
@@ -66,6 +69,6 @@ export function ensureServiceInjection(val: { [SERVICE_INJECTION]?: ServiceInjec
   }
 }
 
-export function hasServiceInjection<T>(val: T): val is T & { [SERVICE_INJECTION]: ServiceInjection[] } {
+export function hasServiceInjection<T>(val: T): val is T & { [SERVICE_INJECTION]: Container<ServiceInjection> } {
   return SERVICE_INJECTION in val;
 }

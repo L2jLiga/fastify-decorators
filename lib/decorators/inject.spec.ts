@@ -1,5 +1,6 @@
 import { Injectables } from '../interfaces/injectable-class.js';
 import { SERVICE_INJECTION } from '../symbols/index.js';
+import { hasServiceInjection } from './helpers/class-properties.js';
 import { ServiceInjection } from './helpers/inject-dependencies.js';
 import { Inject } from './inject.js';
 
@@ -15,8 +16,9 @@ describe('Decorator: @Inject', () => {
       srv: unknown;
     }
 
-    // @ts-expect-error SERVICE_INJECTION implicitly created by @Inject
-    const viaInject: ServiceInjection[] = Target.prototype[SERVICE_INJECTION];
+    if (!hasServiceInjection(Target.prototype)) throw new Error('Inject does not work, please check');
+
+    const viaInject: ServiceInjection[] = [...Target.prototype[SERVICE_INJECTION]];
 
     expect(viaInject).toHaveLength(1);
     expect(viaInject[0]).toEqual({ propertyKey: 'srv', name: InjectToken });
@@ -31,8 +33,9 @@ describe('Decorator: @Inject', () => {
       srv2: unknown;
     }
 
-    // @ts-expect-error SERVICE_INJECTION implicitly created by @Inject
-    const viaInject: ServiceInjection[] = Target.prototype[SERVICE_INJECTION];
+    if (!hasServiceInjection(Target.prototype)) throw new Error('Inject does not work, please check');
+
+    const viaInject: ServiceInjection[] = [...Target.prototype[SERVICE_INJECTION]];
 
     expect(viaInject).toHaveLength(2);
     expect(viaInject[0]).toEqual({ propertyKey: 'srv', name: InjectToken });

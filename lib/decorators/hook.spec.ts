@@ -1,5 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
+import { IHook } from '../interfaces/index.js';
 import { HOOKS } from '../symbols/index.js';
+import { Container } from './helpers/container.js';
 import { Hook } from './hook.js';
 
 describe('Decorators: @IHook', () => {
@@ -12,7 +14,10 @@ describe('Decorators: @IHook', () => {
     }
 
     // @ts-expect-error HOOKS created implicitly
-    expect(Controller[HOOKS][0]).toEqual({
+    const hooks = Controller[HOOKS] as Container<IHook>;
+
+    expect(hooks).toHaveLength(1);
+    expect([...hooks][0]).toEqual({
       name: 'onSend',
       handlerName: 'onSendHook',
     });

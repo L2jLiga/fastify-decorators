@@ -1,6 +1,7 @@
 import { IErrorHandler, IHandler, IHook } from '../../interfaces/controller.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import { ensureErrorHandlers, ensureHandlers, ensureHooks, hasErrorHandlers, hasHandlers, hasHooks } from './class-properties.js';
+import { Container } from './container.js';
 
 describe('Helpers: class properties', () => {
   describe('ensure object has handlers symbol', () => {
@@ -9,11 +10,11 @@ describe('Helpers: class properties', () => {
 
       ensureHandlers(obj);
 
-      expect(obj[HANDLERS]).toEqual([]);
+      expect(obj[HANDLERS]).toBeInstanceOf(Container);
     });
 
     it('should not create when exists', () => {
-      const handlers: IHandler[] = [];
+      const handlers = new Container<IHandler>();
       const obj = {
         [HANDLERS]: handlers,
       };
@@ -35,7 +36,7 @@ describe('Helpers: class properties', () => {
 
     it('should return true when exists', () => {
       const obj = {
-        [HANDLERS]: [],
+        [HANDLERS]: new Container(),
       };
 
       const result = hasHandlers(obj);
@@ -50,11 +51,11 @@ describe('Helpers: class properties', () => {
 
       ensureErrorHandlers(obj);
 
-      expect(obj[ERROR_HANDLERS]).toEqual([]);
+      expect(obj[ERROR_HANDLERS]).toBeInstanceOf(Container);
     });
 
     it('should not create when exists', () => {
-      const errorHandlers: IErrorHandler[] = [];
+      const errorHandlers = new Container<IErrorHandler>();
       const obj = {
         [ERROR_HANDLERS]: errorHandlers,
       };
@@ -76,7 +77,7 @@ describe('Helpers: class properties', () => {
 
     it('should return true when exists', () => {
       const obj = {
-        [ERROR_HANDLERS]: [],
+        [ERROR_HANDLERS]: new Container<IErrorHandler>(),
       };
 
       const result = hasErrorHandlers(obj);
@@ -91,11 +92,11 @@ describe('Helpers: class properties', () => {
 
       ensureHooks(obj);
 
-      expect(obj[HOOKS]).toEqual([]);
+      expect(obj[HOOKS]).toBeInstanceOf(Container);
     });
 
     it('should not create when exists', () => {
-      const hooks: IHook[] = [];
+      const hooks = new Container<IHook>();
       const obj = {
         [HOOKS]: hooks,
       };
@@ -117,7 +118,7 @@ describe('Helpers: class properties', () => {
 
     it('should return true when exists', () => {
       const obj = {
-        [HOOKS]: [],
+        [HOOKS]: new Container<IHook>(),
       };
 
       const result = hasHooks(obj);

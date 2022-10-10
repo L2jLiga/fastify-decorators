@@ -1,29 +1,23 @@
-import { FASTIFY_REPLY, FASTIFY_REQUEST, SERVICE_INJECTION } from '../../symbols/index.js';
+import { ERROR_HANDLERS, FASTIFY_REPLY, FASTIFY_REQUEST, HANDLERS, HOOKS, SERVICE_INJECTION } from '../../symbols/index.js';
 import { hasErrorHandlers, hasHandlers, hasHooks, hasServiceInjection } from './class-properties.js';
 import { Constructor } from './inject-dependencies.js';
 
 export function patchMethods<C>(constructor: Constructor<C>): void {
-  if (hasHandlers(constructor)) patchHandlers(constructor);
-  if (hasErrorHandlers(constructor)) patchErrorsHandlers(constructor);
-  if (hasHooks(constructor)) patchHooks(constructor);
+  patchHandlers(constructor);
+  patchErrorsHandlers(constructor);
+  patchHooks(constructor);
 }
 
-function patchHandlers(constructor: any): void {
-  constructor[Symbol.for('fastify-decorators.handlers')].forEach((it: { handlerMethod: string | symbol }) => {
-    patchMethod(constructor, it.handlerMethod);
-  });
+function patchHandlers<C>(constructor: Constructor<C>): void {
+  if (hasHandlers(constructor)) for (const it of constructor[HANDLERS]) patchMethod(constructor, it.handlerMethod);
 }
 
-function patchErrorsHandlers(constructor: any): void {
-  constructor[Symbol.for('fastify-decorators.error-handlers')].forEach((it: { handlerName: string | symbol }) => {
-    patchMethod(constructor, it.handlerName);
-  });
+function patchErrorsHandlers<C>(constructor: Constructor<C>): void {
+  if (hasErrorHandlers(constructor)) for (const it of constructor[ERROR_HANDLERS]) patchMethod(constructor, it.handlerName);
 }
 
-function patchHooks(constructor: any): void {
-  constructor[Symbol.for('fastify-decorators.hooks')].forEach((it: { handlerName: string | symbol }) => {
-    patchMethod(constructor, it.handlerName);
-  });
+function patchHooks<C>(constructor: Constructor<C>): void {
+  if (hasHooks(constructor)) for (const it of constructor[HOOKS]) patchMethod(constructor, it.handlerName);
 }
 
 function patchMethod(constructor: any, methodName: string | symbol): void {

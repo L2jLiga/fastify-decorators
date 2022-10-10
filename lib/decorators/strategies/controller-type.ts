@@ -58,7 +58,7 @@ export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory>
     const getTarget = targetFactory(constructor, classLoader);
 
     if (hasHandlers(constructor))
-      constructor[HANDLERS].forEach((handler) => {
+      for (const handler of constructor[HANDLERS]) {
         const { url, method, handlerMethod, options } = handler;
 
         instance[method](
@@ -68,7 +68,7 @@ export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory>
             return getTarget(request)[handlerMethod](request, ...args);
           },
         );
-      });
+      }
 
     if (hasErrorHandlers(constructor))
       instance.setErrorHandler((error, request, ...rest) => {
@@ -78,41 +78,41 @@ export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory>
       });
 
     if (hasHooks(constructor))
-      constructor[HOOKS].forEach((hook) =>
+      for (const hook of constructor[HOOKS]) {
         instance.addHook(hook.name as 'onRequest', (request: FastifyRequest, ...rest: unknown[]) => {
           return getTarget(request)[hook.handlerName](request, ...rest);
-        }),
-      );
+        });
+      }
   },
 };
 
 function registerHandlers(
-  handlers: IHandler[],
+  handlers: Iterable<IHandler>,
   instance: FastifyInstance,
   controllerInstance: Record<string, (request: FastifyRequest, reply: FastifyReply) => void>,
   tags: TagObject[],
 ): void {
-  handlers.forEach((handler) => {
+  for (const handler of handlers) {
     instance[handler.method](
       handler.url,
       tags.length > 0 ? { ...handler.options, schema: { tags: tags.map((it) => it.name), ...handler.options.schema } as FastifySchema } : handler.options,
       (...args) => controllerInstance[handler.handlerMethod as string](...args),
     );
-  });
+  }
 }
 
 function registerHooks(
-  hooks: IHook[],
+  hooks: Iterable<IHook>,
   instance: FastifyInstance,
   controllerInstance: Record<string, (request: FastifyRequest, reply: FastifyReply) => void>,
 ): void {
-  hooks.forEach((hook) => {
+  for (const hook of hooks) {
     instance.addHook(hook.name as 'onRequest', controllerInstance[hook.handlerName as string].bind(controllerInstance));
-  });
+  }
 }
 
 function registerErrorHandlers(
-  errorHandlers: IErrorHandler[],
+  errorHandlers: Iterable<IErrorHandler>,
   instance: FastifyInstance,
   classInstance: Record<string, (error: Error, request: FastifyRequest, reply: FastifyReply) => void>,
 ) {

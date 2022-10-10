@@ -60,9 +60,9 @@ export async function configureControllerTest<C>(config: ControllerTestConfig<Co
   return instance;
 }
 
-function getInjectedProps(target: unknown): Array<unknown> {
+function* getInjectedProps(target: unknown): Iterable<unknown> {
   if (!hasServiceInjection(target)) return [];
-  return target[SERVICE_INJECTION].map((it) => it.name);
+  for (const value of target[SERVICE_INJECTION]) yield value.name;
 }
 
 function getConstructorArgs(constructor: InjectableClass): Array<unknown> {
