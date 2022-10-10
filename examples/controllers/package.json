@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "fastify": "^3.18.1",
-    "fastify-decorators": "^3.14.0",
+    "fastify-decorators": "^3.14.1",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
