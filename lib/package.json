@@ -52,7 +52,7 @@
     "node": ">= 10.16.0"
   },
   "dependencies": {
-    "fastify-plugin": "^2.0.0 || ^3.0.0"
+    "fastify-plugin": "^2.0.0 || ^3.0.0 || ^4.0.0"
   },
   "peerDependencies": {
     "@types/node": "*",

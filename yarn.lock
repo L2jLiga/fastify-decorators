@@ -2058,7 +2058,7 @@ fastify-oas@^3.0.8:
     js-yaml "^3.14.0"
     openapi3-ts "^1.4.0"
 
-"fastify-plugin@^2.0.0 || ^3.0.0", fastify-plugin@^3.0.0:
+"fastify-plugin@^2.0.0 || ^3.0.0 || ^4.0.0", fastify-plugin@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-3.0.1.tgz#79e84c29f401020f38b524f59f2402103fd21ed2"
   integrity sha512-qKcDXmuZadJqdTm6vlCqioEbyewF60b/0LOFCcYN1B6BIZGlYJumWWOYs70SFYLDAH4YqdE1cxH/RKMG7rFxgA==
