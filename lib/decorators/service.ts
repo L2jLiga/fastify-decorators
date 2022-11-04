@@ -19,9 +19,12 @@ export function Service(): ClassDecorator;
 export function Service(injectableToken: string | symbol): ClassDecorator;
 export function Service(injectableToken?: string | symbol): unknown {
   return (target: InjectableService) => {
+    let instance: unknown;
     target[CREATOR] = {
       register<Type>(classLoader: ClassLoader): Type {
-        const instance = classLoader<Type>(target);
+        const _instance = classLoader<Type>(target);
+        if (_instance === instance) return instance as Type;
+        instance = _instance;
 
         target[INITIALIZER]?.(instance);
         if (target[DESTRUCTOR]) destructors.set(target, target[DESTRUCTOR]);
