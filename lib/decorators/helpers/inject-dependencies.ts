@@ -25,8 +25,8 @@ declare namespace Reflect {
 
 const instances = new Map<Constructor<unknown>, unknown>();
 export function classLoaderFactory(injectables: Injectables, cacheResult: boolean): ClassLoader {
-  return function createWithInjectedDependencies<C>(constructor: Constructor<C>): C {
-    if (cacheResult && instances.has(constructor)) return instances.get(constructor) as C;
+  return function createWithInjectedDependencies<C>(constructor: Constructor<C>, useCached = cacheResult): C {
+    if (useCached && instances.has(constructor)) return instances.get(constructor) as C;
 
     /**
      * Step 1: Patch constructor and prototype with Injectables (issue #752)
@@ -50,7 +50,7 @@ export function classLoaderFactory(injectables: Injectables, cacheResult: boolea
     /**
      * Step 4: Optionally store instance in Map if cache enabled
      */
-    if (cacheResult && injectables.has(constructor)) instances.set(constructor, instance);
+    if (useCached && !instances.has(constructor)) instances.set(constructor, instance);
 
     /**
      * Step 4: Return instance with dependencies injected

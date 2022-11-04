@@ -20,7 +20,7 @@ const controllersCache = new WeakMap<FastifyRequest, unknown>();
 function targetFactory(constructor: InjectableController, classLoader: ClassLoader) {
   return function getTarget(request: FastifyRequest) {
     if (controllersCache.has(request)) return controllersCache.get(request);
-    const target = classLoader(constructor);
+    const target = classLoader(constructor, false);
     controllersCache.set(request, target);
     return target;
   };

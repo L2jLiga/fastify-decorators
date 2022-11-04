@@ -17,6 +17,48 @@ describe('Helpers: inject dependencies', () => {
     };
   }
 
+  describe('Caching', () => {
+    it('should not cache result when cacheResult is falsy', () => {
+      const classLoader = classLoaderFactory(new Map(), false);
+      class Constructable {}
+
+      const first = classLoader(Constructable);
+      const second = classLoader(Constructable);
+
+      expect(first).not.toBe(second);
+    });
+
+    it('should cache result when cacheResult is falsy and useCached is overridden as truthy', () => {
+      const classLoader = classLoaderFactory(new Map(), false);
+      class Constructable {}
+
+      const first = classLoader(Constructable, true);
+      const second = classLoader(Constructable, true);
+
+      expect(first).toBe(second);
+    });
+
+    it('should cache result when cacheResult is truthy', () => {
+      const classLoader = classLoaderFactory(new Map(), true);
+      class Constructable {}
+
+      const first = classLoader(Constructable);
+      const second = classLoader(Constructable);
+
+      expect(first).toBe(second);
+    });
+
+    it('should not cache result when cacheResult is truthy and useCached is overridden as falsy', () => {
+      const classLoader = classLoaderFactory(new Map(), true);
+      class Constructable {}
+
+      const first = classLoader(Constructable, false);
+      const second = classLoader(Constructable, false);
+
+      expect(first).not.toBe(second);
+    });
+  });
+
   describe('Defined in constructor', () => {
     it('should not try to inject when Reflect metadata not available', () => {
       // @ts-expect-error `forcefully` disable reflect-metadata
