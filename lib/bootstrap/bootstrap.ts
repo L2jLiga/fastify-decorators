@@ -10,14 +10,13 @@ import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 import { lstatSync, PathLike, readdirSync } from 'fs';
 import { fileURLToPath, URL } from 'url';
-import { servicesWithDestructors } from '../decorators/destructor.js';
 import { classLoaderFactory, Constructor } from '../decorators/helpers/inject-dependencies.js';
 import { readyMap } from '../decorators/index.js';
 import type { AutoLoadConfig, ClassLoader, ControllersListConfig } from '../interfaces/bootstrap-config.js';
 import type { BootstrapConfig, InjectableController } from '../interfaces/index.js';
+import { destructors } from '../registry/destructors.js';
 import { injectables } from '../registry/injectables.js';
 import { CLASS_LOADER, CREATOR, FastifyInstanceToken } from '../symbols/index.js';
-import { getInstanceByToken } from '../utils/get-instance-by-token.js';
 import { wrapInjectable } from '../utils/wrap-injectable.js';
 
 const defaultMask = /\.(handler|controller)\./;
@@ -43,7 +42,7 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
     await loadControllers({ controllers: [...controllers], skipBroken, prefix: config.prefix }, fastify);
     await Promise.all(readyMap.values());
 
-    if (servicesWithDestructors.size) useGracefulShutdown(fastify);
+    if (destructors.size) useGracefulShutdown(fastify);
   },
   {
     fastify: '^3.0.0 || ^4.0.0',
@@ -111,7 +110,7 @@ function verifyController(controller: Constructor<unknown>): controller is Injec
 }
 
 function useGracefulShutdown(fastify: FastifyInstance): void {
-  fastify.addHook('onClose', () =>
-    Promise.all([...servicesWithDestructors].map(([Service, property]) => getInstanceByToken<typeof Service>(Service)[property]())),
-  );
+  fastify.addHook('onClose', () => {
+    return Promise.all([...destructors].map(([Service, property]) => fastify[CLASS_LOADER]<typeof Service>(Service)[property]()));
+  });
 }

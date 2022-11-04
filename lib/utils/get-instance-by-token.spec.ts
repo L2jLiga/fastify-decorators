@@ -1,3 +1,5 @@
+import { classLoaderFactory } from '../decorators/helpers/inject-dependencies.js';
+import { Service } from '../decorators/index.js';
 import { InjectableService } from '../interfaces/injectable-class.js';
 import { injectables } from '../registry/injectables.js';
 import { CREATOR, FASTIFY_REPLY, FASTIFY_REQUEST, FastifyReplyToken, FastifyRequestToken } from '../symbols/index.js';
@@ -40,5 +42,16 @@ describe('Get instance by token', function () {
     const result = getInstanceByToken(token);
 
     expect(result).toBe(serviceInstance);
+  });
+
+  it('should be able to get instance created by class loader', () => {
+    const classLoader = classLoaderFactory(injectables, true);
+    @Service()
+    class MyService {}
+
+    const serviceFromClassLoader = classLoader(MyService);
+    const result = getInstanceByToken(MyService);
+
+    expect(result).toBe(serviceFromClassLoader);
   });
 });

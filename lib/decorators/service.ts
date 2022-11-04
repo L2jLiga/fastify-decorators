@@ -8,8 +8,9 @@
 
 import { ClassLoader } from '../interfaces/bootstrap-config.js';
 import { InjectableService } from '../interfaces/injectable-class.js';
+import { destructors } from '../registry/destructors.js';
 import { injectables } from '../registry/injectables.js';
-import { CREATOR, INITIALIZER } from '../symbols/index.js';
+import { CREATOR, DESTRUCTOR, INITIALIZER } from '../symbols/index.js';
 
 /**
  * Decorator for making classes injectable
@@ -27,6 +28,7 @@ export function Service(injectableToken?: string | symbol): unknown {
         instance = classLoader<Type>(target);
 
         target[INITIALIZER]?.(instance);
+        if (target[DESTRUCTOR]) destructors.set(target, target[DESTRUCTOR]);
 
         return instance as Type;
       },

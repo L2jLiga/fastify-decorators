@@ -1,7 +1,9 @@
-export const servicesWithDestructors = new Map();
+import { DESTRUCTOR } from '../symbols/index.js';
 
 export function Destructor(): PropertyDecorator {
-  return (target: any, propertyKey: string | symbol): void => {
-    servicesWithDestructors.set(target.constructor, propertyKey);
+  return (targetPrototype: any, propertyKey: string | symbol): void => {
+    const target = targetPrototype.constructor;
+
+    target[DESTRUCTOR] = propertyKey;
   };
 }

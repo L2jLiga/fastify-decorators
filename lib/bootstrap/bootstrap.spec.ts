@@ -1,15 +1,17 @@
-import { fastify, FastifyInstance } from 'fastify';
+import { fastify } from 'fastify';
 import { resolve, sep } from 'path';
 import { pathToFileURL, URL } from 'url';
-import { servicesWithDestructors } from '../decorators/destructor.js';
+import { Destructor } from '../decorators/destructor.js';
+import { Controller, Inject, Service } from '../decorators/index.js';
+import { destructors } from '../registry/destructors.js';
 import { injectables } from '../registry/injectables.js';
-import { wrapInjectable } from '../utils/wrap-injectable.js';
+import { CLASS_LOADER } from '../symbols/index.js';
 import { bootstrap } from './bootstrap.js';
 import SampleControllerMock from './mocks/controllers/sample.controller.mock.js';
 
 describe('Bootstrap test', () => {
   afterEach(() => {
-    servicesWithDestructors.clear();
+    destructors.clear();
     injectables.clear();
   });
 
@@ -138,25 +140,30 @@ describe('Bootstrap test', () => {
   });
 
   it('should define graceful shutdown', async () => {
-    class Foo {
+    @Service()
+    class NotUsed {
+      @Destructor()
       bar = jest.fn();
     }
 
-    const foo = new Foo();
-    injectables.set(Foo, wrapInjectable(foo));
-    servicesWithDestructors.set(Foo, 'bar');
-    const instance = {
-      addHook(hook: 'onClose', handler: () => Promise<void>) {
-        expect(hook).toBe('onClose');
-        expect(handler).toBeInstanceOf(Function);
-        handler();
-      },
-    } as FastifyInstance;
-    instance.decorate = () => instance;
+    @Service()
+    class Used {
+      @Destructor()
+      foo = jest.fn();
+    }
 
-    await bootstrap(instance, { controllers: [] });
+    @Controller('')
+    class TestController {
+      @Inject(Used) declare used: Used;
+    }
 
-    expect(foo.bar).toHaveBeenCalled();
+    const instance = fastify();
+
+    await bootstrap(instance, { controllers: [TestController] });
+    await instance.close();
+
+    expect(instance[CLASS_LOADER](Used).foo).toHaveBeenCalled();
+    expect(instance[CLASS_LOADER](NotUsed).bar).not.toHaveBeenCalled();
   });
 
   it('should support custom class loader', async () => {

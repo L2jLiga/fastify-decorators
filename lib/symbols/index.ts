@@ -8,6 +8,7 @@
 
 export const CREATOR = Symbol.for('fastify-decorators.creator');
 export const INITIALIZER = Symbol.for('fastify-decorators.initializer');
+export const DESTRUCTOR = Symbol.for('fastify-decorators.destructor');
 export const ERROR_HANDLERS = Symbol.for('fastify-decorators.error-handlers');
 export const HANDLERS = Symbol.for('fastify-decorators.handlers');
 export const HOOKS = Symbol.for('fastify-decorators.hooks');
