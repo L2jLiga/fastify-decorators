@@ -7,11 +7,9 @@
  */
 
 import type { FastifyInstance } from 'fastify';
-import { DESTRUCTOR } from '../symbols/index.js';
 import type { CREATOR, INITIALIZER } from '../symbols/index.js';
+import { DESTRUCTOR } from '../symbols/index.js';
 import { ClassLoader } from './bootstrap-config.js';
-
-export type Injectables = Map<string | symbol | unknown, InjectableService>;
 
 export interface InjectableService extends InjectableClass, Object {
   [CREATOR]: {

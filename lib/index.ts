@@ -21,6 +21,7 @@ export { Destructor } from './decorators/destructor.js';
 export { Hook } from './decorators/hook.js';
 export { ErrorHandler } from './decorators/error-handler.js';
 
+export { injectablesHolder } from './registry/injectables-holder.js';
 export { getInstanceByToken } from './utils/get-instance-by-token.js';
 export { FastifyInstanceToken, FastifyRequestToken, FastifyReplyToken } from './symbols/index.js';
 

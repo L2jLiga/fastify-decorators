@@ -14,10 +14,9 @@ import { classLoaderFactory, Constructor } from '../decorators/helpers/inject-de
 import { readyMap } from '../decorators/index.js';
 import type { AutoLoadConfig, ClassLoader, ControllersListConfig } from '../interfaces/bootstrap-config.js';
 import type { BootstrapConfig, InjectableController } from '../interfaces/index.js';
+import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { destructors } from '../registry/destructors.js';
-import { injectables } from '../registry/injectables.js';
 import { CLASS_LOADER, CREATOR, FastifyInstanceToken } from '../symbols/index.js';
-import { wrapInjectable } from '../utils/wrap-injectable.js';
 
 const defaultMask = /\.(handler|controller)\./;
 
@@ -29,14 +28,14 @@ declare module 'fastify' {
 
 export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig>(
   async (fastify, config) => {
-    injectables.set(FastifyInstanceToken, wrapInjectable(fastify));
+    _injectablesHolder.injectSingleton(FastifyInstanceToken, fastify, false);
     const controllers = new Set<Constructor<unknown>>();
     const skipBroken = config.skipBroken;
 
     if ('directory' in config) (await autoLoadModules(config as AutoLoadConfig)).forEach(controllers.add, controllers);
     if ('controllers' in config) config.controllers.forEach(controllers.add, controllers);
 
-    const classLoader: ClassLoader = config.classLoader ?? classLoaderFactory(injectables, true);
+    const classLoader: ClassLoader = config.classLoader ?? classLoaderFactory(_injectablesHolder, true);
     fastify.decorate(CLASS_LOADER, classLoader);
 
     await loadControllers({ controllers: [...controllers], skipBroken, prefix: config.prefix }, fastify);

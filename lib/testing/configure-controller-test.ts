@@ -12,9 +12,8 @@ import { classLoaderFactory, Constructor, ServiceInjection } from '../decorators
 import { readyMap } from '../decorators/index.js';
 import type { InjectableController } from '../interfaces/index.js';
 import type { InjectableClass } from '../interfaces/injectable-class.js';
-import { injectables } from '../registry/injectables.js';
+import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { CREATOR, FastifyInstanceToken, SERVICE_INJECTION } from '../symbols/index.js';
-import { wrapInjectable } from '../utils/wrap-injectable.js';
 import { loadPlugins, Plugins } from './fastify-plugins.js';
 import { MocksManager } from './mocks-manager.js';
 import type { ServiceMock } from './service-mock.js';
@@ -37,9 +36,9 @@ export async function configureControllerTest<C>(config: ControllerTestConfig<Co
   const instance = config.instance ?? fastify();
   loadPlugins(instance, config.plugins);
 
-  const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
+  const injectablesWithMocks = MocksManager.create(_injectablesHolder, config.mocks);
   if (!injectablesWithMocks.has(FastifyInstanceToken)) {
-    injectablesWithMocks.set(FastifyInstanceToken, wrapInjectable(instance));
+    injectablesWithMocks.injectSingleton(FastifyInstanceToken, instance, false);
   }
 
   const classLoader = classLoaderFactory(injectablesWithMocks, false);

@@ -7,13 +7,12 @@
  */
 
 import { fastify, FastifyInstance } from 'fastify';
-import { classLoaderFactory } from '../decorators/helpers/inject-dependencies.js';
 import type { Constructor } from '../decorators/helpers/inject-dependencies.js';
+import { classLoaderFactory } from '../decorators/helpers/inject-dependencies.js';
 import { readyMap } from '../decorators/index.js';
 import type { InjectableService } from '../interfaces/injectable-class.js';
-import { injectables } from '../registry/injectables.js';
+import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { CREATOR, FastifyInstanceToken, INITIALIZER } from '../symbols/index.js';
-import { wrapInjectable } from '../utils/wrap-injectable.js';
 import { loadPlugins, Plugins } from './fastify-plugins.js';
 import { MocksManager } from './mocks-manager.js';
 import type { ServiceMock } from './service-mock.js';
@@ -32,11 +31,11 @@ export interface ServiceTestConfig<Service> {
  */
 export function configureServiceTest<Service>(config: ServiceTestConfig<Service>): Promise<Service> & Service {
   const service: Constructor<Service> = config.service;
-  const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
+  const injectablesWithMocks = MocksManager.create(_injectablesHolder, config.mocks);
   if (!injectablesWithMocks.has(FastifyInstanceToken)) {
     const fastifyInstance = config.instance ?? fastify();
     loadPlugins(fastifyInstance, config.plugins);
-    injectablesWithMocks.set(FastifyInstanceToken, wrapInjectable(fastifyInstance));
+    injectablesWithMocks.injectSingleton(FastifyInstanceToken, fastifyInstance, false);
   }
 
   isInjectable(service);

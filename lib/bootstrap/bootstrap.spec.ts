@@ -3,8 +3,8 @@ import { resolve, sep } from 'path';
 import { pathToFileURL, URL } from 'url';
 import { Destructor } from '../decorators/destructor.js';
 import { Controller, Inject, Service } from '../decorators/index.js';
+import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { destructors } from '../registry/destructors.js';
-import { injectables } from '../registry/injectables.js';
 import { CLASS_LOADER } from '../symbols/index.js';
 import { bootstrap } from './bootstrap.js';
 import SampleControllerMock from './mocks/controllers/sample.controller.mock.js';
@@ -12,7 +12,7 @@ import SampleControllerMock from './mocks/controllers/sample.controller.mock.js'
 describe('Bootstrap test', () => {
   afterEach(() => {
     destructors.clear();
-    injectables.clear();
+    _injectablesHolder.reset();
   });
 
   it('should autoload controller when path given', async () => {

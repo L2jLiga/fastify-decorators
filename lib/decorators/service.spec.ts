@@ -1,12 +1,12 @@
-import { injectables } from '../registry/injectables.js';
+import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { CREATOR, INITIALIZER } from '../symbols/index.js';
 import { getInstanceByToken } from '../utils/get-instance-by-token.js';
 import { classLoaderFactory } from './helpers/inject-dependencies.js';
 import { Service } from './service.js';
 
 describe('Decorators: @Service', () => {
-  beforeEach(() => injectables.clear());
-  afterEach(() => injectables.clear());
+  beforeEach(() => _injectablesHolder.reset());
+  afterEach(() => _injectablesHolder.reset());
 
   it('should add CREATOR static property to class', () => {
     @Service()
@@ -17,7 +17,7 @@ describe('Decorators: @Service', () => {
   });
 
   it('should create service', () => {
-    const classLoader = classLoaderFactory(injectables, true);
+    const classLoader = classLoaderFactory(_injectablesHolder, true);
 
     @Service()
     class Srv {}
@@ -29,7 +29,7 @@ describe('Decorators: @Service', () => {
   });
 
   it('should call initializer when instantiate service', () => {
-    const classLoader = classLoaderFactory(injectables, true);
+    const classLoader = classLoaderFactory(_injectablesHolder, true);
 
     @Service()
     class Srv {
@@ -45,7 +45,7 @@ describe('Decorators: @Service', () => {
   });
 
   it('should return same instance if service created multiple times', () => {
-    const classLoader = classLoaderFactory(injectables, true);
+    const classLoader = classLoaderFactory(_injectablesHolder, true);
 
     @Service()
     class Srv {}

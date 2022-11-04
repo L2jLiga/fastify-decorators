@@ -1,4 +1,5 @@
 import { InjectableService } from '../../interfaces/injectable-class.js';
+import { _InjectablesHolder } from '../../registry/_injectables-holder.js';
 import { CREATOR } from '../../symbols/index.js';
 import { Inject } from '../inject.js';
 import { classLoaderFactory } from './inject-dependencies.js';
@@ -19,7 +20,7 @@ describe('Helpers: inject dependencies', () => {
 
   describe('Caching', () => {
     it('should not cache result when cacheResult is falsy', () => {
-      const classLoader = classLoaderFactory(new Map(), false);
+      const classLoader = classLoaderFactory(new _InjectablesHolder(), false);
       class Constructable {}
 
       const first = classLoader(Constructable);
@@ -29,7 +30,7 @@ describe('Helpers: inject dependencies', () => {
     });
 
     it('should cache result when cacheResult is falsy and useCached is overridden as truthy', () => {
-      const classLoader = classLoaderFactory(new Map(), false);
+      const classLoader = classLoaderFactory(new _InjectablesHolder(), false);
       class Constructable {}
 
       const first = classLoader(Constructable, true);
@@ -39,7 +40,7 @@ describe('Helpers: inject dependencies', () => {
     });
 
     it('should cache result when cacheResult is truthy', () => {
-      const classLoader = classLoaderFactory(new Map(), true);
+      const classLoader = classLoaderFactory(new _InjectablesHolder(), true);
       class Constructable {}
 
       const first = classLoader(Constructable);
@@ -49,7 +50,7 @@ describe('Helpers: inject dependencies', () => {
     });
 
     it('should not cache result when cacheResult is truthy and useCached is overridden as falsy', () => {
-      const classLoader = classLoaderFactory(new Map(), true);
+      const classLoader = classLoaderFactory(new _InjectablesHolder(), true);
       class Constructable {}
 
       const first = classLoader(Constructable, false);
@@ -68,7 +69,7 @@ describe('Helpers: inject dependencies', () => {
         constructor(public field: Service) {}
       }
 
-      const instance = classLoaderFactory(new Map(), false)(A);
+      const instance = classLoaderFactory(new _InjectablesHolder(), false)(A);
 
       expect(instance.field).toBeUndefined();
     });
@@ -83,7 +84,9 @@ describe('Helpers: inject dependencies', () => {
         constructor(public field: Service) {}
       }
 
-      expect(() => classLoaderFactory(new Map([]), false)(A)).toThrow(`Invalid argument provided in A's constructor. Expected class annotated with @Service.`);
+      expect(() => classLoaderFactory(new _InjectablesHolder(), false)(A)).toThrow(
+        `Invalid argument provided in A's constructor. Expected class annotated with @Service.`,
+      );
     });
 
     it('should inject service', () => {
@@ -96,7 +99,9 @@ describe('Helpers: inject dependencies', () => {
         constructor(public field: Service) {}
       }
 
-      const instance = classLoaderFactory(new Map([[Service, Service as InjectableService]]), false)(A);
+      const injectables = new _InjectablesHolder();
+      injectables.injectService(Service, Service as InjectableService);
+      const instance = classLoaderFactory(injectables, false)(A);
 
       expect(instance.field).toBeInstanceOf(Service);
     });
@@ -109,7 +114,9 @@ describe('Helpers: inject dependencies', () => {
         public field!: Service;
       }
 
-      const instance = classLoaderFactory(new Map([[Service, Service as InjectableService]]), false)(A);
+      const injectables = new _InjectablesHolder();
+      injectables.injectService(Service, Service as InjectableService);
+      const instance = classLoaderFactory(injectables, false)(A);
 
       expect(instance.field).toBeInstanceOf(Service);
     });
@@ -120,7 +127,9 @@ describe('Helpers: inject dependencies', () => {
         public field!: Service;
       }
 
-      expect(() => classLoaderFactory(new Map(), false)(A)).toThrow(`Invalid argument provided for "A.field". Expected class annotated with @Service.`);
+      expect(() => classLoaderFactory(new _InjectablesHolder(), false)(A)).toThrow(
+        `Invalid argument provided for "A.field". Expected class annotated with @Service.`,
+      );
     });
   });
 });

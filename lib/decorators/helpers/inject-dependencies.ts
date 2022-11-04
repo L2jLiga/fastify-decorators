@@ -7,7 +7,8 @@
  */
 
 import { ClassLoader } from '../../interfaces/bootstrap-config.js';
-import { Injectables, InjectableService } from '../../interfaces/injectable-class.js';
+import { InjectableService } from '../../interfaces/injectable-class.js';
+import { _InjectablesHolder } from '../../registry/_injectables-holder.js';
 import { CREATOR, SERVICE_INJECTION } from '../../symbols/index.js';
 import { hasServiceInjection } from './class-properties.js';
 
@@ -24,7 +25,7 @@ declare namespace Reflect {
 }
 
 const instances = new Map<Constructor<unknown>, unknown>();
-export function classLoaderFactory(injectables: Injectables, cacheResult: boolean): ClassLoader {
+export function classLoaderFactory(injectables: _InjectablesHolder, cacheResult: boolean): ClassLoader {
   return function createWithInjectedDependencies<C>(constructor: Constructor<C>, useCached = cacheResult): C {
     if (useCached && instances.has(constructor)) return instances.get(constructor) as C;
 
@@ -59,7 +60,7 @@ export function classLoaderFactory(injectables: Injectables, cacheResult: boolea
   };
 }
 
-function injectProperties(target: unknown, source: unknown, injectables: Injectables, classLoader: ClassLoader, className: string) {
+function injectProperties(target: unknown, source: unknown, injectables: _InjectablesHolder, classLoader: ClassLoader, className: string) {
   if (!hasServiceInjection(source)) return;
   const viaInject = source[SERVICE_INJECTION];
   for (const { name, propertyKey } of viaInject) {
@@ -75,7 +76,7 @@ function injectProperties(target: unknown, source: unknown, injectables: Injecta
   }
 }
 
-function getArguments<C>(constructor: Constructor<C>, injectables: Injectables, classLoader: ClassLoader, className: string) {
+function getArguments<C>(constructor: Constructor<C>, injectables: _InjectablesHolder, classLoader: ClassLoader, className: string) {
   const metadata = Reflect.getMetadata('design:paramtypes', constructor) || [];
   return metadata
     .map((value) => injectables.get(value))

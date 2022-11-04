@@ -1,5 +1,6 @@
 import { FastifyInstance, RouteShorthandOptions } from 'fastify';
 import { IHandler, InjectableController } from '../../interfaces/index.js';
+import { _InjectablesHolder } from '../../registry/_injectables-holder.js';
 import { ControllerType } from '../../registry/controller-type.js';
 import { HANDLERS } from '../../symbols/index.js';
 import { ErrorHandler } from '../error-handler.js';
@@ -17,7 +18,12 @@ describe('Strategies: controller types', () => {
         class Instance {}
 
         expect(() =>
-          ControllerTypeStrategies[strategy](new Instance() as FastifyInstance, Controller as InjectableController, classLoaderFactory(new Map(), false), []),
+          ControllerTypeStrategies[strategy](
+            new Instance() as FastifyInstance,
+            Controller as InjectableController,
+            classLoaderFactory(new _InjectablesHolder(), false),
+            [],
+          ),
         ).not.toThrow();
       });
 
@@ -46,7 +52,7 @@ describe('Strategies: controller types', () => {
           },
         } as FastifyInstance;
 
-        ControllerTypeStrategies[strategy](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), []);
+        ControllerTypeStrategies[strategy](instance, Controller as unknown as InjectableController, classLoaderFactory(new _InjectablesHolder(), false), []);
       });
 
       it('should inject tags into handlers and swagger configuration', () => {
@@ -77,7 +83,7 @@ describe('Strategies: controller types', () => {
           oas: () => swagger,
         } as FastifyInstance & { oas(): { tags?: TagObject[] } };
 
-        ControllerTypeStrategies[strategy](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), [
+        ControllerTypeStrategies[strategy](instance, Controller as unknown as InjectableController, classLoaderFactory(new _InjectablesHolder(), false), [
           { name: 'user', description: 'User description' },
         ]);
 
@@ -112,7 +118,7 @@ describe('Strategies: controller types', () => {
           swagger: () => swagger,
         } as FastifyInstance & { swagger(): { tags?: TagObject[] } };
 
-        ControllerTypeStrategies[strategy](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), [
+        ControllerTypeStrategies[strategy](instance, Controller as unknown as InjectableController, classLoaderFactory(new _InjectablesHolder(), false), [
           { name: 'user', description: 'User description' },
         ]);
 
@@ -138,7 +144,7 @@ describe('Strategies: controller types', () => {
         beforeEach(() => {
           jest.resetAllMocks();
 
-          ControllerTypeStrategies[strategy](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), []);
+          ControllerTypeStrategies[strategy](instance, Controller as unknown as InjectableController, classLoaderFactory(new _InjectablesHolder(), false), []);
         });
 
         it('should register error handler', () => {
@@ -186,7 +192,7 @@ describe('Strategies: controller types', () => {
           },
         } as FastifyInstance;
 
-        ControllerTypeStrategies[strategy](instance, Controller as unknown as InjectableController, classLoaderFactory(new Map(), false), []);
+        ControllerTypeStrategies[strategy](instance, Controller as unknown as InjectableController, classLoaderFactory(new _InjectablesHolder(), false), []);
 
         beforeEach(() => jest.resetAllMocks());
 

@@ -8,8 +8,8 @@
 
 import { ClassLoader } from '../interfaces/bootstrap-config.js';
 import { InjectableService } from '../interfaces/injectable-class.js';
+import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { destructors } from '../registry/destructors.js';
-import { injectables } from '../registry/injectables.js';
 import { CREATOR, DESTRUCTOR, INITIALIZER } from '../symbols/index.js';
 
 /**
@@ -19,13 +19,9 @@ export function Service(): ClassDecorator;
 export function Service(injectableToken: string | symbol): ClassDecorator;
 export function Service(injectableToken?: string | symbol): unknown {
   return (target: InjectableService) => {
-    let instance: unknown;
-
-    injectables.set(target, target);
-    if (injectableToken) injectables.set(injectableToken, target);
     target[CREATOR] = {
       register<Type>(classLoader: ClassLoader): Type {
-        instance = classLoader<Type>(target);
+        const instance = classLoader<Type>(target);
 
         target[INITIALIZER]?.(instance);
         if (target[DESTRUCTOR]) destructors.set(target, target[DESTRUCTOR]);
@@ -33,5 +29,8 @@ export function Service(injectableToken?: string | symbol): unknown {
         return instance as Type;
       },
     };
+
+    _injectablesHolder.injectService(target, target, false);
+    if (injectableToken) _injectablesHolder.injectService(injectableToken, target, false);
   };
 }

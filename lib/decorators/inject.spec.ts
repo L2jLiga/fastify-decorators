@@ -1,11 +1,11 @@
-import { Injectables } from '../interfaces/injectable-class.js';
+import { InjectablesMap } from '../registry/_injectables-holder.js';
 import { SERVICE_INJECTION } from '../symbols/index.js';
 import { hasServiceInjection } from './helpers/class-properties.js';
 import { ServiceInjection } from './helpers/inject-dependencies.js';
 import { Inject } from './inject.js';
 
 describe('Decorator: @Inject', () => {
-  const injectables: Injectables = new Map();
+  const injectables: InjectablesMap = new Map();
   afterEach(() => injectables.clear());
 
   const InjectToken = Symbol('Token');

@@ -1,10 +1,9 @@
-import { Injectables } from '../interfaces/injectable-class.js';
-import { wrapInjectable } from '../utils/wrap-injectable.js';
+import { _InjectablesHolder } from '../registry/_injectables-holder.js';
 import { MocksManager } from './mocks-manager.js';
 
 describe('Testing: mocks manager', () => {
   it('should create injectables map from another one', () => {
-    const injectables: Injectables = new Map([['a', wrapInjectable({})]]);
+    const injectables = new _InjectablesHolder();
 
     const created = MocksManager.create(injectables);
 
