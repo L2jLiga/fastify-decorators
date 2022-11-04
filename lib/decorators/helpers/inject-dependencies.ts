@@ -28,25 +28,24 @@ const instances = new Map<Constructor<unknown>, unknown>();
 export function classLoaderFactory(injectables: _InjectablesHolder, cacheResult: boolean): ClassLoader {
   return function createWithInjectedDependencies<C>(constructor: Constructor<C>, useCached = cacheResult): C {
     if (useCached && instances.has(constructor)) return instances.get(constructor) as C;
+    const classLoader = <C>(constructor: Constructor<C>): C => createWithInjectedDependencies(constructor, useCached);
 
     /**
      * Step 1: Patch constructor and prototype with Injectables (issue #752)
      */
-    injectProperties(constructor, constructor, injectables, createWithInjectedDependencies, constructor.name);
-    injectProperties(constructor.prototype, constructor.prototype, injectables, createWithInjectedDependencies, constructor.name);
+    injectProperties(constructor, constructor, injectables, classLoader, constructor.name);
+    injectProperties(constructor.prototype, constructor.prototype, injectables, classLoader, constructor.name);
 
     /**
      * Step 2: Create instance
      */
     const instance =
-      typeof Reflect.getMetadata === 'function'
-        ? new constructor(...getArguments(constructor, injectables, createWithInjectedDependencies, constructor.name))
-        : new constructor();
+      typeof Reflect.getMetadata === 'function' ? new constructor(...getArguments(constructor, injectables, classLoader, constructor.name)) : new constructor();
 
     /**
      * Step 3: Inject dependencies into instance (issue #750)
      */
-    injectProperties(instance, constructor.prototype, injectables, createWithInjectedDependencies, constructor.name);
+    injectProperties(instance, constructor.prototype, injectables, classLoader, constructor.name);
 
     /**
      * Step 4: Optionally store instance in Map if cache enabled
