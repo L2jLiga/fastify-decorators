@@ -12,6 +12,8 @@ import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { destructors } from '../registry/destructors.js';
 import { CREATOR, DESTRUCTOR, INITIALIZER } from '../symbols/index.js';
 
+const INITIALIZED = Symbol.for('fastify-decorators.initializer-called');
+
 /**
  * Decorator for making classes injectable
  */
@@ -19,14 +21,12 @@ export function Service(): ClassDecorator;
 export function Service(injectableToken: string | symbol): ClassDecorator;
 export function Service(injectableToken?: string | symbol): unknown {
   return (target: InjectableService) => {
-    let instance: unknown;
     target[CREATOR] = {
       register<Type>(classLoader: ClassLoader): Type {
-        const _instance = classLoader<Type>(target);
-        if (_instance === instance) return instance as Type;
-        instance = _instance;
+        const instance = classLoader<Type & { [INITIALIZED]?: boolean }>(target);
+        if (instance[INITIALIZED]) return instance as Type;
 
-        target[INITIALIZER]?.(instance);
+        Promise.resolve(target[INITIALIZER]?.(instance)).finally(() => (instance[INITIALIZED] = true));
         if (target[DESTRUCTOR]) destructors.set(target, target[DESTRUCTOR]);
 
         return instance as Type;
