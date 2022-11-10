@@ -70,5 +70,5 @@ export function ensureServiceInjection(target: {
 }
 
 export function hasServiceInjection<T>(val: T): val is T & { [SERVICE_INJECTION]: Container<ServiceInjection> } {
-  return SERVICE_INJECTION in val;
+  return ['function', 'object'].includes(typeof val) && val !== null && SERVICE_INJECTION in val;
 }
