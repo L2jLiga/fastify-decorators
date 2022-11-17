@@ -8,12 +8,14 @@
 
 import { fastify, FastifyInstance } from 'fastify';
 import { hasServiceInjection } from '../decorators/helpers/class-properties.js';
+import { defaultScope, DependencyScope } from '../decorators/helpers/dependency-scope.js';
 import { classLoaderFactory, Constructor, ServiceInjection } from '../decorators/helpers/inject-dependencies.js';
 import { readyMap } from '../decorators/index.js';
+import { ClassLoader } from '../interfaces/bootstrap-config.js';
 import type { InjectableController } from '../interfaces/index.js';
 import type { InjectableClass } from '../interfaces/injectable-class.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
-import { CREATOR, FastifyInstanceToken, SERVICE_INJECTION } from '../symbols/index.js';
+import { CLASS_LOADER, CREATOR, FastifyInstanceToken, SERVICE_INJECTION } from '../symbols/index.js';
 import { loadPlugins, Plugins } from './fastify-plugins.js';
 import { MocksManager } from './mocks-manager.js';
 import type { ServiceMock } from './service-mock.js';
@@ -41,7 +43,9 @@ export async function configureControllerTest<C>(config: ControllerTestConfig<Co
     injectablesWithMocks.injectSingleton(FastifyInstanceToken, instance, false);
   }
 
-  const classLoader = classLoaderFactory(injectablesWithMocks, false);
+  const classLoader = classLoaderFactory(injectablesWithMocks) as ClassLoader & { reset(scope: DependencyScope): void };
+  classLoader.reset(defaultScope);
+  if (!instance.hasDecorator(CLASS_LOADER)) instance.decorate(CLASS_LOADER, classLoader);
 
   const controller = config.controller as InjectableController;
   const controllerInstance = await controller[CREATOR].register(instance, '', classLoader);

@@ -17,7 +17,7 @@ describe('Decorators: @Service', () => {
   });
 
   it('should create service', () => {
-    const classLoader = classLoaderFactory(_injectablesHolder, true);
+    const classLoader = classLoaderFactory(_injectablesHolder);
 
     @Service()
     class Srv {}
@@ -29,7 +29,7 @@ describe('Decorators: @Service', () => {
   });
 
   it('should call initializer when instantiate service', () => {
-    const classLoader = classLoaderFactory(_injectablesHolder, true);
+    const classLoader = classLoaderFactory(_injectablesHolder);
 
     @Service()
     class Srv {
@@ -45,7 +45,7 @@ describe('Decorators: @Service', () => {
   });
 
   it('should return same instance if service created multiple times', () => {
-    const classLoader = classLoaderFactory(_injectablesHolder, true);
+    const classLoader = classLoaderFactory(_injectablesHolder);
 
     @Service()
     class Srv {}

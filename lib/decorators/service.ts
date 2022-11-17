@@ -23,10 +23,10 @@ export function Service(injectableToken?: string | symbol): unknown {
   return (target: InjectableService) => {
     target[CREATOR] = {
       register<Type>(classLoader: ClassLoader): Type {
-        const instance = classLoader<Type & { [INITIALIZED]?: boolean }>(target);
+        const instance = classLoader<Type & { [INITIALIZED]?: Promise<unknown> }>(target);
         if (instance[INITIALIZED]) return instance as Type;
 
-        Promise.resolve(target[INITIALIZER]?.(instance)).finally(() => (instance[INITIALIZED] = true));
+        instance[INITIALIZED] = Promise.resolve(target[INITIALIZER]?.(instance));
         if (target[DESTRUCTOR]) destructors.set(target, target[DESTRUCTOR]);
 
         return instance as Type;

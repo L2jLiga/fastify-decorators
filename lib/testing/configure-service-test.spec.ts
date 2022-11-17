@@ -74,7 +74,10 @@ describe('Testing: configure service test', () => {
   });
 
   it('should use custom fastify instance', () => {
-    const instance = { version: 'CUSTOM VERSION' } as FastifyInstance;
+    const instance = {
+      version: 'CUSTOM VERSION',
+      hasDecorator: (() => true) as FastifyInstance['hasDecorator'],
+    } as FastifyInstance;
     const service = configureServiceTest({
       service: WithFastifyInstance,
       instance,
@@ -123,6 +126,7 @@ describe('Testing: configure service test', () => {
             get version() {
               return '0.0.0';
             },
+            hasDecorator: (() => true) as FastifyInstance['hasDecorator'],
           },
         },
       ],

@@ -24,7 +24,7 @@ describe('Get instance by token', function () {
   });
 
   it('should be able to get instance created by class loader', () => {
-    const classLoader = classLoaderFactory(_injectablesHolder, true);
+    const classLoader = classLoaderFactory(_injectablesHolder);
     @Service()
     class MyService {}
 

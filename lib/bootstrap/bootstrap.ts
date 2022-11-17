@@ -35,7 +35,7 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
     if ('directory' in config) (await autoLoadModules(config as AutoLoadConfig)).forEach(controllers.add, controllers);
     if ('controllers' in config) config.controllers.forEach(controllers.add, controllers);
 
-    const classLoader: ClassLoader = config.classLoader ?? classLoaderFactory(_injectablesHolder, true);
+    const classLoader: ClassLoader = config.classLoader ?? classLoaderFactory(_injectablesHolder);
     fastify.decorate(CLASS_LOADER, classLoader);
 
     await loadControllers({ controllers: [...controllers], skipBroken, prefix: config.prefix }, fastify);

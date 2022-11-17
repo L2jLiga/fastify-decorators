@@ -18,46 +18,14 @@ describe('Helpers: inject dependencies', () => {
     };
   }
 
-  describe('Caching', () => {
-    it('should not cache result when cacheResult is falsy', () => {
-      const classLoader = classLoaderFactory(new _InjectablesHolder(), false);
-      class Constructable {}
+  it('should cache result', () => {
+    const classLoader = classLoaderFactory(new _InjectablesHolder());
+    class Constructable {}
 
-      const first = classLoader(Constructable);
-      const second = classLoader(Constructable);
+    const first = classLoader(Constructable);
+    const second = classLoader(Constructable);
 
-      expect(first).not.toBe(second);
-    });
-
-    it('should cache result when cacheResult is falsy and useCached is overridden as truthy', () => {
-      const classLoader = classLoaderFactory(new _InjectablesHolder(), false);
-      class Constructable {}
-
-      const first = classLoader(Constructable, true);
-      const second = classLoader(Constructable, true);
-
-      expect(first).toBe(second);
-    });
-
-    it('should cache result when cacheResult is truthy', () => {
-      const classLoader = classLoaderFactory(new _InjectablesHolder(), true);
-      class Constructable {}
-
-      const first = classLoader(Constructable);
-      const second = classLoader(Constructable);
-
-      expect(first).toBe(second);
-    });
-
-    it('should not cache result when cacheResult is truthy and useCached is overridden as falsy', () => {
-      const classLoader = classLoaderFactory(new _InjectablesHolder(), true);
-      class Constructable {}
-
-      const first = classLoader(Constructable, false);
-      const second = classLoader(Constructable, false);
-
-      expect(first).not.toBe(second);
-    });
+    expect(first).toBe(second);
   });
 
   describe('Defined in constructor', () => {
@@ -69,7 +37,7 @@ describe('Helpers: inject dependencies', () => {
         constructor(public field: Service) {}
       }
 
-      const instance = classLoaderFactory(new _InjectablesHolder(), false)(A);
+      const instance = classLoaderFactory(new _InjectablesHolder())(A);
 
       expect(instance.field).toBeUndefined();
     });
@@ -84,7 +52,7 @@ describe('Helpers: inject dependencies', () => {
         constructor(public field: Service) {}
       }
 
-      expect(() => classLoaderFactory(new _InjectablesHolder(), false)(A)).toThrow(
+      expect(() => classLoaderFactory(new _InjectablesHolder())(A)).toThrow(
         `Invalid argument provided in A's constructor. Expected class annotated with @Service.`,
       );
     });
@@ -101,7 +69,7 @@ describe('Helpers: inject dependencies', () => {
 
       const injectables = new _InjectablesHolder();
       injectables.injectService(Service, Service as InjectableService);
-      const instance = classLoaderFactory(injectables, false)(A);
+      const instance = classLoaderFactory(injectables)(A);
 
       expect(instance.field).toBeInstanceOf(Service);
     });
@@ -116,7 +84,7 @@ describe('Helpers: inject dependencies', () => {
 
       const injectables = new _InjectablesHolder();
       injectables.injectService(Service, Service as InjectableService);
-      const instance = classLoaderFactory(injectables, false)(A);
+      const instance = classLoaderFactory(injectables)(A);
 
       expect(instance.field).toBeInstanceOf(Service);
     });
@@ -127,9 +95,7 @@ describe('Helpers: inject dependencies', () => {
         public field!: Service;
       }
 
-      expect(() => classLoaderFactory(new _InjectablesHolder(), false)(A)).toThrow(
-        `Invalid argument provided for "A.field". Expected class annotated with @Service.`,
-      );
+      expect(() => classLoaderFactory(new _InjectablesHolder())(A)).toThrow(`Invalid argument provided for "A.field". Expected class annotated with @Service.`);
     });
   });
 });

@@ -114,6 +114,7 @@ describe('Testing: configure controller test', () => {
             get version() {
               return '0.0.0';
             },
+            hasDecorator: (() => true) as FastifyInstance['hasDecorator'],
           },
         },
       ],

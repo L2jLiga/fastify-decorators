@@ -8,9 +8,10 @@
 
 import type { FastifyPluginOptions } from 'fastify';
 import type { PathLike } from 'fs';
+import { DependencyScope } from '../decorators/helpers/dependency-scope.js';
 import { Constructor } from '../decorators/helpers/inject-dependencies.js';
 
-export type ClassLoader = <C>(constructor: Constructor<C>, useCached?: boolean) => C;
+export type ClassLoader = <C>(constructor: Constructor<C>, scope?: DependencyScope) => C;
 
 /**
  * Config for application bootstrap

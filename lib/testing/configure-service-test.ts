@@ -7,12 +7,14 @@
  */
 
 import { fastify, FastifyInstance } from 'fastify';
+import { defaultScope, DependencyScope } from '../decorators/helpers/dependency-scope.js';
 import type { Constructor } from '../decorators/helpers/inject-dependencies.js';
 import { classLoaderFactory } from '../decorators/helpers/inject-dependencies.js';
 import { readyMap } from '../decorators/index.js';
+import { ClassLoader } from '../interfaces/bootstrap-config.js';
 import type { InjectableService } from '../interfaces/injectable-class.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
-import { CREATOR, FastifyInstanceToken, INITIALIZER } from '../symbols/index.js';
+import { CLASS_LOADER, CREATOR, FastifyInstanceToken, INITIALIZER } from '../symbols/index.js';
 import { loadPlugins, Plugins } from './fastify-plugins.js';
 import { MocksManager } from './mocks-manager.js';
 import type { ServiceMock } from './service-mock.js';
@@ -31,15 +33,19 @@ export interface ServiceTestConfig<Service> {
  */
 export function configureServiceTest<Service>(config: ServiceTestConfig<Service>): Promise<Service> & Service {
   const service: Constructor<Service> = config.service;
-  const injectablesWithMocks = MocksManager.create(_injectablesHolder, config.mocks);
-  if (!injectablesWithMocks.has(FastifyInstanceToken)) {
-    const fastifyInstance = config.instance ?? fastify();
-    loadPlugins(fastifyInstance, config.plugins);
-    injectablesWithMocks.injectSingleton(FastifyInstanceToken, fastifyInstance, false);
-  }
-
   isInjectable(service);
-  const classLoader = classLoaderFactory(injectablesWithMocks, false);
+
+  const injectablesWithMocks = MocksManager.create(_injectablesHolder, config.mocks);
+  if (config.instance) injectablesWithMocks.injectSingleton(FastifyInstanceToken, config.instance);
+  if (!injectablesWithMocks.has(FastifyInstanceToken)) injectablesWithMocks.injectSingleton(FastifyInstanceToken, fastify(), false);
+
+  const fastifyInstance = injectablesWithMocks.getSingleton<FastifyInstance>(FastifyInstanceToken) as FastifyInstance;
+  const classLoader = classLoaderFactory(injectablesWithMocks) as ClassLoader & { reset(scope: DependencyScope): void };
+  classLoader.reset(defaultScope);
+  if (!fastifyInstance.hasDecorator(CLASS_LOADER)) fastifyInstance.decorate(CLASS_LOADER, classLoader);
+
+  loadPlugins(fastifyInstance, config.plugins);
+
   const instance = service[CREATOR].register<Service>(classLoader);
 
   let promise: Promise<unknown> | null = null;

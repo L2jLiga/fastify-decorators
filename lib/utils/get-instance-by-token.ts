@@ -13,7 +13,7 @@ import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { CREATOR } from '../symbols/index.js';
 
 export function getInstanceByToken<Type>(token: string | symbol | Constructor<Type>): Type {
-  const classLoader = classLoaderFactory(_injectablesHolder, true);
+  const classLoader = classLoaderFactory(_injectablesHolder);
   const injectable: InjectableService | undefined = _injectablesHolder.get(token);
   verifyInjectable(token, injectable);
 

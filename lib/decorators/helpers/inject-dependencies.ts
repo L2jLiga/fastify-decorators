@@ -11,6 +11,7 @@ import { InjectableService } from '../../interfaces/injectable-class.js';
 import { _InjectablesHolder } from '../../registry/_injectables-holder.js';
 import { CREATOR, SERVICE_INJECTION } from '../../symbols/index.js';
 import { hasServiceInjection } from './class-properties.js';
+import { defaultScope, DependencyScope, dependencyScopeManager } from './dependency-scope.js';
 
 export type Constructor<T> = { new (): T } | { new (...args: any): T };
 
@@ -24,11 +25,11 @@ declare namespace Reflect {
   function getMetadata(metadataKey: 'design:paramtypes', target: unknown): ServiceInjection['name'][] | undefined;
 }
 
-const instances = new Map<Constructor<unknown>, unknown>();
-export function classLoaderFactory(injectables: _InjectablesHolder, cacheResult: boolean): ClassLoader {
-  return function createWithInjectedDependencies<C>(constructor: Constructor<C>, useCached = cacheResult): C {
-    if (useCached && instances.has(constructor)) return instances.get(constructor) as C;
-    const classLoader = <C>(constructor: Constructor<C>): C => createWithInjectedDependencies(constructor, useCached);
+export function classLoaderFactory(injectables: _InjectablesHolder): ClassLoader {
+  function classLoader<C>(constructor: Constructor<C>, scope?: DependencyScope): C {
+    scope = scope || defaultScope;
+
+    if (dependencyScopeManager.has(scope, constructor)) return dependencyScopeManager.get(scope, constructor) as C;
 
     /**
      * Step 1: Patch constructor and prototype with Injectables (issue #752)
@@ -50,13 +51,19 @@ export function classLoaderFactory(injectables: _InjectablesHolder, cacheResult:
     /**
      * Step 4: Optionally store instance in Map if cache enabled
      */
-    if (useCached && !instances.has(constructor)) instances.set(constructor, instance);
+    dependencyScopeManager.add(scope, constructor, instance);
 
     /**
      * Step 4: Return instance with dependencies injected
      */
     return instance;
-  };
+  }
+
+  return Object.assign(classLoader, {
+    reset(scope: DependencyScope) {
+      dependencyScopeManager.clear(scope);
+    },
+  });
 }
 
 function injectProperties(target: unknown, source: unknown, injectables: _InjectablesHolder, classLoader: ClassLoader, className: string) {
