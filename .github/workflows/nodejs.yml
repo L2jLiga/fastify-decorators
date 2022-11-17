@@ -31,7 +31,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - name: Install dependencies
-        run: yarn install --frozen-lock-file
+        run: yarn install --frozen-lockfile
       - name: Build projects (with ESM)
         run: yarn build
       - name: Run library tests (with ESM)
@@ -67,7 +67,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - name: Install dependencies
-        run: yarn install --frozen-lock-file --ignore-engines
+        run: yarn install --frozen-lockfile --ignore-engines
       - name: Drop not supported
         run: |
           yarn rimraf examples/fastify-4
