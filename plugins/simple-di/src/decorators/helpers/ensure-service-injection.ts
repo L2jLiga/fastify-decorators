@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
+import { Constructable } from 'fastify-decorators/plugins/index.js';
 import { SERVICE_INJECTION } from '../../symbols.js';
 import { ServiceInjection } from './inject-dependencies.js';
 
@@ -20,6 +21,6 @@ export function ensureServiceInjection(val: { [SERVICE_INJECTION]?: ServiceInjec
   }
 }
 
-export function hasServiceInjection<T>(val: T): val is T & { [SERVICE_INJECTION]: ServiceInjection[] } {
-  return SERVICE_INJECTION in val;
+export function hasServiceInjection<T>(val: T): val is T & Constructable & { [SERVICE_INJECTION]: ServiceInjection[] } {
+  return (typeof val === 'function' || (typeof val === 'object' && val !== null)) && SERVICE_INJECTION in val;
 }

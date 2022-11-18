@@ -6,7 +6,9 @@ import { Container } from './container.js';
 describe('Helpers: class properties', () => {
   describe('ensure object has handlers symbol', () => {
     it('should create when not exists', () => {
-      const obj = {};
+      class obj {
+        static [HANDLERS]?: Container<IHandler>;
+      }
 
       ensureHandlers(obj);
 
@@ -15,9 +17,9 @@ describe('Helpers: class properties', () => {
 
     it('should not create when exists', () => {
       const handlers = new Container<IHandler>();
-      const obj = {
-        [HANDLERS]: handlers,
-      };
+      class obj {
+        static [HANDLERS] = handlers;
+      }
 
       ensureHandlers(obj);
 
@@ -27,7 +29,7 @@ describe('Helpers: class properties', () => {
 
   describe('check if handlers symbol exists', () => {
     it('should return false when not exists', () => {
-      const obj = {};
+      class obj {}
 
       const result = hasHandlers(obj);
 
@@ -35,9 +37,9 @@ describe('Helpers: class properties', () => {
     });
 
     it('should return true when exists', () => {
-      const obj = {
-        [HANDLERS]: new Container(),
-      };
+      class obj {
+        static [HANDLERS] = new Container();
+      }
 
       const result = hasHandlers(obj);
 
@@ -47,7 +49,9 @@ describe('Helpers: class properties', () => {
 
   describe('ensure object has error handlers symbol', () => {
     it('should create when not exists', () => {
-      const obj = {};
+      class obj {
+        static [ERROR_HANDLERS]?: Container<IErrorHandler>;
+      }
 
       ensureErrorHandlers(obj);
 
@@ -56,9 +60,9 @@ describe('Helpers: class properties', () => {
 
     it('should not create when exists', () => {
       const errorHandlers = new Container<IErrorHandler>();
-      const obj = {
-        [ERROR_HANDLERS]: errorHandlers,
-      };
+      class obj {
+        static [ERROR_HANDLERS] = errorHandlers;
+      }
 
       ensureErrorHandlers(obj);
 
@@ -68,7 +72,7 @@ describe('Helpers: class properties', () => {
 
   describe('check if error handlers symbol exists', () => {
     it('should return false when not exists', () => {
-      const obj = {};
+      class obj {}
 
       const result = hasErrorHandlers(obj);
 
@@ -76,9 +80,9 @@ describe('Helpers: class properties', () => {
     });
 
     it('should return true when exists', () => {
-      const obj = {
-        [ERROR_HANDLERS]: new Container<IErrorHandler>(),
-      };
+      class obj {
+        static [ERROR_HANDLERS] = new Container<IErrorHandler>();
+      }
 
       const result = hasErrorHandlers(obj);
 
@@ -88,7 +92,9 @@ describe('Helpers: class properties', () => {
 
   describe('ensure object has hooks symbol', () => {
     it('should create when not exists', () => {
-      const obj = {};
+      class obj {
+        static [HOOKS]?: Container<IHook>;
+      }
 
       ensureHooks(obj);
 
@@ -97,9 +103,9 @@ describe('Helpers: class properties', () => {
 
     it('should not create when exists', () => {
       const hooks = new Container<IHook>();
-      const obj = {
-        [HOOKS]: hooks,
-      };
+      class obj {
+        static [HOOKS] = hooks;
+      }
 
       ensureHooks(obj);
 
@@ -109,7 +115,7 @@ describe('Helpers: class properties', () => {
 
   describe('check if hooks symbol exists', () => {
     it('should return false when not exists', () => {
-      const obj = {};
+      class obj {}
 
       const result = hasHooks(obj);
 
@@ -117,9 +123,9 @@ describe('Helpers: class properties', () => {
     });
 
     it('should return true when exists', () => {
-      const obj = {
-        [HOOKS]: new Container<IHook>(),
-      };
+      class obj {
+        static [HOOKS] = new Container<IHook>();
+      }
 
       const result = hasHooks(obj);
 

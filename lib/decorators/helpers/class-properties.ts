@@ -7,6 +7,7 @@
  */
 
 import { IErrorHandler, IHandler, IHook } from '../../interfaces/index.js';
+import { Constructable } from '../../plugins/index.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import { Container } from './container.js';
 
@@ -21,7 +22,7 @@ export function ensureHandlers(target: { [HANDLERS]?: Container<IHandler> }): as
   }
 }
 
-export function hasHandlers<Class>(target: Class): target is Class & { [HANDLERS]: Container<IHandler> } {
+export function hasHandlers<Class extends Constructable>(target: Class): target is Class & { [HANDLERS]: Container<IHandler> } {
   return HANDLERS in target;
 }
 
@@ -36,7 +37,7 @@ export function ensureErrorHandlers(target: { [ERROR_HANDLERS]?: Container<IErro
   }
 }
 
-export function hasErrorHandlers<Class>(target: Class): target is Class & { [ERROR_HANDLERS]: Container<IErrorHandler> } {
+export function hasErrorHandlers<Class extends Constructable>(target: Class): target is Class & { [ERROR_HANDLERS]: Container<IErrorHandler> } {
   return ERROR_HANDLERS in target;
 }
 
@@ -51,6 +52,6 @@ export function ensureHooks(target: { [HOOKS]?: Container<IHook> }): asserts tar
   }
 }
 
-export function hasHooks<Class>(target: Class): target is Class & { [HOOKS]: Container<IHook> } {
+export function hasHooks<Class extends Constructable>(target: Class): target is Class & { [HOOKS]: Container<IHook> } {
   return HOOKS in target;
 }
