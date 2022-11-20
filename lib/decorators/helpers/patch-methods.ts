@@ -28,31 +28,24 @@ function patchMethod(constructor: any, methodName: string | symbol): void {
   };
 }
 
-function createProxy(target: any, request: unknown, reply: unknown): any {
+function createProxy(target: any, request: unknown, reply: unknown): unknown {
   return new Proxy(target, {
     get(target, p) {
       const value = target[p];
 
-      if (p === FASTIFY_REQUEST || value === FASTIFY_REQUEST) return request;
-      if (p === FASTIFY_REPLY || value === FASTIFY_REPLY) return reply;
+      if (value === FASTIFY_REQUEST) return request;
+      if (value === FASTIFY_REPLY) return reply;
 
-      if (hasServiceInjection(value)) {
-        return new Proxy(value, {
-          get(injectedService, prop) {
-            if (prop === FASTIFY_REQUEST || injectedService[prop] === FASTIFY_REQUEST) return request;
-            if (prop === FASTIFY_REPLY || injectedService[prop] === FASTIFY_REPLY) return reply;
-            if (typeof injectedService[prop] === 'function') return injectedService[prop].bind(createProxy(injectedService, request, reply));
-
-            return injectedService[prop];
-          },
-          has(target, p): boolean {
-            if (p === SERVICE_INJECTION) return false;
-            return p in target;
-          },
-        });
-      }
+      if (hasServiceInjection(value)) return createProxy(value, request, reply);
 
       return value;
+    },
+    /**
+     * Avoid creating proxies over proxies by telling that already proxied class does not have any service injection
+     */
+    has(target, p): boolean {
+      if (p === SERVICE_INJECTION) return false;
+      return p in target;
     },
   });
 }
