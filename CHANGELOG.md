@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 3.15.0
+
+### Added
+
+- Injectables holder object in order to provide own classes/singletons at startup (issue [#835](https://github.com/L2jLiga/fastify-decorators/issues/835))
+
+### Fixed
+
+- Initializer was called multiple times (issue [#834](https://github.com/L2jLiga/fastify-decorators/issues/834))
+- Proxy mess up objects which are not services (issue [#834 (comment)](https://github.com/L2jLiga/fastify-decorators/issues/834#issuecomment-1319039007))
+- Service destructor is called when service is imported but not initialized (issue [#786](https://github.com/L2jLiga/fastify-decorators/issues/786))
+
 ## 3.14.1
 
 ### Fixed

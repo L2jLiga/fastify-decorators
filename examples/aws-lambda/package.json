@@ -12,7 +12,7 @@
   "dependencies": {
     "aws-lambda-fastify": "^1.7.1",
     "fastify": "^3.18.1",
-    "fastify-decorators": "^3.14.1",
+    "fastify-decorators": "^3.15.0",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
