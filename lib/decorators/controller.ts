@@ -8,7 +8,7 @@
 
 import type { FastifyInstance } from 'fastify';
 import type { ControllerConfig } from '../interfaces/index.js';
-import { Constructable, Registrable } from '../plugins/shared-interfaces.js';
+import { Constructable } from '../plugins/shared-interfaces.js';
 import { ControllerType } from '../registry/controller-type.js';
 import { CREATOR } from '../symbols/index.js';
 import { ensureRegistrable } from './helpers/ensure-registrable.js';
