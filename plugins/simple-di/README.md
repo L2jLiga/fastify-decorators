@@ -19,6 +19,7 @@ In fastify-decorators DI only available for controllers.
   - [Inject, getInstanceByToken and available tokens](#inject-getinstancebytoken-and-available-tokens)
   - [Built-in tokens](#built-in-tokens)
     - [Limitations](#limitations)
+- [Dependency inversion](#dependency-inversion)
 - [Testing](#testing)
   - [Using `configureControllerTest`](#using-configurecontrollertest)
     - [Accessing controller instance](#accessing-controller-instance)
@@ -243,6 +244,77 @@ const service = getInstanceByToken<MyService>('MyServiceToken');
     static instance = getInstanceByToken(FastifyInstanceToken);
   }
   ```
+
+## Dependency inversion
+
+Library as well provides option to set token at fastify initialization in order to have top-down DI initialization:
+
+_blog-service.ts_:
+
+```typescript
+export abstract class BlogService {
+  abstract getBlogPosts(): Promise<Array<BlogPost>>;
+}
+```
+
+_sqlite-blog-service.ts_:
+
+```typescript
+import { BlogService } from './blog-service.js';
+import { BlogPost } from '../models/blog-post.js';
+
+@Service()
+export class SqliteBlogService extends BlogService {
+  async getBlogPosts(): Promise<Array<BlogPost>> {
+    /* ... */
+  }
+}
+```
+
+_sqlite-blog-service.ts_:
+
+```typescript
+import { BlogService } from './blog-service.js';
+import { BlogPost } from '../models/blog-post.js';
+
+export class MySQLBlogService extends BlogService {
+  async getBlogPosts(): Promise<Array<BlogPost>> {
+    /* ... */
+  }
+}
+```
+
+_blog-controller.ts_:
+
+```typescript
+import { BlogService } from '../services/blog-service.js';
+
+@Controller({
+  route: '/api/blogposts',
+})
+export class BlogController {
+  constructor(private blogService: BlogService) {}
+
+  @GET()
+  public async getBlogPosts(req, res): Promise<Array<BlogPosts>> {
+    return this.blogService.getBlogPosts();
+  }
+}
+```
+
+and finally set `BlogService` token in `index.ts`:
+
+```typescript
+if (environment === 'development') {
+  injectables.injectService(BlogService, SqliteBlogService);
+} else if (environment === 'production') {
+  injectables.injectSingleton(BlogService, new MySQLBlogService());
+}
+
+fastify.register(bootstrap, {
+  /* ... */
+});
+```
 
 ## Testing
 

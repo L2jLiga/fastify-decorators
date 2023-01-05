@@ -12,6 +12,7 @@ export const FastifyReplyToken = Symbol.for('fastify-decorators.token.fastify-in
 
 export const SERVICE_INJECTION = Symbol.for('fastify-decorators.service-injection');
 export const INITIALIZER = Symbol.for('fastify-decorators.initializer');
+export const DESTRUCTOR = Symbol.for('fastify-decorators.destructor');
 
 export const FASTIFY_REQUEST = Symbol.for('fastify-decorators.fastify-request');
 export const FASTIFY_REPLY = Symbol.for('fastify-decorators.fastify-reply');

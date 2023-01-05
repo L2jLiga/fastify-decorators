@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 import { FastifyInstance, RouteShorthandOptions } from 'fastify';
-import { Registrable } from '../../plugins/index.js';
+import { CLASS_LOADER, Constructable, Registrable } from '../../plugins/index.js';
 import { ControllerType } from '../../registry/controller-type.js';
 import { ErrorHandler } from '../error-handler.js';
 import { TagObject } from '../helpers/swagger-helper.js';
@@ -15,7 +15,9 @@ describe('Strategies: controller types', () => {
     describe(`${name} strategy`, () => {
       it('should do nothing with empty controller', () => {
         const Controller = class {} as Registrable;
-        const fastifyInstance = {} as FastifyInstance;
+        const fastifyInstance = {
+          [CLASS_LOADER]: (c: Constructable, scope) => new c(),
+        } as FastifyInstance;
 
         expect(() => ControllerTypeStrategies[controllerType](fastifyInstance, Controller, [])).not.toThrow();
       });
@@ -38,6 +40,7 @@ describe('Strategies: controller types', () => {
 
               Promise.resolve(handler({})).then(resolve).catch(reject);
             },
+            [CLASS_LOADER]: (c: Constructable, scope) => new c(),
           } as FastifyInstance;
 
           ControllerTypeStrategies[controllerType](instance, Controller as Registrable, []);
@@ -57,6 +60,7 @@ describe('Strategies: controller types', () => {
           addHook(type: string, handler: jest.Mock) {
             hooks[type] = handler;
           },
+          [CLASS_LOADER]: (c: Constructable, scope) => new c(),
         } as FastifyInstance;
 
         await ControllerTypeStrategies[controllerType](instance, Controller as Registrable, []);
@@ -84,6 +88,7 @@ describe('Strategies: controller types', () => {
             hookFn();
           },
           oas: () => swagger,
+          [CLASS_LOADER]: (c: Constructable, scope) => new c(),
         } as FastifyInstance & { oas(): { tags?: TagObject[] } };
 
         ControllerTypeStrategies[controllerType](instance, Controller as Registrable, [{ name: 'user', description: 'User description' }]);
@@ -109,6 +114,7 @@ describe('Strategies: controller types', () => {
             hookFn();
           },
           swagger: () => swagger,
+          [CLASS_LOADER]: (c: Constructable, scope) => new c(),
         } as FastifyInstance & { swagger(): { tags?: TagObject[] } };
 
         ControllerTypeStrategies[controllerType](instance, Controller as unknown as Registrable, [{ name: 'user', description: 'User description' }]);
@@ -131,6 +137,7 @@ describe('Strategies: controller types', () => {
         let errorHandler: (error: Error, request: unknown) => void | Promise<void>;
         const instance = {
           setErrorHandler: (_errorHandler: typeof errorHandler) => (errorHandler = _errorHandler),
+          [CLASS_LOADER]: (c: Constructable) => new c(),
         } as unknown as FastifyInstance;
 
         beforeEach(() => ControllerTypeStrategies[controllerType](instance, Controller as Registrable, []));

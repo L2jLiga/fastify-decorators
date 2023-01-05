@@ -5,15 +5,17 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
+import 'reflect-metadata';
 
 import { fastify, FastifyInstance } from 'fastify';
-import { Constructable, CREATOR, Registrable } from 'fastify-decorators/plugins';
+import { CLASS_LOADER, ClassLoader, Constructable, CREATOR, Registrable, Scope } from 'fastify-decorators/plugins';
 import { hasServiceInjection } from '../decorators/helpers/ensure-service-injection.js';
-import { injectDependenciesIntoInstance, patchConstructable } from '../decorators/helpers/inject-dependencies.js';
+import { classLoaderFactory } from '../decorators/helpers/inject-dependencies.js';
+import { patchMethods } from '../decorators/helpers/patch-methods.js';
 import { readyMap } from '../decorators/initializer.js';
-import { injectables } from '../registry/injectables.js';
+import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { FastifyInstanceToken, SERVICE_INJECTION } from '../symbols.js';
-import { wrapInjectable } from '../utils/wrap-injectable.js';
+import { defaultScope } from '../utils/dependencies-scope-manager.js';
 import { loadPlugins, Plugins } from './fastify-plugins.js';
 import { MocksManager } from './mocks-manager.js';
 import type { ServiceMock } from './service-mock.js';
@@ -29,17 +31,22 @@ export type FastifyInstanceWithController<C> = FastifyInstance & Pick<Controller
 
 export async function configureControllerTest<C>(config: ControllerTestConfig<Constructable<C>>): Promise<FastifyInstanceWithController<C>> {
   const instance = config.instance ?? fastify();
-  loadPlugins(instance, config.plugins);
 
-  const injectablesWithMocks = MocksManager.create(injectables, config.mocks);
+  const injectablesWithMocks = MocksManager.create(_injectablesHolder, config.mocks);
   if (!injectablesWithMocks.has(FastifyInstanceToken)) {
-    injectablesWithMocks.set(FastifyInstanceToken, wrapInjectable(instance));
+    injectablesWithMocks.injectSingleton(FastifyInstanceToken, instance, false);
   }
 
+  const classLoader = classLoaderFactory(injectablesWithMocks) as ClassLoader & { reset(scope: Scope): void };
+  classLoader.reset(defaultScope);
+  if (!instance.hasDecorator(CLASS_LOADER)) instance.decorate(CLASS_LOADER, classLoader);
+  else instance[CLASS_LOADER] = classLoader;
+
+  loadPlugins(instance, config.plugins);
+
   const controller = config.controller as Registrable;
+  patchMethods(controller);
   const controllerInstance = await controller[CREATOR].register(instance, '');
-  patchConstructable(controller, injectablesWithMocks, false);
-  injectDependenciesIntoInstance(controllerInstance, controller, injectablesWithMocks, false);
   instance.decorate('controller', controllerInstance);
 
   await Promise.all(

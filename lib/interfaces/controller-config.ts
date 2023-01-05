@@ -16,7 +16,7 @@ export interface ControllerConfig {
   /**
    * Controller base route
    */
-  route: string;
+  route?: string;
 
   /**
    * Controller type

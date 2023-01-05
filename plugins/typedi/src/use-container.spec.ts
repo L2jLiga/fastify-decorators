@@ -6,7 +6,7 @@ import { useContainer } from './index.js';
 describe('Use container', () => {
   beforeEach(() => {
     hooksRegistry.beforeControllerCreation = [];
-    hooksRegistry.afterControllerCreation = [];
+    hooksRegistry.appInit = [];
     Container.reset();
   });
 
@@ -29,6 +29,6 @@ describe('Use container', () => {
   it('should register after controller creation hook', () => {
     useContainer(Container);
 
-    expect(hooksRegistry.afterControllerCreation).toHaveLength(1);
+    expect(hooksRegistry.appInit).toHaveLength(1);
   });
 });

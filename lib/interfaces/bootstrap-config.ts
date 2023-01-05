@@ -7,7 +7,7 @@
  */
 
 import type { PathLike } from 'node:fs';
-import { Constructable } from '../plugins/index.js';
+import { ClassLoader, Constructable } from '../plugins/index.js';
 
 /**
  * Common configuration part
@@ -18,6 +18,12 @@ export interface CommonConfig {
    * @default false
    */
   skipBroken?: boolean;
+
+  /**
+   * Defines method to create class instance
+   * @param constructor
+   */
+  classLoader?: ClassLoader;
 
   /**
    * Global prefix to be applied for all routes

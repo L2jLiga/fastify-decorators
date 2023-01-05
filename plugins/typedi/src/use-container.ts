@@ -6,10 +6,12 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { createInitializationHook } from 'fastify-decorators/plugins';
+import { CLASS_LOADER, createInitializationHook } from 'fastify-decorators/plugins';
+import { Constructable } from 'fastify-decorators/plugins/index.js';
 import type { Container as TypeDIContainer, ServiceOptions } from 'typedi';
 
 export function useContainer(Container: typeof TypeDIContainer) {
+  createInitializationHook('appInit', (fastifyInstance) => fastifyInstance.decorate(CLASS_LOADER, (target: Constructable) => Container.get(target)));
   createInitializationHook('beforeControllerCreation', (fastifyInstance, target) => {
     const controllerMetadata: ServiceOptions = {
       id: target,
@@ -17,9 +19,5 @@ export function useContainer(Container: typeof TypeDIContainer) {
     };
 
     Container.set(controllerMetadata);
-  });
-
-  createInitializationHook('afterControllerCreation', (fastifyInstance, target, instance) => {
-    Object.assign(instance as any, Container.get(target));
   });
 }

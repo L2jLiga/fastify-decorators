@@ -1,150 +1,52 @@
-import 'reflect-metadata';
-import { injectables } from '../../registry/injectables.js';
-import { wrapInjectable } from '../../utils/wrap-injectable.js';
+import { CREATOR } from 'fastify-decorators/plugins';
+import { InjectableService } from '../../interfaces/injectable-class.js';
+import { _InjectablesHolder } from '../../registry/_injectables-holder.js';
+import { defaultScope } from '../../utils/dependencies-scope-manager.js';
 import { Inject } from '../inject.js';
-import { Service } from '../service.js';
-import { injectDependenciesIntoInstance, patchConstructable, createWithConstructorDependencies } from './inject-dependencies.js';
+import { classLoaderFactory } from './inject-dependencies.js';
 
 describe('Helpers: inject dependencies', () => {
-  afterEach(() => injectables.clear());
+  class Service {
+    static [CREATOR] = {
+      register() {
+        return new Service();
+      },
+    };
+  }
 
-  describe('Injecting dependencies into created instance', () => {
-    it('should inject field dependencies', () => {
-      @Service()
-      class TestService {
-        @Inject(ToBeInjected) declare injected: ToBeInjected;
-      }
+  it('should cache result', () => {
+    const classLoader = classLoaderFactory(new _InjectablesHolder());
+    class Constructable {}
 
-      const instance = new TestService();
+    const first = classLoader(Constructable, defaultScope);
+    const second = classLoader(Constructable, defaultScope);
 
-      injectDependenciesIntoInstance(instance, TestService, new Map([[ToBeInjected, wrapInjectable(new ToBeInjected())]]), false);
-
-      expect(instance.injected).toBeInstanceOf(ToBeInjected);
-    });
-
-    it('should inject constructor dependencies', () => {
-      @Service()
-      class TestService {
-        constructor(public injected: ToBeInjected) {}
-      }
-
-      const instance = new TestService(null as unknown as ToBeInjected);
-
-      injectDependenciesIntoInstance(instance, TestService, new Map([[ToBeInjected, wrapInjectable(new ToBeInjected())]]), false);
-
-      expect(instance.injected).toBeInstanceOf(ToBeInjected);
-    });
-
-    it('should inject inherited fields dependencies', () => {
-      class ParentService {
-        @Inject(ToBeInjected) declare injected: ToBeInjected;
-      }
-
-      @Service()
-      class TestService extends ParentService {}
-
-      const instance = new TestService();
-
-      injectDependenciesIntoInstance(instance, TestService, new Map([[ToBeInjected, wrapInjectable(new ToBeInjected())]]), false);
-
-      expect(instance.injected).toBeInstanceOf(ToBeInjected);
-    });
-
-    it('should inject inherited constructor dependencies', () => {
-      @Service()
-      class ParentService {
-        constructor(public injected: ToBeInjected) {}
-      }
-
-      @Service()
-      class TestService extends ParentService {}
-
-      const instance = new TestService(null as unknown as ToBeInjected);
-
-      injectDependenciesIntoInstance(instance, TestService, new Map([[ToBeInjected, wrapInjectable(new ToBeInjected())]]), false);
-
-      expect(instance.injected).toBeInstanceOf(ToBeInjected);
-    });
+    expect(first).toBe(second);
   });
 
-  describe('Patching constructable with dependencies', () => {
-    it('should inject field dependencies', () => {
-      @Service()
-      class TestService {
-        @Inject(ToBeInjected) declare injected: ToBeInjected;
+  describe('Defined by @Inject', () => {
+    it('should inject service', () => {
+      class A {
+        @Inject(Service)
+        public field!: Service;
       }
 
-      patchConstructable(TestService, new Map([[ToBeInjected, wrapInjectable(new ToBeInjected())]]), false);
+      const injectables = new _InjectablesHolder();
+      injectables.injectService(Service, Service as InjectableService);
+      const instance = classLoaderFactory(injectables)(A, defaultScope);
 
-      expect(new TestService().injected).toBeInstanceOf(ToBeInjected);
+      expect(instance.field).toBeInstanceOf(Service);
     });
 
-    it('should inject static field dependencies', () => {
-      @Service()
-      class TestService {
-        @Inject(ToBeInjected) static injected: ToBeInjected;
+    it('should throw when service was not found in Injectables', () => {
+      class A {
+        @Inject(Service)
+        public field!: Service;
       }
 
-      patchConstructable(TestService, new Map([[ToBeInjected, wrapInjectable(new ToBeInjected())]]), false);
-
-      expect(TestService.injected).toBeInstanceOf(ToBeInjected);
-    });
-
-    it('should inject inherited field dependencies', () => {
-      @Service()
-      class ParentService {
-        @Inject(ToBeInjected) declare injected: ToBeInjected;
-      }
-
-      @Service()
-      class TestService extends ParentService {}
-
-      patchConstructable(TestService, new Map([[ToBeInjected, wrapInjectable(new ToBeInjected())]]), false);
-
-      expect(new TestService().injected).toBeInstanceOf(ToBeInjected);
-    });
-
-    it('should inject inherited static field dependencies', () => {
-      @Service()
-      class ParentService {
-        @Inject(ToBeInjected) static injected: ToBeInjected;
-      }
-
-      @Service()
-      class TestService extends ParentService {}
-
-      patchConstructable(TestService, new Map([[ToBeInjected, wrapInjectable(new ToBeInjected())]]), false);
-
-      expect(TestService.injected).toBeInstanceOf(ToBeInjected);
-    });
-  });
-
-  describe('Constructing class instance with dependencies', () => {
-    it('should inject constructor dependencies', () => {
-      @Service()
-      class TestService {
-        constructor(public injected: ToBeInjected) {}
-      }
-
-      const instance = createWithConstructorDependencies(TestService, new Map([[ToBeInjected, wrapInjectable(new ToBeInjected())]]), false);
-
-      expect(instance.injected).toBeInstanceOf(ToBeInjected);
-    });
-
-    it('should inject inherited constructor dependencies', () => {
-      @Service()
-      class ParentService {
-        constructor(public injected: ToBeInjected) {}
-      }
-
-      @Service()
-      class TestService extends ParentService {}
-
-      const instance = createWithConstructorDependencies(TestService, new Map([[ToBeInjected, wrapInjectable(new ToBeInjected())]]), false);
-
-      expect(instance.injected).toBeInstanceOf(ToBeInjected);
+      expect(() => classLoaderFactory(new _InjectablesHolder())(A, defaultScope)).toThrow(
+        `Invalid argument provided for "A.field". Expected class annotated with @Service.`,
+      );
     });
   });
 });
-
-class ToBeInjected {}

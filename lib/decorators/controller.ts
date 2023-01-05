@@ -8,13 +8,13 @@
 
 import type { FastifyInstance } from 'fastify';
 import type { ControllerConfig } from '../interfaces/index.js';
-import { Constructable } from '../plugins/shared-interfaces.js';
+import { Constructable } from '../plugins/index.js';
 import { ControllerType } from '../registry/controller-type.js';
 import { CREATOR } from '../symbols/index.js';
 import { ensureRegistrable } from './helpers/ensure-registrable.js';
 import { ControllerTypeStrategies } from './strategies/controller-type.js';
 
-function makeConfig(config?: string | ControllerConfig): Required<ControllerConfig> {
+function makeConfig(config: string | ControllerConfig = '/'): Required<ControllerConfig> {
   if (typeof config === 'string') config = { route: config };
 
   return { type: ControllerType.SINGLETON, route: '/', tags: [], ...config };

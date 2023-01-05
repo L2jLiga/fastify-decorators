@@ -7,14 +7,16 @@
  */
 
 import { Constructable, CREATOR } from 'fastify-decorators/plugins';
+import { classLoaderFactory } from '../decorators/helpers/inject-dependencies.js';
 import type { InjectableService } from '../interfaces/injectable-class.js';
-import { injectables } from '../registry/injectables.js';
+import { _injectablesHolder } from '../registry/_injectables-holder.js';
 
 export function getInstanceByToken<Type>(token: string | symbol | Constructable<Type>): Type {
-  const injectable: InjectableService | undefined = injectables.get(token);
+  const classLoader = classLoaderFactory(_injectablesHolder);
+  const injectable: InjectableService | undefined = _injectablesHolder.get(token);
   verifyInjectable(token, injectable);
 
-  return injectable[CREATOR].register<Type>(injectables);
+  return injectable[CREATOR].register<Type>(classLoader);
 }
 
 function verifyInjectable<Type>(

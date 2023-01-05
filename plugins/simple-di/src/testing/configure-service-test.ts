@@ -7,12 +7,13 @@
  */
 
 import { fastify, FastifyInstance } from 'fastify';
-import { Constructable, CREATOR } from 'fastify-decorators/plugins';
+import { CLASS_LOADER, ClassLoader, Constructable, CREATOR, Scope } from 'fastify-decorators/plugins';
+import { classLoaderFactory } from '../decorators/helpers/inject-dependencies.js';
 import { readyMap } from '../decorators/initializer.js';
 import type { InjectableService } from '../interfaces/injectable-class.js';
-import { injectables } from '../registry/injectables.js';
+import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { FastifyInstanceToken, INITIALIZER } from '../symbols.js';
-import { wrapInjectable } from '../utils/wrap-injectable.js';
+import { defaultScope } from '../utils/dependencies-scope-manager.js';
 import { loadPlugins, Plugins } from './fastify-plugins.js';
 import { MocksManager } from './mocks-manager.js';
 import type { ServiceMock } from './service-mock.js';
@@ -32,15 +33,18 @@ export interface ServiceTestConfig<Service> {
 export function configureServiceTest<Service>(config: ServiceTestConfig<Service>): Promise<Service> & Service {
   const service: Constructable<Service> = config.service;
 
-  const withInstance = new Map(injectables);
   const fastifyInstance = config.instance ?? fastify();
   loadPlugins(fastifyInstance, config.plugins);
-  withInstance.set(FastifyInstanceToken, wrapInjectable(fastifyInstance));
 
-  const injectablesWithMocks = MocksManager.create(withInstance, config.mocks);
+  const injectablesWithMocks = MocksManager.create(_injectablesHolder, config.mocks);
+  injectablesWithMocks.injectSingleton(FastifyInstanceToken, fastifyInstance, false);
+
+  const classLoader = classLoaderFactory(injectablesWithMocks) as ClassLoader & { reset(scope: Scope): void };
+  classLoader.reset(defaultScope);
+  fastifyInstance.decorate(CLASS_LOADER, classLoader);
 
   isInjectable(service);
-  const instance = service[CREATOR].register<Service>(injectablesWithMocks, false);
+  const instance = service[CREATOR].register<Service>(fastifyInstance[CLASS_LOADER]);
 
   let promise: Promise<unknown> | null = null;
 

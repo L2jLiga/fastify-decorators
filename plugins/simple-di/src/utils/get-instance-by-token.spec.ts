@@ -1,15 +1,14 @@
-import { CREATOR } from 'fastify-decorators/plugins';
-import { InjectableService } from '../interfaces/injectable-class.js';
-import { injectables } from '../registry/injectables.js';
-import { FASTIFY_REPLY, FASTIFY_REQUEST, FastifyReplyToken, FastifyRequestToken } from '../symbols.js';
+import 'reflect-metadata';
+
+import { classLoaderFactory } from '../decorators/helpers/inject-dependencies.js';
+import { Service } from '../decorators/service.js';
+import { _injectablesHolder } from '../registry/_injectables-holder.js';
+import { defaultScope } from './dependencies-scope-manager.js';
 import { getInstanceByToken } from './get-instance-by-token.js';
-import { wrapInjectable } from './wrap-injectable.js';
 
 describe('Get instance by token', function () {
   beforeEach(() => {
-    injectables.clear();
-    injectables.set(FastifyRequestToken, wrapInjectable(FASTIFY_REQUEST));
-    injectables.set(FastifyReplyToken, wrapInjectable(FASTIFY_REPLY));
+    _injectablesHolder.reset();
   });
 
   it('should throw exception when injectable not found by token', () => {
@@ -20,26 +19,21 @@ describe('Get instance by token', function () {
   it('should return instance from injectables', () => {
     const serviceInstance = {};
     const token = 'pseudoToken';
-    injectables.set(token, <InjectableService>(<unknown>{
-      [CREATOR]: {
-        register() {
-          return serviceInstance;
-        },
-      },
-    }));
+    _injectablesHolder.injectSingleton(token, serviceInstance, false);
 
     const result = getInstanceByToken(token);
 
     expect(result).toBe(serviceInstance);
   });
 
-  it('should extract manually wrapped object', () => {
-    const serviceInstance = {};
-    const token = 'pseudoToken';
-    injectables.set(token, wrapInjectable(serviceInstance));
+  it('should be able to get instance created by class loader', () => {
+    const classLoader = classLoaderFactory(_injectablesHolder);
+    @Service()
+    class MyService {}
 
-    const result = getInstanceByToken(token);
+    const serviceFromClassLoader = classLoader(MyService, defaultScope);
+    const result = getInstanceByToken(MyService);
 
-    expect(result).toBe(serviceInstance);
+    expect(result).toBe(serviceFromClassLoader);
   });
 });

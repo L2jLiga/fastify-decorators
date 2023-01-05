@@ -6,8 +6,10 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
+export * from './class-loader.js';
 export * from './life-cycle.js';
 export * from './shared-interfaces.js';
 
 export * from '../decorators/helpers/class-properties.js';
 export { Container } from '../decorators/helpers/container.js';
+export { CLASS_LOADER } from './class-loader.js';

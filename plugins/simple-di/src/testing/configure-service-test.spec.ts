@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fastify';
+import { fastify, FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fastify';
 import fastifyPlugin from 'fastify-plugin';
 import { Initializer } from '../decorators/initializer.js';
 import { Inject } from '../decorators/inject.js';
@@ -79,13 +79,13 @@ describe('Testing: configure service test', () => {
   });
 
   it('should use custom fastify instance', () => {
-    const instance = { version: 'CUSTOM VERSION' } as FastifyInstance;
+    const instance = fastify();
     const service = configureServiceTest({
       service: WithFastifyInstance,
       instance,
     });
 
-    expect(service.getVersion()).toBe(instance.version);
+    expect(service.instance).toBe(instance);
   });
 
   it('should be able to load plugins onto fastify instance', async () => {

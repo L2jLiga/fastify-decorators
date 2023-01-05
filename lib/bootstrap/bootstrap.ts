@@ -11,7 +11,7 @@ import fp from 'fastify-plugin';
 import { lstatSync, opendirSync, PathLike } from 'node:fs';
 import type { AutoLoadConfig } from '../interfaces/bootstrap-config.js';
 import type { BootstrapConfig } from '../interfaces/index.js';
-import { Constructable, hooksRegistry } from '../plugins/index.js';
+import { CLASS_LOADER, ClassLoader, Constructable, hooksRegistry } from '../plugins/index.js';
 import { CREATOR } from '../symbols/index.js';
 import { transformAndWait } from '../utils/transform-and-wait.js';
 import { isValidRegistrable } from '../utils/validators.js';
@@ -20,17 +20,33 @@ const defaultMask = /\.(handler|controller)\./;
 
 export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig>(
   async (fastifyInstance, config) => {
+    // 1. Load all modules
+    const toBootstrap = new Set<Constructable>();
+    if ('directory' in config) await transformAndWait(autoLoadModules(config), toBootstrap.add.bind(toBootstrap));
+    if ('controllers' in config) await transformAndWait(config.controllers, toBootstrap.add.bind(toBootstrap));
+
+    // 2. Run appInit hooks
     await transformAndWait(hooksRegistry.appInit, (hook) => hook(fastifyInstance));
 
-    if ('directory' in config) await transformAndWait(autoLoadModules(config), loadRegistrable.bind(fastifyInstance, config));
-    if ('controllers' in config) await transformAndWait(config.controllers, loadRegistrable.bind(fastifyInstance, config));
+    // 3. Register default class loader in case if missing
+    if (!fastifyInstance.hasDecorator(CLASS_LOADER)) {
+      const classLoader: ClassLoader = config.classLoader ?? ((T) => new T());
+      fastifyInstance.decorate(CLASS_LOADER, classLoader);
+    } else if (config.classLoader) {
+      throw new Error('Some library already defines class loader, passing custom class loader via config impossible');
+    }
 
+    // 4. Instantiate all modules
+    await transformAndWait(toBootstrap, loadRegistrable.bind(fastifyInstance, config));
+
+    // 5. Run appReady hooks
     await transformAndWait(hooksRegistry.appReady, (hook) => hook(fastifyInstance));
 
+    // 6. Register on close hooks
     fastifyInstance.addHook('onClose', () => transformAndWait(hooksRegistry.appDestroy, (hook) => hook(fastifyInstance)));
   },
   {
-    fastify: '^3.0.0 || ^4.0.0-alpha.0 || ^4.0.0-rc.0 || ^4.0.0',
+    fastify: '^4.0.0',
     name: 'fastifyDecorators',
   },
 );

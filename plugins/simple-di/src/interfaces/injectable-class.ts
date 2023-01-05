@@ -6,14 +6,13 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { Constructable, CREATOR } from 'fastify-decorators/plugins';
-import { INITIALIZER } from '../symbols.js';
+import { ClassLoader, Constructable, CREATOR } from 'fastify-decorators/plugins';
+import { DESTRUCTOR, INITIALIZER } from '../symbols.js';
 
-export type Injectables = Map<string | symbol | unknown, InjectableService>;
-
-export interface InjectableService extends Object, Constructable<any> {
+export interface InjectableService extends Function, Constructable {
   [CREATOR]: {
-    register<Type>(injectables?: Injectables, cacheResult?: boolean): Type;
+    register<Type>(classLoader: ClassLoader): Type;
   };
   [INITIALIZER]?<Type>(self: Type): void;
+  [DESTRUCTOR]?: string | symbol;
 }

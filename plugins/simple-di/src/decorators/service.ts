@@ -6,21 +6,14 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { createInitializationHook, CREATOR } from 'fastify-decorators/plugins';
+import { ClassLoader, CREATOR } from 'fastify-decorators/plugins';
 import { InjectableService } from '../interfaces/injectable-class.js';
-import { injectables } from '../registry/injectables.js';
-import { INITIALIZER } from '../symbols.js';
-import { createWithConstructorDependencies, injectDependenciesIntoInstance, patchConstructable } from './helpers/inject-dependencies.js';
-import { patchMethods } from './helpers/patch-methods.js';
+import { _injectablesHolder } from '../registry/_injectables-holder.js';
+import { destructors } from '../registry/destructors.js';
+import { DESTRUCTOR, INITIALIZER } from '../symbols.js';
+import { defaultScope } from '../utils/dependencies-scope-manager.js';
 
-/**
- * Set of hooks to patch controllers in order to support DI
- */
-createInitializationHook('beforeControllerCreation', (fastifyInstance, target) => patchMethods(target));
-createInitializationHook('beforeControllerCreation', (fastifyInstance, target) => patchConstructable(target, injectables, true));
-createInitializationHook('afterControllerCreation', (fastifyInstance, target, instance) => {
-  injectDependenciesIntoInstance(instance, target, injectables, true);
-});
+const INITIALIZED = Symbol.for('fastify-decorators.initializer-called');
 
 /**
  * Decorator for making classes injectable
@@ -29,21 +22,19 @@ export function Service(): ClassDecorator;
 export function Service(injectableToken: string | symbol): ClassDecorator;
 export function Service(injectableToken?: string | symbol): unknown {
   return (target: InjectableService) => {
-    let instance: unknown;
-
-    injectables.set(target, target);
-    if (injectableToken) injectables.set(injectableToken, target);
     target[CREATOR] = {
-      register<Type>(injectablesMap = injectables, cacheResult = true): Type {
-        if (instance && cacheResult) return instance as Type;
-        patchConstructable(target, injectablesMap, cacheResult);
-        instance = createWithConstructorDependencies<Type>(target, injectablesMap, cacheResult);
-        injectDependenciesIntoInstance(instance, target, injectablesMap, cacheResult);
+      register<Type>(classLoader: ClassLoader): Type {
+        const instance = classLoader<Type & { [INITIALIZED]?: Promise<unknown> }>(target, defaultScope);
+        if (instance[INITIALIZED]) return instance as Type;
 
-        target[INITIALIZER]?.(instance);
+        instance[INITIALIZED] = Promise.resolve(target[INITIALIZER]?.(instance));
+        if (target[DESTRUCTOR]) destructors.set(target, target[DESTRUCTOR]);
 
         return instance as Type;
       },
     };
+
+    _injectablesHolder.injectService(target, target, false);
+    if (injectableToken) _injectablesHolder.injectService(injectableToken, target, false);
   };
 }

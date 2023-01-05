@@ -6,14 +6,17 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import 'reflect-metadata';
-
-import { createInitializationHook } from 'fastify-decorators/plugins';
-import { injectables } from './registry/injectables.js';
+import { CLASS_LOADER, createInitializationHook } from 'fastify-decorators/plugins';
+import { classLoaderFactory } from './decorators/helpers/inject-dependencies.js';
+import { patchMethods } from './decorators/helpers/patch-methods.js';
+import { _injectablesHolder } from './registry/_injectables-holder.js';
 import { FastifyInstanceToken } from './symbols.js';
-import { wrapInjectable } from './utils/wrap-injectable.js';
 
-createInitializationHook('appInit', (fastify) => injectables.set(FastifyInstanceToken, wrapInjectable(fastify)));
+createInitializationHook('appInit', (fastify) => {
+  _injectablesHolder.injectSingleton(FastifyInstanceToken, fastify, false);
+  fastify.decorate(CLASS_LOADER, classLoaderFactory(_injectablesHolder));
+});
+createInitializationHook('beforeControllerCreation', (fastifyInstance, target) => patchMethods(target));
 
 export { getInstanceByToken } from './utils/get-instance-by-token.js';
 
@@ -24,3 +27,5 @@ export { Initializer } from './decorators/initializer.js';
 export { Destructor } from './decorators/destructor.js';
 
 export { FastifyInstanceToken, FastifyRequestToken, FastifyReplyToken } from './symbols.js';
+
+export { injectablesHolder } from './registry/injectables-holder.js';

@@ -7,6 +7,7 @@
  */
 
 import type { FastifyInstance, FastifyRequest, FastifySchema } from 'fastify';
+import { CLASS_LOADER, ClassLoader } from '../../plugins/index.js';
 import { hooksRegistry, Registrable } from '../../plugins/index.js';
 import { ControllerType } from '../../registry/controller-type.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
@@ -16,10 +17,10 @@ import { injectTagsIntoSwagger, TagObject } from '../helpers/swagger-helper.js';
 
 const controllersCache = new WeakMap<FastifyRequest, unknown>();
 
-function targetFactory(target: Registrable) {
+function targetFactory(target: Registrable, classLoader: ClassLoader) {
   return async function getTarget(request: FastifyRequest) {
     if (controllersCache.has(request)) return controllersCache.get(request);
-    const instance = new target();
+    const instance = classLoader(target, request);
     await transformAndWait(hooksRegistry.afterControllerCreation, (hook) => hook(request.server, target, instance));
     controllersCache.set(request, instance);
     return instance;
@@ -47,7 +48,7 @@ export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory>
     if (tags.length > 0) injectTagsIntoSwagger(fastifyInstance, tags);
 
     await transformAndWait(hooksRegistry.beforeControllerCreation, (hook) => hook(fastifyInstance, target));
-    const instance = new target();
+    const instance = fastifyInstance[CLASS_LOADER](target, fastifyInstance);
     await transformAndWait(hooksRegistry.afterControllerCreation, (hook) => hook(fastifyInstance, target, instance));
 
     registerController(fastifyInstance, target, () => instance, tags);
@@ -59,7 +60,7 @@ export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory>
     if (tags.length > 0) injectTagsIntoSwagger(fastifyInstance, tags);
 
     await transformAndWait(hooksRegistry.beforeControllerCreation, (hook) => hook(fastifyInstance, target));
-    registerController(fastifyInstance, target, targetFactory(target), tags);
+    registerController(fastifyInstance, target, targetFactory(target, fastifyInstance[CLASS_LOADER]), tags);
   },
 };
 

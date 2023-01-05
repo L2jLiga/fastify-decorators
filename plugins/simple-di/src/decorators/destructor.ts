@@ -6,17 +6,19 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { createInitializationHook } from 'fastify-decorators/plugins';
-import { getInstanceByToken } from '../utils/get-instance-by-token.js';
+import { CLASS_LOADER, createInitializationHook } from 'fastify-decorators/plugins';
+import { destructors } from '../registry/destructors.js';
+import { DESTRUCTOR } from '../symbols.js';
+import { defaultScope } from '../utils/dependencies-scope-manager.js';
 
-export const servicesWithDestructors = new Map();
-
-createInitializationHook('appDestroy', () =>
-  Promise.all([...servicesWithDestructors].map(([Service, property]) => getInstanceByToken<typeof Service>(Service)[property]())),
+createInitializationHook('appDestroy', (fastifyInstance) =>
+  Promise.all([...destructors].map(([Service, property]) => fastifyInstance[CLASS_LOADER]<typeof Service>(Service, defaultScope)[property]())),
 );
 
 export function Destructor(): PropertyDecorator {
-  return (target: any, propertyKey: string | symbol): void => {
-    servicesWithDestructors.set(target.constructor, propertyKey);
+  return (targetPrototype: any, propertyKey: string | symbol): void => {
+    const target = targetPrototype.constructor;
+
+    target[DESTRUCTOR] = propertyKey;
   };
 }

@@ -35,7 +35,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - name: Install dependencies
-        run: yarn install --frozen-lock-file
+        run: yarn install --frozen-lockfile
       - name: Build projects
         run: yarn build
       - name: Run tests
@@ -67,7 +67,7 @@ jobs:
         with:
           cache: 'yarn'
       - name: Install dependencies
-        run: yarn install --frozen-lock-file
+        run: yarn install --frozen-lockfile
       - name: Check licenses
         run: yarn license-checker
       - name: Lint project
@@ -92,7 +92,7 @@ jobs:
         with:
           cache: 'yarn'
       - name: Install dependencies
-        run: yarn install --frozen-lock-file
+        run: yarn install --frozen-lockfile
       - name: Build projects
         run: yarn build
       - name: Perform CodeQL Analysis
@@ -105,7 +105,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install dependencies
-        run: yarn install --frozen-lock-file
+        run: yarn install --frozen-lockfile
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2022.3.0
       - uses: github/codeql-action/upload-sarif@v2

@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.base.json",
+  "files": ["src/index.ts"],
+  "include": ["src/**/*.ts"],
+  "compilerOptions": {
+    "composite": true,
+    "rootDir": "src"
+  },
+  "references": [
+    {
+      "path": "../../lib/tsconfig.lib.json"
+    },
+    {
+      "path": "../../plugins/simple-di/tsconfig.lib.json"
+    }
+  ]
+}
