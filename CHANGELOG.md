@@ -18,8 +18,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - BREAKING: dropped Node.js 10 and 12, minimal required is 14 LTS
 - BREAKING: moved dependency injection functionality into separate package
-- BREAKING: removed CommonJS build
-- BREAKING: minimal TypeScript version officially supported is 4.0
 
 ## 3.10.0
 

@@ -8,15 +8,21 @@
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.js",
-    "./testing": "./dist/testing/index.js"
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./testing": {
+      "import": "./dist/testing/index.js",
+      "require": "./dist/testing/index.cjs"
+    }
   },
   "files": [
     "dist",
     "testing"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.lib.json",
+    "build": "rollup -c rollup-config.js && tsc -p tsconfig.lib.json",
     "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest"
   },
   "repository": {

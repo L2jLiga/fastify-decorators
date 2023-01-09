@@ -8,12 +8,18 @@
   "types": "index.d.ts",
   "typings": "index.d.ts",
   "exports": {
-    ".": "./index.js",
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs"
+    },
     "./package.json": "./package.json",
-    "./plugins": "./plugins/index.js"
+    "./plugins": {
+      "import": "./plugins/index.js",
+      "require": "./plugins/index.cjs"
+    }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.lib.json",
+    "build": "rollup -c rollup-config.js && tsc -p tsconfig.lib.json",
     "prebuild": "rimraf ../dist/",
     "postbuild": "cp -r ./package.json ../README.md ../CHANGELOG.md ../LICENSE ../docs ../dist/fastify-decorators && node ../patch-readme.js",
     "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest"
