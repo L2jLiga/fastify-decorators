@@ -1,5 +1,3 @@
-import { workersWorkaround } from './jest-dynamic-import-esm-workaround.js';
-
 export default {
   preset: 'ts-jest/presets/default-esm',
   rootDir: '../..',
@@ -34,6 +32,5 @@ export default {
     '^fastify-decorators/(.*)$': '<rootDir>/lib/$1',
   },
   modulePathIgnorePatterns: ['<rootDir>/dist/fastify-decorators', '<rootDir>/node_modules/fastify-decorators'],
-  ...workersWorkaround,
   testTimeout: 100_000,
 };

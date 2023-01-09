@@ -31,7 +31,6 @@ Packages to be installed:
 1. Set type to module and enable experimental VM modules in `package.json`
 2. Set ts-jest ESM preset in Jest config
 3. Set jest-ts-webcompat-resolver as resolver
-4. In case of using autoload feature setup [workers workaround](#dynamic-import-in-esm-workaround)
 
 Example configuration:
 
@@ -53,54 +52,6 @@ export default {
   preset: 'ts-jest/presets/default-esm',
   // Note resolver required only when using imports with extensions
   resolver: 'jest-ts-webcompat-resolver',
-};
-```
-
-##### Dynamic import in ESM workaround
-
-There's known issue in Jest when using dynamic imports in ESM - see [jest#11438](https://github.com/facebook/jest/issues/11438).
-This issue may appear when using Fastify-decorators [autoload feature](./Bootstrapping.md#Autoload all controllers).
-
-_Note_: issue fixed in Node.js >= 16.11.0
-
-**Workaround**:
-
-_jest-dynamic-import-esm-workaround.js_:
-
-```javascript
-import glob from 'glob';
-
-// Jest issue: https://github.com/facebook/jest/issues/11438
-// Workaround for dynamic import + ESM
-// Each test file should have separated worker
-// So we have to count amount of files with tests per project
-
-const nodeVersionRegex = /(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)/;
-const { major, minor } = nodeVersionRegex.exec(process.version).groups;
-
-const isIssueAffectCurrentVersion = Number.parseInt(major) * 100 + Number.parseInt(minor) < 1611;
-
-const testsCount = glob.sync('**/*.{spec,test}.ts').length;
-
-export const workersWorkaround = isIssueAffectCurrentVersion
-  ? {
-      maxConcurrency: testsCount,
-      maxWorkers: testsCount,
-      testTimeout: 30_000,
-    }
-  : {};
-```
-
-_jest.config.js_:
-
-```javascript
-import { workersWorkaround } from './jest-dynamic-import-esm-workaround.js';
-
-export default {
-  preset: 'ts-jest/presets/default-esm',
-  // Note resolver required only when using imports with extensions
-  resolver: 'jest-ts-webcompat-resolver',
-  ...workersWorkaround,
 };
 ```
 
