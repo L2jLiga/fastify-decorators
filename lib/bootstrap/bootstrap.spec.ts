@@ -1,5 +1,6 @@
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { CLASS_LOADER, Constructable } from '../plugins/index.js';
 import { bootstrap } from './bootstrap.js';
 import SampleControllerMock from './mocks/controllers/sample.controller.mock.js';
 
@@ -134,5 +135,18 @@ describe('Bootstrap test', () => {
 
     expect(response1.json()).toEqual({ message: 'ok' });
     expect(response2.statusCode).toBe(404);
+  });
+
+  it('should throw error when class loader defined by some library and specified in config', async () => {
+    const fastifyInstance = await import('fastify').then((m) => m.fastify());
+
+    fastifyInstance.decorate(CLASS_LOADER, (c: Constructable) => new c());
+
+    await expect(() =>
+      fastifyInstance.register(bootstrap, {
+        controllers: [],
+        classLoader: (constructor) => new constructor(),
+      }),
+    ).rejects.toThrow('Some library already defines class loader, passing custom class loader via config impossible');
   });
 });

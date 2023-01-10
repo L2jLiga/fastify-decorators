@@ -1,4 +1,5 @@
 import { SERVICE_INJECTION } from '../symbols.js';
+import { Container } from '../utils/container.js';
 import { ServiceInjection } from './helpers/inject-dependencies.js';
 import { Inject } from './inject.js';
 
@@ -12,10 +13,10 @@ describe('Decorator: @Inject', () => {
     }
 
     // @ts-expect-error SERVICE_INJECTION implicitly created by @Inject
-    const viaInject: ServiceInjection[] = Target.prototype[SERVICE_INJECTION];
+    const viaInject: Container<ServiceInjection> = Target.prototype[SERVICE_INJECTION];
 
     expect(viaInject).toHaveLength(1);
-    expect(viaInject[0]).toEqual({ propertyKey: 'srv', name: InjectToken });
+    expect([...viaInject][0]).toEqual({ propertyKey: 'srv', name: InjectToken });
   });
 
   it('should not override metadata when it exists', () => {
@@ -28,10 +29,10 @@ describe('Decorator: @Inject', () => {
     }
 
     // @ts-expect-error SERVICE_INJECTION implicitly created by @Inject
-    const viaInject: ServiceInjection[] = Target.prototype[SERVICE_INJECTION];
+    const viaInject: Container<ServiceInjection> = Target.prototype[SERVICE_INJECTION];
 
     expect(viaInject).toHaveLength(2);
-    expect(viaInject[0]).toEqual({ propertyKey: 'srv', name: InjectToken });
-    expect(viaInject[1]).toEqual({ propertyKey: 'srv2', name: InjectToken });
+    expect([...viaInject][0]).toEqual({ propertyKey: 'srv', name: InjectToken });
+    expect([...viaInject][1]).toEqual({ propertyKey: 'srv2', name: InjectToken });
   });
 });

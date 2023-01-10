@@ -8,12 +8,19 @@
 
 import { Constructable } from 'fastify-decorators/plugins/index.js';
 import { SERVICE_INJECTION } from '../../symbols.js';
+import { Container } from '../../utils/container.js';
 import { ServiceInjection } from './inject-dependencies.js';
 
-export function ensureServiceInjection(val: { [SERVICE_INJECTION]?: ServiceInjection[] }): asserts val is { [SERVICE_INJECTION]: ServiceInjection[] } {
-  if (!(SERVICE_INJECTION in val)) {
+export function ensureServiceInjection<T>(
+  val: T & {
+    [SERVICE_INJECTION]?: Container<ServiceInjection>;
+  },
+): asserts val is T & {
+  [SERVICE_INJECTION]: Container<ServiceInjection>;
+} {
+  if (!(val[SERVICE_INJECTION] && Object.prototype.hasOwnProperty.call(val, SERVICE_INJECTION))) {
     Reflect.defineProperty(val, SERVICE_INJECTION, {
-      value: [],
+      value: new Container(val[SERVICE_INJECTION]),
       enumerable: false,
       configurable: false,
       writable: false,
@@ -21,6 +28,6 @@ export function ensureServiceInjection(val: { [SERVICE_INJECTION]?: ServiceInjec
   }
 }
 
-export function hasServiceInjection<T>(val: T): val is T & Constructable & { [SERVICE_INJECTION]: ServiceInjection[] } {
+export function hasServiceInjection<T>(val: T): val is T & Constructable & { [SERVICE_INJECTION]: Container<ServiceInjection> } {
   return (typeof val === 'function' || (typeof val === 'object' && val !== null)) && SERVICE_INJECTION in val;
 }

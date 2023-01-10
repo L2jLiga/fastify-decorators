@@ -8,7 +8,7 @@
 import 'reflect-metadata';
 
 import { fastify, FastifyInstance } from 'fastify';
-import { CLASS_LOADER, ClassLoader, Constructable, CREATOR, Registrable, Scope } from 'fastify-decorators/plugins';
+import { CLASS_LOADER, Constructable, CREATOR, Registrable } from 'fastify-decorators/plugins';
 import { hasServiceInjection } from '../decorators/helpers/ensure-service-injection.js';
 import { classLoaderFactory } from '../decorators/helpers/inject-dependencies.js';
 import { patchMethods } from '../decorators/helpers/patch-methods.js';
@@ -61,7 +61,7 @@ export async function configureControllerTest<C>(config: ControllerTestConfig<Co
 
 function getInjectedProps(target: unknown): Array<unknown> {
   if (!hasServiceInjection(target)) return [];
-  return target[SERVICE_INJECTION].map((it) => it.name);
+  return [...target[SERVICE_INJECTION]].map((it) => it.name);
 }
 
 function getConstructorArgs(constructor: Registrable): Array<unknown> {
