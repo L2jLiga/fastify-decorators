@@ -19,11 +19,14 @@ export class Deferred<T = void> {
     return this._reject;
   }
 
-  private readonly _promise: Promise<T> = new Promise<T>((resolve, reject) => {
-    this._resolve = resolve;
-    this._reject = reject;
-  });
-
+  private readonly _promise: Promise<T>;
   private _resolve!: (value: T | PromiseLike<T>) => void;
   private _reject!: (reason?: Error) => void;
+
+  constructor() {
+    this._promise = new Promise<T>((resolve, reject) => {
+      this._resolve = resolve;
+      this._reject = reject;
+    });
+  }
 }

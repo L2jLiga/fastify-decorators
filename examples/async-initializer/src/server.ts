@@ -1,9 +1,9 @@
-import Fastify, { FastifyServerOptions } from 'fastify';
+import { fastify, FastifyServerOptions } from 'fastify';
 
 import { bootstrap } from 'fastify-decorators';
 
 export const createServerInstance = (options: FastifyServerOptions = {}) => {
-  const instance = Fastify(options);
+  const instance = fastify(options);
 
   instance.register(bootstrap, {
     directory: import.meta.url,

@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - BREAKING: dropped Fastify v3 support
 - BREAKING: moved dependency injection functionality into separate package
 - BREAKING: dropped `getInstanceByToken` method
+- BREAKING: bump minimal TS version to 4.7
 
 ## 3.x.y
 

@@ -36,7 +36,7 @@ export async function configureControllerTest<C>(config: ControllerTestConfig<Co
     injectablesWithMocks.injectSingleton(FastifyInstanceToken, instance, false);
   }
 
-  const classLoader = classLoaderFactory(injectablesWithMocks) as ClassLoader & { reset(scope: Scope): void };
+  const classLoader = classLoaderFactory(injectablesWithMocks);
   if (!instance.hasDecorator(CLASS_LOADER)) instance.decorate(CLASS_LOADER, classLoader);
   else instance[CLASS_LOADER] = classLoader;
 

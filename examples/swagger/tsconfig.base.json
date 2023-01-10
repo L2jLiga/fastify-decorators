@@ -3,7 +3,7 @@
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
     /* Basic Options */
-    "target": "ES2020",
+    "target": "ES2022",
     "module": "ESNext",
     "outDir": "./dist",
 

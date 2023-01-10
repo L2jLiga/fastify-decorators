@@ -12,7 +12,7 @@ import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import { Container } from './container.js';
 
 export function ensureHandlers(target: { [HANDLERS]?: Container<IHandler> }): asserts target is { [HANDLERS]: Container<IHandler> } {
-  if (!Object.prototype.hasOwnProperty.call(target, HANDLERS)) {
+  if (!(target[HANDLERS] && Object.prototype.hasOwnProperty.call(target, HANDLERS))) {
     Reflect.defineProperty(target, HANDLERS, {
       value: new Container(target[HANDLERS] as Container<IHandler>),
       enumerable: false,
@@ -27,7 +27,7 @@ export function hasHandlers<Class extends Constructable>(target: Class): target 
 }
 
 export function ensureErrorHandlers(target: { [ERROR_HANDLERS]?: Container<IErrorHandler> }): asserts target is { [ERROR_HANDLERS]: Container<IErrorHandler> } {
-  if (!Object.prototype.hasOwnProperty.call(target, ERROR_HANDLERS)) {
+  if (!(target[ERROR_HANDLERS] && Object.prototype.hasOwnProperty.call(target, ERROR_HANDLERS))) {
     Reflect.defineProperty(target, ERROR_HANDLERS, {
       value: new Container(target[ERROR_HANDLERS] as Container<IErrorHandler>),
       enumerable: false,
@@ -42,7 +42,7 @@ export function hasErrorHandlers<Class extends Constructable>(target: Class): ta
 }
 
 export function ensureHooks(target: { [HOOKS]?: Container<IHook> }): asserts target is { [HOOKS]: Container<IHook> } {
-  if (!Object.prototype.hasOwnProperty.call(target, HOOKS)) {
+  if (!(target[HOOKS] && Object.prototype.hasOwnProperty.call(target, HOOKS))) {
     Reflect.defineProperty(target, HOOKS, {
       value: new Container(target[HOOKS] as Container<IHook>),
       enumerable: false,

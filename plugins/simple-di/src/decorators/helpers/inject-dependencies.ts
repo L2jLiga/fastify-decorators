@@ -19,7 +19,7 @@ export interface ServiceInjection {
 }
 
 export function classLoaderFactory(injectables: _InjectablesHolder): ClassLoader {
-  function classLoader<C>(Constructable: Constructable<C>, scope: Scope) {
+  return function classLoader<C>(Constructable: Constructable<C>, scope: Scope) {
     if (dependencyScopeManager.has(scope, Constructable)) return dependencyScopeManager.get(scope, Constructable) as C;
 
     /**
@@ -41,13 +41,7 @@ export function classLoaderFactory(injectables: _InjectablesHolder): ClassLoader
     dependencyScopeManager.add(scope, Constructable, instance);
 
     return instance as C;
-  }
-
-  return Object.assign(classLoader, {
-    reset(scope: Scope) {
-      dependencyScopeManager.clear(scope);
-    },
-  });
+  };
 }
 
 function injectProperties(target: unknown, source: unknown, injectables: _InjectablesHolder, classLoader: ClassLoader, scope: Scope, className: string) {

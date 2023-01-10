@@ -9,14 +9,8 @@ import { classLoaderFactory } from './helpers/inject-dependencies.js';
 import { Service } from './service.js';
 
 describe('Decorators: @Service', () => {
-  beforeEach(() => {
-    _injectablesHolder.reset();
-    destructors.clear();
-  });
-  afterEach(() => {
-    _injectablesHolder.reset();
-    destructors.clear();
-  });
+  beforeEach(() => _injectablesHolder.reset());
+  afterEach(() => _injectablesHolder.reset());
 
   @Service()
   class _Srv {}

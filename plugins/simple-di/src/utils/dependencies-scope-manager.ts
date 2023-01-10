@@ -28,10 +28,6 @@ export const dependencyScopeManager = {
     return instances.get(dependency);
   },
 
-  clear(scope: Scope): void {
-    scopedInstances.delete(scope);
-  },
-
   resolveScope(scope: Scope): Map<Constructable<unknown>, unknown> | undefined {
     if (scopedInstances.has(scope)) return scopedInstances.get(scope);
     if ('context' in scope) return dependencyScopeManager.resolveScope(scope.server);

@@ -3,7 +3,7 @@ import IndexController from '../src/controllers/index.controller.js';
 
 describe('Controller test', () => {
   it('should store all messages in holder', async () => {
-    const instance = await configureControllerTest({ controller: IndexController });
+    const instance = await configureControllerTest<IndexController>({ controller: IndexController });
 
     const response = await instance.inject('/');
 

@@ -38,7 +38,7 @@ export function configureServiceTest<Service>(config: ServiceTestConfig<Service>
   const injectablesWithMocks = MocksManager.create(_injectablesHolder, config.mocks);
   injectablesWithMocks.injectSingleton(FastifyInstanceToken, fastifyInstance, false);
 
-  const classLoader = classLoaderFactory(injectablesWithMocks) as ClassLoader & { reset(scope: Scope): void };
+  const classLoader = classLoaderFactory(injectablesWithMocks);
   fastifyInstance.decorate(CLASS_LOADER, classLoader);
 
   isInjectable(service);

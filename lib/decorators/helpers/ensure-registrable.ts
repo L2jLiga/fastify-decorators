@@ -11,7 +11,7 @@ import { CREATOR } from '../../symbols/index.js';
 
 export function ensureRegistrable(target: unknown): asserts target is Registrable {
   if (target instanceof Function) {
-    if (!(CREATOR in target)) {
+    if (!(CREATOR in target) || target[CREATOR] == null) {
       Object.defineProperty(target, CREATOR, { value: {} });
     }
 
