@@ -9,20 +9,25 @@
 import { Constructable, Scope } from 'fastify-decorators/plugins';
 
 const scopedInstances = new WeakMap<Scope, Map<Constructable<unknown>, unknown>>();
+const destructorsRegistry = new FinalizationRegistry<() => void>((destructor) => destructor());
 
 export const dependencyScopeManager = {
-  add(scope: Scope, dependency: Constructable<unknown>, instance: unknown): void {
-    const instances = scopedInstances.get(scope) || new Map<Constructable<unknown>, unknown>();
+  registerInstance(scope: Scope, dependency: Constructable<unknown>, instance: unknown): void {
+    const instances = scopedInstances.get(scope) ?? new Map();
     instances.set(dependency, instance);
     scopedInstances.set(scope, instances);
   },
 
-  has(scope: Scope, dependency: Constructable<unknown>): boolean {
+  registerDestructor(scope: Scope, destructor: () => void): void {
+    destructorsRegistry.register(scope, destructor);
+  },
+
+  hasInstance(scope: Scope, dependency: Constructable<unknown>): boolean {
     const instances = dependencyScopeManager.resolveScope(scope);
     return !!instances && instances.has(dependency);
   },
 
-  get(scope: Scope, dependency: Constructable<unknown>): unknown | undefined {
+  getInstance(scope: Scope, dependency: Constructable<unknown>): unknown | undefined {
     const instances = dependencyScopeManager.resolveScope(scope);
     if (!instances) return;
     return instances.get(dependency);

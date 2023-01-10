@@ -1,9 +1,10 @@
 import { jest } from '@jest/globals';
 import { FastifyInstance } from 'fastify';
 import { CREATOR } from 'fastify-decorators/plugins';
+import { setFlagsFromString } from 'v8';
+import { runInNewContext } from 'vm';
 import { InjectableService } from '../interfaces/injectable-class.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
-import { destructors } from '../registry/destructors.js';
 import { DESTRUCTOR, INITIALIZER } from '../symbols.js';
 import { classLoaderFactory } from './helpers/inject-dependencies.js';
 import { Service } from './service.js';
@@ -58,21 +59,27 @@ describe('Decorators: @Service', () => {
     expect(TestService[INITIALIZER]).toHaveBeenCalled();
   });
 
-  it('should register destructor when instantiate service', () => {
+  it('should register destructor when instantiate service', async () => {
     const classLoader = classLoaderFactory(_injectablesHolder);
-    const scope = {} as FastifyInstance;
-    const destructorFn = jest.fn();
 
-    @Service()
-    class TestService extends Srv {
-      static [DESTRUCTOR] = 'test';
+    const wr = await new Promise<WeakRef<_Srv>>((resolve) => {
+      @Service()
+      class TestService extends Srv {
+        static [DESTRUCTOR] = 'test';
 
-      test = destructorFn;
-    }
+        test = () => resolve(service);
+      }
 
-    TestService[CREATOR].register(classLoader, scope);
-    destructors.get(TestService)?.();
+      const service = new WeakRef(TestService[CREATOR].register(classLoader, {} as FastifyInstance) as TestService);
 
-    expect(destructorFn).toHaveBeenCalled();
+      // When Garbage collector called
+      setFlagsFromString('--expose-gc');
+      setTimeout(() => runInNewContext('gc')());
+    }).then((wr) => {
+      runInNewContext('gc')();
+      return wr;
+    });
+
+    expect(wr.deref()).toBeUndefined();
   });
 });

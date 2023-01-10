@@ -20,7 +20,7 @@ export interface ServiceInjection {
 
 export function classLoaderFactory(injectables: _InjectablesHolder): ClassLoader {
   return function classLoader<C>(Constructable: Constructable<C>, scope: Scope) {
-    if (dependencyScopeManager.has(scope, Constructable)) return dependencyScopeManager.get(scope, Constructable) as C;
+    if (dependencyScopeManager.hasInstance(scope, Constructable)) return dependencyScopeManager.getInstance(scope, Constructable) as C;
 
     /**
      * Step 1: Patch constructor and prototype with Injectables (issue #752)
@@ -38,7 +38,7 @@ export function classLoaderFactory(injectables: _InjectablesHolder): ClassLoader
      */
     injectProperties(instance, Constructable.prototype, injectables, classLoader, scope, Constructable.name);
 
-    dependencyScopeManager.add(scope, Constructable, instance);
+    dependencyScopeManager.registerInstance(scope, Constructable, instance);
 
     return instance as C;
   };

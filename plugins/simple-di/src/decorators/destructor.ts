@@ -6,11 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { createInitializationHook } from 'fastify-decorators/plugins';
-import { destructors } from '../registry/destructors.js';
 import { DESTRUCTOR } from '../symbols.js';
-
-createInitializationHook('appDestroy', () => Promise.all([...destructors].map(([, destructor]) => destructor())));
 
 export function Destructor(): PropertyDecorator {
   return (targetPrototype: any, propertyKey: string | symbol): void => {

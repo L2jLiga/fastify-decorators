@@ -9,8 +9,8 @@
 import { ClassLoader, CREATOR, Scope } from 'fastify-decorators/plugins';
 import { InjectableService } from '../interfaces/injectable-class.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
-import { destructors } from '../registry/destructors.js';
 import { DESTRUCTOR, INITIALIZER } from '../symbols.js';
+import { dependencyScopeManager } from '../utils/dependencies-scope-manager.js';
 
 const INITIALIZED = Symbol.for('fastify-decorators.initializer-called');
 
@@ -29,7 +29,7 @@ export function Service(injectableToken?: string | symbol): unknown {
 
         instance[INITIALIZED] = Promise.resolve(target[INITIALIZER]?.(instance));
         // @ts-expect-error TODO: make this work without expect-error
-        if (target[DESTRUCTOR]) destructors.set(target, () => instance[target[DESTRUCTOR]]());
+        if (target[DESTRUCTOR]) dependencyScopeManager.registerDestructor(scope, () => instance[target[DESTRUCTOR]]());
 
         return instance as Type;
       },
