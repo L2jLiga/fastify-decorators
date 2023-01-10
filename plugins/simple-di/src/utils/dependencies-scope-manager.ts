@@ -1,8 +1,14 @@
+/**
+ * @license
+ * Copyright Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga). All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
+ */
+
 import { Constructable, Scope } from 'fastify-decorators/plugins';
 
 const scopedInstances = new WeakMap<Scope, Map<Constructable<unknown>, unknown>>();
-
-export const defaultScope = {} as Scope;
 
 export const dependencyScopeManager = {
   add(scope: Scope, dependency: Constructable<unknown>, instance: unknown): void {
@@ -26,14 +32,9 @@ export const dependencyScopeManager = {
     scopedInstances.delete(scope);
   },
 
-  parentScope(scope: Scope): Scope {
-    if ('context' in scope) return scope.server;
-    return defaultScope;
-  },
-
   resolveScope(scope: Scope): Map<Constructable<unknown>, unknown> | undefined {
     if (scopedInstances.has(scope)) return scopedInstances.get(scope);
-    if (scope === defaultScope) return scopedInstances.get(defaultScope);
-    return dependencyScopeManager.resolveScope(dependencyScopeManager.parentScope(scope));
+    if ('context' in scope) return dependencyScopeManager.resolveScope(scope.server);
+    return undefined;
   },
 };

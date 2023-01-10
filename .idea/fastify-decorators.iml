@@ -33,6 +33,9 @@
       <excludeFolder url="file://$MODULE_DIR$/examples/typedi/dist" />
       <excludeFolder url="file://$MODULE_DIR$/examples/injecting-requests-in-services/dist" />
       <excludeFolder url="file://$MODULE_DIR$/plugins/typedi/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/plugins/simple-di/.rollup.cache" />
+      <excludeFolder url="file://$MODULE_DIR$/plugins/typedi/.rollup.cache" />
+      <excludeFolder url="file://$MODULE_DIR$/test-results" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

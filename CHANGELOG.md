@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - BREAKING: dropped Node.js 10, 12 and 14, minimal required is 16.13.1 LTS
 - BREAKING: dropped Fastify v3 support
 - BREAKING: moved dependency injection functionality into separate package
+- BREAKING: dropped `getInstanceByToken` method
 
 ## 3.x.y
 

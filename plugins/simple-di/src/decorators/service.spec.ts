@@ -1,74 +1,84 @@
 import { jest } from '@jest/globals';
+import { FastifyInstance } from 'fastify';
 import { CREATOR } from 'fastify-decorators/plugins';
+import { InjectableService } from '../interfaces/injectable-class.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
-import { INITIALIZER } from '../symbols.js';
-import { getInstanceByToken } from '../utils/get-instance-by-token.js';
+import { destructors } from '../registry/destructors.js';
+import { DESTRUCTOR, INITIALIZER } from '../symbols.js';
 import { classLoaderFactory } from './helpers/inject-dependencies.js';
 import { Service } from './service.js';
 
 describe('Decorators: @Service', () => {
-  beforeEach(() => _injectablesHolder.reset());
-  afterEach(() => _injectablesHolder.reset());
-
-  it('should add CREATOR static property to class', () => {
-    @Service()
-    class Srv {}
-
-    // @ts-expect-error TypeScript does not know about patches within decorator
-    expect(Srv[CREATOR]).toBeTruthy();
+  beforeEach(() => {
+    _injectablesHolder.reset();
+    destructors.clear();
+  });
+  afterEach(() => {
+    _injectablesHolder.reset();
+    destructors.clear();
   });
 
-  it('should create service', () => {
+  @Service()
+  class _Srv {}
+  const Srv = _Srv as InjectableService;
+
+  it('should create new instances for different scopes', () => {
     const classLoader = classLoaderFactory(_injectablesHolder);
-    @Service()
-    class Srv {}
 
-    // @ts-expect-error TypeScript does not know about patches within decorator
-    const instance = Srv[CREATOR].register(classLoader);
+    const scope1 = {} as FastifyInstance;
+    const scope2 = {} as FastifyInstance;
 
-    expect(instance).toBeDefined();
+    const instance1 = Srv[CREATOR].register(classLoader, scope1);
+    const instance2 = Srv[CREATOR].register(classLoader, scope2);
+
+    expect(instance1).not.toBe(instance2);
+  });
+
+  it('should return same instance if service created multiple times within same scope', () => {
+    const classLoader = classLoaderFactory(_injectablesHolder);
+
+    const scope = {} as FastifyInstance;
+
+    const instance1 = Srv[CREATOR].register(classLoader, scope);
+    const instance2 = Srv[CREATOR].register(classLoader, scope);
+    const instance3 = Srv[CREATOR].register(classLoader, scope);
+
+    expect(instance1).toBe(instance2);
+    expect(instance1).toBe(instance3);
   });
 
   it('should call initializer when instantiate service', () => {
     const classLoader = classLoaderFactory(_injectablesHolder);
+    const scope = {} as FastifyInstance;
+    const initializerResult = {};
     @Service()
-    class Srv {
+    class TestService extends Srv {
       static [INITIALIZER] = jest.fn((srv: unknown) => {
         expect(srv).toBeInstanceOf(Srv);
+        return Promise.resolve(initializerResult);
       });
     }
 
-    // @ts-expect-error TypeScript does not know about patches within decorator
-    Srv[CREATOR].register(classLoader);
+    TestService[CREATOR].register(classLoader, scope);
 
-    expect(Srv[INITIALIZER]).toHaveBeenCalled();
+    expect(TestService[INITIALIZER]).toHaveBeenCalled();
   });
 
-  it('should return same instance if service created multiple times', () => {
+  it('should register destructor when instantiate service', () => {
     const classLoader = classLoaderFactory(_injectablesHolder);
+    const scope = {} as FastifyInstance;
+    const destructorFn = jest.fn();
+
     @Service()
-    class Srv {}
+    class TestService extends Srv {
+      static [DESTRUCTOR] = 'test';
 
-    // @ts-expect-error TypeScript does not know about patches within decorator
-    const instance1 = Srv[CREATOR].register(classLoader);
-    // @ts-expect-error TypeScript does not know about patches within decorator
-    const instance2 = Srv[CREATOR].register(classLoader);
-    // @ts-expect-error TypeScript does not know about patches within decorator
-    const instance3 = Srv[CREATOR].register(classLoader);
+      test = destructorFn;
+    }
 
-    expect(instance1).toBe(instance2);
-    expect(instance1).toBe(instance3);
-    expect(instance2).toBe(instance3);
-  });
+    TestService[CREATOR].register(classLoader, scope);
+    destructors.get(TestService)?.();
 
-  it('should register service by injectable token and class', () => {
-    @Service('token')
-    class Srv {}
-
-    const instanceByClass = getInstanceByToken(Srv);
-    const instanceByToken = getInstanceByToken('token');
-
-    expect(instanceByClass).toBeInstanceOf(Srv);
-    expect(instanceByToken).toBeInstanceOf(Srv);
+    expect(destructorFn).toHaveBeenCalled();
   });
 });

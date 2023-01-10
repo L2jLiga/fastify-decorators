@@ -13,7 +13,6 @@ import { readyMap } from '../decorators/initializer.js';
 import type { InjectableService } from '../interfaces/injectable-class.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { FastifyInstanceToken, INITIALIZER } from '../symbols.js';
-import { defaultScope } from '../utils/dependencies-scope-manager.js';
 import { loadPlugins, Plugins } from './fastify-plugins.js';
 import { MocksManager } from './mocks-manager.js';
 import type { ServiceMock } from './service-mock.js';
@@ -40,11 +39,10 @@ export function configureServiceTest<Service>(config: ServiceTestConfig<Service>
   injectablesWithMocks.injectSingleton(FastifyInstanceToken, fastifyInstance, false);
 
   const classLoader = classLoaderFactory(injectablesWithMocks) as ClassLoader & { reset(scope: Scope): void };
-  classLoader.reset(defaultScope);
   fastifyInstance.decorate(CLASS_LOADER, classLoader);
 
   isInjectable(service);
-  const instance = service[CREATOR].register<Service>(fastifyInstance[CLASS_LOADER]);
+  const instance = service[CREATOR].register<Service>(fastifyInstance[CLASS_LOADER], fastifyInstance);
 
   let promise: Promise<unknown> | null = null;
 

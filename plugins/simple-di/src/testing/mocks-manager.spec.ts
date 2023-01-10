@@ -1,3 +1,4 @@
+import { FastifyInstance } from 'fastify';
 import { CREATOR } from 'fastify-decorators/plugins';
 import { InjectableService } from '../interfaces/injectable-class.js';
 import { _InjectablesHolder } from '../registry/_injectables-holder.js';
@@ -21,7 +22,7 @@ describe('Testing: mocks manager', () => {
 
     const created = MocksManager.create(injectables, [{ provide: token, useValue: { value: 45 } }]);
 
-    expect((injectables.get(token) as InjectableService)[CREATOR].register((c) => new c())).toEqual({ value: 3 });
-    expect((created.get(token) as InjectableService)[CREATOR].register((c) => new c())).toEqual({ value: 45 });
+    expect((injectables.get(token) as InjectableService)[CREATOR].register((c) => new c(), {} as FastifyInstance)).toEqual({ value: 3 });
+    expect((created.get(token) as InjectableService)[CREATOR].register((c) => new c(), {} as FastifyInstance)).toEqual({ value: 45 });
   });
 });

@@ -16,7 +16,6 @@ In fastify-decorators DI only available for controllers.
   - [Async service initialization](#async-service-initialization)
   - [Graceful service destroy](#graceful-services-destroy)
 - [Injecting into Controllers](#injecting-into-controllers)
-  - [Inject, getInstanceByToken and available tokens](#inject-getinstancebytoken-and-available-tokens)
   - [Built-in tokens](#built-in-tokens)
     - [Limitations](#limitations)
 - [Dependency inversion](#dependency-inversion)
@@ -179,29 +178,9 @@ export class SampleController {
 }
 ```
 
-It's also possible to use `getInstanceByToken` function:
+### Inject and available tokens
 
-_sample.controller.ts_:
-
-```ts
-import { Controller, GET } from 'fastify-decorators';
-import { getInstanceByToken } from '@fastify-decorators/simple-di';
-import { MyService } from './my-service';
-
-@Controller()
-export class SampleController {
-  private service = getInstanceByToken<MyService>(MyService);
-
-  @GET()
-  async index() {
-    return this.service.doSomething();
-  }
-}
-```
-
-### Inject, getInstanceByToken and available tokens
-
-When you use `@Inject` or `getInstanceByToken` you need to specify token, so what is token?
+When you use `@Inject` you need to specify token, so what is token?
 Token is kind of identifier of instance to inject.
 
 By default, when you use `@Service` decorator it uses class object as token, and it can be changed by specifying token explicitly:

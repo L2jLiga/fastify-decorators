@@ -48,27 +48,4 @@ describe('Controllers dependency injection tests', () => {
       expect(await response.body.text()).toEqual('Message');
     });
   });
-
-  describe('Controller with getInstanceByToken call', () => {
-    it('should work with sync service', async () => {
-      const response = await request(`${getAppOrigin()}/dependency-injection/get-instance-by-token/sync`);
-
-      expect(response.statusCode).toEqual(200);
-      expect(await response.body.text()).toEqual('Message');
-    });
-
-    it('should work with service injected by token', async () => {
-      const response = await request(`${getAppOrigin()}/dependency-injection/get-instance-by-token/sync/v2`);
-
-      expect(response.statusCode).toEqual(200);
-      expect(await response.body.text()).toEqual('Message');
-    });
-
-    it('should work with async service', async () => {
-      const response = await request(`${getAppOrigin()}/dependency-injection/get-instance-by-token/async`);
-
-      expect(response.statusCode).toEqual(200);
-      expect(await response.body.text()).toEqual('Message');
-    });
-  });
 });

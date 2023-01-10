@@ -15,7 +15,6 @@ import { patchMethods } from '../decorators/helpers/patch-methods.js';
 import { readyMap } from '../decorators/initializer.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { FastifyInstanceToken, SERVICE_INJECTION } from '../symbols.js';
-import { defaultScope } from '../utils/dependencies-scope-manager.js';
 import { loadPlugins, Plugins } from './fastify-plugins.js';
 import { MocksManager } from './mocks-manager.js';
 import type { ServiceMock } from './service-mock.js';
@@ -38,7 +37,6 @@ export async function configureControllerTest<C>(config: ControllerTestConfig<Co
   }
 
   const classLoader = classLoaderFactory(injectablesWithMocks) as ClassLoader & { reset(scope: Scope): void };
-  classLoader.reset(defaultScope);
   if (!instance.hasDecorator(CLASS_LOADER)) instance.decorate(CLASS_LOADER, classLoader);
   else instance[CLASS_LOADER] = classLoader;
 

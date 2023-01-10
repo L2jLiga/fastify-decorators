@@ -25,18 +25,18 @@ export function classLoaderFactory(injectables: _InjectablesHolder): ClassLoader
     /**
      * Step 1: Patch constructor and prototype with Injectables (issue #752)
      */
-    injectProperties(Constructable, Constructable, injectables, classLoader, Constructable.name);
-    injectProperties(Constructable.prototype, Constructable.prototype, injectables, classLoader, Constructable.name);
+    injectProperties(Constructable, Constructable, injectables, classLoader, scope, Constructable.name);
+    injectProperties(Constructable.prototype, Constructable.prototype, injectables, classLoader, scope, Constructable.name);
 
     /**
      * Step 2: Create instance
      */
-    const instance = Reflect.construct(Constructable, getArguments(Constructable, injectables, classLoader, Constructable.name)) as C;
+    const instance = Reflect.construct(Constructable, getArguments(Constructable, injectables, classLoader, scope, Constructable.name)) as C;
 
     /**
      * Step 3: Inject dependencies into instance (issue #750)
      */
-    injectProperties(instance, Constructable.prototype, injectables, classLoader, Constructable.name);
+    injectProperties(instance, Constructable.prototype, injectables, classLoader, scope, Constructable.name);
 
     dependencyScopeManager.add(scope, Constructable, instance);
 
@@ -50,7 +50,7 @@ export function classLoaderFactory(injectables: _InjectablesHolder): ClassLoader
   });
 }
 
-function injectProperties(target: unknown, source: unknown, injectables: _InjectablesHolder, classLoader: ClassLoader, className: string) {
+function injectProperties(target: unknown, source: unknown, injectables: _InjectablesHolder, classLoader: ClassLoader, scope: Scope, className: string) {
   if (!hasServiceInjection(source)) return;
   const viaInject = source[SERVICE_INJECTION];
   for (const { name, propertyKey } of viaInject) {
@@ -58,7 +58,7 @@ function injectProperties(target: unknown, source: unknown, injectables: _Inject
       throw new TypeError(`Invalid argument provided for "${className}.${String(propertyKey)}". Expected class annotated with @Service.`);
 
     Object.defineProperty(target, propertyKey, {
-      value: (injectables.get(name) as InjectableService)[CREATOR].register(classLoader),
+      value: (injectables.get(name) as InjectableService)[CREATOR].register(classLoader, scope),
       enumerable: true,
       configurable: true,
       writable: true,
@@ -66,12 +66,12 @@ function injectProperties(target: unknown, source: unknown, injectables: _Inject
   }
 }
 
-function getArguments<C>(constructor: Constructable<C>, injectables: _InjectablesHolder, classLoader: ClassLoader, className: string): unknown[] {
+function getArguments<C>(constructor: Constructable<C>, injectables: _InjectablesHolder, classLoader: ClassLoader, scope: Scope, className: string): unknown[] {
   const metadata: unknown[] = Reflect.getMetadata('design:paramtypes', constructor) || [];
   return metadata
     .map((value) => injectables.get(value))
     .map((value: InjectableService | undefined) => {
-      if (value) return value[CREATOR].register(classLoader);
+      if (value) return value[CREATOR].register(classLoader, scope);
       throw new TypeError(`Invalid argument provided in ${className}'s constructor. Expected class annotated with @Service.`);
     });
 }

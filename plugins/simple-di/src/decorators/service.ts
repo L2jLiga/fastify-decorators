@@ -6,12 +6,11 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { ClassLoader, CREATOR } from 'fastify-decorators/plugins';
+import { ClassLoader, CREATOR, Scope } from 'fastify-decorators/plugins';
 import { InjectableService } from '../interfaces/injectable-class.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { destructors } from '../registry/destructors.js';
 import { DESTRUCTOR, INITIALIZER } from '../symbols.js';
-import { defaultScope } from '../utils/dependencies-scope-manager.js';
 
 const INITIALIZED = Symbol.for('fastify-decorators.initializer-called');
 
@@ -23,12 +22,14 @@ export function Service(injectableToken: string | symbol): ClassDecorator;
 export function Service(injectableToken?: string | symbol): unknown {
   return (target: InjectableService) => {
     target[CREATOR] = {
-      register<Type>(classLoader: ClassLoader): Type {
-        const instance = classLoader<Type & { [INITIALIZED]?: Promise<unknown> }>(target, defaultScope);
+      register<Type>(classLoader: ClassLoader, scope: Scope): Type {
+        if ('context' in scope) scope = scope.server;
+        const instance = classLoader<Type & { [INITIALIZED]?: Promise<unknown> }>(target, scope);
         if (instance[INITIALIZED]) return instance as Type;
 
         instance[INITIALIZED] = Promise.resolve(target[INITIALIZER]?.(instance));
-        if (target[DESTRUCTOR]) destructors.set(target, target[DESTRUCTOR]);
+        // @ts-expect-error TODO: make this work without expect-error
+        if (target[DESTRUCTOR]) destructors.set(target, () => instance[target[DESTRUCTOR]]());
 
         return instance as Type;
       },

@@ -1,1 +1,1 @@
-export const destructors = new Map();
+export const destructors = new Map<unknown, () => Promise<void>>();

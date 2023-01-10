@@ -18,8 +18,6 @@ createInitializationHook('appInit', (fastify) => {
 });
 createInitializationHook('beforeControllerCreation', (fastifyInstance, target) => patchMethods(target));
 
-export { getInstanceByToken } from './utils/get-instance-by-token.js';
-
 export { Service } from './decorators/service.js';
 export { Inject } from './decorators/inject.js';
 
