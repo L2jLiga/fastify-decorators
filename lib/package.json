@@ -50,7 +50,7 @@
     "email": "L2jLiga@gmail.com"
   },
   "engines": {
-    "node": "^16.13.0 || >= 18.0.0"
+    "node": "^16.13.1 || >= 18.0.0"
   },
   "dependencies": {
     "fastify-plugin": "^4.0.0"
