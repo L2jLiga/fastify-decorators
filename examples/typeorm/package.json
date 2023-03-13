@@ -16,7 +16,7 @@
     "fastify": "^4.12.0",
     "fastify-decorators": "^4.0.0-next.4",
     "@fastify-decorators/simple-di": "^4.0.0-next.4",
-    "sqlite3": "^5.1.4",
+    "sqlite3": "^5.1.5",
     "typeorm": "^0.3.11"
   },
   "devDependencies": {
