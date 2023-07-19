@@ -25,12 +25,12 @@ export function Initializer(dependencies: unknown[] = []): PropertyDecorator {
     const ready = new Deferred();
 
     target[INITIALIZER] = (self: Record<typeof propertyKey, () => void>) => {
+      readyMap.set(target, ready.promise);
+
       Promise.all(dependencies.map((dep) => readyMap.get(dep)))
         .then(() => self[propertyKey as string]())
         .then(ready.resolve)
         .catch(ready.reject);
     };
-
-    readyMap.set(target, ready.promise);
   };
 }
