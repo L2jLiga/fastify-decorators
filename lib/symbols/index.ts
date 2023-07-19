@@ -22,3 +22,4 @@ export const FASTIFY_REPLY = Symbol.for('fastify-decorators.fastify-reply');
 export const FastifyInstanceToken = Symbol.for('fastify-decorators.fastify-instance');
 export const FastifyRequestToken = Symbol.for('fastify-decorators.token.fastify-request');
 export const FastifyReplyToken = Symbol.for('fastify-decorators.token.fastify-instance');
+export const INITIALIZED = Symbol.for('fastify-decorators.initializer-called');

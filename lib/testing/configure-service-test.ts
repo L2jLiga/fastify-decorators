@@ -10,7 +10,7 @@ import { fastify, FastifyInstance } from 'fastify';
 import { defaultScope, DependencyScope } from '../decorators/helpers/dependency-scope.js';
 import type { Constructor } from '../decorators/helpers/inject-dependencies.js';
 import { classLoaderFactory } from '../decorators/helpers/inject-dependencies.js';
-import { readyMap } from '../decorators/index.js';
+import { initializersMap } from '../decorators/initializer.js';
 import { ClassLoader } from '../interfaces/bootstrap-config.js';
 import type { InjectableService } from '../interfaces/injectable-class.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
@@ -57,7 +57,7 @@ export function configureServiceTest<Service>(config: ServiceTestConfig<Service>
         if (promise == null)
           promise = hasAsyncInitializer(service)
             ? // @ts-expect-error if service has async initializer then it exists in readyMap
-              readyMap.get(service).then(() => target)
+              initializersMap.get(service).then(() => target)
             : Promise.resolve(target);
 
         return promise[p as 'then' | 'catch' | 'finally'].bind(promise);

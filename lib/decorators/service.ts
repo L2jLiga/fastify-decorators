@@ -10,9 +10,9 @@ import { ClassLoader } from '../interfaces/bootstrap-config.js';
 import { InjectableService } from '../interfaces/injectable-class.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { destructors } from '../registry/destructors.js';
-import { CREATOR, DESTRUCTOR, INITIALIZER } from '../symbols/index.js';
-
-const INITIALIZED = Symbol.for('fastify-decorators.initializer-called');
+import { CREATOR, DESTRUCTOR, INITIALIZED, INITIALIZER } from '../symbols/index.js';
+import { Deferred } from '../utils/deferred.js';
+import { readyMap } from './initializer.js';
 
 /**
  * Decorator for making classes injectable
@@ -26,7 +26,14 @@ export function Service(injectableToken?: string | symbol): unknown {
         const instance = classLoader<Type & { [INITIALIZED]?: Promise<unknown> }>(target);
         if (instance[INITIALIZED]) return instance as Type;
 
-        instance[INITIALIZED] = Promise.resolve(target[INITIALIZER]?.(instance));
+        const deferred = new Deferred();
+        instance[INITIALIZED] = deferred.promise;
+        readyMap.set(instance, deferred.promise);
+
+        Promise.resolve(target[INITIALIZER]?.(instance))
+          .then(() => deferred.resolve())
+          .catch(deferred.reject);
+
         if (target[DESTRUCTOR]) destructors.set(target, target[DESTRUCTOR]);
 
         return instance as Type;

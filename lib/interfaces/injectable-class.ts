@@ -13,10 +13,10 @@ import { ClassLoader } from './bootstrap-config.js';
 
 export interface InjectableService extends InjectableClass, Object {
   [CREATOR]: {
-    register<Type>(classLoader?: ClassLoader): Type;
+    register<Type>(classLoader: ClassLoader): Type;
   };
 
-  [INITIALIZER]?<Type>(self: Type): void;
+  [INITIALIZER]?<Type>(self: Type): Promise<unknown>;
   [DESTRUCTOR]?: string | symbol;
 }
 

@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
+import { ClassLoader } from '../interfaces/bootstrap-config.js';
 import { InjectableService } from '../interfaces/injectable-class.js';
 import { CREATOR, FASTIFY_REPLY, FASTIFY_REQUEST, FastifyReplyToken, FastifyRequestToken } from '../symbols/index.js';
 
@@ -42,7 +43,10 @@ export class _InjectablesHolder {
   getSingleton<T>(token: unknown): T | undefined {
     const mayBeSingleton = this.get(token);
 
-    return mayBeSingleton?.[CREATOR].register();
+    const loader = (() => {
+      /* no-op */
+    }) as ClassLoader;
+    return mayBeSingleton?.[CREATOR].register(loader);
   }
 
   reset(): void {
@@ -68,7 +72,7 @@ export class _InjectablesHolder {
   wrapSingleton<T>(object: T): InjectableService {
     return <InjectableService>{
       [CREATOR]: {
-        register() {
+        register(classLoader: ClassLoader) {
           return object;
         },
       },

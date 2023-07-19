@@ -1,7 +1,8 @@
 import { INITIALIZER } from '../symbols/index.js';
 import { Deferred } from '../utils/deferred.js';
 
-export const readyMap = new Map<unknown, Promise<void>>();
+export const readyMap = new Map<unknown, Promise<unknown>>();
+export const initializersMap = new Map<unknown, Promise<unknown>>();
 
 /**
  * Used to mark a Service method to be called after all the Services are created, but before the server starts
@@ -14,12 +15,12 @@ export function Initializer(dependencies: unknown[] = []): PropertyDecorator {
     const ready = new Deferred();
 
     target[INITIALIZER] = (self: Record<typeof propertyKey, () => void>) => {
-      Promise.all(dependencies.map((dep) => readyMap.get(dep)))
+      return Promise.all(dependencies.map((dep) => initializersMap.get(dep)))
         .then(() => self[propertyKey as string]())
         .then(ready.resolve)
         .catch(ready.reject);
     };
 
-    readyMap.set(target, ready.promise);
+    initializersMap.set(target, ready.promise);
   };
 }
