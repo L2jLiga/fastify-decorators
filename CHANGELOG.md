@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 3.15.1
+
+### Fixed
+
+- application does not start up when service with initializer is loaded but not instantiated (issue [#877](https://github.com/L2jLiga/fastify-decorators/issues/877))
+
 ## 3.15.0
 
 ### Added
