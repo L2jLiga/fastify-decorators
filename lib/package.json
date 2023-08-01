@@ -53,7 +53,7 @@
     "node": "^16.13.1 || >= 18.0.0"
   },
   "dependencies": {
-    "fastify-plugin": "^4.0.0"
+    "fastify-plugin": "^4.5.1"
   },
   "peerDependencies": {
     "@types/node": "*",
