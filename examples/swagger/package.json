@@ -14,7 +14,7 @@
     "@fastify/swagger": "^8.3.1",
     "@fastify/swagger-ui": "^1.3.0",
     "@fastify-decorators/simple-di": "^4.0.0-next.4",
-    "@sinclair/typebox": "^0.28.6",
+    "@sinclair/typebox": "^0.31.8",
     "fastify": "^4.17.0",
     "fastify-decorators": "^4.0.0-next.4"
   },
