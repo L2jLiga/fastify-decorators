@@ -50,7 +50,7 @@
     "email": "L2jLiga@gmail.com"
   },
   "engines": {
-    "node": "^16.13.1 || >= 18.0.0"
+    "node": "^20.8.1 || >= 21.0.0"
   },
   "dependencies": {
     "fastify-plugin": "^4.0.0"
@@ -58,7 +58,7 @@
   "peerDependencies": {
     "@types/node": "*",
     "fastify": "^4.0.0",
-    "typescript": "^4.7.0"
+    "typescript": "^5.0.0"
   },
   "maintainers": [
     "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)"

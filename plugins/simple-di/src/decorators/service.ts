@@ -24,7 +24,7 @@ export function Service(injectableToken?: string | symbol): unknown {
     target[CREATOR] = {
       register<Type>(classLoader: ClassLoader, scope: Scope): Type {
         if ('context' in scope) scope = scope.server;
-        const instance = classLoader<Type & { [INITIALIZED]?: Promise<unknown> }>(target, scope);
+        const instance = classLoader(target as InjectableService<Type & { [INITIALIZED]?: Promise<unknown> }>, scope);
         if (instance[INITIALIZED]) return instance as Type;
 
         instance[INITIALIZED] = Promise.resolve(target[INITIALIZER]?.(instance));

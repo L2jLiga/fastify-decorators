@@ -29,8 +29,8 @@ function parseConfig(config: string | RouteConfig = '/', options: RouteShorthand
 
 const requestHandlersCache = new WeakMap<FastifyRequest, RequestHandler>();
 
-async function getTarget(target: Registrable, request: FastifyRequest, ...rest: unknown[]) {
-  if (requestHandlersCache.has(request)) return requestHandlersCache.get(request);
+async function getTarget(target: Registrable<RequestHandler>, request: FastifyRequest, ...rest: unknown[]): Promise<RequestHandler> {
+  if (requestHandlersCache.has(request)) return requestHandlersCache.get(request)!;
   const instance = new target(request, ...rest);
   await transformAndWait(hooksRegistry.afterControllerCreation, (hook) => hook(request.server, target, instance));
   requestHandlersCache.set(request, instance);
@@ -47,13 +47,15 @@ export function requestDecoratorsFactory(method: HttpMethods) {
         return;
       }
 
-      ensureRegistrable(target);
+      ensureRegistrable<typeof target, RequestHandler>(target);
 
       target[CREATOR].register = (instance: FastifyInstance) => {
         if (hasHooks(target)) {
           for (const hook of target[HOOKS] as Container<RequestHook>) {
             const hookFn = (request: FastifyRequest, ...rest: unknown[]) => {
-              return getTarget(target, request, ...rest).then((t) => t[hook.handlerName](request, ...rest));
+              return getTarget(target, request, ...rest).then((t) =>
+                (t as unknown as Record<string, (...args: unknown[]) => unknown>)[hook.handlerName as string](request, ...rest),
+              );
             };
 
             const option = config.options[hook.name];
@@ -64,7 +66,7 @@ export function requestDecoratorsFactory(method: HttpMethods) {
         }
         if (hasErrorHandlers(target)) {
           config.options.errorHandler = async (error, request, ...rest) => {
-            const errorsHandler = createErrorsHandler(target[ERROR_HANDLERS], await getTarget(target, request, ...rest));
+            const errorsHandler = createErrorsHandler(target[ERROR_HANDLERS], (await getTarget(target, request, ...rest)) as never);
 
             return errorsHandler(error, request, ...rest);
           };
@@ -77,7 +79,12 @@ export function requestDecoratorsFactory(method: HttpMethods) {
   };
 }
 
-export function controllerMethodDecoratorsFactory(method: HttpMethods, config: ParsedRouteConfig, { constructor }: any, propKey: string | symbol): void {
+export function controllerMethodDecoratorsFactory(
+  method: HttpMethods,
+  config: ParsedRouteConfig,
+  { constructor }: Constructable,
+  propKey: string | symbol,
+): void {
   ensureHandlers(constructor);
 
   constructor[HANDLERS].push({

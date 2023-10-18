@@ -11,5 +11,7 @@ export * from './life-cycle.js';
 export * from './shared-interfaces.js';
 
 export * from '../decorators/helpers/class-properties.js';
+export { HOOKS, ERROR_HANDLERS, HANDLERS, CREATOR } from '../symbols/index.js';
+
 export { Container } from '../decorators/helpers/container.js';
 export { CLASS_LOADER } from './class-loader.js';

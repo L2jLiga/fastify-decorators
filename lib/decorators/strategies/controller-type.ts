@@ -6,9 +6,9 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { FastifyInstance, FastifyRequest, FastifySchema } from 'fastify';
-import { CLASS_LOADER, ClassLoader } from '../../plugins/index.js';
-import { hooksRegistry, Registrable } from '../../plugins/index.js';
+import type { FastifyInstance, FastifyReply, FastifyRequest, FastifySchema } from 'fastify';
+import { onRequestHookHandler } from 'fastify/types/hooks.js';
+import { CLASS_LOADER, ClassLoader, hooksRegistry, Registrable } from '../../plugins/index.js';
 import { ControllerType } from '../../registry/controller-type.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import { transformAndWait } from '../../utils/transform-and-wait.js';
@@ -27,7 +27,7 @@ function targetFactory(target: Registrable, classLoader: ClassLoader) {
   };
 }
 
-type ControllerFactory = (fastifyInstance: FastifyInstance, target: Registrable, tags: TagObject[]) => unknown;
+type ControllerFactory = (fastifyInstance: FastifyInstance, target: Registrable, tags: TagObject[]) => Promise<unknown>;
 
 /**
  * Various strategies which can be applied to controller
@@ -64,30 +64,33 @@ export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory>
   },
 };
 
-function registerController(fastifyInstance: FastifyInstance, target: Registrable, targetFactory: (request: FastifyRequest) => any, tags: TagObject[]) {
+function registerController(fastifyInstance: FastifyInstance, target: Registrable, targetFactory: (request: FastifyRequest) => unknown, tags: TagObject[]) {
   if (hasHandlers(target)) {
     for (const handler of target[HANDLERS]) {
       const options =
         tags.length > 0 ? { ...handler.options, schema: { tags: tags.map((it) => it.name), ...handler.options.schema } as FastifySchema } : handler.options;
       fastifyInstance[handler.method](handler.url, options, async (request, ...rest) => {
-        const instance = await targetFactory(request);
-        return instance[handler.handlerMethod](request, ...rest);
+        const instance = (await targetFactory(request)) as Record<string, (request: FastifyRequest, ...rest: unknown[]) => Promise<unknown>>;
+        return instance[handler.handlerMethod as string](request, ...rest);
       });
     }
   }
 
   if (hasHooks(target)) {
     for (const hook of target[HOOKS]) {
-      fastifyInstance.addHook(hook.name as 'onRequest', async (request, ...rest) => {
-        const instance = await targetFactory(request);
-        return instance[hook.handlerName](request, ...rest);
-      });
+      fastifyInstance.addHook(
+        hook.name as 'onRequest',
+        (async (request, ...rest): Promise<unknown> => {
+          const instance = (await targetFactory(request)) as Record<string, (request: FastifyRequest, ...rest: unknown[]) => Promise<unknown>>;
+          return instance[hook.handlerName as string](request, ...rest);
+        }) as onRequestHookHandler,
+      );
     }
   }
 
   if (hasErrorHandlers(target)) {
-    fastifyInstance.setErrorHandler(async (error: Error, request, reply) => {
-      const instance = await targetFactory(request);
+    fastifyInstance.setErrorHandler(async (error: Error, request, reply): Promise<unknown> => {
+      const instance = (await targetFactory(request)) as Record<string, (error: Error, Request: FastifyRequest, reply: FastifyReply) => Promise<unknown>>;
       for (const handler of target[ERROR_HANDLERS]) {
         if (handler.accepts(error)) {
           try {

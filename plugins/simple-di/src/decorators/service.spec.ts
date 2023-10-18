@@ -15,7 +15,7 @@ describe('Decorators: @Service', () => {
 
   @Service()
   class _Srv {}
-  const Srv = _Srv as InjectableService;
+  const Srv = _Srv as InjectableService<_Srv>;
 
   it('should create new instances for different scopes', () => {
     const classLoader = classLoaderFactory(_injectablesHolder);

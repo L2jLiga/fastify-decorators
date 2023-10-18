@@ -1,4 +1,4 @@
-import { jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { FastifyInstance, RouteShorthandOptions } from 'fastify';
 import { CLASS_LOADER, Constructable, Registrable } from '../../plugins/index.js';
 import { ControllerType } from '../../registry/controller-type.js';
@@ -9,15 +9,17 @@ import { GET } from '../request-handlers.js';
 import { ControllerTypeStrategies } from './controller-type.js';
 
 describe('Strategies: controller types', () => {
-  afterEach(() => jest.resetAllMocks());
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
   [['Singleton', ControllerType.SINGLETON] as const, ['Per request', ControllerType.REQUEST] as const].forEach(([name, controllerType]) => {
     describe(`${name} strategy`, () => {
       it('should do nothing with empty controller', () => {
         const Controller = class {} as Registrable;
         const fastifyInstance = {
-          [CLASS_LOADER]: (c: Constructable, scope) => new c(),
-        } as FastifyInstance;
+          [CLASS_LOADER]: (c: Constructable) => new c(),
+        } as unknown as FastifyInstance;
 
         expect(() => ControllerTypeStrategies[controllerType](fastifyInstance, Controller, [])).not.toThrow();
       });
@@ -40,8 +42,8 @@ describe('Strategies: controller types', () => {
 
               Promise.resolve(handler({})).then(resolve).catch(reject);
             },
-            [CLASS_LOADER]: (c: Constructable, scope) => new c(),
-          } as FastifyInstance;
+            [CLASS_LOADER]: (c: Constructable) => new c(),
+          } as unknown as FastifyInstance;
 
           ControllerTypeStrategies[controllerType](instance, Controller as Registrable, []);
         });
@@ -51,17 +53,19 @@ describe('Strategies: controller types', () => {
 
       it('should register onRequest hook', async () => {
         const onRequestHook = jest.fn();
+
         class Controller {
           @Hook('onRequest')
           onRequestHook = onRequestHook;
         }
-        const hooks: Record<string, jest.Mock> = {};
+
+        const hooks: Record<string, jest.Mock<(arg: unknown) => Promise<unknown>>> = {};
         const instance = {
-          addHook(type: string, handler: jest.Mock) {
+          addHook(type: string, handler: jest.Mock<(arg: unknown) => Promise<unknown>>) {
             hooks[type] = handler;
           },
-          [CLASS_LOADER]: (c: Constructable, scope) => new c(),
-        } as FastifyInstance;
+          [CLASS_LOADER]: (c: Constructable) => new c(),
+        } as unknown as FastifyInstance;
 
         await ControllerTypeStrategies[controllerType](instance, Controller as Registrable, []);
         expect(hooks).toHaveProperty('onRequest');
@@ -88,8 +92,8 @@ describe('Strategies: controller types', () => {
             hookFn();
           },
           oas: () => swagger,
-          [CLASS_LOADER]: (c: Constructable, scope) => new c(),
-        } as FastifyInstance & { oas(): { tags?: TagObject[] } };
+          [CLASS_LOADER]: (c: Constructable) => new c(),
+        } as unknown as FastifyInstance & { oas(): { tags?: TagObject[] } };
 
         ControllerTypeStrategies[controllerType](instance, Controller as Registrable, [{ name: 'user', description: 'User description' }]);
 
@@ -114,8 +118,8 @@ describe('Strategies: controller types', () => {
             hookFn();
           },
           swagger: () => swagger,
-          [CLASS_LOADER]: (c: Constructable, scope) => new c(),
-        } as FastifyInstance & { swagger(): { tags?: TagObject[] } };
+          [CLASS_LOADER]: (c: Constructable) => new c(),
+        } as unknown as FastifyInstance & { swagger(): { tags?: TagObject[] } };
 
         ControllerTypeStrategies[controllerType](instance, Controller as unknown as Registrable, [{ name: 'user', description: 'User description' }]);
 

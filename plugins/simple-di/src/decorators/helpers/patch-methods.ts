@@ -6,35 +6,38 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { Constructable, hasErrorHandlers, hasHandlers, hasHooks } from 'fastify-decorators/plugins';
+import { Constructable, ERROR_HANDLERS, HANDLERS, hasErrorHandlers, hasHandlers, hasHooks, HOOKS, Registrable } from 'fastify-decorators/plugins';
 import { FASTIFY_REPLY, FASTIFY_REQUEST, SERVICE_INJECTION } from '../../symbols.js';
 import { hasServiceInjection } from './ensure-service-injection.js';
 
-export function patchMethods<C>(constructor: Constructable<C>): void {
+export function patchMethods<C>(constructor: Registrable<C>): void {
   if (hasHandlers(constructor)) patchHandlers(constructor);
   if (hasErrorHandlers(constructor)) patchErrorsHandlers(constructor);
   if (hasHooks(constructor)) patchHooks(constructor);
 }
 
-function patchHandlers(constructor: any): void {
-  for (const it of constructor[Symbol.for('fastify-decorators.handlers')]) {
-    patchMethod(constructor, it.handlerMethod);
-  }
+function patchHandlers<C>(constructor: Registrable<C>): void {
+  if (hasHandlers(constructor))
+    for (const it of constructor[HANDLERS]) {
+      patchMethod(constructor, it.handlerMethod);
+    }
 }
 
-function patchErrorsHandlers(constructor: any): void {
-  for (const it of constructor[Symbol.for('fastify-decorators.error-handlers')]) {
-    patchMethod(constructor, it.handlerName);
-  }
+function patchErrorsHandlers<C>(constructor: Registrable<C>): void {
+  if (hasErrorHandlers(constructor))
+    for (const it of constructor[ERROR_HANDLERS]) {
+      patchMethod(constructor, it.handlerName);
+    }
 }
 
-function patchHooks(constructor: any): void {
-  for (const it of constructor[Symbol.for('fastify-decorators.hooks')]) {
-    patchMethod(constructor, it.handlerName);
-  }
+function patchHooks<C>(constructor: Registrable<C>): void {
+  if (hasHooks(constructor))
+    for (const it of constructor[HOOKS]) {
+      patchMethod(constructor, it.handlerName);
+    }
 }
 
-function patchMethod(constructor: any, methodName: string | symbol): void {
+function patchMethod<C>(constructor: Registrable<C>, methodName: string | symbol): void {
   const _original = constructor.prototype[methodName];
 
   constructor.prototype[methodName] = function methodProxy(request: unknown, reply: unknown, ...rest: unknown[]) {
@@ -42,10 +45,10 @@ function patchMethod(constructor: any, methodName: string | symbol): void {
   };
 }
 
-function createProxy(target: any, request: unknown, reply: unknown): unknown {
+function createProxy<C>(target: Constructable<C>, request: unknown, reply: unknown): unknown {
   return new Proxy(target, {
     get(target, p) {
-      const value = target[p];
+      const value = target[p as keyof typeof target];
 
       if (value === FASTIFY_REQUEST) return request;
       if (value === FASTIFY_REPLY) return reply;

@@ -5,7 +5,10 @@ import { ALL, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT } from './request-han
 describe('Decorators: request handlers', () => {
   it('should instantiate ALL handler', () => {
     class Instance {
-      constructor(private url: string, private options: RouteShorthandOptions) {}
+      constructor(
+        private url: string,
+        private options: RouteShorthandOptions,
+      ) {}
 
       all(url: string, options: RouteShorthandOptions) {
         expect(url).toEqual(this.url);
@@ -26,7 +29,10 @@ describe('Decorators: request handlers', () => {
 
   it('should instantiate GET handler', () => {
     class Instance {
-      constructor(private url: string, private options: RouteShorthandOptions) {}
+      constructor(
+        private url: string,
+        private options: RouteShorthandOptions,
+      ) {}
 
       get(url: string, options: RouteShorthandOptions) {
         expect(url).toEqual(this.url);
@@ -47,7 +53,10 @@ describe('Decorators: request handlers', () => {
 
   it('should instantiate POST handler', () => {
     class Instance {
-      constructor(private url: string, private options: RouteShorthandOptions) {}
+      constructor(
+        private url: string,
+        private options: RouteShorthandOptions,
+      ) {}
 
       post(url: string, options: RouteShorthandOptions) {
         expect(url).toEqual(this.url);
@@ -68,7 +77,10 @@ describe('Decorators: request handlers', () => {
 
   it('should instantiate DELETE handler', () => {
     class Instance {
-      constructor(private url: string, private options: RouteShorthandOptions) {}
+      constructor(
+        private url: string,
+        private options: RouteShorthandOptions,
+      ) {}
 
       delete(url: string, options: RouteShorthandOptions) {
         expect(url).toEqual(this.url);
@@ -89,7 +101,10 @@ describe('Decorators: request handlers', () => {
 
   it('should instantiate HEAD handler', () => {
     class Instance {
-      constructor(private url: string, private options: RouteShorthandOptions) {}
+      constructor(
+        private url: string,
+        private options: RouteShorthandOptions,
+      ) {}
 
       head(url: string, options: RouteShorthandOptions) {
         expect(url).toEqual(this.url);
@@ -110,7 +125,10 @@ describe('Decorators: request handlers', () => {
 
   it('should instantiate OPTIONS handler', () => {
     class Instance {
-      constructor(private _url: string, private _options: RouteShorthandOptions) {}
+      constructor(
+        private _url: string,
+        private _options: RouteShorthandOptions,
+      ) {}
 
       options(url: string, options: RouteShorthandOptions) {
         expect(url).toEqual(this._url);
@@ -131,7 +149,10 @@ describe('Decorators: request handlers', () => {
 
   it('should instantiate PATCH handler', () => {
     class Instance {
-      constructor(private url: string, private options: RouteShorthandOptions) {}
+      constructor(
+        private url: string,
+        private options: RouteShorthandOptions,
+      ) {}
 
       patch(url: string, options: RouteShorthandOptions) {
         expect(url).toEqual(this.url);
@@ -152,7 +173,10 @@ describe('Decorators: request handlers', () => {
 
   it('should instantiate PUT handler', () => {
     class Instance {
-      constructor(private url: string, private options: RouteShorthandOptions) {}
+      constructor(
+        private url: string,
+        private options: RouteShorthandOptions,
+      ) {}
 
       put(url: string, options: RouteShorthandOptions) {
         expect(url).toEqual(this.url);

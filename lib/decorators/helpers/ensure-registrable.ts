@@ -9,7 +9,7 @@
 import { Registrable } from '../../plugins/index.js';
 import { CREATOR } from '../../symbols/index.js';
 
-export function ensureRegistrable(target: unknown): asserts target is Registrable {
+export function ensureRegistrable<OriginalType = unknown, CastAs = unknown>(target: OriginalType): asserts target is OriginalType & Registrable<CastAs> {
   if (target instanceof Function) {
     if (!(CREATOR in target) || target[CREATOR] == null) {
       Object.defineProperty(target, CREATOR, { value: {} });

@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
+import type { FastifyInstance } from 'fastify';
 import fp from 'fastify-plugin';
 import { lstatSync, opendirSync, PathLike } from 'node:fs';
 import type { AutoLoadConfig } from '../interfaces/bootstrap-config.js';
@@ -18,8 +18,8 @@ import { isValidRegistrable } from '../utils/validators.js';
 
 const defaultMask = /\.(handler|controller)\./;
 
-export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig>(
-  async (fastifyInstance, config) => {
+export const bootstrap = fp<BootstrapConfig>(
+  async (fastifyInstance: FastifyInstance, config: BootstrapConfig): Promise<void> => {
     // 1. Load all modules
     const toBootstrap = new Set<Constructable>();
     if ('directory' in config) await transformAndWait(autoLoadModules(config), toBootstrap.add.bind(toBootstrap));

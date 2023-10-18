@@ -60,7 +60,7 @@ export interface ControllersListConfig extends CommonConfig {
   /**
    * List of Controller classes to bootstrap
    */
-  controllers: Constructable<unknown>[];
+  controllers: Constructable[];
 }
 
 export type BootstrapConfig = AutoLoadConfig | ControllersListConfig;

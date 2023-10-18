@@ -14,11 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- BREAKING: dropped Node.js 10, 12 and 14, minimal required is 16.13.1 LTS
+- BREAKING: dropped Node.js 10-19, minimal required is 20.8.1 LTS
+- BREAKING: bump minimal TS version to 5.0
 - BREAKING: dropped Fastify v3 support
 - BREAKING: moved dependency injection functionality into separate package
 - BREAKING: dropped `getInstanceByToken` method
-- BREAKING: bump minimal TS version to 4.7
 
 ## 3.x.y
 

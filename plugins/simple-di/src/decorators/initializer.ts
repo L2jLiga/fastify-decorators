@@ -20,9 +20,11 @@ createInitializationHook('appReady', () => Promise.all(readyMap.values()));
  * @param dependencies The dependencies that need to be initialized before this one will be
  */
 export function Initializer(dependencies: unknown[] = []): PropertyDecorator {
-  return (targetPrototype: any, propertyKey: string | symbol) => {
+  return (targetPrototype, propertyKey) => {
     const target = targetPrototype.constructor;
     const ready = new Deferred();
+
+    ensureInitializer(target);
 
     target[INITIALIZER] = (self: Record<typeof propertyKey, () => void>) => {
       readyMap.set(target, ready.promise);
@@ -33,4 +35,8 @@ export function Initializer(dependencies: unknown[] = []): PropertyDecorator {
         .catch(ready.reject);
     };
   };
+}
+
+function ensureInitializer<T>(target: T): asserts target is T & { [INITIALIZER]: (self: Record<string | symbol, () => void>) => void } {
+  // noop
 }

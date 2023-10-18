@@ -1,4 +1,4 @@
-import { jest } from '@jest/globals';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import type { RouteShorthandOptions } from 'fastify';
 import { IHook } from '../../interfaces/controller.js';
 import { CREATOR, HOOKS } from '../../symbols/index.js';
@@ -93,7 +93,7 @@ describe('Factory: request decorators', () => {
 
       expect(instance.get).toHaveBeenCalledWith(
         '/url',
-        <RouteShorthandOptions>{
+        {
           onSend: expect.any(Function),
           schema: { body: { type: 'string' } },
         },
@@ -102,7 +102,7 @@ describe('Factory: request decorators', () => {
     });
 
     it('onSend option should relate to onSend hook fn defined', async () => {
-      const onSendHook = jest.fn();
+      const onSendHook = jest.fn<(arg: unknown) => Promise<unknown>>();
 
       class Handler {
         @Hook('onSend')
@@ -139,7 +139,7 @@ describe('Factory: request decorators', () => {
       const instance = { get: jest.fn(), addHook: jest.fn() };
       const decorate = factory({
         url: '/url',
-        options: <RouteShorthandOptions>{
+        options: {
           onSend() {
             return Promise.resolve();
           },
@@ -154,7 +154,7 @@ describe('Factory: request decorators', () => {
 
       expect(instance.get).toHaveBeenCalledWith(
         '/url',
-        <RouteShorthandOptions>{
+        {
           onSend: [expect.any(Function), expect.any(Function)],
           schema: { body: { type: 'string' } },
         },
@@ -175,7 +175,7 @@ describe('Factory: request decorators', () => {
       const instance = { get: jest.fn(), addHook: jest.fn() };
       const decorate = factory({
         url: '/url',
-        options: <RouteShorthandOptions>{
+        options: {
           onSend: [() => Promise.resolve()],
           schema: { body: { type: 'string' } },
         },
@@ -188,7 +188,7 @@ describe('Factory: request decorators', () => {
 
       expect(instance.get).toHaveBeenCalledWith(
         '/url',
-        <RouteShorthandOptions>{
+        {
           onSend: [expect.any(Function), expect.any(Function)],
           schema: { body: { type: 'string' } },
         },
@@ -219,8 +219,10 @@ describe('Factory: request decorators', () => {
       // @ts-expect-error created implicitly by decorate
       Handler[CREATOR].register(instance);
 
-      // TODO: fix types
-      const [, { errorHandler: _errorHandler }] = instance.get.mock.calls.pop() as any[];
+      const [, { errorHandler: _errorHandler }] = instance.get.mock.calls.pop() as unknown as [
+        unknown,
+        { errorHandler: (error: Error, request: unknown) => void | Promise<void> },
+      ];
       errorHandler = _errorHandler;
     });
 

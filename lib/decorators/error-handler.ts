@@ -14,8 +14,9 @@ import { ensureErrorHandlers } from './helpers/class-properties.js';
 export function ErrorHandler(): PropertyDecorator;
 export function ErrorHandler(code: string): PropertyDecorator;
 export function ErrorHandler<T extends Error>(configuration: Constructable<T>): PropertyDecorator;
-export function ErrorHandler<T extends ErrorConstructor>(parameter?: T | string): PropertyDecorator {
-  return function ({ constructor }: { constructor: any }, handlerName: string | symbol) {
+export function ErrorHandler<T extends ErrorConstructor>(configuration: T): PropertyDecorator;
+export function ErrorHandler<T extends ErrorConstructor>(parameter?: T | string | null | undefined): PropertyDecorator {
+  return function ({ constructor }, handlerName) {
     ensureErrorHandlers(constructor);
 
     if (parameter == null) {

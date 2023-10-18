@@ -13,7 +13,7 @@ import { ensureHooks } from './helpers/class-properties.js';
  * Creates handler which listen various hooks
  */
 export function Hook(name: string): PropertyDecorator {
-  return ({ constructor }: any, handlerName: string | symbol) => {
+  return ({ constructor }, handlerName) => {
     ensureHooks(constructor);
 
     constructor[HOOKS].push({

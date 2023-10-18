@@ -7,7 +7,7 @@
  */
 
 import { fastify, FastifyInstance } from 'fastify';
-import { CLASS_LOADER, ClassLoader, Constructable, CREATOR, Scope } from 'fastify-decorators/plugins';
+import { CLASS_LOADER, Constructable, CREATOR } from 'fastify-decorators/plugins';
 import { classLoaderFactory } from '../decorators/helpers/inject-dependencies.js';
 import { readyMap } from '../decorators/initializer.js';
 import type { InjectableService } from '../interfaces/injectable-class.js';
@@ -68,12 +68,12 @@ function isPromiseLikeAccess<T, K extends keyof T = keyof T>(p: K | 'then' | 'ca
   return p === 'then' || p === 'catch' || p === 'finally';
 }
 
-function isInjectable<Service>(service: Constructable<Service>): asserts service is InjectableService {
+function isInjectable<Service>(service: Constructable<Service>): asserts service is InjectableService<Service> {
   if (!(Symbol.for('fastify-decorators.creator') in service)) {
     throw new Error('Provided service does not annotated with @Service!');
   }
 }
 
-function hasAsyncInitializer(service: InjectableService): service is InjectableService & Required<InjectableService> {
+function hasAsyncInitializer<T>(service: InjectableService<T>): service is InjectableService<T> & Required<InjectableService<T>> {
   return INITIALIZER in service;
 }
