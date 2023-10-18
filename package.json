@@ -56,6 +56,12 @@
     "node": "^20.8.1 || >= 21.0.0",
     "yarn": "^1.0.0"
   },
+  "resolutions": {
+    "npmlog": "^7.0.1",
+    "string-width": "^4.2.3",
+    "wrap-ansi": "^7.0.0",
+    "yargs": "^17.0.0"
+  },
   "workspaces": [
     "lib",
     "plugins/*",
