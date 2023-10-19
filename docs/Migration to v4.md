@@ -12,7 +12,7 @@ Update dependencies:
 
 | Dependency | Minimal supported version |
 | ---------- | ------------------------- |
-| Node.js    | 20.8.1                    |
+| Node.js    | 18.12.0                   |
 | TypeScript | 5.0.0                     |
 | Fastify    | 4.0.0                     |
 

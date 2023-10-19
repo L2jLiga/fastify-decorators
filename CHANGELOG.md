@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- BREAKING: dropped Node.js 10-19, minimal required is 20.8.1 LTS
+- BREAKING: dropped Node.js 10-19, minimal required is 18.12.0 LTS
 - BREAKING: bump minimal TS version to 5.0
 - BREAKING: dropped Fastify v3 support
 - BREAKING: moved dependency injection functionality into separate package
