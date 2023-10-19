@@ -1,40 +1,20 @@
+<h1 style="text-align: center">Fastify decorators</h1>
+
 # Migration from v3.x to v4.x
 
 This guide describes how to migrate from `fastify-decorators` v3 to v4.
 
 _Note_: migration guide from v2.x to v3.x is [here](https://github.com/L2jLiga/fastify-decorators/blob/v3/docs/Migration%20to%20v3.md).
 
-### Moving to ESM
+### Minimal Fastify/TypeScript/Node.js version changed
 
-#### What's changed
+Update dependencies:
 
-| v3        | v4       |
-| --------- | -------- |
-| CJS + ESM | only ESM |
-
-#### How to reflect
-
-In general there are only few steps to be done:
-
-1. In `package.json`: set `"type"` field value to `"module"`
-2. In `tsconfig.json`: set `"module"` to `ESNext` or `ES2020`
-3. In `tsconfig.json`: set `"target"` to `ES2015` or newer
-
-#### Q&A section
-
-Q: How can I adjust tests to work properly with newer version?
-A: See [Testing](./Testing.md) documentation
-
-Q: I'm using `__dirname` or `__filename` in my project
-A: There's "polyfill" for them, just add this lines to file which uses these variables:
-
-```typescript
-import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-```
+| Dependency | Minimal supported version |
+| ---------- | ------------------------- |
+| Node.js    | 20.8.1                    |
+| TypeScript | 5.0.0                     |
+| Fastify    | 4.0.0                     |
 
 ### Built-in DI was moved to plugin
 

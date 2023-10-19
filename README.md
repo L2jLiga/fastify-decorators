@@ -1,13 +1,11 @@
 [![Fastify decorators](./assets/logo.png)](https://github.com/L2jLiga/fastify-decorators)
 
 [![npm version](https://badge.fury.io/js/fastify-decorators.svg?colorB=brightgreen)](https://www.npmjs.com/package/fastify-decorators)
-[![Jetbrains plugin version](https://img.shields.io/jetbrains/plugin/v/13801.svg)](https://plugins.jetbrains.com/plugin/13801)
 [![npm](https://img.shields.io/npm/dm/fastify-decorators.svg?colorB=brightgreen)](https://www.npmjs.com/package/fastify-decorators)
-[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
-[![Node.js CI](https://github.com/L2jLiga/fastify-decorators/workflows/Node.js%20CI/badge.svg)](https://github.com/L2jLiga/fastify-decorators/actions?query=workflow%3A%22Node.js+CI%22)
+[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
+[![Node.js CI](https://github.com/L2jLiga/fastify-decorators/actions/workflows/nodejs.yml/badge.svg)](https://github.com/L2jLiga/fastify-decorators/actions/workflows/nodejs.yml)
 [![codecov](https://codecov.io/gh/L2jLiga/fastify-decorators/branch/v4/graph/badge.svg)](https://codecov.io/gh/L2jLiga/fastify-decorators)
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/L2jLiga/fastify-decorators.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/L2jLiga/fastify-decorators/context:javascript)
 
 > **Framework aimed to provide useful TypeScript decorators to implement controllers, services and request handlers, built with [Fastify].**
 
@@ -29,6 +27,7 @@
 - [Controllers]
 - [Request Handlers]
 - [Testing]
+- [Plugins Development]
 - [Migration guide (V4)]
 
 ## Fastify versions support
@@ -40,10 +39,6 @@
 |      < 3.12.x      |    3.x    |
 |     >= 3.12.x      | 3.x & 4.x |
 |        4.x         |    4.x    |
-
-## IDE Support
-
-- [JetBrains IDE plugin]
 
 ## Alternatives
 
@@ -255,7 +250,6 @@ Awesome, that was easy.
 This project licensed under [MIT License]
 
 [fastify]: https://npmjs.org/package/fastify
-[jetbrains ide plugin]: https://plugins.jetbrains.com/plugin/13801-fastify-decorators
 [mit license]: https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
 [nestjs]: https://nestjs.com/
 [fastify resty]: https://github.com/FastifyResty/fastify-resty
@@ -264,3 +258,4 @@ This project licensed under [MIT License]
 [request handlers]: ./docs/Request%20Handlers.md
 [testing]: ./docs/Testing.md
 [migration guide (v4)]: ./docs/Migration%20to%20v4.md
+[Plugins Development]: ./docs/Plugins%20Development.md
