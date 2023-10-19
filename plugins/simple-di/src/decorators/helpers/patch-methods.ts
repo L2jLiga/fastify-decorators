@@ -45,10 +45,12 @@ function patchMethod<C>(constructor: Registrable<C>, methodName: string | symbol
   };
 }
 
-const _PROXY_CACHE = new WeakMap<WeakKey, unknown>();
+const _PROXY_CACHE = new WeakMap<WeakKey, WeakMap<WeakKey, unknown>>();
 
 function createProxy<C>(target: Constructable<C>, request: unknown, reply: unknown): unknown {
-  if (_PROXY_CACHE.has(request as WeakKey)) return _PROXY_CACHE.get(request as WeakKey);
+  if (!_PROXY_CACHE.has(target)) _PROXY_CACHE.set(target, new WeakMap());
+  const targetProxyCache = _PROXY_CACHE.get(target) as WeakMap<WeakKey, unknown>;
+  if (targetProxyCache.has(request as WeakKey)) return targetProxyCache.get(request as WeakKey);
 
   const proxy = new Proxy(target, {
     get(target, p) {
@@ -70,5 +72,5 @@ function createProxy<C>(target: Constructable<C>, request: unknown, reply: unkno
     },
   });
 
-  return _PROXY_CACHE.set(request as WeakKey, proxy).get(request as WeakKey);
+  return targetProxyCache.set(request as WeakKey, proxy).get(request as WeakKey);
 }
