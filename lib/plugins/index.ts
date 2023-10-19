@@ -8,9 +8,11 @@
 
 export * from './class-loader.js';
 export * from './life-cycle.js';
-export * from './shared-interfaces.js';
+export { Constructable, Registrable } from './shared-interfaces.js';
 
-export * from '../decorators/helpers/class-properties.js';
+export { hasHooks, hasHandlers, hasErrorHandlers } from '../decorators/helpers/class-properties.js';
+export { ensureHooks, ensureHandlers, ensureErrorHandlers } from '../decorators/helpers/class-properties.js';
+export { IHook, IHandler, IErrorHandler } from '../interfaces/controller.js';
 export { HOOKS, ERROR_HANDLERS, HANDLERS, CREATOR } from '../symbols/index.js';
 
 export { Container } from '../decorators/helpers/container.js';
