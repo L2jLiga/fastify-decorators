@@ -58,10 +58,10 @@ export function requestDecoratorsFactory(method: HttpMethods) {
               );
             };
 
-            const option = config.options[hook.name];
-            if (option == null) config.options[hook.name] = hookFn;
+            const option = config.options[hook.name as 'onRequest'];
+            if (option == null) config.options[hook.name as 'onRequest'] = hookFn;
             else if (Array.isArray(option)) option.push(hookFn);
-            else config.options[hook.name] = [option as (...args: unknown[]) => void, hookFn];
+            else config.options[hook.name as 'onRequest'] = [option as (...args: unknown[]) => void, hookFn];
           }
         }
         if (hasErrorHandlers(target)) {
