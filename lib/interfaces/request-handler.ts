@@ -44,8 +44,3 @@ export abstract class RequestHandler<
    */
   abstract handle(): void | Promise<unknown>;
 }
-
-export interface RequestHook {
-  name: 'onRequest' | 'preParsing' | 'preValidation' | 'preHandler' | 'preSerialization' | 'onSend' | 'onResponse' | 'onTimeout' | 'onError';
-  handlerName: string | symbol;
-}

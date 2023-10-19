@@ -7,8 +7,8 @@
  */
 
 import type { FastifyInstance, FastifyRequest, RouteShorthandOptions } from 'fastify';
-import { HttpMethods, RequestHandler, RequestHook, RouteConfig } from '../../interfaces/index.js';
-import { Constructable, Container, hooksRegistry, Registrable } from '../../plugins/index.js';
+import { HttpMethods, RequestHandler, RouteConfig } from '../../interfaces/index.js';
+import { Constructable, hooksRegistry, Registrable } from '../../plugins/index.js';
 import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import { transformAndWait } from '../../utils/transform-and-wait.js';
 import { ensureHandlers, hasErrorHandlers, hasHooks } from './class-properties.js';
@@ -51,7 +51,7 @@ export function requestDecoratorsFactory(method: HttpMethods) {
 
       target[CREATOR].register = (instance: FastifyInstance) => {
         if (hasHooks(target)) {
-          for (const hook of target[HOOKS] as Container<RequestHook>) {
+          for (const hook of target[HOOKS]) {
             const hookFn = (request: FastifyRequest, ...rest: unknown[]) => {
               return getTarget(target, request, ...rest).then((t) =>
                 (t as unknown as Record<string, (...args: unknown[]) => unknown>)[hook.handlerName as string](request, ...rest),
