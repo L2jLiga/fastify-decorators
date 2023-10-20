@@ -22,7 +22,7 @@ describe('Decorators: @IErrorHandler', function () {
       }
     }
 
-    expect(getErrorHandlerContainer(WithHandlers)).toBe(3);
+    expect(getErrorHandlerContainer(WithHandlers).length).toBe(3);
 
     const [typeErrorHandler, headersErrorHandler, genericHandler] = getErrorHandlerContainer(WithHandlers);
     expect(typeErrorHandler.accepts(undefined)).toBe(false);
