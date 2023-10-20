@@ -1,6 +1,6 @@
 {
   "name": "@fastify-decorators/simple-di",
-  "version": "4.0.0-next.4",
+  "version": "4.0.0-next.5",
   "description": "fastify-decorators plugin to work with Sequelize",
   "license": "MIT",
   "type": "module",
@@ -37,7 +37,7 @@
     "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)"
   ],
   "dependencies": {
-    "fastify-decorators": "^4.0.0-next.4",
+    "fastify-decorators": "^4.0.0-next.5",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {

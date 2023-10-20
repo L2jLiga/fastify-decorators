@@ -12,9 +12,9 @@
     "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest"
   },
   "dependencies": {
-    "@fastify-decorators/simple-di": "^4.0.0-next.4",
+    "@fastify-decorators/simple-di": "^4.0.0-next.5",
     "fastify": "^4.24.3",
-    "fastify-decorators": "^4.0.0-next.4"
+    "fastify-decorators": "^4.0.0-next.5"
   },
   "devDependencies": {
     "@types/jest": "^29.5.6",
