@@ -1,5 +1,4 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { ERROR_HANDLERS } from '../symbols/index.js';
 import { ErrorHandler } from './error-handler.js';
 import { getErrorHandlerContainer } from './helpers/class-metadata.js';
 import ErrnoException = NodeJS.ErrnoException;
@@ -25,7 +24,7 @@ describe('Decorators: @IErrorHandler', function () {
 
     expect(getErrorHandlerContainer(WithHandlers)).toBe(3);
 
-    const [typeErrorHandler, headersErrorHandler, genericHandler] = WithHandlers[ERROR_HANDLERS];
+    const [typeErrorHandler, headersErrorHandler, genericHandler] = getErrorHandlerContainer(WithHandlers);
     expect(typeErrorHandler.accepts(undefined)).toBe(false);
     expect(typeErrorHandler.accepts(new Error())).toBe(false);
     expect(typeErrorHandler.accepts(new TypeError())).toBe(true);

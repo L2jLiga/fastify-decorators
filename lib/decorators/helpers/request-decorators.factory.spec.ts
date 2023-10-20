@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import type { RouteShorthandOptions } from 'fastify';
-import { IHook } from '../../interfaces/controller.js';
-import { CREATOR, HOOKS } from '../../symbols/index.js';
+import { CREATOR } from '../../symbols/index.js';
 import { ErrorHandler } from '../error-handler.js';
 import { Hook } from '../hook.js';
 import { GET } from '../request-handlers.js';
@@ -72,12 +71,8 @@ describe('Factory: request decorators', () => {
   describe('hooks support', () => {
     it('should create defined hook in options when it does not exists', () => {
       class Handler {
-        static [HOOKS]: IHook[] = [
-          {
-            name: 'onSend',
-            handlerName: 'onSendFn',
-          },
-        ];
+        @Hook('onSend')
+        onSendFn(): void {}
       }
 
       const instance = { get: jest.fn(), addHook: jest.fn() };
@@ -128,12 +123,8 @@ describe('Factory: request decorators', () => {
 
     it('should wrap current hook and add one more if hook exists in options', () => {
       class Handler {
-        static [HOOKS]: IHook[] = [
-          {
-            name: 'onSend',
-            handlerName: 'onSendFn',
-          },
-        ];
+        @Hook('onSend')
+        onSendFn(): void {}
       }
 
       const instance = { get: jest.fn(), addHook: jest.fn() };
@@ -164,12 +155,8 @@ describe('Factory: request decorators', () => {
 
     it('should add hook to hook handlers array in options', () => {
       class Handler {
-        static [HOOKS]: IHook[] = [
-          {
-            name: 'onSend',
-            handlerName: 'onSendFn',
-          },
-        ];
+        @Hook('onSend')
+        onSendFn(): void {}
       }
 
       const instance = { get: jest.fn(), addHook: jest.fn() };
