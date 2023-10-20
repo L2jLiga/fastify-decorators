@@ -6,35 +6,14 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { Constructable, ERROR_HANDLERS, HANDLERS, hasErrorHandlers, hasHandlers, hasHooks, HOOKS, Registrable } from 'fastify-decorators/plugins';
+import { Constructable, getErrorHandlerContainer, getHandlersContainer, getHooksContainer, Registrable } from 'fastify-decorators/plugins';
 import { FASTIFY_REPLY, FASTIFY_REQUEST, SERVICE_INJECTION } from '../../symbols.js';
 import { hasServiceInjection } from './ensure-service-injection.js';
 
 export function patchMethods<C>(constructor: Registrable<C>): void {
-  if (hasHandlers(constructor)) patchHandlers(constructor);
-  if (hasErrorHandlers(constructor)) patchErrorsHandlers(constructor);
-  if (hasHooks(constructor)) patchHooks(constructor);
-}
-
-function patchHandlers<C>(constructor: Registrable<C>): void {
-  if (hasHandlers(constructor))
-    for (const it of constructor[HANDLERS]) {
-      patchMethod(constructor, it.handlerMethod);
-    }
-}
-
-function patchErrorsHandlers<C>(constructor: Registrable<C>): void {
-  if (hasErrorHandlers(constructor))
-    for (const it of constructor[ERROR_HANDLERS]) {
-      patchMethod(constructor, it.handlerName);
-    }
-}
-
-function patchHooks<C>(constructor: Registrable<C>): void {
-  if (hasHooks(constructor))
-    for (const it of constructor[HOOKS]) {
-      patchMethod(constructor, it.handlerName);
-    }
+  for (const { handlerMethod } of getHandlersContainer(constructor)) patchMethod(constructor, handlerMethod);
+  for (const { handlerName } of getErrorHandlerContainer(constructor)) patchMethod(constructor, handlerName);
+  for (const { handlerName } of getHooksContainer(constructor)) patchMethod(constructor, handlerName);
 }
 
 function patchMethod<C>(constructor: Registrable<C>, methodName: string | symbol): void {

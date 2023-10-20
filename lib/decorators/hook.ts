@@ -6,17 +6,16 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { HOOKS } from '../symbols/index.js';
-import { ensureHooks } from './helpers/class-properties.js';
+import { getHooksContainer } from './helpers/class-metadata.js';
 
 /**
  * Creates handler which listen various hooks
  */
 export function Hook(name: string): PropertyDecorator {
   return ({ constructor }, handlerName) => {
-    ensureHooks(constructor);
+    const container = getHooksContainer(constructor);
 
-    constructor[HOOKS].push({
+    container.push({
       name,
       handlerName,
     });

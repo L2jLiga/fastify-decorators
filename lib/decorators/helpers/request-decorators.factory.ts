@@ -8,10 +8,9 @@
 
 import type { FastifyInstance, FastifyRequest, RouteShorthandOptions } from 'fastify';
 import { HttpMethods, RequestHandler, RouteConfig } from '../../interfaces/index.js';
-import { Constructable, hooksRegistry, Registrable } from '../../plugins/index.js';
-import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
+import { Constructable, getErrorHandlerContainer, getHandlersContainer, getHooksContainer, hooksRegistry, Registrable } from '../../plugins/index.js';
+import { CREATOR } from '../../symbols/index.js';
 import { transformAndWait } from '../../utils/transform-and-wait.js';
-import { ensureHandlers, hasErrorHandlers, hasHooks } from './class-properties.js';
 import { createErrorsHandler } from './create-errors-handler.js';
 import { ensureRegistrable } from './ensure-registrable.js';
 
@@ -49,24 +48,25 @@ export function requestDecoratorsFactory(method: HttpMethods) {
 
       ensureRegistrable<typeof target, RequestHandler>(target);
 
+      // TODO: call hooks
       target[CREATOR].register = (instance: FastifyInstance) => {
-        if (hasHooks(target)) {
-          for (const hook of target[HOOKS]) {
-            const hookFn = (request: FastifyRequest, ...rest: unknown[]) => {
-              return getTarget(target, request, ...rest).then((t) =>
-                (t as unknown as Record<string, (...args: unknown[]) => unknown>)[hook.handlerName as string](request, ...rest),
-              );
-            };
+        for (const hook of getHooksContainer(target)) {
+          const hookFn = (request: FastifyRequest, ...rest: unknown[]) => {
+            return getTarget(target, request, ...rest).then((t) =>
+              (t as unknown as Record<string, (...args: unknown[]) => unknown>)[hook.handlerName as string](request, ...rest),
+            );
+          };
 
-            const option = config.options[hook.name as 'onRequest'];
-            if (option == null) config.options[hook.name as 'onRequest'] = hookFn;
-            else if (Array.isArray(option)) option.push(hookFn);
-            else config.options[hook.name as 'onRequest'] = [option as (...args: unknown[]) => void, hookFn];
-          }
+          const option = config.options[hook.name as 'onRequest'];
+          if (option == null) config.options[hook.name as 'onRequest'] = hookFn;
+          else if (Array.isArray(option)) option.push(hookFn);
+          else config.options[hook.name as 'onRequest'] = [option as (...args: unknown[]) => void, hookFn];
         }
-        if (hasErrorHandlers(target)) {
+
+        const errorHandlers = getErrorHandlerContainer(target);
+        if (errorHandlers.length > 0) {
           config.options.errorHandler = async (error, request, ...rest) => {
-            const errorsHandler = createErrorsHandler(target[ERROR_HANDLERS], (await getTarget(target, request, ...rest)) as never);
+            const errorsHandler = createErrorsHandler(errorHandlers, (await getTarget(target, request, ...rest)) as never);
 
             return errorsHandler(error, request, ...rest);
           };
@@ -85,9 +85,9 @@ export function controllerMethodDecoratorsFactory(
   { constructor }: Constructable,
   propKey: string | symbol,
 ): void {
-  ensureHandlers(constructor);
+  const container = getHandlersContainer(constructor);
 
-  constructor[HANDLERS].push({
+  container.push({
     url: config.url,
     method,
     options: config.options,
