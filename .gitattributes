@@ -29,7 +29,3 @@ package-lock.json text -diff merge=binary
 
 # Husky
 /.husky/*         text eol=lf linguist-language=Shell
-
-# Yarn Berry
-/.yarn/releases/** binary
-/.yarn/plugins/** binary

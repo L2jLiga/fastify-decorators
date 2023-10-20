@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
-    "declaration": false,
+
     /* Basic Options */
     "target": "ES2022",
     "module": "ESNext",
@@ -16,8 +16,8 @@
 
     /* FIXME: TAKE A LOOK AT ME, I AM OMITED */
     // "experimentalDecorators": false,
-    /* FIXME: TAKE A LOOK AT ME, I AM STILL TRUE */
-    "emitDecoratorMetadata": true,
+    /* FIXME: TAKE A LOOK AT ME, I AM OMITED AS WELL */
+    // "emitDecoratorMetadata": true,
 
     /* Advanced Options */
     "skipLibCheck": true,
