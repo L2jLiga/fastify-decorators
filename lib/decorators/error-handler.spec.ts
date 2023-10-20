@@ -1,14 +1,12 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { IErrorHandler as IErrorHandler } from '../interfaces/index.js';
 import { ERROR_HANDLERS } from '../symbols/index.js';
 import { ErrorHandler } from './error-handler.js';
+import { getErrorHandlerContainer } from './helpers/class-metadata.js';
 import ErrnoException = NodeJS.ErrnoException;
 
 describe('Decorators: @IErrorHandler', function () {
   it('should add annotated method to controller options', () => {
     class WithHandlers {
-      static [ERROR_HANDLERS]: IErrorHandler[];
-
       @ErrorHandler(TypeError)
       public handleTypeError(error: TypeError) {
         throw new Error(error.message);
@@ -25,7 +23,7 @@ describe('Decorators: @IErrorHandler', function () {
       }
     }
 
-    expect(WithHandlers[ERROR_HANDLERS].length).toBe(3);
+    expect(getErrorHandlerContainer(WithHandlers)).toBe(3);
 
     const [typeErrorHandler, headersErrorHandler, genericHandler] = WithHandlers[ERROR_HANDLERS];
     expect(typeErrorHandler.accepts(undefined)).toBe(false);
