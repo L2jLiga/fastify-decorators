@@ -9,21 +9,62 @@
 import type { IErrorHandler } from '../interfaces/index.js';
 import type { Constructable } from '../plugins/index.js';
 import { getErrorHandlerContainer } from '../plugins/index.js';
+import { getErrorHandlerContainerMetadata } from './helpers/class-metadata.js';
 
-export function ErrorHandler(): PropertyDecorator;
-export function ErrorHandler(code: string): PropertyDecorator;
-export function ErrorHandler<T extends Error>(configuration: Constructable<T>): PropertyDecorator;
-export function ErrorHandler<T extends ErrorConstructor>(configuration: T): PropertyDecorator;
-export function ErrorHandler<T extends ErrorConstructor>(parameter?: T | string | null | undefined): PropertyDecorator {
-  return function ({ constructor }, handlerName) {
-    const container = getErrorHandlerContainer(constructor);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function ErrorHandler(): <This = unknown, Value extends (this: This, ...args: any) => any = (this: This, ...args: any) => any>(
+  target: Value | This,
+  ctx: ClassMethodDecoratorContext<This, Value> | ClassFieldDecoratorContext<This, Value> | string | symbol,
+) => void;
+export function ErrorHandler(
+  code: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): <This = unknown, Value extends (this: This, ...args: any) => any = (this: This, ...args: any) => any>(
+  target: Value | This,
+  ctx: ClassMethodDecoratorContext<This, Value> | ClassFieldDecoratorContext<This, Value> | string | symbol,
+) => void;
+export function ErrorHandler<T extends Error>(
+  configuration: Constructable<T>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): <This = unknown, Value extends (this: This, ...args: any) => any = (this: This, ...args: any) => any>(
+  target: Value | This,
+  ctx: ClassMethodDecoratorContext<This, Value> | ClassFieldDecoratorContext<This, Value> | string | symbol,
+) => void;
+export function ErrorHandler<T extends ErrorConstructor>(
+  configuration: T,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): <This = unknown, Value extends (this: This, ...args: any) => any = (this: This, ...args: any) => any>(
+  target: Value | This,
+  ctx: ClassMethodDecoratorContext<This, Value> | ClassFieldDecoratorContext<This, Value> | string | symbol,
+) => void;
+export function ErrorHandler<T extends ErrorConstructor>(
+  parameter?: T | string | null | undefined,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): <This = unknown, Value extends (this: This, ...args: any) => any = (this: This, ...args: any) => any>(
+  target: Value | This,
+  ctx: ClassMethodDecoratorContext<This, Value> | ClassFieldDecoratorContext<This, Value> | string | symbol,
+) => void {
+  return function (target, handlerName) {
+    if (typeof handlerName === 'object' && 'kind' in handlerName) {
+      const container = getErrorHandlerContainerMetadata(handlerName.metadata);
 
-    if (parameter == null) {
-      container.push(handlerFactory(() => true, handlerName));
-    } else if (typeof parameter === 'string') {
-      container.push(handlerFactory((error?: ErrorWithCode) => error?.code === parameter, handlerName));
+      if (parameter == null) {
+        container.push(handlerFactory(() => true, handlerName.name));
+      } else if (typeof parameter === 'string') {
+        container.push(handlerFactory((error?: ErrorWithCode) => error?.code === parameter, handlerName.name));
+      } else {
+        container.push(handlerFactory((error?: Error) => error instanceof parameter, handlerName.name));
+      }
     } else {
-      container.push(handlerFactory((error?: Error) => error instanceof parameter, handlerName));
+      const container = getErrorHandlerContainer((target as abstract new () => unknown).constructor);
+
+      if (parameter == null) {
+        container.push(handlerFactory(() => true, handlerName));
+      } else if (typeof parameter === 'string') {
+        container.push(handlerFactory((error?: ErrorWithCode) => error?.code === parameter, handlerName));
+      } else {
+        container.push(handlerFactory((error?: Error) => error instanceof parameter, handlerName));
+      }
     }
   };
 }

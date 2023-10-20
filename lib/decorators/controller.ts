@@ -23,8 +23,11 @@ function makeConfig(config: string | ControllerConfig = '/'): Required<Controlle
 /**
  * Creates register method on controller to allow bootstrap it
  */
+export function Controller(): <T>(target: T, context?: ClassDecoratorContext) => void;
 export function Controller(): ClassDecorator;
+export function Controller(route: string): <T>(target: T, context?: ClassDecoratorContext) => void;
 export function Controller(route: string): ClassDecorator;
+export function Controller(config: ControllerConfig): <T>(target: T, context?: ClassDecoratorContext) => void;
 export function Controller(config: ControllerConfig): ClassDecorator;
 export function Controller(config?: string | ControllerConfig): unknown {
   return (controller: Constructable): void => {

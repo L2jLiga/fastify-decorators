@@ -8,6 +8,10 @@ export class Container<T> implements Iterable<T> {
     yield* this._values;
   }
 
+  setParent(parent: Container<T>): void {
+    this._parent = parent;
+  }
+
   push(...items: T[]) {
     this._values.push(...items);
   }

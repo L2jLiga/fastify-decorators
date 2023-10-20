@@ -522,6 +522,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@fastify-decorators-examples/ecmascript-decorators@workspace:examples/ecmascript-decorators":
+  version: 0.0.0-use.local
+  resolution: "@fastify-decorators-examples/ecmascript-decorators@workspace:examples/ecmascript-decorators"
+  dependencies:
+    "@types/jest": ^29.5.6
+    "@types/node": ~18.18.6
+    fastify: ^4.24.3
+    fastify-decorators: ^4.0.0-next.4
+    jest: ^29.7.0
+    jest-resolve: ^29.7.0
+    jest-ts-webcompat-resolver: ^1.0.0
+    ts-jest: ^29.1.1
+    typescript: ^5.2.2
+    undici: ^5.26.3
+  languageName: unknown
+  linkType: soft
+
 "@fastify-decorators-examples/injection-requests-in-services@workspace:examples/injecting-requests-in-services":
   version: 0.0.0-use.local
   resolution: "@fastify-decorators-examples/injection-requests-in-services@workspace:examples/injecting-requests-in-services"

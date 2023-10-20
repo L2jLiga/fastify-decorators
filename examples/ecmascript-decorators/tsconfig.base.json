@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig.json to read more about this file */
+    "declaration": false,
+    /* Basic Options */
+    "target": "ES2022",
+    "module": "ESNext",
+    "outDir": "./dist",
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+
+    /* Module Resolution Options */
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+
+    /* FIXME: TAKE A LOOK AT ME, I AM OMITED */
+    // "experimentalDecorators": false,
+    /* FIXME: TAKE A LOOK AT ME, I AM STILL TRUE */
+    "emitDecoratorMetadata": true,
+
+    /* Advanced Options */
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}

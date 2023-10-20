@@ -11,6 +11,7 @@ import { HttpMethods, RequestHandler, RouteConfig } from '../../interfaces/index
 import { Constructable, getErrorHandlerContainer, getHandlersContainer, getHooksContainer, hooksRegistry, Registrable } from '../../plugins/index.js';
 import { CREATOR } from '../../symbols/index.js';
 import { transformAndWait } from '../../utils/transform-and-wait.js';
+import { getHandlerContainerMetadata } from './class-metadata.js';
 import { createErrorsHandler } from './create-errors-handler.js';
 import { ensureRegistrable } from './ensure-registrable.js';
 
@@ -37,12 +38,19 @@ async function getTarget(target: Registrable<RequestHandler>, request: FastifyRe
 }
 
 export function requestDecoratorsFactory(method: HttpMethods) {
-  return function (routeOrConfig?: string | RouteConfig, options?: RouteShorthandOptions): (target: Constructable, propKey?: string | symbol) => void {
+  return function (
+    routeOrConfig?: string | RouteConfig,
+    options?: RouteShorthandOptions,
+  ): (target: Constructable, propKey?: string | symbol | ClassMethodDecoratorContext | ClassFieldDecoratorContext | ClassDecoratorContext) => void {
     const config = parseConfig(routeOrConfig, options);
 
     return function (target, propKey) {
-      if (propKey) {
+      if (propKey && typeof propKey !== 'object') {
         controllerMethodDecoratorsFactory(method, config, target, propKey);
+        return;
+      }
+      if (typeof propKey === 'object' && (propKey.kind == 'field' || propKey.kind === 'method')) {
+        controllerMethodDecoratorsFactoryMetadata(method, config, propKey);
         return;
       }
 
@@ -92,5 +100,20 @@ export function controllerMethodDecoratorsFactory(
     method,
     options: config.options,
     handlerMethod: propKey,
+  });
+}
+
+export function controllerMethodDecoratorsFactoryMetadata(
+  method: HttpMethods,
+  config: ParsedRouteConfig,
+  context: ClassMethodDecoratorContext | ClassFieldDecoratorContext,
+): void {
+  const container = getHandlerContainerMetadata(context.metadata);
+
+  container.push({
+    url: config.url,
+    method,
+    options: config.options,
+    handlerMethod: context.name,
   });
 }
