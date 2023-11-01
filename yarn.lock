@@ -770,10 +770,10 @@
     picocolors "^1.0.0"
     tslib "^2.6.0"
 
-"@prettier/plugin-xml@^3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@prettier/plugin-xml/-/plugin-xml-3.2.1.tgz#d7392d02b255142d6b8aa2ffc43126214049a066"
-  integrity sha512-DvwnQPf8FsczapBVDm54IhR+Pryt3DbPZSNtUb9gOuFtgoUUPbPN69f3nQBMF5BEqh4ZjZjTaHBmsVno3UnAXQ==
+"@prettier/plugin-xml@^3.2.2":
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@prettier/plugin-xml/-/plugin-xml-3.2.2.tgz#ccc53d39b333aef140433b62449ea9f74d8e2eb6"
+  integrity sha512-SoE70SQF1AKIvK7LVK80JcdAe6wrDcbodFFjcoqb1FkOqV0G0oSlgAFDwoRXPqkUE5p/YF2nGsnUbnfm6471sw==
   dependencies:
     "@xml-tools/parser" "^1.0.11"
 

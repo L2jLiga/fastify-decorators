@@ -23,7 +23,7 @@
   "type": "module",
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
-    "@prettier/plugin-xml": "^3.2.1",
+    "@prettier/plugin-xml": "^3.2.2",
     "@rollup/plugin-typescript": "^11.1.5",
     "@types/jest": "^29.5.7",
     "@types/node": "~18.18.6",
