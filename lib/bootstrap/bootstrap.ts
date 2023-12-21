@@ -8,7 +8,8 @@
 
 import type { FastifyInstance } from 'fastify';
 import fp from 'fastify-plugin';
-import { lstatSync, opendirSync, PathLike } from 'node:fs';
+import { lstatSync, PathLike } from 'node:fs';
+import { opendir } from 'node:fs/promises';
 import type { AutoLoadConfig } from '../interfaces/bootstrap-config.js';
 import type { BootstrapConfig } from '../interfaces/index.js';
 import { CLASS_LOADER, ClassLoader, Constructable, hooksRegistry } from '../plugins/index.js';
@@ -67,23 +68,13 @@ function parsePath(directory: PathLike): URL {
 }
 
 async function* readModulesRecursively(parentUrl: URL, mask: RegExp): AsyncIterable<Constructable<unknown>> {
-  const dir = opendirSync(parentUrl);
-  parentUrl.pathname += '/';
-
-  try {
-    while (true) {
-      const dirent = await dir.read();
-      if (dirent == null) return;
-
-      const fullFilePath = new URL(dirent.name, parentUrl);
-      if (dirent.isDirectory()) {
-        yield* readModulesRecursively(fullFilePath, mask);
-      } else if (mask.test(dirent.name)) {
-        yield import(fullFilePath.toString()).then((m) => m.default);
-      }
+  for await (const dirent of await opendir(parentUrl)) {
+    const fullFilePath = new URL(dirent.name, parentUrl + '/');
+    if (dirent.isDirectory()) {
+      yield* readModulesRecursively(fullFilePath, mask);
+    } else if (mask.test(dirent.name)) {
+      yield import(fullFilePath.toString()).then((m) => m.default);
     }
-  } finally {
-    await dir.close();
   }
 }
 
