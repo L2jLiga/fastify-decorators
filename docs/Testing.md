@@ -21,7 +21,7 @@ Packages to be installed:
 
 - [`@types/jest`](https://www.npmjs.com/package/@types/jest)
 - [`jest`](https://www.npmjs.com/package/jest)
-- [`jest-resolver`](https://www.npmjs.com/package/jest-resolver)
+- [`jest-resolve`](https://www.npmjs.com/package/jest-resolve)
 - [`jest-ts-webcompat-resolver`](https://www.npmjs.com/package/jest-ts-webcompat-resolver)
 - [`ts-jest`](https://www.npmjs.com/package/ts-jest)
 - [`cross-env`](https://www.npmjs.com/package/cross-env)
