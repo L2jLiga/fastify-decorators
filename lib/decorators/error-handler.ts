@@ -44,27 +44,19 @@ export function ErrorHandler<T extends ErrorConstructor>(
   target: Value | This,
   ctx: ClassMethodDecoratorContext<This, Value> | ClassFieldDecoratorContext<This, Value> | string | symbol,
 ) => void {
-  return function (target, handlerName) {
-    if (typeof handlerName === 'object' && 'kind' in handlerName) {
-      const container = getErrorHandlerContainerMetadata(handlerName.metadata);
+  return function (target, handlerNameOrContext) {
+    const isEsmContext = typeof handlerNameOrContext === 'object' && 'kind' in handlerNameOrContext;
+    const container = isEsmContext
+      ? getErrorHandlerContainerMetadata(handlerNameOrContext.metadata)
+      : getErrorHandlerContainer((target as abstract new () => unknown).constructor);
+    const handlerName = isEsmContext ? handlerNameOrContext.name : handlerNameOrContext;
 
-      if (parameter == null) {
-        container.push(handlerFactory(() => true, handlerName.name));
-      } else if (typeof parameter === 'string') {
-        container.push(handlerFactory((error?: ErrorWithCode) => error?.code === parameter, handlerName.name));
-      } else {
-        container.push(handlerFactory((error?: Error) => error instanceof parameter, handlerName.name));
-      }
+    if (parameter == null) {
+      container.push(handlerFactory(() => true, handlerName));
+    } else if (typeof parameter === 'string') {
+      container.push(handlerFactory((error?: ErrorWithCode) => error?.code === parameter, handlerName));
     } else {
-      const container = getErrorHandlerContainer((target as abstract new () => unknown).constructor);
-
-      if (parameter == null) {
-        container.push(handlerFactory(() => true, handlerName));
-      } else if (typeof parameter === 'string') {
-        container.push(handlerFactory((error?: ErrorWithCode) => error?.code === parameter, handlerName));
-      } else {
-        container.push(handlerFactory((error?: Error) => error instanceof parameter, handlerName));
-      }
+      container.push(handlerFactory((error?: Error) => error instanceof parameter, handlerName));
     }
   };
 }
