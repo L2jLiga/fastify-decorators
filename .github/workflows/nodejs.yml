@@ -73,7 +73,7 @@ jobs:
       - name: Lint project
         run: yarn lint -f @microsoft/eslint-formatter-sarif -o eslint.sarif
       - name: Upload linter SARIF file
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: eslint.sarif
 
@@ -84,7 +84,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v4
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           languages: javascript
       - name: Setup NodeJS
@@ -96,7 +96,7 @@ jobs:
       - name: Build projects
         run: yarn build
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
 
   automerge:
     name: 'Merge Dependabot updates'
