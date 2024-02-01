@@ -17,7 +17,7 @@
     "fastify": "^4.24.3",
     "fastify-decorators": "^4.0.0-next.5",
     "sqlite3": "^5.1.6",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
     "@types/jest": "^29.5.7",
