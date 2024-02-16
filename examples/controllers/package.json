@@ -24,7 +24,7 @@
     "jest-ts-webcompat-resolver": "^1.0.0",
     "ts-jest": "^29.1.1",
     "typescript": "^5.3.3",
-    "undici": "^6.2.1"
+    "undici": "^6.6.1"
   },
   "jest-junit": {
     "outputDirectory": "../../test-results",
