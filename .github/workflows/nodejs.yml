@@ -46,12 +46,12 @@ jobs:
         with:
           junit_files: 'test-results/*.xml'
       - name: Upload unit-tests coverage to Codecov
-        uses: codecov/codecov-action@v4.0.0
+        uses: codecov/codecov-action@v4.1.0
         with:
           directory: coverage/library
           flags: unittests
       - name: Upload examples code coverage to Codecov
-        uses: codecov/codecov-action@v4.0.0
+        uses: codecov/codecov-action@v4.1.0
         with:
           directory: coverage/integration
           flags: integration
