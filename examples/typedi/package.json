@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@fastify-decorators/typedi": "^4.0.0-next.5",
-    "fastify": "^4.24.3",
+    "fastify": "^4.27.0",
     "fastify-decorators": "^4.0.0-next.5",
     "typedi": "^0.10.0"
   },
