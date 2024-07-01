@@ -696,10 +696,10 @@
   resolved "https://registry.yarnpkg.com/@lukeed/ms/-/ms-2.0.2.tgz#07f09e59a74c52f4d88c6db5c1054e819538e2a8"
   integrity sha512-9I2Zn6+NJLfaGoz9jN3lpwDgAYvfGeNYdbAIjJOqzs4Tpc+VU3Jqq4IofSUBKajiDS8k9fZIg18/z13mpk1bsA==
 
-"@microsoft/eslint-formatter-sarif@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@microsoft/eslint-formatter-sarif/-/eslint-formatter-sarif-3.0.0.tgz#422382a1759c35a014fb96e77799cbce47fdb2fd"
-  integrity sha512-KIKkT44hEqCzqxODYwFMUvYEK0CrdHx/Ll9xiOWgFbBSRuzbxmVy4d/tzfgoucGz72HJZNOMjuyzFTBKntRK5Q==
+"@microsoft/eslint-formatter-sarif@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@microsoft/eslint-formatter-sarif/-/eslint-formatter-sarif-3.1.0.tgz#7fa03636e116939d77efaa301a31b340ca93059b"
+  integrity sha512-/mn4UXziHzGXnKCg+r8HGgPy+w4RzpgdoqFuqaKOqUVBT5x2CygGefIrO4SusaY7t0C4gyIWMNu6YQT6Jw64Cw==
   dependencies:
     eslint "^8.9.0"
     jschardet latest
