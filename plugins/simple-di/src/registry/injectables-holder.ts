@@ -11,8 +11,8 @@ export interface InjectablesHolder {
    * Injects class annotated with `@Service` decorator.
    * This class will be instantiated on demand when token requested.
    *
-   * @param token to identify service, can be service class itself
-   * @param service to instantiate when requested by token
+   * @param token - unique identifier for service, can be service class itself
+   * @param service - class to instantiate when token requested
    */
   injectService(token: unknown, service: unknown): void;
 
@@ -21,8 +21,8 @@ export interface InjectablesHolder {
    *
    * When token requested, DI will just return this value
    *
-   * @param token to identify object/singleton
-   * @param singleton to return when requested by token
+   * @param token - unique identifier for object/singleton
+   * @param singleton - object to return when token requested
    */
   injectSingleton(token: unknown, singleton: unknown): void;
 }

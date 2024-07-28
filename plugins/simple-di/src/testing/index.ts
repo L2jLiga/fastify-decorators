@@ -1,3 +1,9 @@
+/**
+ * Package for testing
+ *
+ * @packageDocumentation
+ */
+
 import 'reflect-metadata';
 
 export type { ServiceMock } from './service-mock.js';

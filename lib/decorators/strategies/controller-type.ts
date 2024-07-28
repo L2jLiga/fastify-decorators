@@ -23,7 +23,7 @@ type ControllerFactory = (fastifyInstance: FastifyInstance, target: Registrable,
 /**
  * Various strategies which can be applied to controller
  *
- * @usageNotes
+ * @remarks
  *
  * There are few available strategies:
  * - *SINGLETON* strategy creates one instance of controller which will handle all requests

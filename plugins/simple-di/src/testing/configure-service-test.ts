@@ -18,7 +18,7 @@ export interface ServiceTestConfig<Service> {
 
 /**
  * Configures service for testing
- * @param config with service and mocks
+ * @param config - object that contains service and mocks
  * @returns configured service & promise which resolves when async initializer done (if it exists, otherwise resolved)
  */
 export function configureServiceTest<Service>(config: ServiceTestConfig<Service>): Promise<Service> & Service {

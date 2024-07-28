@@ -7,13 +7,12 @@ import { ClassLoader, Constructable } from '../plugins/index.js';
 export interface CommonConfig {
   /**
    * Indicates whether bootstrap should fail on invalid controllers/request handlers
-   * @default false
+   * @defaultValue false
    */
   skipBroken?: boolean;
 
   /**
    * Defines method to create class instance
-   * @param constructor
    */
   classLoader?: ClassLoader;
 
@@ -34,13 +33,13 @@ export interface AutoLoadConfig extends CommonConfig {
    * Path to directory which contains files to load
    * If not specified then autoload will not be used
    *
-   * @default not specified
+   * @defaultValue not specified
    */
   directory: PathLike;
 
   /**
    * Mask used to filter files to load
-   * @default /\.(handler|controller)\./
+   * @defaultValue /\.(handler|controller)\./
    */
   mask?: string | RegExp;
 }

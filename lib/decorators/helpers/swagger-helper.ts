@@ -12,8 +12,8 @@ export interface TagObject {
 
 /**
  * Adds tags into fastify Swagger/OpenAPI specification when application is ready to start
- * @param fastifyInstance of application
- * @param tags to add to OpenAPI/Swagger doc
+ * @param fastifyInstance - instance of Fastify application
+ * @param tags - list of tags to add to OpenAPI/Swagger doc
  */
 export function injectTagsIntoSwagger(fastifyInstance: FastifyInstance, tags: TagObject[]): void {
   if (tags.length === 0) return;

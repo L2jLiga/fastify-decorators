@@ -2,6 +2,7 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import eslint from '@eslint/js';
 import jestPlugin from 'eslint-plugin-jest';
 import tseslint from 'typescript-eslint';
+import tsdocPlugin from 'eslint-plugin-tsdoc';
 
 export default [
   {
@@ -10,7 +11,6 @@ export default [
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
-
   {
     languageOptions: {
       ecmaVersion: 2022,
@@ -34,6 +34,13 @@ export default [
       ],
       'comma-dangle': ['error', 'always-multiline'],
     },
+  },
+  {
+    files: ['**/*.ts'],
+    plugins: {
+      tsdoc: tsdocPlugin,
+    },
+    rules: { 'tsdoc/syntax': 'error' },
   },
   {
     // disable type-aware linting on JS files
