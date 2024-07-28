@@ -7,6 +7,7 @@
  */
 
 import fs from 'node:fs';
+import { URL } from 'node:url';
 
 /* paths to all required files */
 const packageDist = new URL('dist/fastify-decorators/', import.meta.url);

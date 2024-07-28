@@ -6,4 +6,4 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-module.exports = exports = require('../dist/testing/index.cjs')
+module.exports = exports = require('../dist/testing/index.cjs');
