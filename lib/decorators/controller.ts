@@ -1,11 +1,3 @@
-/**
- * @license
- * Copyright Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga). All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
- */
-
 import type { FastifyInstance } from 'fastify';
 import type { ControllerConfig } from '../interfaces/index.js';
 import { Constructable } from '../plugins/index.js';
@@ -21,7 +13,10 @@ function makeConfig(config: string | ControllerConfig = '/'): Required<Controlle
 }
 
 /**
- * Creates register method on controller to allow bootstrap it
+ * Factory function which accepts controller configuration
+ * and returns ES / Legacy decorator function to apply on class
+ * @param config - route or ControllerConfig or nothing
+ * @returns decorator for class
  */
 export function Controller(): <T>(target: T, context?: ClassDecoratorContext) => void;
 export function Controller(): ClassDecorator;
