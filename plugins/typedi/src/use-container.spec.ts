@@ -1,34 +1,30 @@
-import { FastifyInstance } from 'fastify';
-import { hooksRegistry, Registrable } from 'fastify-decorators/plugins';
-import { Container } from 'typedi';
+import { fastify } from 'fastify';
+import { bootstrap, Controller } from 'fastify-decorators';
+import { Container, Service } from 'typedi';
 import { useContainer } from './index.js';
+import { CLASS_LOADER } from 'fastify-decorators/plugins';
 
 describe('Use container', () => {
-  beforeEach(() => {
-    hooksRegistry.beforeControllerCreation = [];
-    hooksRegistry.appInit = [];
-    Container.reset();
+  beforeAll(() => {
+    useContainer(Container);
   });
 
-  it('should register before controller creation hook', () => {
-    useContainer(Container);
+  it('should create controller with injected dependency', async () => {
+    const instance = fastify();
+    instance.register(bootstrap, { controllers: [SampleController] });
 
-    expect(hooksRegistry.beforeControllerCreation).toHaveLength(1);
-  });
+    await instance.ready();
 
-  it('should register controller in container on beforeControllerCreation', () => {
-    useContainer(Container);
-
-    class Test {}
-
-    hooksRegistry.beforeControllerCreation[0]({} as FastifyInstance, Test as Registrable);
-
-    expect(Container.get(Test)).toBeInstanceOf(Test);
-  });
-
-  it('should register after controller creation hook', () => {
-    useContainer(Container);
-
-    expect(hooksRegistry.appInit).toHaveLength(1);
+    expect(Container.has(SampleController)).toBeTruthy();
+    expect(instance[CLASS_LOADER](SampleController, instance)).toBeInstanceOf(SampleController);
+    expect(instance[CLASS_LOADER](SampleController, instance).dependency).toBeInstanceOf(Dependency);
   });
 });
+
+@Service()
+class Dependency {}
+
+@Controller()
+class SampleController {
+  constructor(public dependency: Dependency) {}
+}

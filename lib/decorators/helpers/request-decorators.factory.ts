@@ -1,11 +1,12 @@
 import type { FastifyInstance, FastifyRequest, RouteShorthandOptions } from 'fastify';
 import { HttpMethods, RequestHandler, RouteConfig } from '../../interfaces/index.js';
-import { Constructable, getErrorHandlerContainer, getHandlersContainer, getHooksContainer, hooksRegistry, Registrable } from '../../plugins/index.js';
+import { Constructable, getErrorHandlerContainer, getHandlersContainer, getHooksContainer, Registrable } from '../../plugins/index.js';
 import { CREATOR } from '../../symbols/index.js';
 import { transformAndWait } from '../../utils/transform-and-wait.js';
 import { getHandlerContainerMetadata } from './class-metadata.js';
 import { createErrorsHandler } from './create-errors-handler.js';
 import { ensureRegistrable } from './ensure-registrable.js';
+import { hooksRegistry } from '../../registry/hooks-registry.js';
 
 type ParsedRouteConfig = { url: string; options: RouteShorthandOptions };
 

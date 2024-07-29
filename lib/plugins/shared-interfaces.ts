@@ -5,6 +5,10 @@ import type { CREATOR } from '../symbols/index.js';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Constructable<T = unknown> = new (...args: any) => T;
 
+/**
+ * Registrable is special classes that
+ * could be instantiated with class-loader
+ */
 export interface Registrable<T = unknown> extends Constructable<T> {
   [CREATOR]: {
     register(instance: FastifyInstance, prefix?: string): Promise<void> | void;

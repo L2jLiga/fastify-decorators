@@ -1,6 +1,6 @@
 import { IErrorHandler, IHandler, IHook } from '../../interfaces/index.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS, METADATA } from '../../symbols/index.js';
-import { Container } from './container.js';
+import { Container } from '../../registry/container.js';
 
 // TODO: Support for ES Decorators
 export function getHandlersContainer<T extends object>(target: T): Container<IHandler> {

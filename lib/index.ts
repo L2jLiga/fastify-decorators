@@ -1,3 +1,14 @@
+/**
+ * Fastify-decorators is a library-wrapper
+ * around the Fastify, it providers set of
+ * decorators.
+ *
+ * Decorators can be used to declare controllers,
+ * their requests handlers and life-cycle hooks.
+ *
+ * @packageDocumentation
+ */
+
 export { bootstrap } from './bootstrap/bootstrap.js';
 export { BootstrapConfig } from './interfaces/bootstrap-config.js';
 export { RequestHandler } from './interfaces/request-handler.js';

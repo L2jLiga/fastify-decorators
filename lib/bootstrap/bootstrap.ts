@@ -4,13 +4,18 @@ import { lstatSync, PathLike } from 'node:fs';
 import { opendir } from 'node:fs/promises';
 import type { AutoLoadConfig } from '../interfaces/bootstrap-config.js';
 import type { BootstrapConfig } from '../interfaces/index.js';
-import { CLASS_LOADER, ClassLoader, Constructable, hooksRegistry } from '../plugins/index.js';
+import { CLASS_LOADER, ClassLoader, Constructable } from '../plugins/index.js';
 import { CREATOR } from '../symbols/index.js';
 import { transformAndWait } from '../utils/transform-and-wait.js';
 import { isValidRegistrable } from '../utils/validators.js';
+import { hooksRegistry } from '../registry/hooks-registry.js';
 
 const defaultMask = /\.(handler|controller)\./;
 
+/**
+ * Fastify plugin responsible for bootstraping
+ * fastify-decorators.
+ */
 export const bootstrap = fp<BootstrapConfig>(
   async (fastifyInstance: FastifyInstance, config: BootstrapConfig): Promise<void> => {
     // 1. Load all modules
@@ -44,15 +49,30 @@ export const bootstrap = fp<BootstrapConfig>(
   },
 );
 
+/**
+ * Automatically loads modules from filesystem
+ */
 function autoLoadModules(config: AutoLoadConfig): AsyncIterable<Constructable<unknown>> {
   const flags = config.mask instanceof RegExp ? config.mask.flags.replace('g', '') : '';
   const mask = config.mask ? new RegExp(config.mask, flags) : defaultMask;
 
-  return readModulesRecursively(parsePath(config.directory), mask);
+  return readModulesRecursively(getBaseDirOf(config.directory), mask);
 }
 
-function parsePath(directory: PathLike): URL {
-  const urlLike = directory.toString('utf8');
+/**
+ * Function accepts anything path-like and transforms
+ * it to URL object linking to the base directory.
+ *
+ * @example
+ * ```typescript
+ * parsePath(import.meta.url) // returns URL to directory containing file from which function was called
+ * parsePath(__filename)      // same as above
+ * parsePath(__dirname)       // converts dirname into URL
+ * parsePath(process.cwd)     // converts process working directory into URL
+ * ```
+ */
+function getBaseDirOf(pathLike: PathLike): URL {
+  const urlLike = pathLike.toString('utf8');
   const url = urlLike.startsWith('file://') ? new URL(urlLike) : new URL('file://' + urlLike);
 
   if (lstatSync(url).isFile()) url.pathname += './..';

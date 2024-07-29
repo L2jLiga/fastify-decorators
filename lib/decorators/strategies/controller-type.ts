@@ -1,10 +1,11 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest, FastifySchema } from 'fastify';
 import { onRequestHookHandler } from 'fastify/types/hooks.js';
-import { CLASS_LOADER, ClassLoader, hooksRegistry, Registrable } from '../../plugins/index.js';
+import { CLASS_LOADER, ClassLoader, Registrable } from '../../plugins/index.js';
 import { ControllerType } from '../../registry/controller-type.js';
 import { transformAndWait } from '../../utils/transform-and-wait.js';
 import { getErrorHandlerContainer, getHandlersContainer, getHooksContainer } from '../helpers/class-metadata.js';
 import { injectTagsIntoSwagger, TagObject } from '../helpers/swagger-helper.js';
+import { hooksRegistry } from '../../registry/hooks-registry.js';
 
 const controllersCache = new WeakMap<FastifyRequest, unknown>();
 

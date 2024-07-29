@@ -1,5 +1,5 @@
 import { CLASS_LOADER, createInitializationHook } from 'fastify-decorators/plugins';
-import { Constructable } from 'fastify-decorators/plugins/index.js';
+import { Constructable } from 'fastify-decorators/plugins';
 import type { Container as TypeDIContainer, ServiceOptions } from 'typedi';
 
 export function useContainer(Container: typeof TypeDIContainer) {
