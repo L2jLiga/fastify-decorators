@@ -83,6 +83,7 @@ jobs:
       - name: Lint project
         run: yarn lint -f @microsoft/eslint-formatter-sarif -o eslint.sarif
       - name: Upload linter SARIF file
+        if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: eslint.sarif
