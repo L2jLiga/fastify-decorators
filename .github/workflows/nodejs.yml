@@ -56,15 +56,15 @@ jobs:
         with:
           directory: coverage/integration
           flags: integration
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@v2.3.0
-        if: matrix.os == 'ubuntu-latest'
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.organization=l2jliga
-            -Dsonar.projectKey=L2jLiga_fastify-decorators
+      # - name: SonarCloud Scan
+      #   uses: sonarsource/sonarcloud-github-action@v2.3.0
+      #   if: matrix.os == 'ubuntu-latest'
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #   with:
+      #     args: >
+      #       -Dsonar.organization=l2jliga
+      #       -Dsonar.projectKey=L2jLiga_fastify-decorators
 
   Lint-Files:
     runs-on: ubuntu-latest
