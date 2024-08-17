@@ -52,6 +52,9 @@ export default [
     languageOptions: {
       sourceType: 'commonjs',
     },
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
   },
 
   {
