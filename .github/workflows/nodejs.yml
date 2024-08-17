@@ -56,6 +56,10 @@ jobs:
         with:
           directory: coverage/integration
           flags: integration
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@v2.3.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   Lint-Files:
     runs-on: ubuntu-latest
