@@ -45,17 +45,21 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: matrix.os == 'ubuntu-latest'
         with:
-          junit_files: 'test-results/*.xml'
+          files: 'test-results/*.xml'
       - name: Upload unit-tests coverage to Codecov
         uses: codecov/codecov-action@v4.5.0
         with:
           directory: coverage/library
           flags: unittests
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload examples code coverage to Codecov
         uses: codecov/codecov-action@v4.5.0
         with:
           directory: coverage/integration
           flags: integration
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       # - name: SonarCloud Scan
       #   uses: sonarsource/sonarcloud-github-action@v2.3.0
       #   if: matrix.os == 'ubuntu-latest'
