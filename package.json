@@ -48,7 +48,7 @@
     "rollup": "^4.17.2",
     "string-width": "^4.2.3",
     "ts-jest": "^29.1.2",
-    "tslib": "^2.6.2",
+    "tslib": "^2.7.0",
     "typescript": "^5.3.3",
     "typescript-eslint": "^8.0.0",
     "wrap-ansi": "^7.0.0"
