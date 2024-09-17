@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.base.json",
+  "include": ["test/**/*.ts"],
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true
+  },
+  "references": [
+    {
+      "path": "../../lib/tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ]
+}

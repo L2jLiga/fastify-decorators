@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [20.x, 22.x]
 
     steps:
       - name: Checkout branch
@@ -56,7 +56,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [12.x]
+        node-version: [12.x, 14.x, 16.x, 18.x]
 
     steps:
       - name: Checkout branch
@@ -70,7 +70,8 @@ jobs:
         run: yarn install --frozen-lockfile --ignore-engines
       - name: Drop not supported
         run: |
-          yarn rimraf examples/fastify-4
+          yarn rimraf examples/fastify-v4
+          yarn rimraf examples/fastify-v5
       - name: Build projects (without ESM)
         run: yarn build
       - name: Run library tests (without ESM)
@@ -110,7 +111,8 @@ jobs:
       - name: Drop not supported
         run: |
           yarn rimraf examples/esm
-          yarn rimraf examples/fastify-4
+          yarn rimraf examples/fastify-v4
+          yarn rimraf examples/fastify-v5
       - name: Build projects (without ESM)
         run: yarn build
       - name: Run library tests (without ESM)
