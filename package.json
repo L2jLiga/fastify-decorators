@@ -45,7 +45,7 @@
     "lint-staged": "^15.2.7",
     "prettier": "^3.3.3",
     "rimraf": "^5.0.0",
-    "rollup": "^4.17.2",
+    "rollup": "^4.22.4",
     "string-width": "^4.2.3",
     "ts-jest": "^29.1.2",
     "tslib": "^2.7.0",
