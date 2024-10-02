@@ -17,7 +17,7 @@ describe('Use container', () => {
 
     expect(Container.has(SampleController)).toBeTruthy();
     expect(instance[CLASS_LOADER](SampleController, instance)).toBeInstanceOf(SampleController);
-    expect(instance[CLASS_LOADER](SampleController, instance).dependency).toBeInstanceOf(Dependency);
+    expect((instance[CLASS_LOADER](SampleController, instance) as SampleController).dependency).toBeInstanceOf(Dependency);
   });
 });
 

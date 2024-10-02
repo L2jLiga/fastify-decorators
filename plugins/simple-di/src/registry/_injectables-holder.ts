@@ -1,4 +1,4 @@
-import { CREATOR } from 'fastify-decorators/plugins';
+import { REGISTRABLE } from 'fastify-decorators/plugins';
 import { InjectableService } from '../interfaces/injectable-class.js';
 import { FASTIFY_REPLY, FASTIFY_REQUEST, FastifyReplyToken, FastifyRequestToken } from '../symbols.js';
 
@@ -47,18 +47,14 @@ export class _InjectablesHolder {
 
   verifyInjectable(injectable: unknown): asserts injectable is InjectableService {
     if (typeof injectable !== 'function') throw new Error(`Injectable service expected, got ${typeof injectable}`);
-    if (!(CREATOR in injectable)) {
+    if (!(REGISTRABLE in injectable)) {
       throw new Error(`Injectable service expected, got ${injectable.name}`);
     }
   }
 
   wrapSingleton<T>(object: T): InjectableService {
     return <InjectableService>(<unknown>{
-      [CREATOR]: {
-        register() {
-          return object;
-        },
-      },
+      [REGISTRABLE]: () => object,
     });
   }
 }

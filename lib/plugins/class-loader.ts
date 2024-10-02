@@ -1,5 +1,4 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import { Constructable } from './shared-interfaces.js';
 
 declare module 'fastify' {
   interface FastifyInstance {
@@ -33,4 +32,4 @@ export type Scope = FastifyInstance | FastifyRequest;
  * - FastifyRequest - classes instantiated in this
  *   scope destroyed when request finished
  */
-export type ClassLoader = <C>(constructor: Constructable<C>, scope: Scope) => C;
+export type ClassLoader = (constructor: object, scope: Scope) => unknown;

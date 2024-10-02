@@ -1,9 +1,9 @@
 import { app } from './index.js';
 
-const hostname = '127.0.0.1';
+const host = '127.0.0.1';
 const port = 3003;
 
-app.listen(port, hostname, (error, address) => {
+app.listen({ port, host }, (error, address) => {
   if (error != null) {
     console.error(error);
     process.exit(-1);

@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "ES2023",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "lib": ["ES2023"],
     "baseUrl": ".",
     "paths": {
       "fastify-decorators": ["dist/fastify-decorators"],

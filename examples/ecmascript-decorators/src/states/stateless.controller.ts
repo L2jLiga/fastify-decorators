@@ -1,11 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { Controller, ControllerType, GET, POST } from 'fastify-decorators';
+import { Controller, GET, POST, Scope } from 'fastify-decorators';
 
 type State = Record<string, unknown>;
 
 @Controller({
   route: '/stateless',
-  type: ControllerType.REQUEST,
+  scope: Scope.PER_REQUEST,
 })
 export default class StatelessController {
   private state: State = {};

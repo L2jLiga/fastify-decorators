@@ -1,6 +1,5 @@
-import { Constructable } from 'fastify-decorators/plugins/index.js';
+import { Container } from 'fastify-decorators/plugins';
 import { SERVICE_INJECTION } from '../../symbols.js';
-import { Container } from '../../utils/container.js';
 import { ServiceInjection } from './inject-dependencies.js';
 
 export function ensureServiceInjection<T>(
@@ -20,6 +19,6 @@ export function ensureServiceInjection<T>(
   }
 }
 
-export function hasServiceInjection<T>(val: T): val is T & Constructable & { [SERVICE_INJECTION]: Container<ServiceInjection> } {
+export function hasServiceInjection<T>(val: T): val is T & { [SERVICE_INJECTION]: Container<ServiceInjection> } {
   return (typeof val === 'function' || (typeof val === 'object' && val !== null)) && SERVICE_INJECTION in val;
 }

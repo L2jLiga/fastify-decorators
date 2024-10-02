@@ -1,10 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { Controller, ControllerType, ErrorHandler, GET } from 'fastify-decorators';
+import { Controller, ErrorHandler, GET, Scope } from 'fastify-decorators';
 import { ErrorType } from './error-type.js';
 
 @Controller({
   route: '/stateful/error-handling',
-  type: ControllerType.REQUEST,
+  scope: Scope.SINGLETON,
 })
 export default class StatelessController {
   @GET({

@@ -1,5 +1,5 @@
-import { GET } from '../../../decorators/index.js';
-import { RequestHandler } from '../../../interfaces/index.js';
+import { RequestHandler } from '../../../interfaces/request-handler.js';
+import { GET } from '../../../decorators/request-handlers.js';
 
 @GET('/index')
 export default class SampleHandler extends RequestHandler {

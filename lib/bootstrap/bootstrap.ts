@@ -2,13 +2,11 @@ import type { FastifyInstance } from 'fastify';
 import fp from 'fastify-plugin';
 import { lstatSync, PathLike } from 'node:fs';
 import { opendir } from 'node:fs/promises';
-import type { AutoLoadConfig } from '../interfaces/bootstrap-config.js';
-import type { BootstrapConfig } from '../interfaces/index.js';
-import { CLASS_LOADER, ClassLoader, Constructable } from '../plugins/index.js';
-import { CREATOR } from '../symbols/index.js';
+import type { BootstrapConfig } from '../interfaces/bootstrap-config.js';
 import { transformAndWait } from '../utils/transform-and-wait.js';
-import { isValidRegistrable } from '../utils/validators.js';
 import { hooksRegistry } from '../registry/hooks-registry.js';
+import { REGISTRABLE } from '../constants/symbols.js';
+import { CLASS_LOADER, ClassLoader } from '../plugins/class-loader.js';
 
 const defaultMask = /\.(handler|controller)\./;
 
@@ -19,16 +17,16 @@ const defaultMask = /\.(handler|controller)\./;
 export const bootstrap = fp<BootstrapConfig>(
   async (fastifyInstance: FastifyInstance, config: BootstrapConfig): Promise<void> => {
     // 1. Load all modules
-    const toBootstrap = new Set<Constructable>();
+    const toBootstrap = new Set<object>();
     if ('directory' in config) await transformAndWait(autoLoadModules(config), toBootstrap.add.bind(toBootstrap));
-    if ('controllers' in config) await transformAndWait(config.controllers, toBootstrap.add.bind(toBootstrap));
+    if ('controllers' in config) await transformAndWait(config.controllers ?? [], toBootstrap.add.bind(toBootstrap));
 
     // 2. Run appInit hooks
     await transformAndWait(hooksRegistry.appInit, (hook) => hook(fastifyInstance));
 
     // 3. Register default class loader in case if missing
     if (!fastifyInstance.hasDecorator(CLASS_LOADER)) {
-      const classLoader: ClassLoader = config.classLoader ?? ((T) => new T());
+      const classLoader: ClassLoader = config.classLoader ?? (((T: object) => new (T as { new (): unknown })()) as ClassLoader);
       fastifyInstance.decorate(CLASS_LOADER, classLoader);
     } else if (config.classLoader) {
       throw new Error('Some library already defines class loader, passing custom class loader via config impossible');
@@ -44,7 +42,7 @@ export const bootstrap = fp<BootstrapConfig>(
     fastifyInstance.addHook('onClose', () => transformAndWait(hooksRegistry.appDestroy, (hook) => hook(fastifyInstance)));
   },
   {
-    fastify: '^4.0.0',
+    fastify: '^4.0.0 || ^5.0.0',
     name: 'fastifyDecorators',
   },
 );
@@ -52,11 +50,11 @@ export const bootstrap = fp<BootstrapConfig>(
 /**
  * Automatically loads modules from filesystem
  */
-function autoLoadModules(config: AutoLoadConfig): AsyncIterable<Constructable<unknown>> {
+function autoLoadModules(config: BootstrapConfig): AsyncIterable<object> {
   const flags = config.mask instanceof RegExp ? config.mask.flags.replace('g', '') : '';
   const mask = config.mask ? new RegExp(config.mask, flags) : defaultMask;
 
-  return readModulesRecursively(getBaseDirOf(config.directory), mask);
+  return readModulesRecursively(getBaseDirOf(config.directory as PathLike), mask);
 }
 
 /**
@@ -79,7 +77,7 @@ function getBaseDirOf(pathLike: PathLike): URL {
   return url;
 }
 
-async function* readModulesRecursively(parentUrl: URL, mask: RegExp): AsyncIterable<Constructable<unknown>> {
+async function* readModulesRecursively(parentUrl: URL, mask: RegExp): AsyncIterable<object> {
   for await (const dirent of await opendir(parentUrl)) {
     const fullFilePath = new URL(dirent.name, parentUrl + '/');
     if (dirent.isDirectory()) {
@@ -90,10 +88,14 @@ async function* readModulesRecursively(parentUrl: URL, mask: RegExp): AsyncItera
   }
 }
 
-function loadRegistrable<T>(this: FastifyInstance, config: BootstrapConfig, constructable: Constructable<T>): Promise<void> | void {
+function loadRegistrable(this: FastifyInstance, config: BootstrapConfig, constructable: object): Promise<unknown> | void {
   if (isValidRegistrable(constructable)) {
-    return constructable[CREATOR].register(this, config.prefix);
+    return constructable[REGISTRABLE](this);
   } else if (!config.skipBroken) {
     throw new TypeError(`Loaded file is incorrect module and can not be bootstrapped: ${constructable}`);
   }
+}
+
+function isValidRegistrable(target: object): target is { [REGISTRABLE]: (instance: FastifyInstance) => Promise<unknown> } {
+  return target && REGISTRABLE in target;
 }

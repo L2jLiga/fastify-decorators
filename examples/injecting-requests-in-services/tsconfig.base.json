@@ -3,9 +3,10 @@
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
     /* Basic Options */
-    "target": "ES2022",
+    "target": "ES2023",
     "module": "ESNext",
     "outDir": "./dist",
+    "lib": ["ES2023"],
 
     /* Strict Type-Checking Options */
     "strict": true,

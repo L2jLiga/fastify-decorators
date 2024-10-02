@@ -1,6 +1,5 @@
 import { jest } from '@jest/globals';
 import { FastifyInstance } from 'fastify';
-import { CREATOR } from 'fastify-decorators/plugins';
 import { setFlagsFromString } from 'v8';
 import { runInNewContext } from 'vm';
 import { InjectableService } from '../interfaces/injectable-class.js';
@@ -8,6 +7,7 @@ import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { DESTRUCTOR, INITIALIZER } from '../symbols.js';
 import { classLoaderFactory } from './helpers/inject-dependencies.js';
 import { Service } from './service.js';
+import { REGISTRABLE } from 'fastify-decorators/constants/symbols.js';
 
 describe('Decorators: @Service', () => {
   beforeEach(() => _injectablesHolder.reset());
@@ -15,7 +15,7 @@ describe('Decorators: @Service', () => {
 
   @Service()
   class _Srv {}
-  const Srv = _Srv as InjectableService<_Srv>;
+  const Srv = _Srv as typeof _Srv & InjectableService;
 
   it('should create new instances for different scopes', () => {
     const classLoader = classLoaderFactory(_injectablesHolder);
@@ -23,8 +23,8 @@ describe('Decorators: @Service', () => {
     const scope1 = {} as FastifyInstance;
     const scope2 = {} as FastifyInstance;
 
-    const instance1 = Srv[CREATOR].register(classLoader, scope1);
-    const instance2 = Srv[CREATOR].register(classLoader, scope2);
+    const instance1 = Srv[REGISTRABLE](classLoader, scope1);
+    const instance2 = Srv[REGISTRABLE](classLoader, scope2);
 
     expect(instance1).not.toBe(instance2);
   });
@@ -34,9 +34,9 @@ describe('Decorators: @Service', () => {
 
     const scope = {} as FastifyInstance;
 
-    const instance1 = Srv[CREATOR].register(classLoader, scope);
-    const instance2 = Srv[CREATOR].register(classLoader, scope);
-    const instance3 = Srv[CREATOR].register(classLoader, scope);
+    const instance1 = Srv[REGISTRABLE](classLoader, scope);
+    const instance2 = Srv[REGISTRABLE](classLoader, scope);
+    const instance3 = Srv[REGISTRABLE](classLoader, scope);
 
     expect(instance1).toBe(instance2);
     expect(instance1).toBe(instance3);
@@ -54,7 +54,7 @@ describe('Decorators: @Service', () => {
       });
     }
 
-    TestService[CREATOR].register(classLoader, scope);
+    TestService[REGISTRABLE](classLoader, scope);
 
     expect(TestService[INITIALIZER]).toHaveBeenCalled();
   });
@@ -70,7 +70,7 @@ describe('Decorators: @Service', () => {
         test = () => resolve(service);
       }
 
-      const service = new WeakRef(TestService[CREATOR].register(classLoader, {} as FastifyInstance) as TestService);
+      const service = new WeakRef(TestService[REGISTRABLE](classLoader, {} as FastifyInstance) as TestService);
 
       // When Garbage collector called
       setFlagsFromString('--expose-gc');

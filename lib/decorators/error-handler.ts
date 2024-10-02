@@ -1,62 +1,20 @@
-import type { IErrorHandler } from '../interfaces/index.js';
-import type { Constructable } from '../plugins/index.js';
-import { getErrorHandlerContainer } from '../plugins/index.js';
-import { getErrorHandlerContainerMetadata } from './helpers/class-metadata.js';
+import { FastifyError } from 'fastify';
+import { ERROR_HANDLER } from '../constants/symbols.js';
+import { getContainer } from '../utils/container-utils.js';
+import { CombinedMethodDecorator, methodDecoratorFactory } from './interop/method-decorator.js';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function ErrorHandler(): <This = unknown, Value extends (this: This, ...args: any) => any = (this: This, ...args: any) => any>(
-  target: Value | This,
-  ctx: ClassMethodDecoratorContext<This, Value> | ClassFieldDecoratorContext<This, Value> | string | symbol,
-) => void;
-export function ErrorHandler(
-  code: string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): <This = unknown, Value extends (this: This, ...args: any) => any = (this: This, ...args: any) => any>(
-  target: Value | This,
-  ctx: ClassMethodDecoratorContext<This, Value> | ClassFieldDecoratorContext<This, Value> | string | symbol,
-) => void;
-export function ErrorHandler<T extends Error>(
-  configuration: Constructable<T>,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): <This = unknown, Value extends (this: This, ...args: any) => any = (this: This, ...args: any) => any>(
-  target: Value | This,
-  ctx: ClassMethodDecoratorContext<This, Value> | ClassFieldDecoratorContext<This, Value> | string | symbol,
-) => void;
-export function ErrorHandler<T extends ErrorConstructor>(
-  configuration: T,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): <This = unknown, Value extends (this: This, ...args: any) => any = (this: This, ...args: any) => any>(
-  target: Value | This,
-  ctx: ClassMethodDecoratorContext<This, Value> | ClassFieldDecoratorContext<This, Value> | string | symbol,
-) => void;
-export function ErrorHandler<T extends ErrorConstructor>(
-  parameter?: T | string | null | undefined,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): <This = unknown, Value extends (this: This, ...args: any) => any = (this: This, ...args: any) => any>(
-  target: Value | This,
-  ctx: ClassMethodDecoratorContext<This, Value> | ClassFieldDecoratorContext<This, Value> | string | symbol,
-) => void {
-  return function (target, handlerNameOrContext) {
-    const isEsmContext = typeof handlerNameOrContext === 'object' && 'kind' in handlerNameOrContext;
-    const container = isEsmContext
-      ? getErrorHandlerContainerMetadata(handlerNameOrContext.metadata)
-      : getErrorHandlerContainer((target as abstract new () => unknown).constructor);
-    const handlerName = isEsmContext ? handlerNameOrContext.name : handlerNameOrContext;
+export function ErrorHandler(error?: ErrorConstructor | string): CombinedMethodDecorator {
+  return methodDecoratorFactory((target, metadata, property) => {
+    const container = getContainer(metadata, ERROR_HANDLER);
 
-    if (parameter == null) {
-      container.push(handlerFactory(() => true, handlerName));
-    } else if (typeof parameter === 'string') {
-      container.push(handlerFactory((error?: ErrorWithCode) => error?.code === parameter, handlerName));
-    } else {
-      container.push(handlerFactory((error?: Error) => error instanceof parameter, handlerName));
+    let accepts: (value: Error) => boolean = () => true;
+    if (typeof error === 'string') {
+      accepts = (value: Error) => (value as FastifyError).code === error;
     }
-  };
-}
+    if (typeof error === 'function') {
+      accepts = (value: Error) => value instanceof error;
+    }
 
-interface ErrorWithCode extends Error {
-  code?: string;
-}
-
-function handlerFactory(accepts: <T extends Error>(error?: T) => boolean, handlerName: string | symbol): IErrorHandler {
-  return { accepts, handlerName };
+    container.push({ accepts, handlerName: property });
+  });
 }

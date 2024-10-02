@@ -1,6 +1,5 @@
 import type {
   ContextConfigDefault,
-  FastifyInstance,
   FastifyReply,
   FastifyRequest,
   RawReplyDefaultExpression,
@@ -9,7 +8,6 @@ import type {
   RawServerDefault,
   RequestGenericInterface,
 } from 'fastify';
-import { CREATOR } from '../symbols/index.js';
 
 /**
  * Abstract class which should extend all decorated request handlers
@@ -21,14 +19,9 @@ export abstract class RequestHandler<
   RequestGeneric extends RequestGenericInterface = RequestGenericInterface,
   ContextConfig = ContextConfigDefault,
 > {
-  /**
-   * Static method to register handler by autoloader (bootstrap)
-   */
-  static readonly [CREATOR]: { register: (instance: FastifyInstance) => void };
-
-  protected constructor(
+  constructor(
     protected request: FastifyRequest<RequestGeneric, RawServer, RawRequest>,
-    protected reply: FastifyReply<RawServer, RawRequest, RawReply, RequestGeneric, ContextConfig>,
+    protected reply: FastifyReply<RequestGeneric, RawServer, RawRequest, RawReply, ContextConfig>,
   ) {}
 
   /**

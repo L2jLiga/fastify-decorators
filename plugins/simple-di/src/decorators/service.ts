@@ -1,8 +1,9 @@
-import { ClassLoader, CREATOR, Scope } from 'fastify-decorators/plugins';
+import { ClassLoader, REGISTRABLE, Scope } from 'fastify-decorators/plugins';
 import { InjectableService } from '../interfaces/injectable-class.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { DESTRUCTOR, INITIALIZER } from '../symbols.js';
 import { dependencyScopeManager } from '../utils/dependencies-scope-manager.js';
+import { FastifyInstance } from 'fastify';
 
 const INITIALIZED = Symbol.for('fastify-decorators.initializer-called');
 
@@ -13,18 +14,19 @@ export function Service(): ClassDecorator;
 export function Service(injectableToken: string | symbol): ClassDecorator;
 export function Service(injectableToken?: string | symbol): unknown {
   return (target: InjectableService) => {
-    target[CREATOR] = {
-      register<Type>(classLoader: ClassLoader, scope: Scope): Type {
-        if ('context' in scope) scope = scope.server;
-        const instance = classLoader(target as InjectableService<Type & { [INITIALIZED]?: Promise<unknown> }>, scope);
-        if (instance[INITIALIZED]) return instance as Type;
+    target[REGISTRABLE] = (classLoader: ClassLoader, scope: Scope): object => {
+      if ('context' in scope) scope = scope.server as FastifyInstance;
+      const instance = classLoader(target, scope) as {
+        [INITIALIZED]?: Promise<unknown>;
+        [INITIALIZER]?(instance: FastifyInstance): Promise<unknown>;
+        [DESTRUCTOR]?(): void;
+      };
+      if (instance[INITIALIZED]) return instance as object;
 
-        instance[INITIALIZED] = Promise.resolve(target[INITIALIZER]?.(instance));
-        // @ts-expect-error TODO: make this work without expect-error
-        if (target[DESTRUCTOR]) dependencyScopeManager.registerDestructor(scope, () => instance[target[DESTRUCTOR]]());
+      instance[INITIALIZED] = Promise.resolve(target[INITIALIZER]?.(instance));
+      if (target[DESTRUCTOR]) dependencyScopeManager.registerDestructor(scope, () => instance[target[DESTRUCTOR] as typeof DESTRUCTOR]?.());
 
-        return instance as Type;
-      },
+      return instance as object;
     };
 
     _injectablesHolder.injectService(target, target, false);

@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { CREATOR } from 'fastify-decorators/plugins';
+import { REGISTRABLE } from 'fastify-decorators/plugins';
 import { InjectableService } from '../../interfaces/injectable-class.js';
 import { _InjectablesHolder } from '../../registry/_injectables-holder.js';
 import { Inject } from '../inject.js';
@@ -7,11 +7,7 @@ import { classLoaderFactory } from './inject-dependencies.js';
 
 describe('Helpers: inject dependencies', () => {
   class Service {
-    static [CREATOR] = {
-      register() {
-        return new Service();
-      },
-    };
+    static [REGISTRABLE] = () => new Service();
   }
 
   it('should cache result', () => {
@@ -37,7 +33,7 @@ describe('Helpers: inject dependencies', () => {
 
       const injectables = new _InjectablesHolder();
       injectables.injectService(Service, Service as InjectableService);
-      const instance = classLoaderFactory(injectables)(A, scope);
+      const instance = classLoaderFactory(injectables)(A, scope) as A;
 
       expect(instance.field).toBeInstanceOf(Service);
     });

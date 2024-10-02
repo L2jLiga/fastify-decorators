@@ -1,5 +1,4 @@
 import { FastifyInstance } from 'fastify';
-import { Registrable } from './shared-interfaces.js';
 import { HooksRegistry, hooksRegistry } from '../registry/hooks-registry.js';
 
 /**
@@ -12,13 +11,13 @@ export type AppInitHook = (fastifyInstance: FastifyInstance) => unknown | Promis
  * Hooks that executed before each controller
  * class instantiation.
  */
-export type BeforeControllerCreationHook = (fastifyInstance: FastifyInstance, target: Registrable) => unknown | Promise<unknown>;
+export type BeforeControllerCreationHook = (fastifyInstance: FastifyInstance, target: object) => unknown | Promise<unknown>;
 
 /**
  * Hooks that executed after each controller
  * class were instantiated.
  */
-export type AfterControllerCreationHook = (fastifyInstance: FastifyInstance, target: Registrable, instance: unknown) => unknown | Promise<unknown>;
+export type AfterControllerCreationHook = (fastifyInstance: FastifyInstance, target: object, instance: unknown) => unknown | Promise<unknown>;
 
 /**
  * Hooks that executed when all controllers

@@ -1,24 +1,25 @@
-import { Constructable, getErrorHandlerContainer, getHandlersContainer, getHooksContainer, Registrable } from 'fastify-decorators/plugins';
 import { FASTIFY_REPLY, FASTIFY_REQUEST, SERVICE_INJECTION } from '../../symbols.js';
 import { hasServiceInjection } from './ensure-service-injection.js';
+import { ERROR_HANDLER, getContainer, getMetadata, HOOK, REQUEST_HANDLER } from 'fastify-decorators/plugins';
 
-export function patchMethods<C>(constructor: Registrable<C>): void {
-  for (const { handlerMethod } of getHandlersContainer(constructor)) patchMethod(constructor, handlerMethod);
-  for (const { handlerName } of getErrorHandlerContainer(constructor)) patchMethod(constructor, handlerName);
-  for (const { handlerName } of getHooksContainer(constructor)) patchMethod(constructor, handlerName);
+export function patchMethods(constructor: object): void {
+  const metadata = getMetadata(constructor);
+  for (const { handlerName } of getContainer(metadata, REQUEST_HANDLER)) patchMethod(constructor, handlerName);
+  for (const { handlerName } of getContainer(metadata, ERROR_HANDLER)) patchMethod(constructor, handlerName);
+  for (const { handlerName } of getContainer(metadata, HOOK)) patchMethod(constructor, handlerName);
 }
 
-function patchMethod<C>(constructor: Registrable<C>, methodName: string | symbol): void {
-  const _original = constructor.prototype[methodName];
+function patchMethod(constructor: object, methodName: PropertyKey): void {
+  const _original = (constructor as { new (): object }).prototype[methodName];
 
-  constructor.prototype[methodName] = function methodProxy(request: unknown, reply: unknown, ...rest: unknown[]) {
+  (constructor as { new (): object }).prototype[methodName] = function methodProxy(request: unknown, reply: unknown, ...rest: unknown[]) {
     return _original.call(createProxy(this, request, reply), request, reply, ...rest);
   };
 }
 
 const _PROXY_CACHE = new WeakMap<WeakKey, WeakMap<WeakKey, unknown>>();
 
-function createProxy<C>(target: Constructable<C>, request: unknown, reply: unknown): unknown {
+function createProxy(target: object, request: unknown, reply: unknown): unknown {
   if (!_PROXY_CACHE.has(target)) _PROXY_CACHE.set(target, new WeakMap());
   const targetProxyCache = _PROXY_CACHE.get(target) as WeakMap<WeakKey, unknown>;
   if (targetProxyCache.has(request as WeakKey)) return targetProxyCache.get(request as WeakKey);

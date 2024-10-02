@@ -1,4 +1,5 @@
-import { Controller, GET } from '../../../decorators/index.js';
+import { Controller } from '../../../decorators/controller';
+import { GET } from '../../../decorators/request-handlers.js';
 
 @Controller('/broken')
 export class BrokenMock {

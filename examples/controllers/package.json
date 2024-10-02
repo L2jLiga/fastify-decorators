@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@fastify-decorators/simple-di": "^4.0.0-next.5",
-    "fastify": "^4.27.0",
+    "fastify": "^5.0.0",
     "fastify-decorators": "^4.0.0-next.5"
   },
   "devDependencies": {
@@ -22,7 +22,7 @@
     "jest": "^29.7.0",
     "jest-resolve": "^29.7.0",
     "jest-ts-webcompat-resolver": "^1.0.0",
-    "ts-jest": "^29.1.2",
+    "ts-jest": "^29.2.5",
     "typescript": "^5.6.2",
     "undici": "^6.19.8"
   },

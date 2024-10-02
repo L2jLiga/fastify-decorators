@@ -12,9 +12,35 @@ Update dependencies:
 
 | Dependency | Minimal supported version |
 | ---------- | ------------------------- |
-| Node.js    | 18.18.0                   |
+| Node.js    | 20.12.0                   |
 | TypeScript | 5.0.0                     |
 | Fastify    | 4.0.0                     |
+
+### ControllerType was renamed
+
+Replace usages of `ControllerType` with `Scope`:
+
+_before_:
+
+```typescript
+import { Controller, ControllerType } from 'fastify-decorators';
+
+@Controller({
+  route: '/',
+  type: ControllerType.SINGLETON,
+})
+```
+
+_after_:
+
+```typescript
+import { Controller, Scope } from 'fastify-decorators';
+
+@Controller({
+  route: '/',
+  scope: Scope.SINGLETON,
+})
+```
 
 ### Built-in DI was moved to plugin
 

@@ -1,10 +1,8 @@
-import { ClassLoader, Constructable, CREATOR, Scope } from 'fastify-decorators/plugins';
+import { ClassLoader, REGISTRABLE, Scope } from 'fastify-decorators/plugins';
 import { DESTRUCTOR, INITIALIZER } from '../symbols.js';
 
-export interface InjectableService<T = unknown> extends Constructable<T> {
-  [CREATOR]: {
-    register<Type>(classLoader: ClassLoader, scope: Scope): Type;
-  };
+export interface InjectableService {
+  [REGISTRABLE]: (classLoader: ClassLoader, scope: Scope) => object;
 
   [INITIALIZER]?<Type>(self: Type): void;
 

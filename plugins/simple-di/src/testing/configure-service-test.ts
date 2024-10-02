@@ -1,5 +1,4 @@
 import { fastify, FastifyInstance } from 'fastify';
-import { CLASS_LOADER, Constructable, CREATOR } from 'fastify-decorators/plugins';
 import { classLoaderFactory } from '../decorators/helpers/inject-dependencies.js';
 import { readyMap } from '../decorators/initializer.js';
 import type { InjectableService } from '../interfaces/injectable-class.js';
@@ -8,9 +7,13 @@ import { FastifyInstanceToken, INITIALIZER } from '../symbols.js';
 import { loadPlugins, Plugins } from './fastify-plugins.js';
 import { MocksManager } from './mocks-manager.js';
 import type { ServiceMock } from './service-mock.js';
+import { CLASS_LOADER } from 'fastify-decorators/plugins/class-loader.js';
+import { REGISTRABLE } from 'fastify-decorators/constants/symbols.js';
 
-export interface ServiceTestConfig<Service> {
-  service: Constructable<Service>;
+export interface ServiceTestConfig<Service extends object> {
+  // FIXME: avoid any, find better solution
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  service: { new (...args: any): Service };
   instance?: FastifyInstance;
   mocks?: ServiceMock[];
   plugins?: Plugins;
@@ -21,8 +24,8 @@ export interface ServiceTestConfig<Service> {
  * @param config - object that contains service and mocks
  * @returns configured service & promise which resolves when async initializer done (if it exists, otherwise resolved)
  */
-export function configureServiceTest<Service>(config: ServiceTestConfig<Service>): Promise<Service> & Service {
-  const service: Constructable<Service> = config.service;
+export function configureServiceTest<Service extends object>(config: ServiceTestConfig<Service>): Promise<Service> & Service {
+  const service = config.service as InjectableService & typeof config.service;
 
   const fastifyInstance = config.instance ?? fastify();
   loadPlugins(fastifyInstance, config.plugins);
@@ -34,11 +37,10 @@ export function configureServiceTest<Service>(config: ServiceTestConfig<Service>
   fastifyInstance.decorate(CLASS_LOADER, classLoader);
 
   isInjectable(service);
-  const instance = service[CREATOR].register<Service>(fastifyInstance[CLASS_LOADER], fastifyInstance);
+  const instance = service[REGISTRABLE](fastifyInstance[CLASS_LOADER], fastifyInstance);
 
   let promise: Promise<unknown> | null = null;
 
-  // @ts-expect-error TS doesn't know that we have class instance here
   return new Proxy(instance, {
     get<T>(target: T, p: keyof T | 'then' | 'catch' | 'finally') {
       if (isPromiseLikeAccess<T>(p)) {
@@ -60,12 +62,12 @@ function isPromiseLikeAccess<T, K extends keyof T = keyof T>(p: K | 'then' | 'ca
   return p === 'then' || p === 'catch' || p === 'finally';
 }
 
-function isInjectable<Service>(service: Constructable<Service>): asserts service is InjectableService<Service> {
-  if (!(Symbol.for('fastify-decorators.creator') in service)) {
+function isInjectable<T extends object>(service: T): asserts service is T & InjectableService {
+  if (!(REGISTRABLE in service)) {
     throw new Error('Provided service does not annotated with @Service!');
   }
 }
 
-function hasAsyncInitializer<T>(service: InjectableService<T>): service is InjectableService<T> & Required<InjectableService<T>> {
+function hasAsyncInitializer(service: InjectableService): service is Required<InjectableService> {
   return INITIALIZER in service;
 }

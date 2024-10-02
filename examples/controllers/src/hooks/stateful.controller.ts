@@ -1,9 +1,9 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { Controller, ControllerType, GET, Hook } from 'fastify-decorators';
+import { Controller, GET, Hook, Scope } from 'fastify-decorators';
 
 @Controller({
   route: '/stateful/hooks',
-  type: ControllerType.SINGLETON,
+  scope: Scope.SINGLETON,
 })
 export default class StatefulController {
   @GET()

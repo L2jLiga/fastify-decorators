@@ -50,24 +50,17 @@
     "email": "L2jLiga@gmail.com"
   },
   "engines": {
-    "node": "^18.18.0 || > 20.0.0"
+    "node": "^20.12.0 || >= 22.0.0"
   },
   "dependencies": {
     "fastify-plugin": "^4.0.0"
   },
   "peerDependencies": {
     "@types/node": "*",
-    "fastify": "^4.0.0",
+    "fastify": "^5.0.0",
     "typescript": "^5.0.0"
   },
   "maintainers": [
     "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)"
-  ],
-  "contributors": [
-    "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)",
-    "Tobias Mühl (https://github.com/tobiasmuehl)",
-    "Муравьёв Семён <s01@ngs.ru> (https://github.com/Zulcom)",
-    "Mihai Voicescu <mihaivo@intern.pch> (https://github.com/mihai1voicescu)",
-    "Mati Kärner <mati.karner@gmail.com>"
   ]
 }

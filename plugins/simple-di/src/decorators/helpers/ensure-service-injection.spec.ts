@@ -1,5 +1,5 @@
+import { Container } from 'fastify-decorators/registry/container.js';
 import { SERVICE_INJECTION } from '../../symbols.js';
-import { Container } from '../../utils/container.js';
 import { ensureServiceInjection, hasServiceInjection } from './ensure-service-injection.js';
 import { ServiceInjection } from './inject-dependencies.js';
 

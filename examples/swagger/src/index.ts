@@ -3,7 +3,7 @@ import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import { fastify } from 'fastify';
 import { bootstrap } from 'fastify-decorators';
-import { hostname, port } from './config.js';
+import { host, port } from './config.js';
 import { TypedController } from './typed.controller.js';
 
 export const app = fastify({ pluginTimeout: 90_000 });
@@ -18,7 +18,7 @@ app.register(fastifySwagger, {
       description: 'testing the fastify swagger api',
       version: '0.1.0',
     },
-    servers: [{ url: `${hostname}:${port}` }],
+    servers: [{ url: `${host}:${port}` }],
   },
 });
 app.register(fastifySwaggerUi);

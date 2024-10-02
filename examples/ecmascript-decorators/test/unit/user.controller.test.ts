@@ -1,13 +1,14 @@
-import { FastifyInstance } from 'fastify';
-import { configureControllerTest } from '@fastify-decorators/simple-di/testing';
+import fastify, { FastifyInstance } from 'fastify';
 import { users } from '../../src/user/user.js';
 import UserController from '../../src/user/user.controller.js';
+import { bootstrap } from 'fastify-decorators';
 
 describe('Controller: User', () => {
   let app: FastifyInstance;
   beforeEach(async () => {
-    app = await configureControllerTest({
-      controller: UserController,
+    app = await fastify();
+    await app.register(bootstrap, {
+      controllers: [UserController],
     });
   });
   afterEach(() => users.clear());

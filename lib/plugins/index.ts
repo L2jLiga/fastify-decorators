@@ -10,11 +10,15 @@
 
 export * from './class-loader.js';
 export * from './life-cycle.js';
-export { Constructable, Registrable } from './shared-interfaces.js';
 
-export { getHandlersContainer, getHooksContainer, getErrorHandlerContainer } from '../decorators/helpers/class-metadata.js';
-export { IHook, IHandler, IErrorHandler } from '../interfaces/controller.js';
-export { CREATOR } from '../symbols/index.js';
+export { CLASS_LOADER, ClassLoader } from './class-loader.js';
+
+export { getMetadata } from '../decorators/interop/metadata.js';
 
 export { Container } from '../registry/container.js';
-export { CLASS_LOADER } from './class-loader.js';
+export { getContainer } from '../utils/container-utils.js';
+export { REGISTRABLE, REQUEST_HANDLER, HOOK, ERROR_HANDLER } from '../constants/symbols.js';
+export { Registrable } from '../interfaces/registrable.js';
+export { RequestHandlerDefinition } from '../interfaces/request-handler-definition.js';
+export { HookDefinition } from '../interfaces/hook-definition.js';
+export { ErrorHandlerDefinition } from '../interfaces/error-handler-definition.js';
