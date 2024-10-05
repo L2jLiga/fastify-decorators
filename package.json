@@ -55,7 +55,8 @@
     "yarn": "^1.0.0"
   },
   "resolutions": {
-    "@types/node": "~20.12.14"
+    "@types/node": "~20.12.14",
+    "eslint": "^9.11.1"
   },
   "workspaces": [
     "lib",
