@@ -21,7 +21,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [20.12.x, 20.x, 22.x]
+        node-version: [20.17.x, 20.x, 22.x]
 
     permissions:
       checks: write
