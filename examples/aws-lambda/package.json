@@ -25,7 +25,7 @@
     "jest-resolve": "^29.7.0",
     "jest-ts-webcompat-resolver": "^1.0.0",
     "ts-jest": "^29.2.5",
-    "tslib": "^2.7.0",
+    "tslib": "^2.8.1",
     "typescript": "^5.6.2"
   },
   "jest-junit": {
