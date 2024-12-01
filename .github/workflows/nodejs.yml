@@ -47,14 +47,14 @@ jobs:
         with:
           junit_files: 'test-results/*.xml'
       - name: Upload unit-tests coverage to Codecov
-        uses: codecov/codecov-action@v4.5.0
+        uses: codecov/codecov-action@v5.0.7
         with:
           directory: coverage/library
           flags: unittests
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload examples code coverage to Codecov
-        uses: codecov/codecov-action@v4.5.0
+        uses: codecov/codecov-action@v5.0.7
         with:
           directory: coverage/integration
           flags: integration
