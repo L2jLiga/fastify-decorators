@@ -11,12 +11,12 @@ export { BootstrapConfig } from './Interfaces/bootstrap-config.js';
 export { RequestHandler } from './Interfaces/request-handler.js';
 
 export * from './Decorators';
-export { ControllerType } from './registry/controller-type.js';
+export { ControllerType } from './Registry/controller-type.js';
 export { ControllerConfig } from './Interfaces/controller-config.js';
 
 export { Destructor } from './Decorators/Destructor/Destructor.js';
 
-export { injectablesHolder } from './registry/injectables-holder.js';
+export { injectablesHolder } from './Registry/injectables-holder.js';
 export { getInstanceByToken } from './Utils/get-instance-by-token.js';
 export { FastifyInstanceToken, FastifyRequestToken, FastifyReplyToken } from './Symbols/index.js';
 

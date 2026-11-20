@@ -1,4 +1,4 @@
-import { destructors } from '../../registry/destructors.js';
+import { destructors } from '../../Registry/destructors.js';
 import { DESTRUCTOR } from '../../Symbols/index.js';
 import { Destructor } from './Destructor.js';
 

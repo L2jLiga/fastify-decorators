@@ -8,7 +8,7 @@
 
 import { ClassLoader } from '../../Interfaces/bootstrap-config.js';
 import { InjectableService } from '../../Interfaces/injectable-class.js';
-import { _InjectablesHolder } from '../../registry/_injectables-holder.js';
+import { _InjectablesHolder } from '../../Registry/_injectables-holder.js';
 import { CREATOR, SERVICE_INJECTION } from '../../Symbols/index.js';
 import { hasServiceInjection } from './class-properties.js';
 import { defaultScope, DependencyScope, dependencyScopeManager } from './dependency-scope.js';

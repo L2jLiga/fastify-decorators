@@ -1,4 +1,4 @@
-import { _InjectablesHolder } from '../registry/_injectables-holder.js';
+import { _InjectablesHolder } from '../Registry/_injectables-holder.js';
 import { MocksManager } from './mocks-manager.js';
 
 describe('Testing: mocks manager', () => {

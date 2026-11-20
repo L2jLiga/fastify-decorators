@@ -1,6 +1,6 @@
 import { classLoaderFactory } from '../Decorators/Helpers/inject-dependencies.js';
 import { Service } from '../Decorators/index.js';
-import { _injectablesHolder } from '../registry/_injectables-holder.js';
+import { _injectablesHolder } from '../Registry/_injectables-holder.js';
 import { getInstanceByToken } from './get-instance-by-token.js';
 
 describe('Get instance by token', function () {

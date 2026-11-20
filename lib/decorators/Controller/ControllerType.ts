@@ -1,7 +1,7 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest, FastifySchema } from 'fastify';
 import { ClassLoader } from '../../Interfaces/bootstrap-config.js';
 import type { IErrorHandler, IHandler, IHook, InjectableController } from '../../Interfaces/index.js';
-import { ControllerType } from '../../registry/controller-type.js';
+import { ControllerType } from '../../Registry/controller-type.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../Symbols/index.js';
 import { hasErrorHandlers, hasHandlers, hasHooks } from '../Helpers/class-properties.js';
 import ErrorHandler from '../Helpers/ErrorHandler/ErrorHandler.js';

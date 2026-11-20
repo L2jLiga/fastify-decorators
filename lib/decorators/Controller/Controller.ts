@@ -9,7 +9,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { ControllerConfig } from '../../Interfaces/index.js';
 import type { InjectableClass } from '../../Interfaces/injectable-class.js';
-import { ControllerType } from '../../registry/controller-type.js';
+import { ControllerType } from '../../Registry/controller-type.js';
 import { CLASS_LOADER, CREATOR } from '../../Symbols/index.js';
 import { injectControllerOptions } from '../Helpers/inject-controller-options.js';
 import { patchMethods } from '../Helpers/patch-methods.js';

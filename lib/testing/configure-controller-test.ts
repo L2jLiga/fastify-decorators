@@ -14,7 +14,7 @@ import { readyMap } from '../Decorators/index.js';
 import { ClassLoader } from '../Interfaces/bootstrap-config.js';
 import type { InjectableController } from '../Interfaces/index.js';
 import type { InjectableClass } from '../Interfaces/injectable-class.js';
-import { _injectablesHolder } from '../registry/_injectables-holder.js';
+import { _injectablesHolder } from '../Registry/_injectables-holder.js';
 import { CLASS_LOADER, CREATOR, FastifyInstanceToken, SERVICE_INJECTION } from '../Symbols/index.js';
 import { loadPlugins, Plugins } from './fastify-plugins.js';
 import { MocksManager } from './mocks-manager.js';

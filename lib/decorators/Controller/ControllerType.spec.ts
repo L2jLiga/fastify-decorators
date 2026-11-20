@@ -1,7 +1,7 @@
 import { FastifyInstance, RouteShorthandOptions } from 'fastify';
 import { IHandler, InjectableController } from '../../Interfaces/index.js';
-import { _InjectablesHolder } from '../../registry/_injectables-holder.js';
-import { ControllerType } from '../../registry/controller-type.js';
+import { _InjectablesHolder } from '../../Registry/_injectables-holder.js';
+import { ControllerType } from '../../Registry/controller-type.js';
 import { HANDLERS } from '../../Symbols/index.js';
 import { ErrorHandler } from '../ErrorHandler/ErrorHandler.js';
 import { classLoaderFactory } from '../Helpers/inject-dependencies.js';

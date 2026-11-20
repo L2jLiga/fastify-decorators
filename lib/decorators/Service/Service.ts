@@ -8,8 +8,8 @@
 
 import { ClassLoader } from '../../Interfaces/bootstrap-config.js';
 import { InjectableService } from '../../Interfaces/injectable-class.js';
-import { _injectablesHolder } from '../../registry/_injectables-holder.js';
-import { destructors } from '../../registry/destructors.js';
+import { _injectablesHolder } from '../../Registry/_injectables-holder.js';
+import { destructors } from '../../Registry/destructors.js';
 import { CREATOR, DESTRUCTOR, INITIALIZED, INITIALIZER } from '../../Symbols/index.js';
 import { Deferred } from '../../Utils/deferred.js';
 import { readyMap } from '../Initializer/Initializer.js';

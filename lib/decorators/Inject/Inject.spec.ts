@@ -1,4 +1,4 @@
-import { InjectablesMap } from '../../registry/_injectables-holder.js';
+import { InjectablesMap } from '../../Registry/_injectables-holder.js';
 import { SERVICE_INJECTION } from '../../Symbols/index.js';
 import { hasServiceInjection } from '../Helpers/class-properties.js';
 import { ServiceInjection } from '../Helpers/inject-dependencies.js';

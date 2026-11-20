@@ -1,4 +1,4 @@
-import { _injectablesHolder } from '../../registry/_injectables-holder.js';
+import { _injectablesHolder } from '../../Registry/_injectables-holder.js';
 import { CREATOR, INITIALIZER } from '../../Symbols/index.js';
 import { getInstanceByToken } from '../../Utils/get-instance-by-token.js';
 import { classLoaderFactory } from '../Helpers/inject-dependencies.js';

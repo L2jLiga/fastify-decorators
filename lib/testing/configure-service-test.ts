@@ -13,7 +13,7 @@ import { classLoaderFactory } from '../Decorators/Helpers/inject-dependencies.js
 import { initializersMap } from '../Decorators/Initializer/Initializer.js';
 import { ClassLoader } from '../Interfaces/bootstrap-config.js';
 import type { InjectableService } from '../Interfaces/injectable-class.js';
-import { _injectablesHolder } from '../registry/_injectables-holder.js';
+import { _injectablesHolder } from '../Registry/_injectables-holder.js';
 import { CLASS_LOADER, CREATOR, FastifyInstanceToken, INITIALIZER } from '../Symbols/index.js';
 import { loadPlugins, Plugins } from './fastify-plugins.js';
 import { MocksManager } from './mocks-manager.js';

@@ -6,8 +6,8 @@ import { classLoaderFactory, Constructor } from '../Decorators/Helpers/inject-de
 import { readyMap } from '../Decorators/index.js';
 import type { AutoLoadConfig, ClassLoader, ControllersListConfig } from '../Interfaces/bootstrap-config.js';
 import type { BootstrapConfig, InjectableController } from '../Interfaces/index.js';
-import { _injectablesHolder } from '../registry/_injectables-holder.js';
-import { destructors } from '../registry/destructors.js';
+import { _injectablesHolder } from '../Registry/_injectables-holder.js';
+import { destructors } from '../Registry/destructors.js';
 import { CLASS_LOADER, CREATOR, FastifyInstanceToken } from '../Symbols/index.js';
 
 

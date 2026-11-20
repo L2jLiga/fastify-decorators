@@ -7,7 +7,7 @@
  */
 
 import { TagObject } from '../Decorators/Helpers/swagger-helper.js';
-import type { ControllerType } from '../registry/controller-type.js';
+import type { ControllerType } from '../Registry/controller-type.js';
 
 /**
  * Config for controllers
