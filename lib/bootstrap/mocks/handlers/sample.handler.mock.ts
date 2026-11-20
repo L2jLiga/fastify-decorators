@@ -1,4 +1,4 @@
-import { GET } from '../../../decorators/index.js';
+import { GET } from '../../../Decorators/index.js';
 import { RequestHandler } from '../../../interfaces/index.js';
 
 @GET('/index')

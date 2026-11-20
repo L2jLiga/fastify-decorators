@@ -1,4 +1,4 @@
-import { Controller, GET } from '../../../decorators/index.js';
+import { Controller, GET } from '../../../Decorators/index.js';
 
 @Controller('/broken')
 export class BrokenMock {

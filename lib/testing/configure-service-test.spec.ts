@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fastify';
 import fastifyPlugin from 'fastify-plugin';
-import { Initializer, Inject, Service } from '../decorators/index.js';
+import { Initializer, Inject, Service } from '../Decorators/index.js';
 import { FastifyInstanceToken } from '../symbols/index.js';
 import { configureServiceTest } from './configure-service-test.js';
 import { ServiceMock } from './service-mock.js';

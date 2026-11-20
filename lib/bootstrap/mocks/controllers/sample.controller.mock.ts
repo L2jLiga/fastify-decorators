@@ -1,4 +1,4 @@
-import { Controller, GET } from '../../../decorators/index.js';
+import { Controller, GET } from '../../../Decorators/index.js';
 
 @Controller()
 export default class SampleControllerMock {

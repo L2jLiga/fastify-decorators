@@ -1,8 +1,8 @@
 import { fastify } from 'fastify';
 import { resolve, sep } from 'path';
 import { pathToFileURL, URL } from 'url';
-import { Destructor } from '../decorators/Destructor/Destructor';
-import { Controller, Inject, Service } from '../decorators/index.js';
+import { Destructor } from '../Decorators/Destructor/Destructor';
+import { Controller, Inject, Service } from '../Decorators/index.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { destructors } from '../registry/destructors.js';
 import { CLASS_LOADER } from '../symbols/index.js';

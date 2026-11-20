@@ -8,8 +8,8 @@
 
 import type { PathLike } from 'fs';
 import type { FastifyPluginOptions } from 'fastify';
-import { DependencyScope } from '../decorators/helpers/dependency-scope.js';
-import { Constructor } from '../decorators/helpers/inject-dependencies.js';
+import { DependencyScope } from '../Decorators/helpers/dependency-scope.js';
+import { Constructor } from '../Decorators/helpers/inject-dependencies.js';
 
 
 export type BootstrapConfig=FastifyPluginOptions&(AutoLoadConfig|ControllersListConfig)&{

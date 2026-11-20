@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { TagObject } from '../decorators/helpers/swagger-helper.js';
+import { TagObject } from '../Decorators/helpers/swagger-helper.js';
 import type { ControllerType } from '../registry/controller-type.js';
 
 /**
