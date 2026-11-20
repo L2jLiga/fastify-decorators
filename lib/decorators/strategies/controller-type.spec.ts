@@ -3,11 +3,12 @@ import { IHandler, InjectableController } from '../../interfaces/index.js';
 import { _InjectablesHolder } from '../../registry/_injectables-holder.js';
 import { ControllerType } from '../../registry/controller-type.js';
 import { HANDLERS } from '../../symbols/index.js';
-import { ErrorHandler } from '../error-handler.js';
+import { ErrorHandler } from '../ErrorHandler/ErrorHandler.js';
 import { classLoaderFactory } from '../helpers/inject-dependencies.js';
 import { TagObject } from '../helpers/swagger-helper.js';
-import { Hook } from '../hook.js';
+import { Hook } from '../Hook/Hook.js';
 import { ControllerTypeStrategies } from './controller-type.js';
+
 
 describe('Strategies: controller types', () => {
   [['Singleton strategy', ControllerType.SINGLETON] as const, ['Per request strategy', ControllerType.REQUEST] as const].forEach(([specName, strategy]) => {

@@ -1,9 +1,9 @@
 import type { RouteShorthandOptions } from 'fastify';
 import { IHook } from '../../interfaces/controller.js';
 import { CREATOR, HOOKS } from '../../symbols/index.js';
-import { ErrorHandler } from '../error-handler.js';
-import { Hook } from '../hook.js';
-import { GET } from '../request-handlers.js';
+import { ErrorHandler } from '../ErrorHandler/ErrorHandler.js';
+import { Hook } from '../Hook/Hook.js';
+import { GET } from '../RequestHandlers/RequestHandlers.js';
 import { requestDecoratorsFactory } from './request-decorators.factory.js';
 
 describe('Factory: request decorators', () => {

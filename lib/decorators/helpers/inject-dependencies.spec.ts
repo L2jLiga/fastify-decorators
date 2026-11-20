@@ -1,7 +1,7 @@
 import { InjectableService } from '../../interfaces/injectable-class.js';
 import { _InjectablesHolder } from '../../registry/_injectables-holder.js';
 import { CREATOR } from '../../symbols/index.js';
-import { Inject } from '../inject.js';
+import { Inject } from '../Inject/Inject.js';
 import { classLoaderFactory } from './inject-dependencies.js';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace

@@ -10,7 +10,8 @@
     "prepare": "husky install"
   },
   "workspaces": [
-    "lib"
+    "lib",
+    "$examples/*"
   ],
   "directories": {
     "doc": "./docs",

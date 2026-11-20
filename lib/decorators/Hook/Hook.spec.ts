@@ -4,6 +4,7 @@ import { HOOKS } from '../../symbols/index.js';
 import { Container } from '../helpers/container.js';
 import { Hook } from './Hook.js';
 
+
 describe('Decorators: @IHook', () => {
   it('should add method annotated with @IHook to controller options', () => {
     class Controller {

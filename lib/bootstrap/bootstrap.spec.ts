@@ -1,13 +1,14 @@
 import { fastify } from 'fastify';
 import { resolve, sep } from 'path';
 import { pathToFileURL, URL } from 'url';
-import { Destructor } from '../decorators/destructor.js';
+import { Destructor } from '../decorators/Destructor/Destructor';
 import { Controller, Inject, Service } from '../decorators/index.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { destructors } from '../registry/destructors.js';
 import { CLASS_LOADER } from '../symbols/index.js';
 import { bootstrap } from './bootstrap.js';
 import SampleControllerMock from './mocks/controllers/sample.controller.mock.js';
+
 
 describe('Bootstrap test', () => {
   afterEach(() => {
@@ -159,7 +160,7 @@ describe('Bootstrap test', () => {
 
     const instance = fastify();
 
-    await bootstrap(instance, { controllers: [TestController] });
+    await bootstrap(instance,{ controllers: [TestController] });
     await instance.close();
 
     expect(instance[CLASS_LOADER](Used).foo).toHaveBeenCalled();
@@ -169,8 +170,9 @@ describe('Bootstrap test', () => {
   it('should support custom class loader', async () => {
     const classLoader = jest.fn().mockImplementation((c) => new c());
 
-    await bootstrap(fastify(), { controllers: [SampleControllerMock], classLoader: classLoader });
-
+    await bootstrap(fastify(),{
+      controllers:[SampleControllerMock],classLoader, 
+    });
     expect(classLoader).toHaveBeenCalledWith(SampleControllerMock);
   });
 });

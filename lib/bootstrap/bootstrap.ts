@@ -1,13 +1,5 @@
-/**
- * @license
- * Copyright Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga). All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
- */
-
 import FastifyPlugin from 'fastify-plugin';
-import type { FastifyInstance, FastifyPluginCallback } from 'fastify';
+import type { FastifyPluginAsync,FastifyInstance } from 'fastify';
 import { lstatSync, PathLike, readdirSync } from 'fs';
 import { fileURLToPath, URL } from 'url';
 import { classLoaderFactory, Constructor } from '../decorators/helpers/inject-dependencies.js';
@@ -18,6 +10,7 @@ import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { destructors } from '../registry/destructors.js';
 import { CLASS_LOADER, CREATOR, FastifyInstanceToken } from '../symbols/index.js';
 
+
 const defaultMask = /\.(handler|controller)\./;
 
 declare module 'fastify' {
@@ -25,8 +18,7 @@ declare module 'fastify' {
     [CLASS_LOADER]: ClassLoader;
   }
 }
-//FastifyPluginCallback<BootstrapConfig, RawServerDefault, FastifyTypeProvider, FastifyBaseLogger>
-export const bootstrap:FastifyPluginCallback<BootstrapConfig>=FastifyPlugin<BootstrapConfig>(
+export const bootstrap=FastifyPlugin<BootstrapConfig>(
   async (fastify, config) => {
     _injectablesHolder.injectSingleton(FastifyInstanceToken, fastify, false);
     const controllers = new Set<Constructor<unknown>>();
@@ -47,7 +39,7 @@ export const bootstrap:FastifyPluginCallback<BootstrapConfig>=FastifyPlugin<Boot
     name: 'fastifyDecorators',
     fastify: '^5.0.0',
   },
-);
+) as FastifyPluginAsync<BootstrapConfig>;
 
 function autoLoadModules(config: AutoLoadConfig): Promise<InjectableController[]> {
   const flags = config.mask instanceof RegExp ? config.mask.flags.replace('g', '') : '';
