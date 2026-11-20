@@ -66,7 +66,7 @@ export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory>
       }
 
     if (hasErrorHandlers(constructor))
-      instance.setErrorHandler((error, request, ...rest) => {
+      instance.setErrorHandler((error:Error, request, ...rest) => {
         const errorsHandler = createErrorsHandler(constructor[ERROR_HANDLERS], getTarget(request));
 
         return errorsHandler(error, request, ...rest);

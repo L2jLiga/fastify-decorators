@@ -22,7 +22,7 @@ export function ensureHandlers(target: { [HANDLERS]?: Container<IHandler> }): as
   }
 }
 
-export function hasHandlers<Constructor>(target: Constructor): target is Constructor & { [HANDLERS]: Container<IHandler> } {
+export function hasHandlers<Constructor extends object>(target: Constructor): target is Constructor & { [HANDLERS]: Container<IHandler> } {
   return HANDLERS in target;
 }
 
@@ -37,7 +37,7 @@ export function ensureErrorHandlers(target: { [ERROR_HANDLERS]?: Container<IErro
   }
 }
 
-export function hasErrorHandlers<T>(target: T): target is T & { [ERROR_HANDLERS]: Container<IErrorHandler> } {
+export function hasErrorHandlers<T extends object>(target: T): target is T & { [ERROR_HANDLERS]: Container<IErrorHandler> } {
   return ERROR_HANDLERS in target;
 }
 
@@ -52,7 +52,7 @@ export function ensureHooks(target: { [HOOKS]?: Container<IHook> }): asserts tar
   }
 }
 
-export function hasHooks<T>(target: T): target is T & { [HOOKS]: Container<IHook> } {
+export function hasHooks<T extends object>(target: T): target is T & { [HOOKS]: Container<IHook> } {
   return HOOKS in target;
 }
 
@@ -69,6 +69,6 @@ export function ensureServiceInjection(target: {
   }
 }
 
-export function hasServiceInjection<T>(val: T): val is T & { [SERVICE_INJECTION]: Container<ServiceInjection> } {
+export function hasServiceInjection<T extends object>(val: T): val is T & { [SERVICE_INJECTION]: Container<ServiceInjection> } {
   return ['function', 'object'].includes(typeof val) && val !== null && SERVICE_INJECTION in val;
 }

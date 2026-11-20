@@ -16,17 +16,20 @@ import type {
   RawServerBase,
   RawServerDefault,
   RequestGenericInterface,
+  RouteGenericInterface,
 } from 'fastify';
+import {LifecycleHook} from "fastify/types/hooks.js";
 import { CREATOR } from '../symbols/index.js';
 
 /**
  * Abstract class which should extend all decorated request handlers
  */
 export abstract class RequestHandler<
+  RouteGeneric extends RouteGenericInterface = RouteGenericInterface,
   RawServer extends RawServerBase = RawServerDefault,
   RawRequest extends RawRequestDefaultExpression<RawServer> = RawRequestDefaultExpression<RawServer>,
   RawReply extends RawReplyDefaultExpression<RawServer> = RawReplyDefaultExpression<RawServer>,
-  RequestGeneric extends RequestGenericInterface = RequestGenericInterface,
+  //RequestGeneric extends RequestGenericInterface = RequestGenericInterface,
   ContextConfig = ContextConfigDefault,
 > {
   /**
@@ -35,8 +38,12 @@ export abstract class RequestHandler<
   static readonly [CREATOR]: { register: (instance: FastifyInstance) => void };
 
   protected constructor(
-    protected request: FastifyRequest<RequestGeneric, RawServer, RawRequest>,
-    protected reply: FastifyReply<RawServer, RawRequest, RawReply, RequestGeneric, ContextConfig>,
+    protected request: FastifyRequest<RouteGeneric, RawServer, RawRequest>,
+    protected reply: FastifyReply<
+      RouteGeneric,
+      RawServer, RawRequest, RawReply, 
+      ContextConfig//,RequestGeneric
+    >,
   ) {}
 
   /**
@@ -46,6 +53,6 @@ export abstract class RequestHandler<
 }
 
 export interface RequestHook {
-  name: 'onRequest' | 'preParsing' | 'preValidation' | 'preHandler' | 'preSerialization' | 'onSend' | 'onResponse' | 'onTimeout' | 'onError';
+  name: LifecycleHook;
   handlerName: string | symbol;
 }

@@ -1,8 +1,8 @@
 {
   "name": "fastify-decorators",
+  "type": "module",
   "version": "3.16.1",
   "description": "Framework aimed to provide useful TypeScript decorators to implement controllers, services and request handlers, built with Fastify.",
-  "type": "module",
   "main": "index.cjs",
   "module": "index.js",
   "types": "index.d.ts",
@@ -18,7 +18,7 @@
     }
   },
   "scripts": {
-    "build": "rollup -c rollup-config.js && tsc -p tsconfig.lib.json && yarn downlevel",
+    "build": "rollup -c rollup.config.js && tsc -p tsconfig.lib.json && yarn downlevel",
     "prebuild": "rimraf ../dist/",
     "postbuild": "cp -r ./package.json ../README.md ../CHANGELOG.md ../LICENSE ../docs ../dist/fastify-decorators && node ../patch-readme.cjs",
     "downlevel": "downlevel-dts ../dist/fastify-decorators ../dist/fastify-decorators",
@@ -52,11 +52,11 @@
     "node": ">= 10.16.0"
   },
   "dependencies": {
-    "fastify-plugin": "^2.0.0 || ^3.0.0 || ^4.0.0"
+    "fastify-plugin": "^6.0.1"
   },
   "peerDependencies": {
     "@types/node": "*",
-    "fastify": "^3.0.1 || ^4.0.0 || ^5.0.0"
+    "fastify": "^5.12.8"
   },
   "maintainers": [
     "Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga)"

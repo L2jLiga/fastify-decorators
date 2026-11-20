@@ -6,8 +6,8 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
-import fp from 'fastify-plugin';
+import FastifyPlugin from 'fastify-plugin';
+import type { FastifyInstance, FastifyPluginCallback } from 'fastify';
 import { lstatSync, PathLike, readdirSync } from 'fs';
 import { fileURLToPath, URL } from 'url';
 import { classLoaderFactory, Constructor } from '../decorators/helpers/inject-dependencies.js';
@@ -25,8 +25,8 @@ declare module 'fastify' {
     [CLASS_LOADER]: ClassLoader;
   }
 }
-
-export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig>(
+//FastifyPluginCallback<BootstrapConfig, RawServerDefault, FastifyTypeProvider, FastifyBaseLogger>
+export const bootstrap:FastifyPluginCallback<BootstrapConfig>=FastifyPlugin<BootstrapConfig>(
   async (fastify, config) => {
     _injectablesHolder.injectSingleton(FastifyInstanceToken, fastify, false);
     const controllers = new Set<Constructor<unknown>>();
@@ -44,8 +44,8 @@ export const bootstrap: FastifyPluginAsync<BootstrapConfig> = fp<BootstrapConfig
     if (destructors.size) useGracefulShutdown(fastify);
   },
   {
-    fastify: '^3.0.0 || ^4.0.0 || ^5.0.0',
     name: 'fastifyDecorators',
+    fastify: '^5.0.0',
   },
 );
 

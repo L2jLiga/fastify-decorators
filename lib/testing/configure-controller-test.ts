@@ -63,7 +63,7 @@ export async function configureControllerTest<C>(config: ControllerTestConfig<Co
   return instance;
 }
 
-function* getInjectedProps(target: unknown): Iterable<unknown> {
+function* getInjectedProps(target: object): Iterable<unknown> {
   if (!hasServiceInjection(target)) return [];
   for (const value of target[SERVICE_INJECTION]) yield value.name;
 }

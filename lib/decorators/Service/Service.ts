@@ -6,13 +6,13 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { ClassLoader } from '../interfaces/bootstrap-config.js';
-import { InjectableService } from '../interfaces/injectable-class.js';
-import { _injectablesHolder } from '../registry/_injectables-holder.js';
-import { destructors } from '../registry/destructors.js';
-import { CREATOR, DESTRUCTOR, INITIALIZED, INITIALIZER } from '../symbols/index.js';
-import { Deferred } from '../utils/deferred.js';
-import { readyMap } from './initializer.js';
+import { ClassLoader } from '../../interfaces/bootstrap-config.js';
+import { InjectableService } from '../../interfaces/injectable-class.js';
+import { _injectablesHolder } from '../../registry/_injectables-holder.js';
+import { destructors } from '../../registry/destructors.js';
+import { CREATOR, DESTRUCTOR, INITIALIZED, INITIALIZER } from '../../symbols/index.js';
+import { Deferred } from '../../utils/deferred.js';
+import { readyMap } from '../initializer.js';
 
 /**
  * Decorator for making classes injectable

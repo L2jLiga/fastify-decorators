@@ -4,6 +4,11 @@
   "include": ["**/*.ts"],
   "exclude": ["**/*.spec.ts", "**/*.mock.ts"],
   "compilerOptions": {
-    "composite": true
+    "composite": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "es2022",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   }
 }

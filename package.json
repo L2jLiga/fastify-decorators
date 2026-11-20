@@ -9,6 +9,9 @@
     "license-checker": "license-checker --production --onlyAllow=\"MIT;ISC;BSD-3-Clause;BSD-2-Clause\" --excludePrivatePackages",
     "prepare": "husky install"
   },
+  "workspaces": [
+    "lib"
+  ],
   "directories": {
     "doc": "./docs",
     "example": "./examples",
@@ -25,38 +28,37 @@
     "@betit/rollup-plugin-rename-extensions": "^0.1.0",
     "@microsoft/eslint-formatter-sarif": "^3.1.0",
     "@prettier/plugin-xml": "^2.2.0",
-    "@rollup/plugin-typescript": "^8.2.1",
-    "@types/jest": "^27.5.2",
-    "@types/node": "~10.17.60",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
+    "@rollup/plugin-typescript": "^12.3.1",
+    "@types/jest": "^29.5.0",
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
     "downlevel-dts": "^0.7.0",
-    "eslint": "^7.32.0",
+    "eslint": "^8.57.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-jest": "^24.7.0",
+    "eslint-plugin-jest": "^28.0.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^7.0.0",
-    "jest": "^27.5.1",
-    "jest-environment-node": "^27.5.1",
+    "jest": "^29.7.0",
+    "jest-environment-node": "^29.7.0",
     "jest-github-actions-reporter": "^1.0.3",
-    "jest-resolve": "^27.5.1",
+    "jest-resolve": "^29.7.0",
     "jest-ts-webcompat-resolver": "^1.0.0",
     "license-checker": "^25.0.1",
     "lint-staged": "^11.0.0",
     "prettier": "^2.7.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rollup": "^2.52.4",
-    "ts-jest": "^27.1.5",
+    "rollup": "^4.68.7",
+    "ts-jest": "^29.2.0",
     "tslib": "^2.3.0",
-    "typescript": "^4.3.5"
+    "typescript": "^6.0.2"
   },
   "engines": {
     "node": ">= 10.16.0",
     "yarn": "^1.0.0"
   },
-  "workspaces": [
-    "lib",
-    "examples/*"
-  ]
+  "dependencies": {
+    "fastify-plugin": "^6.0.1"
+  }
 }

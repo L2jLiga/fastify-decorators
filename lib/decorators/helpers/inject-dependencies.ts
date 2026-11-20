@@ -66,7 +66,7 @@ export function classLoaderFactory(injectables: _InjectablesHolder): ClassLoader
   });
 }
 
-function injectProperties(target: unknown, source: unknown, injectables: _InjectablesHolder, classLoader: ClassLoader, className: string) {
+function injectProperties(target: unknown, source: object, injectables: _InjectablesHolder, classLoader: ClassLoader, className: string) {
   if (!hasServiceInjection(source)) return;
   const viaInject = source[SERVICE_INJECTION];
   for (const { name, propertyKey } of viaInject) {

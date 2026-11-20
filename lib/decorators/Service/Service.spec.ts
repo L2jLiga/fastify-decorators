@@ -1,8 +1,8 @@
-import { _injectablesHolder } from '../registry/_injectables-holder.js';
-import { CREATOR, INITIALIZER } from '../symbols/index.js';
-import { getInstanceByToken } from '../utils/get-instance-by-token.js';
-import { classLoaderFactory } from './helpers/inject-dependencies.js';
-import { Service } from './service.js';
+import { _injectablesHolder } from '../../registry/_injectables-holder.js';
+import { CREATOR, INITIALIZER } from '../../symbols/index.js';
+import { getInstanceByToken } from '../../utils/get-instance-by-token.js';
+import { classLoaderFactory } from '.././helpers/inject-dependencies.js';
+import { Service } from './Service.js';
 
 describe('Decorators: @Service', () => {
   beforeEach(() => _injectablesHolder.reset());

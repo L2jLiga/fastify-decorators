@@ -6,17 +6,20 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { FastifyPluginOptions } from 'fastify';
 import type { PathLike } from 'fs';
+import type { FastifyPluginOptions } from 'fastify';
 import { DependencyScope } from '../decorators/helpers/dependency-scope.js';
 import { Constructor } from '../decorators/helpers/inject-dependencies.js';
 
-export type ClassLoader = <C>(constructor: Constructor<C>, scope?: DependencyScope) => C;
+
+export type BootstrapConfig=FastifyPluginOptions&(AutoLoadConfig|ControllersListConfig)&{
+  
+};
 
 /**
  * Config for application bootstrap
  */
-export interface AutoLoadConfig extends FastifyPluginOptions {
+export type AutoLoadConfig=BootstrapStaticConfig&{
   /**
    * Path to directory which contains files to load
    */
@@ -34,20 +37,9 @@ export interface AutoLoadConfig extends FastifyPluginOptions {
    * @default false
    */
   skipBroken?: boolean;
-
-  /**
-   * Defines method to create class instance
-   * @param constructor
-   */
-  classLoader?: ClassLoader;
-
-  /**
-   * Global prefix to be applied for all routes
-   */
-  prefix?: string;
 }
 
-export interface ControllersListConfig extends FastifyPluginOptions {
+export type ControllersListConfig=BootstrapStaticConfig&{
   /**
    * List of Controller classes to bootstrap
    */
@@ -59,7 +51,9 @@ export interface ControllersListConfig extends FastifyPluginOptions {
    * @default false
    */
   skipBroken?: boolean;
+}
 
+type BootstrapStaticConfig={
   /**
    * Defines method to create class instance
    * @param constructor
@@ -72,4 +66,5 @@ export interface ControllersListConfig extends FastifyPluginOptions {
   prefix?: string;
 }
 
-export type BootstrapConfig = AutoLoadConfig | ControllersListConfig;
+export type ClassLoader = <C>(constructor: Constructor<C>, scope?: DependencyScope) => C;
+

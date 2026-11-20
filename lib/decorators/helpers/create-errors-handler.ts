@@ -19,7 +19,7 @@ export function createErrorsHandler(
           await instance[handler.handlerName as string](error, request, reply);
           return;
         } catch (e) {
-          error = e;
+          error = e as Error;
         }
       }
     }
