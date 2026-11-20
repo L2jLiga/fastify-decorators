@@ -19,7 +19,7 @@ import type {
   RouteGenericInterface,
 } from 'fastify';
 import {LifecycleHook} from "fastify/types/hooks.js";
-import { CREATOR } from '../symbols/index.js';
+import { CREATOR } from '../Symbols/index.js';
 
 /**
  * Abstract class which should extend all decorated request handlers

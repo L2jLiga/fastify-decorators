@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { HOOKS } from '../../symbols/index.js';
+import { HOOKS } from '../../Symbols/index.js';
 import { ensureHooks } from '../Helpers/class-properties.js';
 
 /**

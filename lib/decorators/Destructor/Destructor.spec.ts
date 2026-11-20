@@ -1,5 +1,5 @@
 import { destructors } from '../../registry/destructors.js';
-import { DESTRUCTOR } from '../../symbols/index.js';
+import { DESTRUCTOR } from '../../Symbols/index.js';
 import { Destructor } from './Destructor.js';
 
 describe('Decorator: destructor', () => {

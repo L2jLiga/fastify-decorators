@@ -2,7 +2,7 @@ import type { FastifyInstance, FastifyReply, FastifyRequest, FastifySchema } fro
 import { ClassLoader } from '../../interfaces/bootstrap-config.js';
 import type { IErrorHandler, IHandler, IHook, InjectableController } from '../../interfaces/index.js';
 import { ControllerType } from '../../registry/controller-type.js';
-import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
+import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../Symbols/index.js';
 import { hasErrorHandlers, hasHandlers, hasHooks } from '../Helpers/class-properties.js';
 import ErrorHandler from '../Helpers/ErrorHandler/ErrorHandler.js';
 import { injectTagsIntoSwagger, TagObject } from '../Helpers/swagger-helper.js';

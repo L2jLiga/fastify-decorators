@@ -8,7 +8,7 @@ import type { AutoLoadConfig, ClassLoader, ControllersListConfig } from '../inte
 import type { BootstrapConfig, InjectableController } from '../interfaces/index.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { destructors } from '../registry/destructors.js';
-import { CLASS_LOADER, CREATOR, FastifyInstanceToken } from '../symbols/index.js';
+import { CLASS_LOADER, CREATOR, FastifyInstanceToken } from '../Symbols/index.js';
 
 
 const defaultMask = /\.(handler|controller)\./;

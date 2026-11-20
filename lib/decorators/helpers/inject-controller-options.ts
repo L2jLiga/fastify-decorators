@@ -7,7 +7,7 @@
  */
 
 import { InjectableController } from '../../interfaces/injectable-class.js';
-import { CREATOR } from '../../symbols/index.js';
+import { CREATOR } from '../../Symbols/index.js';
 
 export function injectControllerOptions(controller: unknown): asserts controller is InjectableController {
   if (controller instanceof Function) {

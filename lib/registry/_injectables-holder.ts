@@ -8,7 +8,7 @@
 
 import { ClassLoader } from '../interfaces/bootstrap-config.js';
 import { InjectableService } from '../interfaces/injectable-class.js';
-import { CREATOR, FASTIFY_REPLY, FASTIFY_REQUEST, FastifyReplyToken, FastifyRequestToken } from '../symbols/index.js';
+import { CREATOR, FASTIFY_REPLY, FASTIFY_REQUEST, FastifyReplyToken, FastifyRequestToken } from '../Symbols/index.js';
 
 export type InjectablesMap = Map<string | symbol | unknown, InjectableService>;
 

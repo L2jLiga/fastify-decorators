@@ -10,7 +10,7 @@ import type { Constructor } from '../Decorators/Helpers/inject-dependencies.js';
 import { classLoaderFactory } from '../Decorators/Helpers/inject-dependencies.js';
 import type { InjectableService } from '../interfaces/injectable-class.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
-import { CREATOR } from '../symbols/index.js';
+import { CREATOR } from '../Symbols/index.js';
 
 export function getInstanceByToken<Type>(token: string | symbol | Constructor<Type>): Type {
   const classLoader = classLoaderFactory(_injectablesHolder);

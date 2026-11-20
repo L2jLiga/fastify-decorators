@@ -7,7 +7,7 @@
  */
 
 import { IErrorHandler, IHandler, IHook } from '../../interfaces/controller.js';
-import { ERROR_HANDLERS, HANDLERS, HOOKS, SERVICE_INJECTION } from '../../symbols/index.js';
+import { ERROR_HANDLERS, HANDLERS, HOOKS, SERVICE_INJECTION } from '../../Symbols/index.js';
 import { ServiceInjection } from './inject-dependencies.js';
 import { Container } from './container.js';
 

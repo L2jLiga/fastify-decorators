@@ -1,4 +1,4 @@
-import { ERROR_HANDLERS, FASTIFY_REPLY, FASTIFY_REQUEST, HANDLERS, HOOKS, SERVICE_INJECTION } from '../../symbols/index.js';
+import { ERROR_HANDLERS, FASTIFY_REPLY, FASTIFY_REQUEST, HANDLERS, HOOKS, SERVICE_INJECTION } from '../../Symbols/index.js';
 import { hasErrorHandlers, hasHandlers, hasHooks, hasServiceInjection } from './class-properties.js';
 import { Constructor } from './inject-dependencies.js';
 

@@ -15,7 +15,7 @@ import { ClassLoader } from '../interfaces/bootstrap-config.js';
 import type { InjectableController } from '../interfaces/index.js';
 import type { InjectableClass } from '../interfaces/injectable-class.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
-import { CLASS_LOADER, CREATOR, FastifyInstanceToken, SERVICE_INJECTION } from '../symbols/index.js';
+import { CLASS_LOADER, CREATOR, FastifyInstanceToken, SERVICE_INJECTION } from '../Symbols/index.js';
 import { loadPlugins, Plugins } from './fastify-plugins.js';
 import { MocksManager } from './mocks-manager.js';
 import type { ServiceMock } from './service-mock.js';

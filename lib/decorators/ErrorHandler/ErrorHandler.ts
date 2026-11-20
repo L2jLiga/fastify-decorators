@@ -7,7 +7,7 @@
  */
 
 import type { IErrorHandler } from '../../interfaces/index.js';
-import { ERROR_HANDLERS } from '../../symbols/index.js';
+import { ERROR_HANDLERS } from '../../Symbols/index.js';
 import { ensureErrorHandlers } from '../Helpers/class-properties.js';
 import type { Constructor } from '../Helpers/inject-dependencies.js';
 

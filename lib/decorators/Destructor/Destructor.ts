@@ -1,4 +1,4 @@
-import { DESTRUCTOR } from '../../symbols/index.js';
+import { DESTRUCTOR } from '../../Symbols/index.js';
 
 
 export function Destructor(): PropertyDecorator {

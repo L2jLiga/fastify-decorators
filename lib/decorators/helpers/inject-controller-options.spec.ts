@@ -1,4 +1,4 @@
-import { CREATOR } from '../../symbols/index.js';
+import { CREATOR } from '../../Symbols/index.js';
 import { injectControllerOptions } from './inject-controller-options.js';
 
 describe('Helper: inject controller options', () => {

@@ -1,5 +1,5 @@
 import { IErrorHandler, IHandler, IHook } from '../../interfaces/controller.js';
-import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
+import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../Symbols/index.js';
 import { ensureErrorHandlers, ensureHandlers, ensureHooks, hasErrorHandlers, hasHandlers, hasHooks } from './class-properties.js';
 import { Container } from './container.js';
 

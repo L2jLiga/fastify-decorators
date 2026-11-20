@@ -1,6 +1,6 @@
 import { InjectableService } from '../../interfaces/injectable-class.js';
 import { _InjectablesHolder } from '../../registry/_injectables-holder.js';
-import { CREATOR } from '../../symbols/index.js';
+import { CREATOR } from '../../Symbols/index.js';
 import { Inject } from '../Inject/Inject.js';
 import { classLoaderFactory } from './inject-dependencies.js';
 

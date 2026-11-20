@@ -1,4 +1,4 @@
-import { INITIALIZER } from '../../symbols/index.js';
+import { INITIALIZER } from '../../Symbols/index.js';
 import { Initializer, initializersMap as readyMap } from './Initializer.js';
 
 

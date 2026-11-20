@@ -1,5 +1,5 @@
 import { RouteShorthandOptions } from 'fastify';
-import { CREATOR } from '../../symbols/index.js';
+import { CREATOR } from '../../Symbols/index.js';
 import { ALL, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT } from './RequestHandlers.js';
 
 describe('Decorators: request handlers', () => {

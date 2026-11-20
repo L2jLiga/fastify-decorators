@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
-import { SERVICE_INJECTION } from '../../symbols/index.js';
+import { SERVICE_INJECTION } from '../../Symbols/index.js';
 import { ensureServiceInjection } from '../Helpers/class-properties.js';
 
 /**

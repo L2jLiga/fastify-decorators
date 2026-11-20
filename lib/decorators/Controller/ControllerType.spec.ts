@@ -2,7 +2,7 @@ import { FastifyInstance, RouteShorthandOptions } from 'fastify';
 import { IHandler, InjectableController } from '../../interfaces/index.js';
 import { _InjectablesHolder } from '../../registry/_injectables-holder.js';
 import { ControllerType } from '../../registry/controller-type.js';
-import { HANDLERS } from '../../symbols/index.js';
+import { HANDLERS } from '../../Symbols/index.js';
 import { ErrorHandler } from '../ErrorHandler/ErrorHandler.js';
 import { classLoaderFactory } from '../Helpers/inject-dependencies.js';
 import { TagObject } from '../Helpers/swagger-helper.js';
