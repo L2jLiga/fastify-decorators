@@ -17,7 +17,7 @@ export { ControllerConfig } from './interfaces/controller-config.js';
 export { Destructor } from './Decorators/Destructor/Destructor.js';
 
 export { injectablesHolder } from './registry/injectables-holder.js';
-export { getInstanceByToken } from './utils/get-instance-by-token.js';
+export { getInstanceByToken } from './Utils/get-instance-by-token.js';
 export { FastifyInstanceToken, FastifyRequestToken, FastifyReplyToken } from './Symbols/index.js';
 
 export { RouteConfig } from './interfaces/route-config.js';

@@ -1,5 +1,5 @@
 import { INITIALIZER } from '../../Symbols/index.js';
-import { Deferred } from '../../utils/deferred.js';
+import { Deferred } from '../../Utils/deferred.js';
 
 export const readyMap = new Map<unknown, Promise<unknown>>();
 export const initializersMap = new Map<unknown, Promise<unknown>>();

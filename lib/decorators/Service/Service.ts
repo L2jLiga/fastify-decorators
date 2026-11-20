@@ -11,7 +11,7 @@ import { InjectableService } from '../../interfaces/injectable-class.js';
 import { _injectablesHolder } from '../../registry/_injectables-holder.js';
 import { destructors } from '../../registry/destructors.js';
 import { CREATOR, DESTRUCTOR, INITIALIZED, INITIALIZER } from '../../Symbols/index.js';
-import { Deferred } from '../../utils/deferred.js';
+import { Deferred } from '../../Utils/deferred.js';
 import { readyMap } from '../Initializer/Initializer.js';
 
 /**
