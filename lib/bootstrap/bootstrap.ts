@@ -1,5 +1,5 @@
 import FastifyPlugin from 'fastify-plugin';
-import type { FastifyPluginAsync,FastifyInstance } from 'fastify';
+import type {FastifyPluginAsync,FastifyInstance} from 'fastify';
 import { lstatSync, PathLike, readdirSync } from 'fs';
 import { fileURLToPath, URL } from 'url';
 import { classLoaderFactory, Constructor } from '../Decorators/Helpers/inject-dependencies.js';

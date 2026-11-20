@@ -6,7 +6,7 @@ import { Controller, Inject, Service } from '../Decorators/index.js';
 import { _injectablesHolder } from '../Registry/_injectables-holder.js';
 import { destructors } from '../Registry/destructors.js';
 import { CLASS_LOADER } from '../Symbols/index.js';
-import { bootstrap } from './bootstrap.js';
+import { bootstrap } from './Bootstrap.js';
 import SampleControllerMock from './mocks/controllers/sample.controller.mock.js';
 
 

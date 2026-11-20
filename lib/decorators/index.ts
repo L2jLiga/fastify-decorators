@@ -7,6 +7,7 @@
  */
 
 export { Service } from './Service/Service.js';
+export { Repository } from "./Repository/Repository.js";
 export { Inject } from './Inject/Inject.js';
 export { Initializer, readyMap } from './Initializer/Initializer.js';
 export { Hook } from './Hook/Hook.js';
