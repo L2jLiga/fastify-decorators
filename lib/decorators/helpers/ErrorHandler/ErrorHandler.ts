@@ -1,5 +1,5 @@
 import type {FastifyReply,FastifyRequest} from "fastify";
-import type {IErrorHandler} from "../../../interfaces/controller.js";
+import type {IErrorHandler} from "../../../Interfaces/controller.js";
 
 
 export default class {

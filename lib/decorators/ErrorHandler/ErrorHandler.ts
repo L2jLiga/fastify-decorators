@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { IErrorHandler } from '../../interfaces/index.js';
+import type { IErrorHandler } from '../../Interfaces/index.js';
 import { ERROR_HANDLERS } from '../../Symbols/index.js';
 import { ensureErrorHandlers } from '../Helpers/class-properties.js';
 import type { Constructor } from '../Helpers/inject-dependencies.js';

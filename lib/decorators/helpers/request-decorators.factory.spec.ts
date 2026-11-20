@@ -1,5 +1,5 @@
 import type { RouteShorthandOptions } from 'fastify';
-import { IHook } from '../../interfaces/controller.js';
+import { IHook } from '../../Interfaces/controller.js';
 import { CREATOR, HOOKS } from '../../Symbols/index.js';
 import { ErrorHandler } from '../ErrorHandler/ErrorHandler.js';
 import { Hook } from '../Hook/Hook.js';

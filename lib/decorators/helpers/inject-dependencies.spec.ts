@@ -1,4 +1,4 @@
-import { InjectableService } from '../../interfaces/injectable-class.js';
+import { InjectableService } from '../../Interfaces/injectable-class.js';
 import { _InjectablesHolder } from '../../registry/_injectables-holder.js';
 import { CREATOR } from '../../Symbols/index.js';
 import { Inject } from '../Inject/Inject.js';

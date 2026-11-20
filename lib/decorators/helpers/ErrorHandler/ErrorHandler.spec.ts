@@ -1,5 +1,5 @@
 import ErrorHandler from './ErrorHandler.js';
-import { IErrorHandler } from '../../../interfaces/controller.js';
+import { IErrorHandler } from '../../../Interfaces/controller.js';
 
 
 describe('Helpers: create errors handler', () => {

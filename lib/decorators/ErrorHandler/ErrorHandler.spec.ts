@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { IErrorHandler as IErrorHandler } from '../../interfaces/index.js';
+import { IErrorHandler as IErrorHandler } from '../../Interfaces/index.js';
 import { ERROR_HANDLERS } from '../../Symbols/index.js';
 import { ErrorHandler } from './ErrorHandler.js';
 import ErrnoException = NodeJS.ErrnoException;

@@ -7,8 +7,8 @@
  */
 
 import type { FastifyInstance } from 'fastify';
-import type { ControllerConfig } from '../../interfaces/index.js';
-import type { InjectableClass } from '../../interfaces/injectable-class.js';
+import type { ControllerConfig } from '../../Interfaces/index.js';
+import type { InjectableClass } from '../../Interfaces/injectable-class.js';
 import { ControllerType } from '../../registry/controller-type.js';
 import { CLASS_LOADER, CREATOR } from '../../Symbols/index.js';
 import { injectControllerOptions } from '../Helpers/inject-controller-options.js';

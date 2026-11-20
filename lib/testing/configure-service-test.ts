@@ -11,8 +11,8 @@ import { defaultScope, DependencyScope } from '../Decorators/Helpers/dependency-
 import type { Constructor } from '../Decorators/Helpers/inject-dependencies.js';
 import { classLoaderFactory } from '../Decorators/Helpers/inject-dependencies.js';
 import { initializersMap } from '../Decorators/Initializer/Initializer.js';
-import { ClassLoader } from '../interfaces/bootstrap-config.js';
-import type { InjectableService } from '../interfaces/injectable-class.js';
+import { ClassLoader } from '../Interfaces/bootstrap-config.js';
+import type { InjectableService } from '../Interfaces/injectable-class.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';
 import { CLASS_LOADER, CREATOR, FastifyInstanceToken, INITIALIZER } from '../Symbols/index.js';
 import { loadPlugins, Plugins } from './fastify-plugins.js';
