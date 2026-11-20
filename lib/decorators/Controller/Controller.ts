@@ -11,8 +11,8 @@ import type { ControllerConfig } from '../../interfaces/index.js';
 import type { InjectableClass } from '../../interfaces/injectable-class.js';
 import { ControllerType } from '../../registry/controller-type.js';
 import { CLASS_LOADER, CREATOR } from '../../symbols/index.js';
-import { injectControllerOptions } from '../helpers/inject-controller-options.js';
-import { patchMethods } from '../helpers/patch-methods.js';
+import { injectControllerOptions } from '../Helpers/inject-controller-options.js';
+import { patchMethods } from '../Helpers/patch-methods.js';
 import { ControllerTypeStrategies } from './ControllerType.js';
 
 function makeConfig(config?: string | ControllerConfig): Required<ControllerConfig> {

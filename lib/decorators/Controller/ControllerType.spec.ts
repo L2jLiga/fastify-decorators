@@ -4,8 +4,8 @@ import { _InjectablesHolder } from '../../registry/_injectables-holder.js';
 import { ControllerType } from '../../registry/controller-type.js';
 import { HANDLERS } from '../../symbols/index.js';
 import { ErrorHandler } from '../ErrorHandler/ErrorHandler.js';
-import { classLoaderFactory } from '../helpers/inject-dependencies.js';
-import { TagObject } from '../helpers/swagger-helper.js';
+import { classLoaderFactory } from '../Helpers/inject-dependencies.js';
+import { TagObject } from '../Helpers/swagger-helper.js';
 import { Hook } from '../Hook/Hook.js';
 import { ControllerTypeStrategies } from './ControllerType.js';
 

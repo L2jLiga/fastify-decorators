@@ -7,7 +7,7 @@
  */
 
 import { HOOKS } from '../../symbols/index.js';
-import { ensureHooks } from '../helpers/class-properties.js';
+import { ensureHooks } from '../Helpers/class-properties.js';
 
 /**
  * Creates handler which listen various hooks

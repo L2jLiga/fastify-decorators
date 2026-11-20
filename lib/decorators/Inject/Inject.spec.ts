@@ -1,7 +1,7 @@
 import { InjectablesMap } from '../../registry/_injectables-holder.js';
 import { SERVICE_INJECTION } from '../../symbols/index.js';
-import { hasServiceInjection } from '../helpers/class-properties.js';
-import { ServiceInjection } from '../helpers/inject-dependencies.js';
+import { hasServiceInjection } from '../Helpers/class-properties.js';
+import { ServiceInjection } from '../Helpers/inject-dependencies.js';
 import { Inject } from './Inject.js';
 
 describe('Decorator: @Inject', () => {

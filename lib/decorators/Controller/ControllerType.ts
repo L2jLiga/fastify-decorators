@@ -3,9 +3,9 @@ import { ClassLoader } from '../../interfaces/bootstrap-config.js';
 import type { IErrorHandler, IHandler, IHook, InjectableController } from '../../interfaces/index.js';
 import { ControllerType } from '../../registry/controller-type.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
-import { hasErrorHandlers, hasHandlers, hasHooks } from '../helpers/class-properties.js';
-import ErrorHandler from '../helpers/ErrorHandler/ErrorHandler.js';
-import { injectTagsIntoSwagger, TagObject } from '../helpers/swagger-helper.js';
+import { hasErrorHandlers, hasHandlers, hasHooks } from '../Helpers/class-properties.js';
+import ErrorHandler from '../Helpers/ErrorHandler/ErrorHandler.js';
+import { injectTagsIntoSwagger, TagObject } from '../Helpers/swagger-helper.js';
 
 
 function targetFactory(constructor: InjectableController, classLoader: ClassLoader) {

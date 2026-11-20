@@ -8,7 +8,7 @@
 
 import type { RouteShorthandOptions } from 'fastify';
 import type { RouteConfig } from '../../interfaces/index.js';
-import { requestDecoratorsFactory } from '../helpers/request-decorators.factory.js';
+import { requestDecoratorsFactory } from '../Helpers/request-decorators.factory.js';
 
 export function ALL(): (target: unknown, propKey?: string | symbol) => void;
 export function ALL(url: string): (target: unknown, propKey?: string | symbol) => void;

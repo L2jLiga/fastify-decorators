@@ -7,9 +7,9 @@
  */
 
 import { fastify, FastifyInstance } from 'fastify';
-import { hasServiceInjection } from '../Decorators/helpers/class-properties.js';
-import { defaultScope, DependencyScope } from '../Decorators/helpers/dependency-scope.js';
-import { classLoaderFactory, Constructor, ServiceInjection } from '../Decorators/helpers/inject-dependencies.js';
+import { hasServiceInjection } from '../Decorators/Helpers/class-properties.js';
+import { defaultScope, DependencyScope } from '../Decorators/Helpers/dependency-scope.js';
+import { classLoaderFactory, Constructor, ServiceInjection } from '../Decorators/Helpers/inject-dependencies.js';
 import { readyMap } from '../Decorators/index.js';
 import { ClassLoader } from '../interfaces/bootstrap-config.js';
 import type { InjectableController } from '../interfaces/index.js';

@@ -8,8 +8,8 @@
 
 import type { IErrorHandler } from '../../interfaces/index.js';
 import { ERROR_HANDLERS } from '../../symbols/index.js';
-import { ensureErrorHandlers } from '../helpers/class-properties.js';
-import type { Constructor } from '../helpers/inject-dependencies.js';
+import { ensureErrorHandlers } from '../Helpers/class-properties.js';
+import type { Constructor } from '../Helpers/inject-dependencies.js';
 
 export function ErrorHandler(): PropertyDecorator;
 export function ErrorHandler(code: string): PropertyDecorator;

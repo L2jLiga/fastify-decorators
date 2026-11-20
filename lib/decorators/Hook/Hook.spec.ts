@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { IHook } from '../../interfaces/index.js';
 import { HOOKS } from '../../symbols/index.js';
-import { Container } from '../helpers/container.js';
+import { Container } from '../Helpers/container.js';
 import { Hook } from './Hook.js';
 
 

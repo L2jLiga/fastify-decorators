@@ -2,7 +2,7 @@ import FastifyPlugin from 'fastify-plugin';
 import type { FastifyPluginAsync,FastifyInstance } from 'fastify';
 import { lstatSync, PathLike, readdirSync } from 'fs';
 import { fileURLToPath, URL } from 'url';
-import { classLoaderFactory, Constructor } from '../Decorators/helpers/inject-dependencies.js';
+import { classLoaderFactory, Constructor } from '../Decorators/Helpers/inject-dependencies.js';
 import { readyMap } from '../Decorators/index.js';
 import type { AutoLoadConfig, ClassLoader, ControllersListConfig } from '../interfaces/bootstrap-config.js';
 import type { BootstrapConfig, InjectableController } from '../interfaces/index.js';
