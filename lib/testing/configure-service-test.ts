@@ -10,7 +10,7 @@ import { fastify, FastifyInstance } from 'fastify';
 import { defaultScope, DependencyScope } from '../decorators/helpers/dependency-scope.js';
 import type { Constructor } from '../decorators/helpers/inject-dependencies.js';
 import { classLoaderFactory } from '../decorators/helpers/inject-dependencies.js';
-import { initializersMap } from '../decorators/initializer.js';
+import { initializersMap } from '../decorators/Initializer/Initializer.js';
 import { ClassLoader } from '../interfaces/bootstrap-config.js';
 import type { InjectableService } from '../interfaces/injectable-class.js';
 import { _injectablesHolder } from '../registry/_injectables-holder.js';

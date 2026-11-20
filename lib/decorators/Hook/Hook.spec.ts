@@ -1,8 +1,8 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import { IHook } from '../interfaces/index.js';
-import { HOOKS } from '../symbols/index.js';
-import { Container } from './helpers/container.js';
-import { Hook } from './hook.js';
+import { IHook } from '../../interfaces/index.js';
+import { HOOKS } from '../../symbols/index.js';
+import { Container } from '../helpers/container.js';
+import { Hook } from './Hook.js';
 
 describe('Decorators: @IHook', () => {
   it('should add method annotated with @IHook to controller options', () => {

@@ -1,6 +1,6 @@
-import { destructors } from '../registry/destructors.js';
-import { DESTRUCTOR } from '../symbols/index.js';
-import { Destructor } from './destructor.js';
+import { destructors } from '../../registry/destructors.js';
+import { DESTRUCTOR } from '../../symbols/index.js';
+import { Destructor } from './Destructor.js';
 
 describe('Decorator: destructor', () => {
   afterEach(() => destructors.clear());

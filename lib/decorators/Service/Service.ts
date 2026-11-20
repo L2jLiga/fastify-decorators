@@ -12,7 +12,7 @@ import { _injectablesHolder } from '../../registry/_injectables-holder.js';
 import { destructors } from '../../registry/destructors.js';
 import { CREATOR, DESTRUCTOR, INITIALIZED, INITIALIZER } from '../../symbols/index.js';
 import { Deferred } from '../../utils/deferred.js';
-import { readyMap } from '../initializer.js';
+import { readyMap } from '../Initializer/Initializer.js';
 
 /**
  * Decorator for making classes injectable

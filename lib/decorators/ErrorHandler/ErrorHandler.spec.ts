@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { IErrorHandler as IErrorHandler } from '../interfaces/index.js';
-import { ERROR_HANDLERS } from '../symbols/index.js';
-import { ErrorHandler } from './error-handler.js';
+import { IErrorHandler as IErrorHandler } from '../../interfaces/index.js';
+import { ERROR_HANDLERS } from '../../symbols/index.js';
+import { ErrorHandler } from './ErrorHandler.js';
 import ErrnoException = NodeJS.ErrnoException;
 
 describe('Decorators: @IErrorHandler', function () {

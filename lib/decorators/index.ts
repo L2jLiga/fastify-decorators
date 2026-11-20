@@ -7,11 +7,11 @@
  */
 
 export { Service } from './Service/Service.js';
-export { Inject } from './inject.js';
-export { Initializer, readyMap } from './initializer.js';
-export { Hook } from './hook.js';
-export { ErrorHandler } from './error-handler.js';
+export { Inject } from './Inject/Inject.js';
+export { Initializer, readyMap } from './Initializer/Initializer.js';
+export { Hook } from './Hook/Hook.js';
+export { ErrorHandler } from './ErrorHandler/ErrorHandler.js';
 
 export { Controller } from './Controller/Controller.js';
 
-export { ALL, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT } from './request-handlers.js';
+export * from './RequestHandlers/RequestHandlers.js';

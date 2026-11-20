@@ -6,10 +6,10 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import type { IErrorHandler } from '../interfaces/index.js';
-import { ERROR_HANDLERS } from '../symbols/index.js';
-import { ensureErrorHandlers } from './helpers/class-properties.js';
-import type { Constructor } from './helpers/inject-dependencies.js';
+import type { IErrorHandler } from '../../interfaces/index.js';
+import { ERROR_HANDLERS } from '../../symbols/index.js';
+import { ensureErrorHandlers } from '../helpers/class-properties.js';
+import type { Constructor } from '../helpers/inject-dependencies.js';
 
 export function ErrorHandler(): PropertyDecorator;
 export function ErrorHandler(code: string): PropertyDecorator;
