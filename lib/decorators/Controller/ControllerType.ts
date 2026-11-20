@@ -1,11 +1,3 @@
-/**
- * @license
- * Copyright Andrey Chalkin <L2jLiga@gmail.com> (https://github.com/L2jLiga). All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
- */
-
 import type { FastifyInstance, FastifyReply, FastifyRequest, FastifySchema } from 'fastify';
 import { ClassLoader } from '../../interfaces/bootstrap-config.js';
 import type { IErrorHandler, IHandler, IHook, InjectableController } from '../../interfaces/index.js';
@@ -14,6 +6,7 @@ import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import { hasErrorHandlers, hasHandlers, hasHooks } from '../helpers/class-properties.js';
 import { createErrorsHandler } from '../helpers/create-errors-handler.js';
 import { injectTagsIntoSwagger, TagObject } from '../helpers/swagger-helper.js';
+
 
 function targetFactory(constructor: InjectableController, classLoader: ClassLoader) {
   return function getTarget(request: FastifyRequest) {

@@ -7,7 +7,7 @@ import { ErrorHandler } from '../ErrorHandler/ErrorHandler.js';
 import { classLoaderFactory } from '../helpers/inject-dependencies.js';
 import { TagObject } from '../helpers/swagger-helper.js';
 import { Hook } from '../Hook/Hook.js';
-import { ControllerTypeStrategies } from './controller-type.js';
+import { ControllerTypeStrategies } from './ControllerType.js';
 
 
 describe('Strategies: controller types', () => {
