@@ -4,7 +4,7 @@ import type { IErrorHandler, IHandler, IHook, InjectableController } from '../..
 import { ControllerType } from '../../registry/controller-type.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import { hasErrorHandlers, hasHandlers, hasHooks } from '../helpers/class-properties.js';
-import { createErrorsHandler } from '../helpers/create-errors-handler.js';
+import ErrorHandler from '../helpers/ErrorHandler/ErrorHandler.js';
 import { injectTagsIntoSwagger, TagObject } from '../helpers/swagger-helper.js';
 
 
@@ -60,9 +60,9 @@ export const ControllerTypeStrategies: Record<ControllerType, ControllerFactory>
 
     if (hasErrorHandlers(constructor))
       instance.setErrorHandler((error:Error, request, ...rest) => {
-        const errorsHandler = createErrorsHandler(constructor[ERROR_HANDLERS], getTarget(request));
+        const errorHandler = ErrorHandler.create(constructor[ERROR_HANDLERS], getTarget(request));
 
-        return errorsHandler(error, request, ...rest);
+        return errorHandler(error, request, ...rest);
       });
 
     if (hasHooks(constructor))
@@ -104,5 +104,5 @@ function registerErrorHandlers(
   instance: FastifyInstance,
   classInstance: Record<string, (error: Error, request: FastifyRequest, reply: FastifyReply) => void>,
 ) {
-  instance.setErrorHandler(createErrorsHandler(errorHandlers, classInstance));
+  instance.setErrorHandler(ErrorHandler.create(errorHandlers, classInstance));
 }

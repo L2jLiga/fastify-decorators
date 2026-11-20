@@ -12,7 +12,7 @@ import { RequestHandler, RequestHook } from '../../interfaces/request-handler.js
 import { RouteConfig } from '../../interfaces/route-config.js';
 import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS } from '../../symbols/index.js';
 import { ensureHandlers, hasErrorHandlers, hasHooks } from './class-properties.js';
-import { createErrorsHandler } from './create-errors-handler.js';
+import ErrorHandler from './ErrorHandler/ErrorHandler.js';
 
 type ParsedRouteConfig = { url: string; options: RouteShorthandOptions };
 
@@ -63,9 +63,8 @@ export function requestDecoratorsFactory(
           }
           if (hasErrorHandlers(target)) {
             config.options.errorHandler = (error, request, ...rest) => {
-              const errorsHandler = createErrorsHandler(target[ERROR_HANDLERS], getTarget(target, request, ...rest));
-
-              return errorsHandler(error, request, ...rest);
+              const errorHandler = ErrorHandler.create(target[ERROR_HANDLERS], getTarget(target, request, ...rest));
+              return errorHandler(error, request, ...rest);
             };
           }
           instance[method](config.url, config.options, function (request, ...rest) {

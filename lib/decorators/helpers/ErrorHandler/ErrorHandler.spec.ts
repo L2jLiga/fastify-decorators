@@ -1,5 +1,6 @@
-import { IErrorHandler } from '../../interfaces/controller.js';
-import { createErrorsHandler } from './create-errors-handler.js';
+import ErrorHandler from './ErrorHandler.js';
+import { IErrorHandler } from '../../../interfaces/controller.js';
+
 
 describe('Helpers: create errors handler', () => {
   it('should create error handler which will catch errors specified', () => {
@@ -16,9 +17,7 @@ describe('Helpers: create errors handler', () => {
       },
     };
 
-    const handler = createErrorsHandler([errorHandlerDescription], instance);
-
-    // @ts-expect-error set request and reply to nulls, this should not happens IRL
+    const handler = ErrorHandler.create([errorHandlerDescription], instance);
     return expect(handler(expectedError, null, null)).resolves.toBeUndefined();
   });
 
@@ -32,9 +31,8 @@ describe('Helpers: create errors handler', () => {
     };
     const instance = {};
 
-    const handler = createErrorsHandler([errorHandlerDescription], instance);
+    const handler = ErrorHandler.create([errorHandlerDescription], instance);
 
-    // @ts-expect-error set request and reply to nulls, this should not happens IRL
     return expect(handler(expectedError, null, null)).rejects.toEqual(expectedError);
   });
 
@@ -64,9 +62,8 @@ describe('Helpers: create errors handler', () => {
       },
     };
 
-    const handler = createErrorsHandler(errorHandlers, instance);
+    const handler = ErrorHandler.create(errorHandlers, instance);
 
-    // @ts-expect-error set request and reply to nulls, this should not happens IRL
     return expect(handler(expectedError, null, null)).resolves.toBeUndefined();
   });
 });
