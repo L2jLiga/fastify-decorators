@@ -1,4 +1,4 @@
-import { fastify } from 'fastify';
+import Fastify from 'fastify';
 import { resolve, sep } from 'path';
 import { pathToFileURL, URL } from 'url';
 import { Destructor } from '../Decorators/Destructor/Destructor';
@@ -17,124 +17,124 @@ describe('Bootstrap test', () => {
   });
 
   it('should autoload controller when path given', async () => {
-    const instance = fastify();
-    instance.register(bootstrap, {
+    const fastify = Fastify();
+    fastify.register(bootstrap, {
       directory: resolve(__dirname, 'mocks'),
       mask: /\.controller\.mock\.ts/,
     });
 
-    const res = await instance.inject({ url: '/index' });
+    const res = await fastify.inject({ url: '/index' });
 
     expect(res.payload).toBe('{"message":"ok"}');
   });
 
   it('should autoload controller when URL given', async () => {
-    const instance = fastify();
-    instance.register(bootstrap, {
+    const fastify = Fastify();
+    fastify.register(bootstrap, {
       directory: new URL('mocks', pathToFileURL(__dirname + sep)),
       mask: /\.controller\.mock\.ts/,
     });
 
-    const res = await instance.inject({ url: '/index' });
+    const res = await fastify.inject({ url: '/index' });
 
     expect(res.payload).toBe('{"message":"ok"}');
   });
 
   it('should autoload controller when URL to file given', async () => {
-    const instance = fastify();
+    const fastify = Fastify();
 
     const importMetaUrlLike = pathToFileURL(__filename);
 
-    instance.register(bootstrap, {
+    fastify.register(bootstrap, {
       directory: importMetaUrlLike,
       mask: /\.controller\.mock\.ts/,
     });
 
-    const res = await instance.inject({ url: '/index' });
+    const res = await fastify.inject({ url: '/index' });
 
     expect(res.payload).toBe('{"message":"ok"}');
   });
 
   it('should autoload controller when import.meta.url given', async () => {
-    const instance = fastify();
+    const fastify = Fastify();
 
     const importMetaUrlLike = pathToFileURL(__filename).toString();
 
-    instance.register(bootstrap, {
+    fastify.register(bootstrap, {
       directory: importMetaUrlLike,
       mask: /\.controller\.mock\.ts/,
     });
 
-    const res = await instance.inject({ url: '/index' });
+    const res = await fastify.inject({ url: '/index' });
 
     expect(res.payload).toBe('{"message":"ok"}');
   });
 
   it('should bootstrap request handler', async () => {
-    const instance = fastify();
-    instance.register(bootstrap, {
+    const fastify = Fastify();
+    fastify.register(bootstrap, {
       directory: resolve(__dirname, 'mocks'),
       mask: /\.handler\.mock\.ts/,
     });
 
-    const res = await instance.inject({ url: '/index' });
+    const res = await fastify.inject({ url: '/index' });
 
     expect(res.payload).toBe('{"message":"ok"}');
   });
 
   it('should not bootstrap server when try to bootstrap controllers/handlers with same routes', async () => {
-    const instance = fastify();
-    instance.register(bootstrap, {
+    const fastify = Fastify();
+    fastify.register(bootstrap, {
       directory: resolve(__dirname, 'mocks'),
       mask: /\.mock\.ts/,
     });
 
-    await expect(instance.inject({ url: '/index' })).rejects.toThrow();
+    await expect(fastify.inject({ url: '/index' })).rejects.toThrow();
   });
 
   it('should load specified controllers', async () => {
-    const instance = fastify();
-    instance.register(bootstrap, {
+    const fastify = Fastify();
+    fastify.register(bootstrap, {
       controllers: [SampleControllerMock],
     });
 
-    const res = await instance.inject({ url: '/index' });
+    const res = await fastify.inject({ url: '/index' });
 
     expect(res.payload).toBe('{"message":"ok"}');
   });
 
   it('should apply global prefix for routes', async () => {
-    const instance = fastify();
-    instance.register(bootstrap, {
+    const fastify = Fastify();
+    fastify.register(bootstrap, {
       controllers: [SampleControllerMock],
       prefix: '/api/v1',
     });
 
-    const res = await instance.inject({ url: '/api/v1/index' });
+    const res = await fastify.inject({ url: '/api/v1/index' });
 
     expect(res.payload).toBe('{"message":"ok"}');
   });
 
   it('should throw an error while bootstrap application', async () => {
-    const instance = fastify();
-    instance.register(bootstrap, {
+    const fastify = Fastify();
+    fastify.register(bootstrap, {
       directory: resolve(__dirname, 'mocks', 'controllers'),
       mask: /\.ts/,
     });
 
-    await expect(instance.inject({ url: '/broken' })).rejects.toThrow();
+    await expect(fastify.inject({ url: '/broken' })).rejects.toThrow();
   });
 
   it('should skip broken controller', async () => {
-    const instance = fastify();
-    instance.register(bootstrap, {
+    const fastify = Fastify();
+    fastify.register(bootstrap, {
       directory: resolve(__dirname, 'mocks', 'controllers'),
       mask: /\.ts/,
       skipBroken: true,
     });
 
-    const res1 = await instance.inject({ url: '/index' });
-    const res2 = await instance.inject({ url: '/broken' });
+    const res1 = await fastify.inject({ url: '/index' });
+    const res2 = await fastify.inject({ url: '/broken' });
 
     expect(res1.payload).toBe('{"message":"ok"}');
     expect(res2.statusCode).toBe(404);
@@ -158,19 +158,19 @@ describe('Bootstrap test', () => {
       @Inject(Used) declare used: Used;
     }
 
-    const instance = fastify();
+    const fastify = Fastify();
 
-    await bootstrap(instance,{ controllers: [TestController] });
-    await instance.close();
+    await bootstrap(fastify,{ controllers: [TestController] });
+    await fastify.close();
 
-    expect(instance[CLASS_LOADER](Used).foo).toHaveBeenCalled();
-    expect(instance[CLASS_LOADER](NotUsed).bar).not.toHaveBeenCalled();
+    expect(fastify[CLASS_LOADER](Used).foo).toHaveBeenCalled();
+    expect(fastify[CLASS_LOADER](NotUsed).bar).not.toHaveBeenCalled();
   });
 
   it('should support custom class loader', async () => {
     const classLoader = jest.fn().mockImplementation((c) => new c());
 
-    await bootstrap(fastify(),{
+    await bootstrap(Fastify(),{
       controllers:[SampleControllerMock],classLoader, 
     });
     expect(classLoader).toHaveBeenCalledWith(SampleControllerMock);

@@ -11,7 +11,7 @@ import { hasServiceInjection } from '../Decorators/Helpers/class-properties.js';
 import { defaultScope, DependencyScope } from '../Decorators/Helpers/dependency-scope.js';
 import { classLoaderFactory, Constructor, ServiceInjection } from '../Decorators/Helpers/inject-dependencies.js';
 import { readyMap } from '../Decorators/index.js';
-import { ClassLoader } from '../Interfaces/bootstrap-config.js';
+import { ClassLoader } from '../Interfaces/index.js';
 import type { InjectableController } from '../Interfaces/index.js';
 import type { InjectableClass } from '../Interfaces/injectable-class.js';
 import { _injectablesHolder } from '../Registry/_injectables-holder.js';

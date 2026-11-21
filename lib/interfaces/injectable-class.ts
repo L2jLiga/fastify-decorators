@@ -9,7 +9,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { CREATOR, INITIALIZER } from '../Symbols/index.js';
 import { DESTRUCTOR } from '../Symbols/index.js';
-import { ClassLoader } from './bootstrap-config.js';
+import { ClassLoader } from './index.js';
 
 export interface InjectableService extends InjectableClass, Object {
   [CREATOR]: {

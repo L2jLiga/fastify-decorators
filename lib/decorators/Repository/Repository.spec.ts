@@ -1,75 +1,81 @@
-import { _injectablesHolder } from '../../Registry/_injectables-holder.js';
-import { CREATOR, INITIALIZER } from '../../Symbols/index.js';
-import { getInstanceByToken } from '../../Utils/get-instance-by-token.js';
-import { classLoaderFactory } from '../Helpers/inject-dependencies.js';
-import { Repository } from './Repository.js';
+import {_injectablesHolder} from "../../Registry/_injectables-holder.js";
+import {CREATOR, INITIALIZER} from "../../Symbols/index.js";
+import {getInstanceByToken} from "../../Utils/get-instance-by-token.js";
+import {classLoaderFactory} from "../Helpers/inject-dependencies.js";
+import {Repository} from "./Repository.js";
 
-describe('Decorators: @Repository', () => {
-  beforeEach(() => _injectablesHolder.reset());
-  afterEach(() => _injectablesHolder.reset());
+describe("Decorators: @Repository",()=>{
 
-  it('should add CREATOR static property to class', () => {
-    @Repository()
-    class Repo {}
+    //TODO: investigate how a reset should be done before and after a test ?
+    beforeEach(()=>{
+        _injectablesHolder.reset();
+    });
+    afterEach(()=>{
+        _injectablesHolder.reset();
+    });
 
-    // @ts-expect-error TypeScript does not know about patches within decorator
-    expect(Repo[CREATOR]).toBeTruthy();
-  });
+    it("should add CREATOR static property to class",()=>{
+        @Repository()
+        class Repo {}
 
-  it('should create service', () => {
-    const classLoader = classLoaderFactory(_injectablesHolder);
+        //@ts-expect-error TypeScript does not know about patches within decorator
+        expect(Repo[CREATOR]).toBeTruthy();
+    });
 
-    @Repository()
-    class Repo {}
+    it("should create repository",()=>{
+        const classLoader=classLoaderFactory(_injectablesHolder);
 
-    // @ts-expect-error TypeScript does not know about patches within decorator
-    const instance = Repo[CREATOR].register(classLoader);
+        @Repository()
+        class Repo {}
 
-    expect(instance).toBeDefined();
-  });
+        //@ts-expect-error TypeScript does not know about patches within decorator
+        const instance=Repo[CREATOR].register(classLoader);
 
-  it('should call initializer when instantiate service', () => {
-    const classLoader = classLoaderFactory(_injectablesHolder);
+        expect(instance).toBeDefined();
+    });
 
-    @Repository()
-    class Repo {
-      static [INITIALIZER] = jest.fn((srv: unknown) => {
-        expect(srv).toBeInstanceOf(Repo);
-      });
-    }
+    it("should call initializer when instantiate service",()=>{
+        const classLoader=classLoaderFactory(_injectablesHolder);
 
-    // @ts-expect-error TypeScript does not know about patches within decorator
-    Repo[CREATOR].register(classLoader);
+        @Repository()
+        class Repo {
+            static [INITIALIZER]=jest.fn((srv: unknown)=>{
+                expect(srv).toBeInstanceOf(Repo);
+            });
+        }
 
-    expect(Repo[INITIALIZER]).toHaveBeenCalled();
-  });
+        //@ts-expect-error TypeScript does not know about patches within decorator
+        Repo[CREATOR].register(classLoader);
 
-  it('should return same instance if service created multiple times', () => {
-    const classLoader = classLoaderFactory(_injectablesHolder);
+        expect(Repo[INITIALIZER]).toHaveBeenCalled();
+    });
 
-    @Repository()
-    class Repo {}
+    it("should return same instance if service created multiple times",()=>{
+        const classLoader=classLoaderFactory(_injectablesHolder);
 
-    // @ts-expect-error TypeScript does not know about patches within decorator
-    const instance1 = Repo[CREATOR].register(classLoader);
-    // @ts-expect-error TypeScript does not know about patches within decorator
-    const instance2 = Repo[CREATOR].register(classLoader);
-    // @ts-expect-error TypeScript does not know about patches within decorator
-    const instance3 = Repo[CREATOR].register(classLoader);
+        @Repository()
+        class Repo {}
 
-    expect(instance1).toBe(instance2);
-    expect(instance1).toBe(instance3);
-    expect(instance2).toBe(instance3);
-  });
+        //@ts-expect-error TypeScript does not know about patches within decorator
+        const instance1=Repo[CREATOR].register(classLoader);
+        //@ts-expect-error TypeScript does not know about patches within decorator
+        const instance2=Repo[CREATOR].register(classLoader);
+        //@ts-expect-error TypeScript does not know about patches within decorator
+        const instance3=Repo[CREATOR].register(classLoader);
 
-  it('should register service by injectable token and class', () => {
-    @Repository('token')
-    class Repo {}
+        expect(instance1).toBe(instance2);
+        expect(instance1).toBe(instance3);
+        expect(instance2).toBe(instance3);
+    });
 
-    const instanceByClass = getInstanceByToken(Repo);
-    const instanceByToken = getInstanceByToken('token');
+    it("should register repo by injectable token and class",()=>{
+        @Repository("token")
+        class Repo {}
 
-    expect(instanceByClass).toBeInstanceOf(Repo);
-    expect(instanceByToken).toBeInstanceOf(Repo);
-  });
+        const instanceByClass=getInstanceByToken(Repo);
+        const instanceByToken=getInstanceByToken("token");
+
+        expect(instanceByClass).toBeInstanceOf(Repo);
+        expect(instanceByToken).toBeInstanceOf(Repo);
+    });
 });

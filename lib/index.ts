@@ -8,12 +8,10 @@
 
 export { bootstrap } from './Bootstrap/Bootstrap.js';
 export {bootstrap as default} from "./Bootstrap/Bootstrap.js";
-export { BootstrapConfig } from './Interfaces/bootstrap-config.js';
+export { BootstrapConfig } from './Bootstrap/BootstrapConfig.js';
 export { RequestHandler } from './Interfaces/request-handler.js';
 
 export * from './Decorators';
-export { ControllerType } from './Registry/controller-type.js';
-export { ControllerConfig } from './Interfaces/controller-config.js';
 
 export { Destructor } from './Decorators/Destructor/Destructor.js';
 

@@ -9,15 +9,21 @@ export function patchMethods<C>(constructor: Constructor<C>): void {
 }
 
 function patchHandlers<C>(constructor: Constructor<C>): void {
-  if (hasHandlers(constructor)) for (const it of constructor[HANDLERS]) patchMethod(constructor, it.handlerMethod);
+  if (hasHandlers(constructor)){
+    for (const it of constructor[HANDLERS]) patchMethod(constructor, it.handlerMethod);
+  }
 }
 
 function patchErrorsHandlers<C>(constructor: Constructor<C>): void {
-  if (hasErrorHandlers(constructor)) for (const it of constructor[ERROR_HANDLERS]) patchMethod(constructor, it.handlerName);
+  if (hasErrorHandlers(constructor)){
+    for (const it of constructor[ERROR_HANDLERS]) patchMethod(constructor, it.handlerName);
+  }
 }
 
 function patchHooks<C>(constructor: Constructor<C>): void {
-  if (hasHooks(constructor)) for (const it of constructor[HOOKS]) patchMethod(constructor, it.handlerName);
+  if (hasHooks(constructor)){
+    for (const it of constructor[HOOKS]) patchMethod(constructor, it.handlerName);
+  }
 }
 
 function patchMethod(constructor: any, methodName: string | symbol): void {

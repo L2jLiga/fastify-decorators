@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import { ClassLoader } from '../Interfaces/bootstrap-config.js';
+import { ClassLoader } from '../Interfaces/index.js';
 import { InjectableService } from '../Interfaces/injectable-class.js';
 import { CREATOR, FASTIFY_REPLY, FASTIFY_REQUEST, FastifyReplyToken, FastifyRequestToken } from '../Symbols/index.js';
 

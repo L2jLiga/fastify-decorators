@@ -13,6 +13,6 @@ export { Initializer, readyMap } from './Initializer/Initializer.js';
 export { Hook } from './Hook/Hook.js';
 export { ErrorHandler } from './ErrorHandler/ErrorHandler.js';
 
-export { Controller } from './Controller/Controller.js';
+export * from "./Controller/index.js";
 
 export * from './RequestHandlers/RequestHandlers.js';

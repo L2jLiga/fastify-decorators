@@ -14,7 +14,7 @@
     "plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"
   ],
   "rules": {
-    "prettier/prettier":"warn",
+    "prettier/prettier":"none",
     "@typescript-eslint/no-require-imports": "off",
     "@typescript-eslint/ban-ts-comment": [
       "warn", { "ts-expect-error": "allow-with-description" }],
