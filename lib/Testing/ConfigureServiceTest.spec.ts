@@ -2,8 +2,8 @@ import { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from 'fast
 import fastifyPlugin from 'fastify-plugin';
 import { Initializer, Inject, Service } from '../Decorators/index.js';
 import { FastifyInstanceToken } from '../Symbols/index.js';
-import { configureServiceTest } from './configure-service-test.js';
-import { ServiceMock } from './service-mock.js';
+import { configureServiceTest } from './ConfigureServiceTest.js';
+import { ServiceMock } from './ServiceMock.js';
 
 describe('Testing: configure service test', () => {
   afterEach(() => jest.clearAllMocks());

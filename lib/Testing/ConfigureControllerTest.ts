@@ -16,9 +16,9 @@ import type { InjectableController } from '../Interfaces/index.js';
 import type { InjectableClass } from '../Interfaces/injectable-class.js';
 import { _injectablesHolder } from '../Registry/_injectables-holder.js';
 import { CLASS_LOADER, CREATOR, FastifyInstanceToken, SERVICE_INJECTION } from '../Symbols/index.js';
-import { loadPlugins, Plugins } from './fastify-plugins.js';
-import { MocksManager } from './mocks-manager.js';
-import type { ServiceMock } from './service-mock.js';
+import { loadPlugins, Plugins } from './FastifyPlugins.js';
+import { MocksManager } from './MocksManager.js';
+import type { ServiceMock } from './ServiceMock.js';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Reflect {
