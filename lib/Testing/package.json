@@ -7,7 +7,7 @@
   "typesVersions": {
     "<3.9": {
       "*": [
-        "../ts3.4/testing/*"
+        "../ts3.4/Testing/*"
       ]
     }
   },

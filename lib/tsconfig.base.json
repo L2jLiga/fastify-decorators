@@ -12,6 +12,6 @@
     "lib": ["ES6"],
     "esModuleInterop": true
   },
-  "files": ["index.ts", "testing/index.ts"],
+  "files": ["index.ts", "Testing/index.ts"],
   "exclude": ["node_modules"]
 }

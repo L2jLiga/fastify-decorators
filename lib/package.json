@@ -12,9 +12,9 @@
       "import": "./index.js",
       "require": "./index.cjs"
     },
-    "./testing": {
-      "import": "./testing/index.js",
-      "require": "./testing/index.cjs"
+    "./Testing": {
+      "import": "./Testing/index.js",
+      "require": "./Testing/index.cjs"
     }
   },
   "scripts": {
