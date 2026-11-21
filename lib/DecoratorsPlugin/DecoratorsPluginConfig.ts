@@ -4,11 +4,11 @@ import {ClassLoader} from "../Interfaces/index.js";
 
 
 /**
- * Config for application bootstrap
+ * decorators plugin config
  */
-export type BootstrapConfig=AutoLoadConfig|ControllersListConfig;
+export type DecoratorsPluginConfig=AutoLoadConfig|ControllersListConfig;
 
-export type AutoLoadConfig=BootstrapStaticConfig&{
+export type AutoLoadConfig=DecoratorsPluginStaticConfig&{
     /**
      * Path to directory which contains files to load
      */
@@ -26,7 +26,7 @@ export type AutoLoadConfig=BootstrapStaticConfig&{
     skipBroken?:boolean;
 }
 
-export type ControllersListConfig=BootstrapStaticConfig&{
+export type ControllersListConfig=DecoratorsPluginStaticConfig&{
     /**
      * List of Controller classes to bootstrap
      */
@@ -39,7 +39,7 @@ export type ControllersListConfig=BootstrapStaticConfig&{
     skipBroken?:boolean;
 }
 
-type BootstrapStaticConfig={
+type DecoratorsPluginStaticConfig={
     /**
      * Defines method to create class instance
      * @param constructor

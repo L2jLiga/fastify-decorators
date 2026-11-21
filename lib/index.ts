@@ -6,9 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-export { bootstrap } from './Bootstrap/Bootstrap.js';
-export {bootstrap as default} from "./Bootstrap/Bootstrap.js";
-export { BootstrapConfig } from './Bootstrap/BootstrapConfig.js';
+export * from "./DecoratorsPlugin/DecoratorsPlugin.js";
 export { RequestHandler } from './Interfaces/request-handler.js';
 
 export * from './Decorators';

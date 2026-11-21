@@ -14,5 +14,4 @@ export { Hook } from './Hook/Hook.js';
 export { ErrorHandler } from './ErrorHandler/ErrorHandler.js';
 
 export * from "./Controller/index.js";
-
 export * from './RequestHandlers/RequestHandlers.js';
