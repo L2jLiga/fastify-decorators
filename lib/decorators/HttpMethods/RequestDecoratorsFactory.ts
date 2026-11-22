@@ -9,10 +9,10 @@
 import type { FastifyInstance, FastifyRequest, RouteShorthandOptions } from 'fastify';
 import { HttpMethods } from '../../Interfaces/http-methods.js';
 import { RequestHandler, RequestHook } from '../../Interfaces/request-handler.js';
-import { RouteConfig } from '../../Interfaces/route-config.js';
+import { RouteConfig } from './HttpMethods.js';
 import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS } from '../../Symbols/index.js';
-import { ensureHandlers, hasErrorHandlers, hasHooks } from './class-properties.js';
-import ErrorHandler from './ErrorHandler/ErrorHandler.js';
+import { ensureHandlers, hasErrorHandlers, hasHooks } from '../Helpers/class-properties.js';
+import ErrorHandler from '../Helpers/ErrorHandler/ErrorHandler.js';
 
 type ParsedRouteConfig = { url: string; options: RouteShorthandOptions };
 
@@ -76,7 +76,7 @@ export function requestDecoratorsFactory(
   };
 }
 
-export function controllerMethodDecoratorsFactory(method: HttpMethods, config: ParsedRouteConfig, { constructor }: any, propKey: string | symbol): void {
+function controllerMethodDecoratorsFactory(method: HttpMethods, config: ParsedRouteConfig, { constructor }: any, propKey: string | symbol): void {
   ensureHandlers(constructor);
 
   constructor[HANDLERS].push({

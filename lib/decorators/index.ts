@@ -15,4 +15,4 @@ export { ErrorHandler } from './ErrorHandler/ErrorHandler.js';
 export { Destructor } from './Destructor/Destructor.js';
 
 export * from "./Controller/index.js";
-export * from './RequestHandlers/RequestHandlers.js';
+export * from "./HttpMethods/HttpMethods.js";

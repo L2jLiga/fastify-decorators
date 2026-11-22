@@ -3,8 +3,8 @@ import { IHook } from '../../Interfaces/controller.js';
 import { CREATOR, HOOKS } from '../../Symbols/index.js';
 import { ErrorHandler } from '../ErrorHandler/ErrorHandler.js';
 import { Hook } from '../Hook/Hook.js';
-import { GET } from '../RequestHandlers/RequestHandlers.js';
-import { requestDecoratorsFactory } from './request-decorators.factory.js';
+import { GET } from './HttpMethods.js';
+import { requestDecoratorsFactory } from './RequestDecoratorsFactory.js';
 
 describe('Factory: request decorators', () => {
   const factory = requestDecoratorsFactory('get');

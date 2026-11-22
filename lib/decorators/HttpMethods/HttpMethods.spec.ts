@@ -1,6 +1,6 @@
 import {RouteShorthandOptions} from "fastify";
 import {CREATOR} from "../../Symbols/index.js";
-import {ALL,DELETE,GET,QUERY,HEAD,OPTIONS,PATCH,POST,PUT} from "./RequestHandlers.js";
+import {ALL,DELETE,GET,QUERY,HEAD,OPTIONS,PATCH,POST,PUT} from "./HttpMethods.js";
 
 describe("Decorators:request handlers",()=>{
     it("should instantiate a ALL handler",()=>{

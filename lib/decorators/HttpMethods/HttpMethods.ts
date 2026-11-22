@@ -1,6 +1,5 @@
 import type {RouteShorthandOptions} from "fastify";
-import type {RouteConfig} from "../../Interfaces/index.js";
-import {requestDecoratorsFactory} from "../Helpers/request-decorators.factory.js";
+import {requestDecoratorsFactory} from "./RequestDecoratorsFactory.js";
 import {LifecycleHook} from "../Controller/index.js";
 
 
@@ -118,6 +117,18 @@ const registerLifecycleHooks=(
         if(typeof(route)!=="string") route=route?.url||"/";
         throw new Error(`${method} ${route}: ${(error as Error).message}`);
     }
+}
+
+export interface RouteConfig {
+    /**
+     * Route url which will be passed to Fastify
+     */
+    url:string;
+
+    /**
+     * Route options which will be passed to Fastify
+     */
+    options?:RouteShorthandOptions;
 }
 
 type HttpRequestHandler=(target:unknown,propKey?:string|symbol)=>void;
