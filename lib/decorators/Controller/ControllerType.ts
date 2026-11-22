@@ -178,10 +178,7 @@ const registerLifecycleHooks=(
         const {url}=options;
         if(url.startsWith(route)){
             for(const lifecycleHook of lifecycleHooks){
-                const lifecycle=lifecycleHook.lifecycle||"onRequest";
-                if(!Array.isArray(options[lifecycle])) options[lifecycle]=[];
-                //@ts-ignore
-                options[lifecycle].push(lifecycleHook.handler);
+                LifecycleHook.register(lifecycleHook,options);
             }
         }
     });
