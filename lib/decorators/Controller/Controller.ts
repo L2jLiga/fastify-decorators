@@ -1,10 +1,9 @@
 import type {FastifyInstance} from "fastify";
 import type {InjectableClass} from "../../Interfaces/injectable-class.js";
 import {CLASS_LOADER, CREATOR} from "../../Symbols/index.js";
-import {injectControllerOptions} from "../Helpers/inject-controller-options.js";
-import {patchMethods} from "../Helpers/patch-methods.js";
+import {SwaggerHelper,ControllerHelper} from "../Helpers/index.js";
+import {MethodPatcher} from "../Helpers/index.js";
 import {toControllerType,ControllerTypeLiteral,ControllerType,ControllerTypeStrategies} from "./ControllerType.js";
-import {TagObject} from "../Helpers/swagger-helper.js";
 import LifecycleHook from "./LifecycleHook.js";
 
 
@@ -16,8 +15,8 @@ export function Controller(config?:string|ControllerConfig){
         config=toControllerConfig(config);
         const {route,type}=config;
 
-        injectControllerOptions(controller);
-        patchMethods(controller);
+        ControllerHelper.injectOptions(controller);
+        MethodPatcher.patchMethods(controller);
 
         controller[CREATOR].register=async (
             fastify:FastifyInstance,
@@ -64,7 +63,7 @@ export type ControllerConfig={
      * by default this list is empty, adding tags here will add same tags to all methods inside controller.
      * In case if method has own set of tags they will have higher priority instead of controller tags
      */
-    tags?:TagObject[];
+    tags?:SwaggerHelper.TagObject[];
     /**
      * added custom lifecycle hooks to this controller
      */

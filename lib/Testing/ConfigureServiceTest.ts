@@ -7,9 +7,7 @@
  */
 
 import { fastify, FastifyInstance } from 'fastify';
-import { defaultScope, DependencyScope } from '../Decorators/Helpers/dependency-scope.js';
-import type { Constructor } from '../Decorators/Helpers/inject-dependencies.js';
-import { classLoaderFactory } from '../Decorators/Helpers/inject-dependencies.js';
+import { DepScopeHelper,classLoaderFactory,type Constructor } from '../Decorators/Helpers/index.js';
 import { initializersMap } from '../Decorators/Initializer/Initializer.js';
 import { ClassLoader } from '../Interfaces/index.js';
 import type { InjectableService } from '../Interfaces/injectable-class.js';
@@ -18,6 +16,7 @@ import { CLASS_LOADER, CREATOR, FastifyInstanceToken, INITIALIZER } from '../Sym
 import { loadPlugins, Plugins } from './FastifyPlugins.js';
 import { MocksManager } from './MocksManager.js';
 import type { ServiceMock } from './ServiceMock.js';
+
 
 export interface ServiceTestConfig<Service> {
   service: Constructor<Service>;
@@ -40,8 +39,8 @@ export function configureServiceTest<Service>(config: ServiceTestConfig<Service>
   if (!injectablesWithMocks.has(FastifyInstanceToken)) injectablesWithMocks.injectSingleton(FastifyInstanceToken, fastify(), false);
 
   const fastifyInstance = injectablesWithMocks.getSingleton<FastifyInstance>(FastifyInstanceToken) as FastifyInstance;
-  const classLoader = classLoaderFactory(injectablesWithMocks) as ClassLoader & { reset(scope: DependencyScope): void };
-  classLoader.reset(defaultScope);
+  const classLoader = classLoaderFactory(injectablesWithMocks) as ClassLoader & { reset(scope: DepScopeHelper.DependencyScope): void };
+  classLoader.reset(DepScopeHelper.defaultScope);
   if (!fastifyInstance.hasDecorator(CLASS_LOADER)) fastifyInstance.decorate(CLASS_LOADER, classLoader);
 
   loadPlugins(fastifyInstance, config.plugins);

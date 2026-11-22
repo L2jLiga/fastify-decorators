@@ -1,5 +1,5 @@
 import type {PathLike} from "fs";
-import {Constructor} from "../Decorators/Helpers/inject-dependencies.js";
+import {Constructor} from "../Decorators/Helpers/index.js";
 import {ClassLoader} from "../Interfaces/index.js";
 
 

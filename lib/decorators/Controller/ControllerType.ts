@@ -2,9 +2,7 @@ import type { FastifyInstance, FastifyReply, FastifyRequest, FastifySchema } fro
 import { ClassLoader } from '../../Interfaces/index.js';
 import type { IErrorHandler, IHandler, IHook, InjectableController } from '../../Interfaces/index.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../Symbols/index.js';
-import { hasErrorHandlers, hasHandlers, hasHooks } from '../Helpers/class-properties.js';
-import ErrorHandler from '../Helpers/ErrorHandler/ErrorHandler.js';
-import { injectTagsIntoSwagger, TagObject } from '../Helpers/swagger-helper.js';
+import {SwaggerHelper,ClassPropsHelper,ErrorHandlerHelper} from '../Helpers/index.js';
 import {ControllerConfig} from "./Controller.js";
 import LifecycleHook from "./LifecycleHook.js";
 
@@ -15,6 +13,8 @@ type ControllerFactory=(
     classLoader:ClassLoader,
     config?:Partial<ControllerConfig>,
 )=>InjectableController|undefined;
+
+//type ControllerInstance=InstanceType<InjectableController>;
 
 export enum ControllerType {
     /**
@@ -64,15 +64,15 @@ export const ControllerTypeStrategies:Record<ControllerType,ControllerFactory>={
             });
         }
        const withTags=(Array.isArray(tags)&&tags.length);
-        if(withTags) injectTagsIntoSwagger(fastify,tags);
+        if(withTags) SwaggerHelper.injectTags(fastify,tags);
         
-        if(hasHandlers(constructor)){
+        if(ClassPropsHelper.hasHandlers(constructor)){
             registerHandlers(constructor[HANDLERS],fastify,controllerInstance,withTags?tags:[]);
         }
-        if(hasErrorHandlers(constructor)){
+        if(ClassPropsHelper.hasErrorHandlers(constructor)){
             registerErrorHandlers(constructor[ERROR_HANDLERS],fastify,controllerInstance);
         }
-        if(hasHooks(constructor)){
+        if(ClassPropsHelper.hasHooks(constructor)){
             registerHooks(constructor[HOOKS],fastify,controllerInstance);
         }
         
@@ -83,14 +83,14 @@ export const ControllerTypeStrategies:Record<ControllerType,ControllerFactory>={
         const {tags,hooks}=config??{};
 
         const withTags=(Array.isArray(tags)&&tags.length);
-        if (withTags) injectTagsIntoSwagger(instance, tags);
+        if (withTags) SwaggerHelper.injectTags(instance, tags);
 
         /* if(Array.isArray(hooks)&&hooks.length){
             registerLifecycleHooks(hooks,controllerInstance,fastify);
         } */
 
         const getTarget = targetFactory(constructor, classLoader);
-        if(hasHandlers(constructor)){
+        if(ClassPropsHelper.hasHandlers(constructor)){
             for(const handler of constructor[HANDLERS]){
                 const {url,method,handlerMethod,options}=handler;
                 instance[method](
@@ -107,15 +107,15 @@ export const ControllerTypeStrategies:Record<ControllerType,ControllerFactory>={
             }
         }
 
-        if(hasErrorHandlers(constructor)){
+        if(ClassPropsHelper.hasErrorHandlers(constructor)){
             instance.setErrorHandler((error: Error, request, ...rest) => {
-                const errorHandler = ErrorHandler.create(constructor[ERROR_HANDLERS], getTarget(request));
+                const errorHandler = ErrorHandlerHelper.create(constructor[ERROR_HANDLERS], getTarget(request));
 
                 return errorHandler(error, request, ...rest);
             });
         }
 
-        if(hasHooks(constructor)){
+        if(ClassPropsHelper.hasHooks(constructor)){
             for(const hook of constructor[HOOKS]){
                instance.addHook(hook.name as 'onRequest',(request: FastifyRequest, ...rest: unknown[]) => {
                    return getTarget(request)[hook.handlerName](request, ...rest);
@@ -133,7 +133,7 @@ function registerHandlers(
     handlers: Iterable<IHandler>,
     fastify: FastifyInstance,
     controllerInstance: Record<string, (request: FastifyRequest, reply: FastifyReply) => void>,
-    tags: TagObject[],
+    tags: SwaggerHelper.TagObject[],
 ): void {
     for (const handler of handlers) {
         fastify[handler.method](
@@ -162,7 +162,7 @@ function registerErrorHandlers(
     fastify: FastifyInstance,
     classInstance: Record<string, (error: Error, request: FastifyRequest, reply: FastifyReply) => void>,
 ) {
-    fastify.setErrorHandler(ErrorHandler.create(errorHandlers, classInstance));
+    fastify.setErrorHandler(ErrorHandlerHelper.create(errorHandlers, classInstance));
 }
 
 const registerLifecycleHooks=(

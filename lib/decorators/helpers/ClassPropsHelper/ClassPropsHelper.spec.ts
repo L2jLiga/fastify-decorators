@@ -1,15 +1,16 @@
-import { IErrorHandler, IHandler, IHook } from '../../Interfaces/controller.js';
-import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../Symbols/index.js';
-import { ensureErrorHandlers, ensureHandlers, ensureHooks, hasErrorHandlers, hasHandlers, hasHooks } from './class-properties.js';
-import { Container } from './container.js';
+import { IErrorHandler, IHandler, IHook } from '../../../Interfaces/controller.js';
+import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../../Symbols/index.js';
+import {Container,ClassPropsHelper} from '../index.js';
+
 
 describe('Helpers: class properties', () => {
   describe('ensure object has handlers symbol', () => {
     it('should create when not exists', () => {
       const obj = {};
 
-      ensureHandlers(obj);
+      ClassPropsHelper.ensureHandlers(obj);
 
+      //@ts-ignore
       expect(obj[HANDLERS]).toBeInstanceOf(Container);
     });
 
@@ -19,7 +20,7 @@ describe('Helpers: class properties', () => {
         [HANDLERS]: handlers,
       };
 
-      ensureHandlers(obj);
+      ClassPropsHelper.ensureHandlers(obj);
 
       expect(obj[HANDLERS]).toBe(handlers);
     });
@@ -29,7 +30,7 @@ describe('Helpers: class properties', () => {
     it('should return false when not exists', () => {
       const obj = {};
 
-      const result = hasHandlers(obj);
+      const result = ClassPropsHelper.hasHandlers(obj);
 
       expect(result).toBe(false);
     });
@@ -39,7 +40,7 @@ describe('Helpers: class properties', () => {
         [HANDLERS]: new Container(),
       };
 
-      const result = hasHandlers(obj);
+      const result = ClassPropsHelper.hasHandlers(obj);
 
       expect(result).toBe(true);
     });
@@ -49,8 +50,9 @@ describe('Helpers: class properties', () => {
     it('should create when not exists', () => {
       const obj = {};
 
-      ensureErrorHandlers(obj);
+      ClassPropsHelper.ensureErrorHandlers(obj);
 
+      //@ts-ignore
       expect(obj[ERROR_HANDLERS]).toBeInstanceOf(Container);
     });
 
@@ -60,7 +62,7 @@ describe('Helpers: class properties', () => {
         [ERROR_HANDLERS]: errorHandlers,
       };
 
-      ensureErrorHandlers(obj);
+      ClassPropsHelper.ensureErrorHandlers(obj);
 
       expect(obj[ERROR_HANDLERS]).toBe(errorHandlers);
     });
@@ -70,7 +72,7 @@ describe('Helpers: class properties', () => {
     it('should return false when not exists', () => {
       const obj = {};
 
-      const result = hasErrorHandlers(obj);
+      const result = ClassPropsHelper.hasErrorHandlers(obj);
 
       expect(result).toBe(false);
     });
@@ -80,7 +82,7 @@ describe('Helpers: class properties', () => {
         [ERROR_HANDLERS]: new Container<IErrorHandler>(),
       };
 
-      const result = hasErrorHandlers(obj);
+      const result = ClassPropsHelper.hasErrorHandlers(obj);
 
       expect(result).toBe(true);
     });
@@ -90,8 +92,9 @@ describe('Helpers: class properties', () => {
     it('should create when not exists', () => {
       const obj = {};
 
-      ensureHooks(obj);
+      ClassPropsHelper.ensureHooks(obj);
 
+      //@ts-ignore
       expect(obj[HOOKS]).toBeInstanceOf(Container);
     });
 
@@ -101,7 +104,7 @@ describe('Helpers: class properties', () => {
         [HOOKS]: hooks,
       };
 
-      ensureHooks(obj);
+      ClassPropsHelper.ensureHooks(obj);
 
       expect(obj[HOOKS]).toBe(hooks);
     });
@@ -111,7 +114,7 @@ describe('Helpers: class properties', () => {
     it('should return false when not exists', () => {
       const obj = {};
 
-      const result = hasHooks(obj);
+      const result = ClassPropsHelper.hasHooks(obj);
 
       expect(result).toBe(false);
     });
@@ -121,7 +124,7 @@ describe('Helpers: class properties', () => {
         [HOOKS]: new Container<IHook>(),
       };
 
-      const result = hasHooks(obj);
+      const result = ClassPropsHelper.hasHooks(obj);
 
       expect(result).toBe(true);
     });

@@ -8,15 +8,14 @@
 
 import type { IErrorHandler } from '../../Interfaces/index.js';
 import { ERROR_HANDLERS } from '../../Symbols/index.js';
-import { ensureErrorHandlers } from '../Helpers/class-properties.js';
-import type { Constructor } from '../Helpers/inject-dependencies.js';
+import { Constructor,ClassPropsHelper } from '../Helpers/index.js';
 
 export function ErrorHandler(): PropertyDecorator;
 export function ErrorHandler(code: string): PropertyDecorator;
 export function ErrorHandler<T extends Error>(configuration: Constructor<T>): PropertyDecorator;
 export function ErrorHandler<T extends ErrorConstructor>(parameter?: T | string): PropertyDecorator {
   return function ({ constructor }: any, handlerName: string | symbol) {
-    ensureErrorHandlers(constructor);
+    ClassPropsHelper.ensureErrorHandlers(constructor);
 
     if (parameter == null) {
       constructor[ERROR_HANDLERS].push(handlerFactory(() => true, handlerName));

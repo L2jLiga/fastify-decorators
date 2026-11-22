@@ -5,13 +5,12 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
+import { ClassLoader } from '../../../Interfaces/index.js';
+import { InjectableService } from '../../../Interfaces/injectable-class.js';
+import { _InjectablesHolder } from '../../../Registry/_injectables-holder.js';
+import { CREATOR, SERVICE_INJECTION } from '../../../Symbols/index.js';
+import { ClassPropsHelper,DepScopeHelper } from '../index.js';
 
-import { ClassLoader } from '../../Interfaces/index.js';
-import { InjectableService } from '../../Interfaces/injectable-class.js';
-import { _InjectablesHolder } from '../../Registry/_injectables-holder.js';
-import { CREATOR, SERVICE_INJECTION } from '../../Symbols/index.js';
-import { hasServiceInjection } from './class-properties.js';
-import { defaultScope, DependencyScope, dependencyScopeManager } from './dependency-scope.js';
 
 export type Constructor<T> = { new (): T } | { new (...args: any): T };
 
@@ -26,10 +25,10 @@ declare namespace Reflect {
 }
 
 export function classLoaderFactory(injectables: _InjectablesHolder): ClassLoader {
-  function classLoader<C>(constructor: Constructor<C>, scope?: DependencyScope): C {
-    scope = scope || defaultScope;
+  function classLoader<C>(constructor: Constructor<C>, scope?: DepScopeHelper.DependencyScope): C {
+    scope = scope || DepScopeHelper.defaultScope;
 
-    if (dependencyScopeManager.has(scope, constructor)) return dependencyScopeManager.get(scope, constructor) as C;
+    if (DepScopeHelper.dependencyScopeManager.has(scope, constructor)) return DepScopeHelper.dependencyScopeManager.get(scope, constructor) as C;
 
     /**
      * Step 1: Patch constructor and prototype with Injectables (issue #752)
@@ -51,7 +50,7 @@ export function classLoaderFactory(injectables: _InjectablesHolder): ClassLoader
     /**
      * Step 4: Optionally store instance in Map if cache enabled
      */
-    dependencyScopeManager.add(scope, constructor, instance);
+    DepScopeHelper.dependencyScopeManager.add(scope, constructor, instance);
 
     /**
      * Step 4: Return instance with dependencies injected
@@ -60,14 +59,14 @@ export function classLoaderFactory(injectables: _InjectablesHolder): ClassLoader
   }
 
   return Object.assign(classLoader, {
-    reset(scope: DependencyScope) {
-      dependencyScopeManager.clear(scope);
+    reset(scope: DepScopeHelper.DependencyScope) {
+      DepScopeHelper.dependencyScopeManager.clear(scope);
     },
   });
 }
 
 function injectProperties(target: unknown, source: object, injectables: _InjectablesHolder, classLoader: ClassLoader, className: string) {
-  if (!hasServiceInjection(source)) return;
+  if (!ClassPropsHelper.hasServiceInjection(source)) return;
   const viaInject = source[SERVICE_INJECTION];
   for (const { name, propertyKey } of viaInject) {
     if (!injectables.has(name))

@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 import { SERVICE_INJECTION } from '../../Symbols/index.js';
-import { ensureServiceInjection } from '../Helpers/class-properties.js';
+import { ClassPropsHelper } from '../Helpers/index.js';
 
 /**
  * Property decorator to inject dependencies
@@ -20,7 +20,7 @@ import { ensureServiceInjection } from '../Helpers/class-properties.js';
  */
 export function Inject(name: string | symbol | unknown): PropertyDecorator {
   return (target, propertyKey) => {
-    ensureServiceInjection(target);
+    ClassPropsHelper.ensureServiceInjection(target);
 
     target[SERVICE_INJECTION].push({ propertyKey, name });
   };

@@ -3,8 +3,7 @@ import {IHandler,InjectableController} from "../../Interfaces/index.js";
 import {_InjectablesHolder} from "../../Registry/_injectables-holder.js";
 import {HANDLERS} from "../../Symbols/index.js";
 import {ErrorHandler} from "../ErrorHandler/ErrorHandler.js";
-import {classLoaderFactory} from "../Helpers/inject-dependencies.js";
-import {TagObject} from "../Helpers/swagger-helper.js";
+import {SwaggerHelper,classLoaderFactory} from "../Helpers/index.js";
 import {Hook} from "../Hook/Hook.js";
 import {ControllerType,ControllerTypeStrategies} from "./ControllerType.js";
 
@@ -54,7 +53,7 @@ describe("Strategies:controller types",()=>{
             });
 
             it("should inject tags into handlers and swagger configuration",()=>{
-                const swagger:{ tags?:TagObject[] }={};
+                const swagger:{ tags?:SwaggerHelper.TagObject[] }={};
                 class Controller {
                     static [HANDLERS]:IHandler[]=[{
                         url:"/",
@@ -74,7 +73,7 @@ describe("Strategies:controller types",()=>{
                         hookFn();
                     },
                     oas:()=>swagger,
-                } as FastifyInstance & { oas():{ tags?:TagObject[] } };
+                } as FastifyInstance & { oas():{ tags?:SwaggerHelper.TagObject[] } };
                 const controllerOptions={
                     tags:[{
                         name:"user",
@@ -91,7 +90,7 @@ describe("Strategies:controller types",()=>{
             });
 
             it("should keep tags defined in handler over tags from controller",()=>{
-                const swagger:{ tags?:TagObject[] }={};
+                const swagger:{ tags?:SwaggerHelper.TagObject[] }={};
                 class Controller {
                     static [HANDLERS]:IHandler[]=[{
                         url:"/",
@@ -115,7 +114,7 @@ describe("Strategies:controller types",()=>{
                     },
                     addHook(_name:"onReady",hookFn:()=>void){ hookFn() },
                     swagger:()=>swagger,
-                } as FastifyInstance & { swagger():{ tags?:TagObject[] } };
+                } as FastifyInstance & { swagger():{ tags?:SwaggerHelper.TagObject[] } };
                 const controllerOptions={
                     tags:[{ 
                         name:"user",

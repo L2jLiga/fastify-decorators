@@ -7,9 +7,7 @@
  */
 
 import { fastify, FastifyInstance } from 'fastify';
-import { hasServiceInjection } from '../Decorators/Helpers/class-properties.js';
-import { defaultScope, DependencyScope } from '../Decorators/Helpers/dependency-scope.js';
-import { classLoaderFactory, Constructor, ServiceInjection } from '../Decorators/Helpers/inject-dependencies.js';
+import { classLoaderFactory, Constructor, ServiceInjection,DepScopeHelper,ClassPropsHelper } from '../Decorators/Helpers/index.js';
 import { readyMap } from '../Decorators/index.js';
 import { ClassLoader } from '../Interfaces/index.js';
 import type { InjectableController } from '../Interfaces/index.js';
@@ -43,8 +41,8 @@ export async function configureControllerTest<C>(config: ControllerTestConfig<Co
     injectablesWithMocks.injectSingleton(FastifyInstanceToken, instance, false);
   }
 
-  const classLoader = classLoaderFactory(injectablesWithMocks) as ClassLoader & { reset(scope: DependencyScope): void };
-  classLoader.reset(defaultScope);
+  const classLoader = classLoaderFactory(injectablesWithMocks) as ClassLoader & { reset(scope: DepScopeHelper.DependencyScope): void };
+  classLoader.reset(DepScopeHelper.defaultScope);
   if (!instance.hasDecorator(CLASS_LOADER)) instance.decorate(CLASS_LOADER, classLoader);
 
   const controller = config.controller as InjectableController;
@@ -64,7 +62,7 @@ export async function configureControllerTest<C>(config: ControllerTestConfig<Co
 }
 
 function* getInjectedProps(target: object): Iterable<unknown> {
-  if (!hasServiceInjection(target)) return [];
+  if (!ClassPropsHelper.hasServiceInjection(target)) return [];
   for (const value of target[SERVICE_INJECTION]) yield value.name;
 }
 

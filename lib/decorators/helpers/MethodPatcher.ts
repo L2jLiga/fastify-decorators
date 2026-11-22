@@ -1,6 +1,7 @@
 import { ERROR_HANDLERS, FASTIFY_REPLY, FASTIFY_REQUEST, HANDLERS, HOOKS, SERVICE_INJECTION } from '../../Symbols/index.js';
-import { hasErrorHandlers, hasHandlers, hasHooks, hasServiceInjection } from './class-properties.js';
-import { Constructor } from './inject-dependencies.js';
+import {ClassPropsHelper} from "./index.js";
+import { Constructor } from './index.js';
+
 
 export function patchMethods<C>(constructor: Constructor<C>): void {
   patchHandlers(constructor);
@@ -9,19 +10,19 @@ export function patchMethods<C>(constructor: Constructor<C>): void {
 }
 
 function patchHandlers<C>(constructor: Constructor<C>): void {
-  if (hasHandlers(constructor)){
+  if (ClassPropsHelper.hasHandlers(constructor)){
     for (const it of constructor[HANDLERS]) patchMethod(constructor, it.handlerMethod);
   }
 }
 
 function patchErrorsHandlers<C>(constructor: Constructor<C>): void {
-  if (hasErrorHandlers(constructor)){
+  if (ClassPropsHelper.hasErrorHandlers(constructor)){
     for (const it of constructor[ERROR_HANDLERS]) patchMethod(constructor, it.handlerName);
   }
 }
 
 function patchHooks<C>(constructor: Constructor<C>): void {
-  if (hasHooks(constructor)){
+  if (ClassPropsHelper.hasHooks(constructor)){
     for (const it of constructor[HOOKS]) patchMethod(constructor, it.handlerName);
   }
 }
@@ -42,7 +43,7 @@ function createProxy(target: any, request: unknown, reply: unknown): unknown {
       if (value === FASTIFY_REQUEST) return request;
       if (value === FASTIFY_REPLY) return reply;
 
-      if (hasServiceInjection(value)) return createProxy(value, request, reply);
+      if (ClassPropsHelper.hasServiceInjection(value)) return createProxy(value, request, reply);
 
       return value;
     },

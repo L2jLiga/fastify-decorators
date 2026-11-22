@@ -1,7 +1,6 @@
 import { InjectablesMap } from '../../Registry/_injectables-holder.js';
 import { SERVICE_INJECTION } from '../../Symbols/index.js';
-import { hasServiceInjection } from '../Helpers/class-properties.js';
-import { ServiceInjection } from '../Helpers/inject-dependencies.js';
+import { ServiceInjection,ClassPropsHelper } from '../Helpers/index.js';
 import { Inject } from './Inject.js';
 
 describe('Decorator: @Inject', () => {
@@ -16,7 +15,7 @@ describe('Decorator: @Inject', () => {
       srv: unknown;
     }
 
-    if (!hasServiceInjection(Target.prototype)) throw new Error('Inject does not work, please check');
+    if (!ClassPropsHelper.hasServiceInjection(Target.prototype)) throw new Error('Inject does not work, please check');
 
     const viaInject: ServiceInjection[] = [...Target.prototype[SERVICE_INJECTION]];
 
@@ -33,7 +32,7 @@ describe('Decorator: @Inject', () => {
       srv2: unknown;
     }
 
-    if (!hasServiceInjection(Target.prototype)) throw new Error('Inject does not work, please check');
+    if (!ClassPropsHelper.hasServiceInjection(Target.prototype)) throw new Error('Inject does not work, please check');
 
     const viaInject: ServiceInjection[] = [...Target.prototype[SERVICE_INJECTION]];
 

@@ -11,8 +11,7 @@ import { HttpMethods } from '../../Interfaces/http-methods.js';
 import { RequestHandler, RequestHook } from '../../Interfaces/request-handler.js';
 import { RouteConfig } from './HttpMethods.js';
 import { CREATOR, ERROR_HANDLERS, HANDLERS, HOOKS } from '../../Symbols/index.js';
-import { ensureHandlers, hasErrorHandlers, hasHooks } from '../Helpers/class-properties.js';
-import ErrorHandler from '../Helpers/ErrorHandler/ErrorHandler.js';
+import {ClassPropsHelper,ErrorHandlerHelper} from '../Helpers/index.js';
 
 type ParsedRouteConfig = { url: string; options: RouteShorthandOptions };
 
@@ -49,7 +48,7 @@ export function requestDecoratorsFactory(
 
       target[CREATOR] = {
         register: (instance: FastifyInstance) => {
-          if (hasHooks(target)) {
+          if (ClassPropsHelper.hasHooks(target)) {
             for (const hook of target[HOOKS] as RequestHook[]) {
               const hookFn = (request: FastifyRequest, ...rest: unknown[]) => {
                 return getTarget(target, request, ...rest)[hook.handlerName](request, ...rest);
@@ -61,9 +60,9 @@ export function requestDecoratorsFactory(
               else config.options[hook.name] = [option as (...args: unknown[]) => void, hookFn];
             }
           }
-          if (hasErrorHandlers(target)) {
+          if (ClassPropsHelper.hasErrorHandlers(target)) {
             config.options.errorHandler = (error, request, ...rest) => {
-              const errorHandler = ErrorHandler.create(target[ERROR_HANDLERS], getTarget(target, request, ...rest));
+              const errorHandler = ErrorHandlerHelper.create(target[ERROR_HANDLERS], getTarget(target, request, ...rest));
               return errorHandler(error, request, ...rest);
             };
           }
@@ -77,7 +76,7 @@ export function requestDecoratorsFactory(
 }
 
 function controllerMethodDecoratorsFactory(method: HttpMethods, config: ParsedRouteConfig, { constructor }: any, propKey: string | symbol): void {
-  ensureHandlers(constructor);
+  ClassPropsHelper.ensureHandlers(constructor);
 
   constructor[HANDLERS].push({
     url: config.url,

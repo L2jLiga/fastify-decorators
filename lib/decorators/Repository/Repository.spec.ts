@@ -1,7 +1,7 @@
 import {_injectablesHolder} from "../../Registry/_injectables-holder.js";
 import {CREATOR, INITIALIZER} from "../../Symbols/index.js";
 import {getInstanceByToken} from "../../Utils/get-instance-by-token.js";
-import {classLoaderFactory} from "../Helpers/inject-dependencies.js";
+import {classLoaderFactory} from "../Helpers/index.js";
 import {Repository} from "./Repository.js";
 
 describe("Decorators: @Repository",()=>{

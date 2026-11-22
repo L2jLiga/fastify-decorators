@@ -1,4 +1,4 @@
-import ErrorHandler from './ErrorHandler.js';
+import ErrorHandlerHelper from './ErrorHandlerHelper.js';
 import { IErrorHandler } from '../../../Interfaces/controller.js';
 
 
@@ -17,7 +17,7 @@ describe('Helpers: create errors handler', () => {
       },
     };
 
-    const handler = ErrorHandler.create([errorHandlerDescription], instance);
+    const handler = ErrorHandlerHelper.create([errorHandlerDescription], instance);
     return expect(handler(expectedError, null, null)).resolves.toBeUndefined();
   });
 
@@ -31,7 +31,7 @@ describe('Helpers: create errors handler', () => {
     };
     const instance = {};
 
-    const handler = ErrorHandler.create([errorHandlerDescription], instance);
+    const handler = ErrorHandlerHelper.create([errorHandlerDescription], instance);
 
     return expect(handler(expectedError, null, null)).rejects.toEqual(expectedError);
   });
@@ -62,7 +62,7 @@ describe('Helpers: create errors handler', () => {
       },
     };
 
-    const handler = ErrorHandler.create(errorHandlers, instance);
+    const handler = ErrorHandlerHelper.create(errorHandlers, instance);
 
     return expect(handler(expectedError, null, null)).resolves.toBeUndefined();
   });

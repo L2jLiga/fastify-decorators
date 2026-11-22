@@ -7,14 +7,14 @@
  */
 
 import { HOOKS } from '../../Symbols/index.js';
-import { ensureHooks } from '../Helpers/class-properties.js';
+import { ClassPropsHelper } from '../Helpers/index.js';
 
 /**
  * Creates handler which listen various hooks
  */
 export function Hook(name: string): PropertyDecorator {
   return ({ constructor }: any, handlerName: string | symbol) => {
-    ensureHooks(constructor);
+    ClassPropsHelper.ensureHooks(constructor);
 
     constructor[HOOKS].push({
       name,
