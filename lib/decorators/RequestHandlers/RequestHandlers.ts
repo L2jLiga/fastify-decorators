@@ -11,7 +11,7 @@ export function ALL(
     config?:string|RouteConfig,
     options?:HttpRequestHandlerOptions,
 ):HttpRequestHandler {
-    registerLifecycleHooks(options);
+    registerLifecycleHooks("ALL",config,options);
     return requestDecoratorsFactory("all")(config,options);
 }
 
@@ -22,7 +22,7 @@ export function GET(
     config?:string|RouteConfig,
     options?:HttpRequestHandlerOptions,
 ):HttpRequestHandler {
-    registerLifecycleHooks(options);
+    registerLifecycleHooks("GET",config,options);
     return requestDecoratorsFactory("get")(config,options);
 }
 
@@ -33,7 +33,7 @@ export function QUERY(
     config?:string|RouteConfig,
     options?:HttpRequestHandlerOptions,
 ):HttpRequestHandler {
-    registerLifecycleHooks(options);
+    registerLifecycleHooks("QUERY",config,options);
     //@ts-ignore still does not recognize the query method
     return requestDecoratorsFactory("query")(config,options);
 }
@@ -45,7 +45,7 @@ export function POST(
     config?:string|RouteConfig,
     options?:HttpRequestHandlerOptions,
 ):HttpRequestHandler {
-    registerLifecycleHooks(options);
+    registerLifecycleHooks("POST",config,options);
     return requestDecoratorsFactory("post")(config,options);
 }
 
@@ -56,7 +56,7 @@ export function PUT(
     config?:string|RouteConfig,
     options?:HttpRequestHandlerOptions,
 ):HttpRequestHandler {
-    registerLifecycleHooks(options);
+    registerLifecycleHooks("PUT",config,options);
     return requestDecoratorsFactory("put")(config,options);
 }
 
@@ -67,7 +67,7 @@ export function PATCH(
     config?:string|RouteConfig,
     options?:HttpRequestHandlerOptions,
 ):HttpRequestHandler {
-    registerLifecycleHooks(options);
+    registerLifecycleHooks("PATCH",config,options);
     return requestDecoratorsFactory("patch")(config,options);
 }
 
@@ -78,7 +78,7 @@ export function DELETE(
     config?:string|RouteConfig,
     options?:HttpRequestHandlerOptions,
 ):HttpRequestHandler {
-    registerLifecycleHooks(options);
+    registerLifecycleHooks("DELETE",config,options);
     return requestDecoratorsFactory("delete")(config,options);
 }
 
@@ -89,7 +89,7 @@ export function OPTIONS(
     config?:string|RouteConfig,
     options?:HttpRequestHandlerOptions,
 ):HttpRequestHandler {
-    registerLifecycleHooks(options);
+    registerLifecycleHooks("OPTIONS",config,options);
     return requestDecoratorsFactory("options")(config,options);
 }
 
@@ -100,16 +100,23 @@ export function HEAD(
     config?:string|RouteConfig,
     options?:HttpRequestHandlerOptions,
 ):HttpRequestHandler {
-    registerLifecycleHooks(options);
+    registerLifecycleHooks("HEAD",config,options);
     return requestDecoratorsFactory("head")(config,options);
 }
 
-const registerLifecycleHooks=(options?:HttpRequestHandlerOptions)=>{
-    if(options){
+const registerLifecycleHooks=(
+    method:string,
+    route:string|RouteConfig|undefined,
+    options:HttpRequestHandlerOptions|undefined,
+)=>{
+    if(options) try {
         const lifecycleHooks=options.hooks;
         if(Array.isArray(lifecycleHooks)) lifecycleHooks.forEach(hook=>{
             LifecycleHook.register(hook,options);    
         });
+    } catch(error){
+        if(typeof(route)!=="string") route=route?.url||"/";
+        throw new Error(`${method} ${route}: ${(error as Error).message}`);
     }
 }
 

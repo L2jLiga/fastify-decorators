@@ -173,13 +173,21 @@ const registerLifecycleHooks=(
         lifecycleHooks:Array<LifecycleHook>,
     },
 )=>{
+    /**
+     * TODO: 
+     * this will register an onRoute hook for every controller.
+     * Better to register a single onRoute hook and register
+     * all controller's lifecycleHooks there.
+     */
     const {route,lifecycleHooks}=config;
     fastify.addHook("onRoute",(options)=>{
         const {url}=options;
-        if(url.startsWith(route)){
+        if(url.startsWith(route)) try {
             for(const lifecycleHook of lifecycleHooks){
                 LifecycleHook.register(lifecycleHook,options);
             }
+        } catch(error){
+            throw new Error(`Controller ${route}: ${(error as Error).message}`);
         }
     });
 }
