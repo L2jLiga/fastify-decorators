@@ -174,7 +174,6 @@ const registerLifecycleHooks=(
     },
 )=>{
     const {route,lifecycleHooks}=config;
-    console.log("registering lifecycle hooks for",route);
     fastify.addHook("onRoute",(options)=>{
         const {url}=options;
         if(url.startsWith(route)){
