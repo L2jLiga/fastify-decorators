@@ -58,7 +58,7 @@ export const ControllerTypeStrategies:Record<ControllerType,ControllerFactory>={
         const {tags,hooks}=config??{};
         const controllerInstance=classLoader(constructor);
         if(Array.isArray(hooks)&&hooks.length){
-            registerLifecycleHooks(fastify,controllerInstance,{
+            registerLifecycleHooks(fastify,{
                 route:config?.route||"",
                 lifecycleHooks:hooks,
             });
@@ -79,21 +79,24 @@ export const ControllerTypeStrategies:Record<ControllerType,ControllerFactory>={
         return controllerInstance;
     },
 
-    [ControllerType.REQUEST](instance, constructor, classLoader,config) {
+    [ControllerType.REQUEST](fastify, constructor, classLoader,config) {
         const {tags,hooks}=config??{};
 
         const withTags=(Array.isArray(tags)&&tags.length);
-        if (withTags) SwaggerHelper.injectTags(instance, tags);
+        if (withTags) SwaggerHelper.injectTags(fastify, tags);
 
-        /* if(Array.isArray(hooks)&&hooks.length){
-            registerLifecycleHooks(hooks,controllerInstance,fastify);
-        } */
+        if(Array.isArray(hooks)&&hooks.length){
+            registerLifecycleHooks(fastify,{
+                route:config?.route||"",
+                lifecycleHooks:hooks,
+            });
+        }
 
         const getTarget = targetFactory(constructor, classLoader);
         if(ClassPropsHelper.hasHandlers(constructor)){
             for(const handler of constructor[HANDLERS]){
                 const {url,method,handlerMethod,options}=handler;
-                instance[method](
+                fastify[method](
                     url,
                     withTags?{ 
                         ...options, 
@@ -108,7 +111,7 @@ export const ControllerTypeStrategies:Record<ControllerType,ControllerFactory>={
         }
 
         if(ClassPropsHelper.hasErrorHandlers(constructor)){
-            instance.setErrorHandler((error: Error, request, ...rest) => {
+            fastify.setErrorHandler((error: Error, request, ...rest) => {
                 const errorHandler = ErrorHandlerHelper.create(constructor[ERROR_HANDLERS], getTarget(request));
 
                 return errorHandler(error, request, ...rest);
@@ -117,7 +120,7 @@ export const ControllerTypeStrategies:Record<ControllerType,ControllerFactory>={
 
         if(ClassPropsHelper.hasHooks(constructor)){
             for(const hook of constructor[HOOKS]){
-               instance.addHook(hook.name as 'onRequest',(request: FastifyRequest, ...rest: unknown[]) => {
+               fastify.addHook(hook.name as 'onRequest',(request: FastifyRequest, ...rest: unknown[]) => {
                    return getTarget(request)[hook.handlerName](request, ...rest);
                });
             }
@@ -167,7 +170,6 @@ function registerErrorHandlers(
 
 const registerLifecycleHooks=(
     fastify:FastifyInstance,
-    classInstance:Record<string,(error:Error,request:FastifyRequest,reply:FastifyReply)=>void>,
     config:{
         route:string,
         lifecycleHooks:Array<LifecycleHook>,

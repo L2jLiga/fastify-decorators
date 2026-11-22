@@ -7,11 +7,11 @@
  */
 
 import type { RouteShorthandOptions } from 'fastify';
-import type { HttpMethods } from './http-methods.js';
+import type { HttpMethod } from './index.js';
 
 export interface IHandler {
   url: string;
-  method: HttpMethods;
+  method: HttpMethod;
   options: RouteShorthandOptions;
   handlerMethod: string | symbol;
 }

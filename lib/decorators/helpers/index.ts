@@ -6,7 +6,7 @@ export * as DepScopeHelper from "./DepScopeHelper";
 export { default as ControllerHelper } from "./ControllerHelper/ControllerHelper";
 export * as MethodPatcher from "./MethodPatcher";
 export * as SwaggerHelper from "./SwaggerHelper/SwaggerHelper";
-export *  from "./DepInjector/DepInjector";
+export * from "./DepInjector/DepInjector";
 
 
 export class Container<T> implements Iterable<T> {

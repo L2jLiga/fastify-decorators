@@ -9,8 +9,9 @@ import { Constructor,DepScopeHelper } from '../Decorators/Helpers/index.js';
 
 
 export type { IErrorHandler, IHandler, IHook } from './controller.js';
-export { HttpMethods } from './http-methods.js';
 export type { InjectableController } from './injectable-class.js';
 export { RequestHandler, RequestHook } from './request-handler.js';
 
 export type ClassLoader = <C>(constructor: Constructor<C>, scope?: DepScopeHelper.DependencyScope) => C;
+
+export type HttpMethod = "post" | "get" | "patch" | "put" | "delete" | "options" | "head" | "all";

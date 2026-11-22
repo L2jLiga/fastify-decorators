@@ -11,7 +11,7 @@
   },
   "workspaces": [
     "lib",
-    "$examples/*"
+    "examples/*"
   ],
   "directories": {
     "doc": "./docs",
