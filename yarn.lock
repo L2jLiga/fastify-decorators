@@ -324,7 +324,7 @@
   resolved "https://registry.npmjs.org/@eslint/js/-/js-8.57.1.tgz"
   integrity sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==
 
-"@fastify-decorators-examples/async-initializers@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/DecoratorsTest/examples/async-initializer":
+"@fastify-decorators-examples/async-initializers@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/fastify-decorators/examples/async-initializer":
   version "1.0.0"
   resolved "file:examples/async-initializer"
   dependencies:
@@ -332,7 +332,7 @@
     fastify-decorators "^3.16.0"
     reflect-metadata "^0.1.13"
 
-"@fastify-decorators-examples/aws-lambda@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/DecoratorsTest/examples/aws-lambda":
+"@fastify-decorators-examples/aws-lambda@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/fastify-decorators/examples/aws-lambda":
   version "1.0.0"
   resolved "file:examples/aws-lambda"
   dependencies:
@@ -341,7 +341,7 @@
     fastify-decorators "^3.16.0"
     reflect-metadata "^0.1.13"
 
-"@fastify-decorators-examples/controllers@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/DecoratorsTest/examples/controllers":
+"@fastify-decorators-examples/controllers@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/fastify-decorators/examples/controllers":
   version "1.0.0"
   resolved "file:examples/controllers"
   dependencies:
@@ -349,7 +349,7 @@
     fastify-decorators "^3.16.0"
     reflect-metadata "^0.1.13"
 
-"@fastify-decorators-examples/esm@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/DecoratorsTest/examples/esm":
+"@fastify-decorators-examples/esm@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/fastify-decorators/examples/esm":
   version "1.0.0"
   resolved "file:examples/esm"
   dependencies:
@@ -357,7 +357,7 @@
     fastify-decorators "^3.16.0"
     reflect-metadata "^0.1.13"
 
-"@fastify-decorators-examples/fastify-v4@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/DecoratorsTest/examples/fastify-v4":
+"@fastify-decorators-examples/fastify-v4@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/fastify-decorators/examples/fastify-v4":
   version "1.0.0"
   resolved "file:examples/fastify-v4"
   dependencies:
@@ -365,7 +365,7 @@
     fastify-decorators "^3.16.0"
     reflect-metadata "^0.1.13"
 
-"@fastify-decorators-examples/fastify-v5@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/DecoratorsTest/examples/fastify-v5":
+"@fastify-decorators-examples/fastify-v5@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/fastify-decorators/examples/fastify-v5":
   version "1.0.0"
   resolved "file:examples/fastify-v5"
   dependencies:
@@ -374,21 +374,21 @@
     fastify-decorators "file:../../lib"
     reflect-metadata "^0.1.13"
 
-"@fastify-decorators-examples/injection-requests-in-services@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/DecoratorsTest/examples/injecting-requests-in-services":
+"@fastify-decorators-examples/injection-requests-in-services@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/fastify-decorators/examples/injecting-requests-in-services":
   version "1.0.0"
   resolved "file:examples/injecting-requests-in-services"
   dependencies:
     fastify "^3.18.1"
     fastify-decorators "^3.16.0"
 
-"@fastify-decorators-examples/request-handlers@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/DecoratorsTest/examples/request-handlers":
+"@fastify-decorators-examples/request-handlers@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/fastify-decorators/examples/request-handlers":
   version "1.0.0"
   resolved "file:examples/request-handlers"
   dependencies:
     fastify "^3.18.1"
     fastify-decorators "^3.16.0"
 
-"@fastify-decorators-examples/swagger@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/DecoratorsTest/examples/swagger":
+"@fastify-decorators-examples/swagger@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/fastify-decorators/examples/swagger":
   version "1.0.0"
   resolved "file:examples/swagger"
   dependencies:
@@ -397,7 +397,7 @@
     fastify-decorators "^3.16.0"
     fastify-oas "^3.0.8"
 
-"@fastify-decorators-examples/typeorm@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/DecoratorsTest/examples/typeorm":
+"@fastify-decorators-examples/typeorm@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/fastify-decorators/examples/typeorm":
   version "1.0.0"
   resolved "file:examples/typeorm"
   dependencies:
@@ -2893,7 +2893,7 @@ fast-uri@^4.0.0:
   resolved "https://registry.npmjs.org/fast-uri/-/fast-uri-4.2.3.tgz"
   integrity sha512-I1PXwP5eAhlNlcdpjt9CgB59op2ZvZfxw+BkqGFVIUOgNpCVTcTqp3HhTX7brxj5vsip+nSY4nTvff+eIA76hg==
 
-fastify-decorators@^3.16.0, "fastify-decorators@file:../../lib", "fastify-decorators@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/DecoratorsTest/lib":
+fastify-decorators@^3.16.0, "fastify-decorators@file:../../lib", "fastify-decorators@file:/Users/ahmedayachi/Desktop/Ayachi/JavaScript/Vanilla/Libraries/fastify-decorators/lib":
   version "3.16.1"
   resolved "file:lib"
   dependencies:
@@ -3145,11 +3145,6 @@ fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
-
-fsevents@^2.3.2, fsevents@~2.3.1, fsevents@~2.3.2:
-  version "2.3.3"
-  resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz"
-  integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
 
 function-bind@^1.1.2:
   version "1.1.2"

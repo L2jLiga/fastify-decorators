@@ -4,7 +4,7 @@ import * as Schema from "./Protected.schema";
 
 
 @Controller({
-    type:"perRequest",
+    type:"singleton",
     route:"/protected",
     hooks:[Authenticated],
 })
