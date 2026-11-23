@@ -11,3 +11,6 @@ package-lock.json
 
 # caches
 .rollup.cache
+
+# macos
+.DS_STORE
