@@ -7,6 +7,8 @@ export {FastifyInstanceToken,FastifyRequestToken,FastifyReplyToken} from "./Symb
 export {
     DecoratorsPlugin as default,
     DecoratorsPlugin as bootstrap,
+    DecoratorsPluginConfig,
+    DecoratorsPluginConfig as BootstrapConfig,
 } from "./DecoratorsPlugin/index.js";
 
 export * from "./Decorators/index.js";

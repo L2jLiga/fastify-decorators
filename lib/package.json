@@ -12,7 +12,7 @@
       "import": "./index.js",
       "require": "./index.cjs"
     },
-    "./Testing": {
+    "./testing": {
       "import": "./Testing/index.js",
       "require": "./Testing/index.cjs"
     }

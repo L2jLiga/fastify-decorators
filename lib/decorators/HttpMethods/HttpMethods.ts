@@ -109,10 +109,7 @@ const registerLifecycleHooks=(
     options:HttpRequestHandlerOptions|undefined,
 )=>{
     if(options) try {
-        const lifecycleHooks=options.hooks;
-        if(Array.isArray(lifecycleHooks)) lifecycleHooks.forEach(hook=>{
-            LifecycleHook.register(hook,options);    
-        });
+        LifecycleHook.registerAll(options.hooks,options);
     } catch(error){
         if(typeof(route)!=="string") route=route?.url||"/";
         throw new Error(`${method} ${route}: ${(error as Error).message}`);

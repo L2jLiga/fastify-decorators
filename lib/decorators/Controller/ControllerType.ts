@@ -185,11 +185,9 @@ const registerLifecycleHooks=(
     fastify.addHook("onRoute",(options)=>{
         const {url}=options;
         if(url.startsWith(route)) try {
-            for(const lifecycleHook of lifecycleHooks){
-                LifecycleHook.register(lifecycleHook,options);
-            }
+            LifecycleHook.registerAll(lifecycleHooks,options);
         } catch(error){
-            throw new Error(`Controller ${route}: ${(error as Error).message}`);
+            throw new Error(`Controller ${route} at ${options.routePath}: ${(error as Error).message}`);
         }
     });
 }

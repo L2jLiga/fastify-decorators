@@ -1,27 +1,20 @@
-import { FastifyInstance } from 'fastify';
-import { configureControllerTest } from 'fastify-decorators/testing';
-import { users } from '../../src/user/user.js';
-import UserController from '../../src/user/user.controller.js';
+import { app } from '../../src/index.js';
+import UsersService from '../../src/Components/Users/Users.service.js';
 
-describe('Controller: User', () => {
-  let app: FastifyInstance;
-  beforeEach(async () => {
-    app = await configureControllerTest({
-      controller: UserController,
-    });
-  });
-  afterEach(() => users.clear());
+
+describe('User feature', () => {
+  afterEach(() => UsersService.users.clear());
 
   it('should return username when user exists', async () => {
-    users.add('Player');
-    const response = await app.inject('/user/Player');
+    UsersService.users.add('Player');
+    const response = await app.inject('/users/Player');
     const body = response.json();
 
     expect(body).toEqual({ username: 'Player' });
   });
 
   it('should return 404 error when user does exist', async () => {
-    const response = await app.inject('/user/Player');
+    const response = await app.inject('/users/Player');
     const body = response.json();
 
     expect(response.statusCode).toBe(404);
@@ -29,9 +22,9 @@ describe('Controller: User', () => {
   });
 
   it('should delete existing user', async () => {
-    users.add('User');
+    UsersService.users.add('User');
     const response = await app.inject({
-      url: '/user/User',
+      url: '/users/User',
       method: 'DELETE',
     });
     const body = response.payload;
@@ -42,7 +35,7 @@ describe('Controller: User', () => {
 
   it('should return 404 when deleting not existing user', async () => {
     const response = await app.inject({
-      url: '/user/User',
+      url: '/users/User',
       method: 'DELETE',
     });
     const body = response.json();
@@ -53,7 +46,7 @@ describe('Controller: User', () => {
 
   it('should return username when creating user', async () => {
     const response = await app.inject({
-      url: '/user',
+      url: '/users',
       method: 'POST',
       payload: {
         username: 'David',
@@ -67,9 +60,9 @@ describe('Controller: User', () => {
   });
 
   it('should return unprocessable entity error when new user name is busy', async () => {
-    users.add('David');
+    UsersService.users.add('David');
     const response = await app.inject({
-      url: '/user',
+      url: '/users',
       method: 'POST',
       payload: {
         username: 'David',

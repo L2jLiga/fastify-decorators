@@ -8,5 +8,5 @@ module.exports = {
   },
   collectCoverage: false,
   coverageDirectory: './coverage/integration/controllers',
-  testRegex: 'examples/controllers/test/.*.test.ts$',
+  testRegex: 'examples/fastify-v5/test/.*\\.test\\.ts$',
 };

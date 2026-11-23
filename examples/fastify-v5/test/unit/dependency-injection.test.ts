@@ -1,10 +1,11 @@
 import { FastifyInstance } from 'fastify';
 import { configureControllerTest } from 'fastify-decorators/testing';
-import ConstructorController from '../../src/dependency-injection/constructor.controller.js';
-import { InjectableAsyncService } from '../../src/dependency-injection/injectable-async-service.js';
-import { InjectableService, injectableServiceToken } from '../../src/dependency-injection/injectable.service.js';
-import GetInstanceByTokenController from '../../src/dependency-injection/get-instance-by-token.controller.js';
-import InjectController from '../../src/dependency-injection/inject.controller.js';
+import ConstructorController from '../../src/Components/DepInjectionControllers/constructor.controller.js';
+import { InjectableAsyncService } from '../../src/Components/DepInjectionControllers/injectable-async-service.js';
+import { InjectableService, injectableServiceToken } from '../../src/Components/DepInjectionControllers/injectable.service.js';
+import GetInstanceByTokenController from '../../src/Components/DepInjectionControllers/get-instance-by-token.controller.js';
+import InjectController from '../../src/Components/DepInjectionControllers/inject.controller.js';
+
 
 describe('Controllers dependency injection tests', () => {
   describe('Controller with constructor', () => {
