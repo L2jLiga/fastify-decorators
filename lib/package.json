@@ -22,7 +22,7 @@
     "prebuild": "rimraf ../dist/",
     "postbuild": "cp -r ./package.json ../README.md ../CHANGELOG.md ../LICENSE ../docs ../dist/fastify-decorators && node ../patch-readme.cjs",
     "downlevel": "downlevel-dts ../dist/fastify-decorators ../dist/fastify-decorators",
-    "test": "jest --config jest.config.cjs"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.cjs --watchman=false"
   },
   "repository": {
     "type": "git",
