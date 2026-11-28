@@ -1,5 +1,5 @@
 import { app } from '../../src/index.js';
-import { ErrorType } from '../../src/error-handling/error-type.js';
+import { ErrorType } from '../../src/Components/ErrorHandlingControllers/error-type.js';
 
 describe('Controllers error handling tests', () => {
   describe('Stateful controller error handling support', () => {

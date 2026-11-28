@@ -2,11 +2,10 @@
   "compilerOptions": {
     "target": "ES2018",
     "module": "CommonJS",
-    "moduleResolution": "Node",
-    "baseUrl": ".",
+    "moduleResolution": "bundler",
     "paths": {
-      "fastify-decorators": ["dist/fastify-decorators"],
-      "fastify-decorators/*": ["dist/fastify-decorators/*"]
+      "fastify-decorators": ["./dist/fastify-decorators"],
+      "fastify-decorators/*": ["./dist/fastify-decorators/*"]
     }
   },
   "references": [

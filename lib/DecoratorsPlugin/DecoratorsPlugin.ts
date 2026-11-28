@@ -1,0 +1,119 @@
+import FastifyPlugin from 'fastify-plugin';
+import type { FastifyPluginAsync, FastifyInstance } from 'fastify';
+import { lstatSync, PathLike, readdirSync } from 'fs';
+import { fileURLToPath, URL } from 'url';
+import { classLoaderFactory, Constructor } from '../Decorators/Helpers/index.js';
+import { readyMap } from '../Decorators/index.js';
+import type { AutoLoadConfig, ControllersListConfig, DecoratorsPluginConfig } from './DecoratorsPluginConfig.js';
+import type { ClassLoader, InjectableController } from '../Interfaces/index.js';
+import { _injectablesHolder } from '../Registry/_injectables-holder.js';
+import { destructors } from '../Registry/destructors.js';
+import { CLASS_LOADER, CREATOR, FastifyInstanceToken } from '../Symbols/index.js';
+
+export default FastifyPlugin<DecoratorsPluginConfig>(
+  async (fastify, config) => {
+    _injectablesHolder.injectSingleton(FastifyInstanceToken, fastify, false);
+    const controllers = new Set<InjectableController | Constructor<unknown>>();
+
+    if ('directory' in config) {
+      const controllerClasses = await autoLoadModules(config as AutoLoadConfig);
+      controllerClasses.forEach(controllers.add, controllers);
+    }
+    if ('controllers' in config) {
+      config.controllers.forEach(controllers.add, controllers);
+    }
+    const classLoader: ClassLoader = config.classLoader ?? classLoaderFactory(_injectablesHolder);
+    fastify.decorate(CLASS_LOADER, classLoader);
+
+    await loadControllers(
+      {
+        prefix: config.prefix,
+        skipBroken: config.skipBroken,
+        controllers: [...controllers],
+      },
+      fastify,
+    );
+    await Promise.all(readyMap.values());
+    if (destructors.size) useGracefulShutdown(fastify);
+  },
+  {
+    name: 'fastifyDecorators',
+    fastify: '^5.0.0',
+  },
+) as FastifyPluginAsync<DecoratorsPluginConfig>;
+
+const defaultMask = /\.(handler|controller)\./;
+function autoLoadModules(config: AutoLoadConfig): Promise<InjectableController[]> {
+  const flags = config.mask instanceof RegExp ? config.mask.flags.replace('g', '') : '';
+  const filter = config.mask ? new RegExp(config.mask, flags) : defaultMask;
+
+  return Promise.all([...findModules(parseDirectory(config.directory), filter)].map(loadModule));
+}
+
+const parseDirectory = (directory: PathLike): URL => {
+  const urlLike = directory.toString('utf8');
+  const url = urlLike.startsWith('file://') ? new URL(urlLike) : new URL('file://' + urlLike);
+
+  if (lstatSync(url).isFile()) url.pathname += './..';
+  return url;
+};
+
+function* findModules(rootDirUrl: URL, filter: RegExp): Iterable<URL> {
+  const directoriesToRead = new Set<URL>([rootDirUrl]);
+
+  for (const dirPath of directoriesToRead) {
+    for (const filePath of readdirSync(dirPath, { withFileTypes: true })) {
+      const fullFilePath = new URL(`./${filePath.name}`, dirPath.href + '/');
+
+      if (filePath.isDirectory()) {
+        fullFilePath.href += '/';
+        directoriesToRead.add(fullFilePath);
+      } else if (filter.test(filePath.name)) {
+        yield fullFilePath;
+      }
+    }
+  }
+}
+
+/* istanbul ignore next */
+const loadModule = async (moduleUrl: URL): Promise<InjectableController> => {
+  if (typeof require !== 'undefined') {
+    const module = fileURLToPath(moduleUrl);
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    return require(module).__esModule ? require(module).default : require(module);
+  }
+
+  return import(moduleUrl.toString()).then((m) => m.default);
+};
+
+const loadControllers = async (config: ControllersListConfig, fastify: FastifyInstance): Promise<void> => {
+  await Promise.all(
+    config.controllers.map((controller) => {
+      return loadController(controller, fastify, config);
+    }),
+  );
+};
+
+const loadController = (controller: Constructor<unknown>, fastify: FastifyInstance, config: DecoratorsPluginConfig) => {
+  if (verifyController(controller)) {
+    return controller[CREATOR].register(fastify, config.prefix);
+  } else if (!config.skipBroken) {
+    throw new TypeError(`Loaded file is incorrect module and can not be bootstrapped: ${controller}`);
+  }
+};
+
+const verifyController = (controller: Constructor<unknown>): controller is InjectableController => {
+  return controller && CREATOR in controller;
+};
+
+const useGracefulShutdown = (fastify: FastifyInstance) => {
+  fastify.addHook('onClose', () => {
+    return Promise.all([...destructors].map(([Service, property]) => fastify[CLASS_LOADER]<typeof Service>(Service)[property]()));
+  });
+};
+
+declare module 'fastify' {
+  interface FastifyInstance {
+    [CLASS_LOADER]: ClassLoader;
+  }
+}
