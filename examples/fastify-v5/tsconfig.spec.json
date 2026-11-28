@@ -1,9 +1,11 @@
 {
-  "extends": "./tsconfig.base.json",
+  "extends": "./tsconfig.json",
   "include": ["test/**/*.ts"],
   "compilerOptions": {
     "composite": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "rootDir": ".",
+    "types": ["node", "jest"]
   },
   "references": [
     {

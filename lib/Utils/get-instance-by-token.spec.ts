@@ -1,0 +1,36 @@
+import { classLoaderFactory } from '../Decorators/Helpers/index.js';
+import { Service } from '../Decorators/index.js';
+import { _injectablesHolder } from '../Registry/_injectables-holder.js';
+import { getInstanceByToken } from './get-instance-by-token.js';
+
+describe('Get instance by token', function () {
+  beforeEach(() => {
+    _injectablesHolder.reset();
+  });
+
+  it('should throw exception when injectable not found by token', () => {
+    const token = 'pseudoToken';
+    expect(() => getInstanceByToken(token)).toThrow('Injectable not found for token "pseudoToken"');
+  });
+
+  it('should return instance from injectables', () => {
+    const serviceInstance = {};
+    const token = 'pseudoToken';
+    _injectablesHolder.injectSingleton(token, serviceInstance, false);
+
+    const result = getInstanceByToken(token);
+
+    expect(result).toBe(serviceInstance);
+  });
+
+  it('should be able to get instance created by class loader', () => {
+    const classLoader = classLoaderFactory(_injectablesHolder);
+    @Service()
+    class MyService {}
+
+    const serviceFromClassLoader = classLoader(MyService);
+    const result = getInstanceByToken(MyService);
+
+    expect(result).toBe(serviceFromClassLoader);
+  });
+});

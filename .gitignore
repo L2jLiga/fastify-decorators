@@ -7,3 +7,10 @@ dist
 node_modules
 *.log
 *.sarif
+package-lock.json
+
+# caches
+.rollup.cache
+
+# macos
+.DS_STORE
