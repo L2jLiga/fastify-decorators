@@ -15,10 +15,9 @@ import type {
   RawRequestDefaultExpression,
   RawServerBase,
   RawServerDefault,
-  RequestGenericInterface,
   RouteGenericInterface,
 } from 'fastify';
-import {LifecycleHook} from "fastify/types/hooks.js";
+import { LifecycleHook } from 'fastify/types/hooks.js';
 import { CREATOR } from '../Symbols/index.js';
 
 /**
@@ -41,8 +40,10 @@ export abstract class RequestHandler<
     protected request: FastifyRequest<RouteGeneric, RawServer, RawRequest>,
     protected reply: FastifyReply<
       RouteGeneric,
-      RawServer, RawRequest, RawReply, 
-      ContextConfig//,RequestGeneric
+      RawServer,
+      RawRequest,
+      RawReply,
+      ContextConfig //,RequestGeneric
     >,
   ) {}
 

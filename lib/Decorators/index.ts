@@ -7,12 +7,12 @@
  */
 
 export { Service } from './Service/Service.js';
-export { Repository } from "./Repository/Repository.js";
+export { Repository } from './Repository/Repository.js';
 export { Inject } from './Inject/Inject.js';
 export { Initializer, readyMap } from './Initializer/Initializer.js';
 export { Hook } from './Hook/Hook.js';
 export { ErrorHandler } from './ErrorHandler/ErrorHandler.js';
 export { Destructor } from './Destructor/Destructor.js';
 
-export * from "./Controller/index.js";
-export * from "./HttpMethods/HttpMethods.js";
+export * from './Controller/index.js';
+export * from './HttpMethods/HttpMethods.js';

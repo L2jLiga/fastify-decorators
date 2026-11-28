@@ -5,7 +5,6 @@ import { FastifyInstanceToken } from '../Symbols/index.js';
 import { configureControllerTest } from './ConfigureControllerTest.js';
 import { ServiceMock } from './ServiceMock.js';
 
-
 describe('Testing: configure controller test', () => {
   it('should bootstrap controller', async () => {
     const instance = await configureControllerTest({ controller: WithoutDependencies });

@@ -7,7 +7,7 @@
  */
 
 import { fastify, FastifyInstance } from 'fastify';
-import { DepScopeHelper,classLoaderFactory,type Constructor } from '../Decorators/Helpers/index.js';
+import { DepScopeHelper, classLoaderFactory, type Constructor } from '../Decorators/Helpers/index.js';
 import { initializersMap } from '../Decorators/Initializer/Initializer.js';
 import { ClassLoader } from '../Interfaces/index.js';
 import type { InjectableService } from '../Interfaces/injectable-class.js';
@@ -16,7 +16,6 @@ import { CLASS_LOADER, CREATOR, FastifyInstanceToken, INITIALIZER } from '../Sym
 import { loadPlugins, Plugins } from './FastifyPlugins.js';
 import { MocksManager } from './MocksManager.js';
 import type { ServiceMock } from './ServiceMock.js';
-
 
 export interface ServiceTestConfig<Service> {
   service: Constructor<Service>;

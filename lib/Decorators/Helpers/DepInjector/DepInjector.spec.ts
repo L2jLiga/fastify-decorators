@@ -2,7 +2,7 @@ import { InjectableService } from '../../../Interfaces/injectable-class.js';
 import { _InjectablesHolder } from '../../../Registry/_injectables-holder.js';
 import { CREATOR } from '../../../Symbols/index.js';
 import { Inject } from '../../Inject/Inject.js';
-import {classLoaderFactory} from "./DepInjector.js";
+import { classLoaderFactory } from './DepInjector.js';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Reflect {

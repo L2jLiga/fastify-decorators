@@ -1,7 +1,6 @@
 import { INITIALIZER } from '../../Symbols/index.js';
 import { Deferred } from '../../Utils/deferred.js';
 
-
 //TODO: a file shouldn't define/export a variable that it does not use.
 export const readyMap = new Map<unknown, Promise<unknown>>();
 export const initializersMap = new Map<unknown, Promise<unknown>>();

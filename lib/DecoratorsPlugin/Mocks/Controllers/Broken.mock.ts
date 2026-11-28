@@ -1,10 +1,9 @@
-import {Controller,GET} from "../../../Decorators/index.js";
+import { Controller, GET } from '../../../Decorators/index.js';
 
-
-@Controller("/broken")
+@Controller('/broken')
 export class BrokenMock {
-    @GET()
-    get():number {
-        return 0;
-    }
+  @GET()
+  get(): number {
+    return 0;
+  }
 }

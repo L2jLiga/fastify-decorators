@@ -8,8 +8,7 @@
 
 import { IErrorHandler, IHandler, IHook } from '../../../Interfaces/controller.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS, SERVICE_INJECTION } from '../../../Symbols/index.js';
-import { ServiceInjection,Container } from '../index.js';
-
+import { ServiceInjection, Container } from '../index.js';
 
 export function ensureHandlers(target: { [HANDLERS]?: Container<IHandler> }): asserts target is { [HANDLERS]: Container<IHandler> } {
   if (!Object.prototype.hasOwnProperty.call(target, HANDLERS)) {

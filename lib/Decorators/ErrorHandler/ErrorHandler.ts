@@ -8,7 +8,7 @@
 
 import type { IErrorHandler } from '../../Interfaces/index.js';
 import { ERROR_HANDLERS } from '../../Symbols/index.js';
-import { Constructor,ClassPropsHelper } from '../Helpers/index.js';
+import { Constructor, ClassPropsHelper } from '../Helpers/index.js';
 
 export function ErrorHandler(): PropertyDecorator;
 export function ErrorHandler(code: string): PropertyDecorator;

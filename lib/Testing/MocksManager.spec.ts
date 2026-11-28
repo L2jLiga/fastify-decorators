@@ -1,13 +1,12 @@
-import {MocksManager} from "./MocksManager.js";
-import {_InjectablesHolder} from "../Registry/_injectables-holder.js";
+import { MocksManager } from './MocksManager.js';
+import { _InjectablesHolder } from '../Registry/_injectables-holder.js';
 
+describe('Testing: mocks manager', () => {
+  it('should create injectables map from another one', () => {
+    const injectables = new _InjectablesHolder();
+    const created = MocksManager.create(injectables);
 
-describe("Testing: mocks manager",()=>{
-    it("should create injectables map from another one",()=>{
-        const injectables = new _InjectablesHolder();
-        const created = MocksManager.create(injectables);
-
-        expect(created).toEqual(injectables);
-        expect(created).not.toBe(injectables);
-    });
+    expect(created).toEqual(injectables);
+    expect(created).not.toBe(injectables);
+  });
 });

@@ -7,7 +7,7 @@
  */
 
 import { fastify, FastifyInstance } from 'fastify';
-import { classLoaderFactory, Constructor, ServiceInjection,DepScopeHelper,ClassPropsHelper } from '../Decorators/Helpers/index.js';
+import { classLoaderFactory, Constructor, ServiceInjection, DepScopeHelper, ClassPropsHelper } from '../Decorators/Helpers/index.js';
 import { readyMap } from '../Decorators/index.js';
 import { ClassLoader } from '../Interfaces/index.js';
 import type { InjectableController } from '../Interfaces/index.js';

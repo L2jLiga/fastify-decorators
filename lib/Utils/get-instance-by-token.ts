@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://github.com/L2jLiga/fastify-decorators/blob/master/LICENSE
  */
 
-import  { classLoaderFactory,type Constructor } from '../Decorators/Helpers/index.js';
+import { classLoaderFactory, type Constructor } from '../Decorators/Helpers/index.js';
 import type { InjectableService } from '../Interfaces/injectable-class.js';
 import { _injectablesHolder } from '../Registry/_injectables-holder.js';
 import { CREATOR } from '../Symbols/index.js';

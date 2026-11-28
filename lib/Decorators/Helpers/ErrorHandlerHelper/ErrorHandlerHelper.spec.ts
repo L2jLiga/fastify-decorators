@@ -1,7 +1,6 @@
 import ErrorHandlerHelper from './ErrorHandlerHelper.js';
 import { IErrorHandler } from '../../../Interfaces/controller.js';
 
-
 describe('Helpers: create errors handler', () => {
   it('should create error handler which will catch errors specified', () => {
     const expectedError = new Error('Smth went wrong');

@@ -9,8 +9,7 @@ import { ClassLoader } from '../../../Interfaces/index.js';
 import { InjectableService } from '../../../Interfaces/injectable-class.js';
 import { _InjectablesHolder } from '../../../Registry/_injectables-holder.js';
 import { CREATOR, SERVICE_INJECTION } from '../../../Symbols/index.js';
-import { ClassPropsHelper,DepScopeHelper } from '../index.js';
-
+import { ClassPropsHelper, DepScopeHelper } from '../index.js';
 
 export type Constructor<T> = { new (): T } | { new (...args: any): T };
 

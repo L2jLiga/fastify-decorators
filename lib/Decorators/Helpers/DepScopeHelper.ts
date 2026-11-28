@@ -9,7 +9,6 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import { Constructor } from './index';
 
-
 export type DependencyScope = FastifyInstance | FastifyRequest;
 
 const scopedInstances = new WeakMap<DependencyScope, Map<Constructor<unknown>, unknown>>();

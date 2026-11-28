@@ -1,7 +1,6 @@
 import { IErrorHandler, IHandler, IHook } from '../../../Interfaces/controller.js';
 import { ERROR_HANDLERS, HANDLERS, HOOKS } from '../../../Symbols/index.js';
-import {Container,ClassPropsHelper} from '../index.js';
-
+import { Container, ClassPropsHelper } from '../index.js';
 
 describe('Helpers: class properties', () => {
   describe('ensure object has handlers symbol', () => {
@@ -10,7 +9,7 @@ describe('Helpers: class properties', () => {
 
       ClassPropsHelper.ensureHandlers(obj);
 
-      //@ts-ignore
+      //@ts-ignore TODO: needs description
       expect(obj[HANDLERS]).toBeInstanceOf(Container);
     });
 
@@ -52,7 +51,7 @@ describe('Helpers: class properties', () => {
 
       ClassPropsHelper.ensureErrorHandlers(obj);
 
-      //@ts-ignore
+      //@ts-ignore TODO: needs description
       expect(obj[ERROR_HANDLERS]).toBeInstanceOf(Container);
     });
 
@@ -94,7 +93,7 @@ describe('Helpers: class properties', () => {
 
       ClassPropsHelper.ensureHooks(obj);
 
-      //@ts-ignore
+      //@ts-ignore TODO: needs description
       expect(obj[HOOKS]).toBeInstanceOf(Container);
     });
 

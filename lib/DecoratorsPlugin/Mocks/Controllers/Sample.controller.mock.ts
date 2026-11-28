@@ -1,12 +1,9 @@
-import {Controller,GET} from "../../../Decorators/index.js";
-
+import { Controller, GET } from '../../../Decorators/index.js';
 
 @Controller()
 export default class SampleControllerMock {
-
-  @GET("/index")
-  async getAll():Promise<{ message:string }> {
-    return { message:"ok" };
+  @GET('/index')
+  async getAll(): Promise<{ message: string }> {
+    return { message: 'ok' };
   }
-  
 }

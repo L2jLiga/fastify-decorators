@@ -1,6 +1,6 @@
 import { InjectablesMap } from '../../Registry/_injectables-holder.js';
 import { SERVICE_INJECTION } from '../../Symbols/index.js';
-import { ServiceInjection,ClassPropsHelper } from '../Helpers/index.js';
+import { ServiceInjection, ClassPropsHelper } from '../Helpers/index.js';
 import { Inject } from './Inject.js';
 
 describe('Decorator: @Inject', () => {
